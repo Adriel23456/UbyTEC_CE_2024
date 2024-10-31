@@ -21,7 +21,7 @@ namespace SQL_Server.Models
         public required string SecondSurname { get; set; }
 
         [Required]
-        public string FullName => $"{Name} {FirstSurname} {SecondSurname}";
+        public string? FullName { get; private set; }
 
         [Required]
         public required string Province { get; set; }
@@ -33,7 +33,7 @@ namespace SQL_Server.Models
         public required string District { get; set; }
 
         [Required]
-        public string Direction => $"{Province}, {Canton}, {District}";
+        public string? Direction { get; private set; }
 
         [Required]
         public required string UserId { get; set; }

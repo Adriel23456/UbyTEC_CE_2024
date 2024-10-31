@@ -128,5 +128,27 @@ namespace SQL_Server.Controllers
         {
             return _context.AdminPhone.Any(ap => ap.Admin_id == admin_id && ap.Phone == phone);
         }
+
+        // GET: api/AdminPhone/Admin/{admin_id}/Phones
+        [HttpGet("{admin_id}/Phones")]
+        public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetPhonesByAdminId(int admin_id)
+        {
+            // Verificar si el Admin existe
+            var adminExists = await _context.Admin.AnyAsync(a => a.Id == admin_id);
+            if (!adminExists)
+            {
+                return NotFound(new { message = $"Admin with Id {admin_id} not found." });
+            }
+
+            // Obtener todas las entidades AdminPhone asociadas al Admin_id
+            var adminPhones = await _context.AdminPhone
+                .Where(ap => ap.Admin_id == admin_id)
+                .ToListAsync();
+
+            // Mapear las entidades a DTOs
+            var adminPhoneDtos = _mapper.Map<List<AdminPhoneDTO>>(adminPhones);
+
+            return Ok(adminPhoneDtos);
+        }
     }
 }

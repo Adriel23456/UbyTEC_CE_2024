@@ -5,7 +5,7 @@
 namespace SQL_Server.Migrations
 {
     /// <inheritdoc />
-    public partial class AdminEntity : Migration
+    public partial class AddAdminEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,9 +18,11 @@ namespace SQL_Server.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SecondSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false, computedColumnSql: "[Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname]", stored: true),
                     Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Canton = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     District = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Direction = table.Column<string>(type: "nvarchar(max)", nullable: false, computedColumnSql: "[Province] + ', ' + [Canton] + ', ' + [District]", stored: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

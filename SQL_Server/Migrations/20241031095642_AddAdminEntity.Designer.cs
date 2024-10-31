@@ -11,8 +11,8 @@ using SQL_Server.Data;
 namespace SQL_Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241031010208_AdminEntity")]
-    partial class AdminEntity
+    [Migration("20241031095642_AddAdminEntity")]
+    partial class AddAdminEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,12 @@ namespace SQL_Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Direction")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComputedColumnSql("[Province] + ', ' + [Canton] + ', ' + [District]", true);
+
                     b.Property<string>("District")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -40,6 +46,12 @@ namespace SQL_Server.Migrations
                     b.Property<string>("FirstSurname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComputedColumnSql("[Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname]", true);
 
                     b.Property<string>("Name")
                         .IsRequired()

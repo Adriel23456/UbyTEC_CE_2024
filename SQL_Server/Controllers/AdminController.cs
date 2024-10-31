@@ -2,8 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SQL_Server.Data;
-using SQL_Server.Models;
 using SQL_Server.DTOs;
+using Microsoft.Data.SqlClient;
 
 namespace SQL_Server.Controllers
 {
@@ -24,7 +24,10 @@ namespace SQL_Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdminDTO>>> GetAdmins()
         {
-            var admins = await _context.Admin.Include(a => a.AdminPhones).ToListAsync();
+            var admins = await _context.Admin
+                .FromSqlRaw("EXEC sp_GetAllAdmins")
+                .ToListAsync();
+
             return _mapper.Map<List<AdminDTO>>(admins);
         }
 
@@ -32,8 +35,11 @@ namespace SQL_Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AdminDTO>> GetAdmin(int id)
         {
-            var admin = await _context.Admin.Include(a => a.AdminPhones)
-                                             .FirstOrDefaultAsync(a => a.Id == id);
+            var admins = await _context.Admin
+                .FromSqlRaw("EXEC sp_GetAdminById @Id = {0}", id)
+                .ToListAsync();
+
+            var admin = admins.FirstOrDefault();
 
             if (admin == null)
             {
@@ -47,72 +53,77 @@ namespace SQL_Server.Controllers
         [HttpPost]
         public async Task<ActionResult<AdminDTO>> PostAdmin(AdminDTO_Create adminDtoCreate)
         {
-            // Verificar si ya existe un Admin con el mismo Id
+            // Validación
             if (await _context.Admin.AnyAsync(a => a.Id == adminDtoCreate.Id))
             {
                 return Conflict(new { message = $"An Admin with Id {adminDtoCreate.Id} already exists." });
             }
 
-            // Verificar si UserId es único
             if (await _context.Admin.AnyAsync(a => a.UserId == adminDtoCreate.UserId))
             {
                 return Conflict(new { message = $"The UserId '{adminDtoCreate.UserId}' is already in use." });
             }
 
-            // Mapear el DTO de creación a la entidad Admin
-            var admin = _mapper.Map<Admin>(adminDtoCreate);
-            _context.Admin.Add(admin);
-            await _context.SaveChangesAsync();
+            // Llamada al Stored Procedure
+            var parameters = new[]
+            {
+                new SqlParameter("@Id", adminDtoCreate.Id),
+                new SqlParameter("@Name", adminDtoCreate.Name),
+                new SqlParameter("@FirstSurname", adminDtoCreate.FirstSurname),
+                new SqlParameter("@SecondSurname", adminDtoCreate.SecondSurname),
+                new SqlParameter("@Province", adminDtoCreate.Province),
+                new SqlParameter("@Canton", adminDtoCreate.Canton),
+                new SqlParameter("@District", adminDtoCreate.District),
+                new SqlParameter("@UserId", adminDtoCreate.UserId),
+                new SqlParameter("@Password", adminDtoCreate.Password)
+            };
+
+            await _context.Database.ExecuteSqlRawAsync("EXEC sp_CreateAdmin @Id, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @UserId, @Password", parameters);
+
+            var admins = await _context.Admin
+                .FromSqlRaw("EXEC sp_GetAdminById @Id = {0}", adminDtoCreate.Id)
+                .ToListAsync();
+
+            var admin = admins.FirstOrDefault();
 
             var createdAdminDto = _mapper.Map<AdminDTO>(admin);
 
-            return CreatedAtAction(nameof(GetAdmin), new { id = admin.Id }, createdAdminDto);
+            return CreatedAtAction(nameof(GetAdmin), new { id = admin?.Id }, createdAdminDto);
         }
 
         // PUT: api/Admin/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAdmin(int id, AdminDTO_Update adminDtoUpdate)
         {
-            var admin = await _context.Admin.FindAsync(id);
+            // Verificar si el Admin existe
+            var adminExists = await _context.Admin.AnyAsync(a => a.Id == id);
 
-            if (admin == null)
+            if (!adminExists)
             {
                 return NotFound(new { message = $"Admin with Id {id} not found." });
             }
 
-            // Actualizar las propiedades permitidas
-            admin.Name = adminDtoUpdate.Name;
-            admin.FirstSurname = adminDtoUpdate.FirstSurname;
-            admin.SecondSurname = adminDtoUpdate.SecondSurname;
-            admin.Province = adminDtoUpdate.Province;
-            admin.Canton = adminDtoUpdate.Canton;
-            admin.District = adminDtoUpdate.District;
-            admin.UserId = adminDtoUpdate.UserId;
-            admin.Password = adminDtoUpdate.Password;
-
             // Verificar si el nuevo UserId ya está en uso por otro Admin
-            if (await _context.Admin.AnyAsync(a => a.UserId == admin.UserId && a.Id != id))
+            if (await _context.Admin.AnyAsync(a => a.UserId == adminDtoUpdate.UserId && a.Id != id))
             {
-                return Conflict(new { message = $"The UserId '{admin.UserId}' is already in use." });
+                return Conflict(new { message = $"The UserId '{adminDtoUpdate.UserId}' is already in use." });
             }
 
-            _context.Entry(admin).State = EntityState.Modified;
+            // Llamada al Stored Procedure
+            var parameters = new[]
+            {
+                new SqlParameter("@Id", id),
+                new SqlParameter("@Name", adminDtoUpdate.Name),
+                new SqlParameter("@FirstSurname", adminDtoUpdate.FirstSurname),
+                new SqlParameter("@SecondSurname", adminDtoUpdate.SecondSurname),
+                new SqlParameter("@Province", adminDtoUpdate.Province),
+                new SqlParameter("@Canton", adminDtoUpdate.Canton),
+                new SqlParameter("@District", adminDtoUpdate.District),
+                new SqlParameter("@UserId", adminDtoUpdate.UserId),
+                new SqlParameter("@Password", adminDtoUpdate.Password)
+            };
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdminExists(id))
-                {
-                    return NotFound(new { message = $"Admin with Id {id} not found." });
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.Database.ExecuteSqlRawAsync("EXEC sp_UpdateAdmin @Id, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @UserId, @Password", parameters);
 
             return NoContent();
         }
@@ -121,21 +132,18 @@ namespace SQL_Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
-            var admin = await _context.Admin.FindAsync(id);
-            if (admin == null)
+            // Verificar si el Admin existe
+            var adminExists = await _context.Admin.AnyAsync(a => a.Id == id);
+
+            if (!adminExists)
             {
                 return NotFound(new { message = $"Admin with Id {id} not found." });
             }
 
-            _context.Admin.Remove(admin);
-            await _context.SaveChangesAsync();
+            // Llamada al Stored Procedure
+            await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteAdmin @Id = {0}", id);
 
             return NoContent();
-        }
-
-        private bool AdminExists(int id)
-        {
-            return _context.Admin.Any(e => e.Id == id);
         }
     }
 }

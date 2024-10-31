@@ -33,6 +33,15 @@ namespace SQL_Server.Data
             modelBuilder.Entity<Admin>()
                 .Property(a => a.Id)
                 .ValueGeneratedNever();
+
+            // Configurar columnas computadas
+            modelBuilder.Entity<Admin>()
+                .Property(a => a.FullName)
+                .HasComputedColumnSql("[Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname]", stored: true);
+
+            modelBuilder.Entity<Admin>()
+                .Property(a => a.Direction)
+                .HasComputedColumnSql("[Province] + ', ' + [Canton] + ', ' + [District]", stored: true);
         }
     }
 }
