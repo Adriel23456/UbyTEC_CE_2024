@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "TEu0EBszRq5LFXPTfhnbAVCwiYu2tIAy5tTBni1ghSU=",
+  "Source": "SQL_Server",
+  "BasePath": "_content/SQL_Server",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

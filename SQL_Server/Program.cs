@@ -44,6 +44,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Usar Developer Exception Page solo en desarrollo
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
 // ===============================
 // 3. Configuración del Middleware
 // ===============================
@@ -64,8 +75,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
-
-app.UseHttpsRedirection();
 
 // Mapear controladores
 app.MapControllers();

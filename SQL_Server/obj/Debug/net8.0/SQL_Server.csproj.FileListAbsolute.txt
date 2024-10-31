@@ -1,10 +1,13 @@
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\appsettings.json
+C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\appsettings.Production.json
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\SQL_Server.exe
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\SQL_Server.deps.json
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\SQL_Server.runtimeconfig.json
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\SQL_Server.dll
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\SQL_Server.pdb
+C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\Humanizer.dll
@@ -142,6 +145,3 @@ C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Da
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\obj\Debug\net8.0\SQL_Server.pdb
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\obj\Debug\net8.0\SQL_Server.genruntimeconfig.cache
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\obj\Debug\net8.0\ref\SQL_Server.dll
-C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\appsettings.Production.json
-C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\AutoMapper.dll
-C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
