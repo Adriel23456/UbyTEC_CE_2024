@@ -8,8 +8,8 @@ namespace SQL_Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<AdminPhone> AdminPhones { get; set; }
+        public DbSet<Admin> Admin { get; set; }
+        public DbSet<AdminPhone> AdminPhone { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,11 @@ namespace SQL_Server.Data
                 .HasOne(ap => ap.Admin)
                 .WithMany(a => a.AdminPhones)
                 .HasForeignKey(ap => ap.Admin_id);
+            
+            // Configurar Id como no generado por la base de datos
+            modelBuilder.Entity<Admin>()
+                .Property(a => a.Id)
+                .ValueGeneratedNever();
         }
     }
 }

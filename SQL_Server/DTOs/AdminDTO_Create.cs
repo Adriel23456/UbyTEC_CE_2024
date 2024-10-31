@@ -2,7 +2,7 @@ namespace SQL_Server.DTOs
 {
     public class AdminDTO_Create
     {
-        public required int Id { get; set; } // Número de cédula del admin
+        public required int Id { get; set; }
         public required string Name { get; set; }
         public required string FirstSurname { get; set; }
         public required string SecondSurname { get; set; }

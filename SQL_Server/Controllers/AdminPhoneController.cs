@@ -24,7 +24,7 @@ namespace SQL_Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetAdminPhones()
         {
-            var adminPhones = await _context.AdminPhones.Include(ap => ap.Admin).ToListAsync();
+            var adminPhones = await _context.AdminPhone.Include(ap => ap.Admin).ToListAsync();
             return _mapper.Map<List<AdminPhoneDTO>>(adminPhones);
         }
 
@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
         public async Task<ActionResult<AdminPhoneDTO>> PostAdminPhone(AdminPhoneDTO adminPhoneDto)
         {
             // Verificar si ya existe un AdminPhone con la misma clave compuesta
-            if (await _context.AdminPhones.AnyAsync(ap => ap.Admin_id == adminPhoneDto.Admin_id && ap.Phone == adminPhoneDto.Phone))
+            if (await _context.AdminPhone.AnyAsync(ap => ap.Admin_id == adminPhoneDto.Admin_id && ap.Phone == adminPhoneDto.Phone))
             {
                 return Conflict(new { message = $"An AdminPhone with Admin_id {adminPhoneDto.Admin_id} and Phone {adminPhoneDto.Phone} already exists." });
             }
@@ -41,13 +41,13 @@ namespace SQL_Server.Controllers
             var adminPhone = _mapper.Map<AdminPhone>(adminPhoneDto);
 
             // Verificar si el Admin_id existe
-            var adminExists = await _context.Admins.AnyAsync(a => a.Id == adminPhone.Admin_id);
+            var adminExists = await _context.Admin.AnyAsync(a => a.Id == adminPhone.Admin_id);
             if (!adminExists)
             {
                 return BadRequest(new { message = $"Admin with Id {adminPhone.Admin_id} does not exist." });
             }
 
-            _context.AdminPhones.Add(adminPhone);
+            _context.AdminPhone.Add(adminPhone);
             await _context.SaveChangesAsync();
 
             var createdAdminPhoneDto = _mapper.Map<AdminPhoneDTO>(adminPhone);
@@ -60,40 +60,51 @@ namespace SQL_Server.Controllers
         [HttpPut("{admin_id}/{phone}")]
         public async Task<IActionResult> PutAdminPhone(int admin_id, int phone, AdminPhoneDTO_Update adminPhoneDtoUpdate)
         {
-            var adminPhone = await _context.AdminPhones.FirstOrDefaultAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
+            // Verificar si la entidad actual existe
+            var existingAdminPhone = await _context.AdminPhone
+                .FirstOrDefaultAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
 
-            if (adminPhone == null)
+            if (existingAdminPhone == null)
             {
                 return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {phone} not found." });
             }
 
-            // Actualizar la propiedad permitida
-            adminPhone.Phone = adminPhoneDtoUpdate.Phone;
+            int newPhone = adminPhoneDtoUpdate.Phone;
 
-            // Verificar si ya existe otro AdminPhone con el nuevo Phone para el mismo Admin
-            if (await _context.AdminPhones.AnyAsync(ap => ap.Admin_id == admin_id && ap.Phone == adminPhoneDtoUpdate.Phone && !(ap.Admin_id == admin_id && ap.Phone == phone)))
+            // Si el nuevo Phone es igual al existente, no hay nada que actualizar
+            if (newPhone == phone)
             {
-                return Conflict(new { message = $"An AdminPhone with Admin_id {admin_id} and Phone {adminPhoneDtoUpdate.Phone} already exists." });
+                return NoContent();
             }
 
-            _context.Entry(adminPhone).State = EntityState.Modified;
+            // Verificar si ya existe una entidad con el nuevo Phone para el mismo Admin_id
+            if (await _context.AdminPhone.AnyAsync(ap => ap.Admin_id == admin_id && ap.Phone == newPhone))
+            {
+                return Conflict(new { message = $"An AdminPhone with Admin_id {admin_id} and Phone {newPhone} already exists." });
+            }
+
+            // Eliminar la entidad existente
+            _context.AdminPhone.Remove(existingAdminPhone);
+
+            // Crear una nueva entidad con el nuevo Phone
+            var newAdminPhone = new AdminPhone
+            {
+                Admin_id = admin_id,
+                Phone = newPhone
+            };
+
+            // Agregar la nueva entidad al contexto
+            _context.AdminPhone.Add(newAdminPhone);
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException ex)
             {
-                if (!AdminPhoneExists(admin_id, adminPhoneDtoUpdate.Phone))
-                {
-                    return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {adminPhoneDtoUpdate.Phone} not found." });
-                }
-                else
-                {
-                    throw;
-                }
+                // Manejar posibles excepciones y retornar un error apropiado
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while updating the AdminPhone.", details = ex.Message });
             }
-
             return NoContent();
         }
 
@@ -101,22 +112,21 @@ namespace SQL_Server.Controllers
         [HttpDelete("{admin_id}/{phone}")]
         public async Task<IActionResult> DeleteAdminPhone(int admin_id, int phone)
         {
-            var adminPhone = await _context.AdminPhones
+            var adminPhone = await _context.AdminPhone
                                            .FirstOrDefaultAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
             if (adminPhone == null)
             {
                 return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {phone} not found." });
             }
 
-            _context.AdminPhones.Remove(adminPhone);
+            _context.AdminPhone.Remove(adminPhone);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
-
+        
         private bool AdminPhoneExists(int admin_id, int phone)
         {
-            return _context.AdminPhones.Any(ap => ap.Admin_id == admin_id && ap.Phone == phone);
+            return _context.AdminPhone.Any(ap => ap.Admin_id == admin_id && ap.Phone == phone);
         }
     }
 }

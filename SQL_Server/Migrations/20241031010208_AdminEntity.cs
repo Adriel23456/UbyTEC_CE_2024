@@ -11,11 +11,10 @@ namespace SQL_Server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Admins",
+                name: "Admin",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SecondSurname = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -27,11 +26,11 @@ namespace SQL_Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.PrimaryKey("PK_Admin", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AdminPhones",
+                name: "AdminPhone",
                 columns: table => new
                 {
                     Admin_id = table.Column<int>(type: "int", nullable: false),
@@ -39,18 +38,18 @@ namespace SQL_Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdminPhones", x => new { x.Admin_id, x.Phone });
+                    table.PrimaryKey("PK_AdminPhone", x => new { x.Admin_id, x.Phone });
                     table.ForeignKey(
-                        name: "FK_AdminPhones_Admins_Admin_id",
+                        name: "FK_AdminPhone_Admin_Admin_id",
                         column: x => x.Admin_id,
-                        principalTable: "Admins",
+                        principalTable: "Admin",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Admins_UserId",
-                table: "Admins",
+                name: "IX_Admin_UserId",
+                table: "Admin",
                 column: "UserId",
                 unique: true);
         }
@@ -59,10 +58,10 @@ namespace SQL_Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AdminPhones");
+                name: "AdminPhone");
 
             migrationBuilder.DropTable(
-                name: "Admins");
+                name: "Admin");
         }
     }
 }

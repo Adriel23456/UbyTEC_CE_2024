@@ -24,10 +24,7 @@ namespace SQL_Server.Migrations
             modelBuilder.Entity("SQL_Server.Models.Admin", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Canton")
                         .IsRequired()
@@ -66,7 +63,7 @@ namespace SQL_Server.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admin");
                 });
 
             modelBuilder.Entity("SQL_Server.Models.AdminPhone", b =>
@@ -79,7 +76,7 @@ namespace SQL_Server.Migrations
 
                     b.HasKey("Admin_id", "Phone");
 
-                    b.ToTable("AdminPhones");
+                    b.ToTable("AdminPhone");
                 });
 
             modelBuilder.Entity("SQL_Server.Models.AdminPhone", b =>

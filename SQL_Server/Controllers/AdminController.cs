@@ -24,7 +24,7 @@ namespace SQL_Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdminDTO>>> GetAdmins()
         {
-            var admins = await _context.Admins.Include(a => a.AdminPhones).ToListAsync();
+            var admins = await _context.Admin.Include(a => a.AdminPhones).ToListAsync();
             return _mapper.Map<List<AdminDTO>>(admins);
         }
 
@@ -32,7 +32,7 @@ namespace SQL_Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AdminDTO>> GetAdmin(int id)
         {
-            var admin = await _context.Admins.Include(a => a.AdminPhones)
+            var admin = await _context.Admin.Include(a => a.AdminPhones)
                                              .FirstOrDefaultAsync(a => a.Id == id);
 
             if (admin == null)
@@ -48,20 +48,20 @@ namespace SQL_Server.Controllers
         public async Task<ActionResult<AdminDTO>> PostAdmin(AdminDTO_Create adminDtoCreate)
         {
             // Verificar si ya existe un Admin con el mismo Id
-            if (await _context.Admins.AnyAsync(a => a.Id == adminDtoCreate.Id))
+            if (await _context.Admin.AnyAsync(a => a.Id == adminDtoCreate.Id))
             {
                 return Conflict(new { message = $"An Admin with Id {adminDtoCreate.Id} already exists." });
             }
 
             // Verificar si UserId es único
-            if (await _context.Admins.AnyAsync(a => a.UserId == adminDtoCreate.UserId))
+            if (await _context.Admin.AnyAsync(a => a.UserId == adminDtoCreate.UserId))
             {
                 return Conflict(new { message = $"The UserId '{adminDtoCreate.UserId}' is already in use." });
             }
 
             // Mapear el DTO de creación a la entidad Admin
             var admin = _mapper.Map<Admin>(adminDtoCreate);
-            _context.Admins.Add(admin);
+            _context.Admin.Add(admin);
             await _context.SaveChangesAsync();
 
             var createdAdminDto = _mapper.Map<AdminDTO>(admin);
@@ -73,7 +73,7 @@ namespace SQL_Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAdmin(int id, AdminDTO_Update adminDtoUpdate)
         {
-            var admin = await _context.Admins.FindAsync(id);
+            var admin = await _context.Admin.FindAsync(id);
 
             if (admin == null)
             {
@@ -91,7 +91,7 @@ namespace SQL_Server.Controllers
             admin.Password = adminDtoUpdate.Password;
 
             // Verificar si el nuevo UserId ya está en uso por otro Admin
-            if (await _context.Admins.AnyAsync(a => a.UserId == admin.UserId && a.Id != id))
+            if (await _context.Admin.AnyAsync(a => a.UserId == admin.UserId && a.Id != id))
             {
                 return Conflict(new { message = $"The UserId '{admin.UserId}' is already in use." });
             }
@@ -121,13 +121,13 @@ namespace SQL_Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
-            var admin = await _context.Admins.FindAsync(id);
+            var admin = await _context.Admin.FindAsync(id);
             if (admin == null)
             {
                 return NotFound(new { message = $"Admin with Id {id} not found." });
             }
 
-            _context.Admins.Remove(admin);
+            _context.Admin.Remove(admin);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -135,7 +135,7 @@ namespace SQL_Server.Controllers
 
         private bool AdminExists(int id)
         {
-            return _context.Admins.Any(e => e.Id == id);
+            return _context.Admin.Any(e => e.Id == id);
         }
     }
 }

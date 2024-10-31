@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace SQL_Server.Models
@@ -7,6 +8,7 @@ namespace SQL_Server.Models
     {
         [Key]
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public required int Id { get; set; } // Número de cédula del admin
 
         [Required]
