@@ -4,12 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace SQL_Server.Models
 {
-    public class Admin
+    public class BusinessManager
     {
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public required int Id { get; set; } // Número de cédula del admin
+        public required string Email { get; set; } // PK
 
         [Required]
         public required string Name { get; set; }
@@ -20,8 +20,7 @@ namespace SQL_Server.Models
         [Required]
         public required string SecondSurname { get; set; }
 
-        [Required]
-        public string? FullName { get; private set; } //Atributo compuesto set privado y puede ser nulo
+        public string? FullName { get; private set; } // Computed property, set privately
 
         [Required]
         public required string Province { get; set; }
@@ -32,17 +31,18 @@ namespace SQL_Server.Models
         [Required]
         public required string District { get; set; }
 
-        [Required]
-        public string? Direction { get; private set; }  //Atributo compuesto set privado y puede ser nulo
+        public string? Direction { get; private set; } // Computed property, set privately
 
         [Required]
-        public required string UserId { get; set; }
+        public required string UserId { get; set; } // UNIQUE
 
         [Required]
         public required string Password { get; set; }
 
-        // Propiedades de Navegación:
+        // Navigation property
         [JsonIgnore]
-        public ICollection<AdminPhone> AdminPhones { get; set; } = new List<AdminPhone>();
+        public ICollection<BusinessManagerPhone> BusinessManagerPhones { get; set; } = new List<BusinessManagerPhone>();
+        [JsonIgnore]
+        public BusinessAssociate? BusinessAssociate { get; set; }
     }
 }

@@ -2,8 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SQL_Server.Data;
-using SQL_Server.Models;
 using SQL_Server.DTOs;
+using Microsoft.Data.SqlClient;
 
 namespace SQL_Server.Controllers
 {
@@ -24,36 +24,70 @@ namespace SQL_Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetAdminPhones()
         {
-            var adminPhones = await _context.AdminPhone.Include(ap => ap.Admin).ToListAsync();
+            var adminPhones = await _context.AdminPhone
+                .FromSqlRaw("EXEC sp_GetAllAdminPhones")
+                .ToListAsync();
+
             return _mapper.Map<List<AdminPhoneDTO>>(adminPhones);
+        }
+
+        // GET: api/AdminPhone/{admin_id}/Phones
+        [HttpGet("{admin_id}/Phones")]
+        public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetPhonesByAdminId(int admin_id)
+        {
+            // Verificar si el Admin existe
+            var adminExists = await _context.Admin.AnyAsync(a => a.Id == admin_id);
+            if (!adminExists)
+            {
+                return NotFound(new { message = $"Admin with Id {admin_id} not found." });
+            }
+
+            // Llamada al Stored Procedure
+            var adminPhones = await _context.AdminPhone
+                .FromSqlRaw("EXEC sp_GetAdminPhonesByAdminId @Admin_id = {0}", admin_id)
+                .ToListAsync();
+
+            var adminPhoneDtos = _mapper.Map<List<AdminPhoneDTO>>(adminPhones);
+
+            return Ok(adminPhoneDtos);
         }
 
         // POST: api/AdminPhone
         [HttpPost]
         public async Task<ActionResult<AdminPhoneDTO>> PostAdminPhone(AdminPhoneDTO adminPhoneDto)
         {
-            // Verificar si ya existe un AdminPhone con la misma clave compuesta
+            // Validación
             if (await _context.AdminPhone.AnyAsync(ap => ap.Admin_id == adminPhoneDto.Admin_id && ap.Phone == adminPhoneDto.Phone))
             {
                 return Conflict(new { message = $"An AdminPhone with Admin_id {adminPhoneDto.Admin_id} and Phone {adminPhoneDto.Phone} already exists." });
             }
 
-            var adminPhone = _mapper.Map<AdminPhone>(adminPhoneDto);
-
             // Verificar si el Admin_id existe
-            var adminExists = await _context.Admin.AnyAsync(a => a.Id == adminPhone.Admin_id);
+            var adminExists = await _context.Admin.AnyAsync(a => a.Id == adminPhoneDto.Admin_id);
             if (!adminExists)
             {
-                return BadRequest(new { message = $"Admin with Id {adminPhone.Admin_id} does not exist." });
+                return BadRequest(new { message = $"Admin with Id {adminPhoneDto.Admin_id} does not exist." });
             }
 
-            _context.AdminPhone.Add(adminPhone);
-            await _context.SaveChangesAsync();
+            // Llamada al Stored Procedure
+            var parameters = new[]
+            {
+                new SqlParameter("@Admin_id", adminPhoneDto.Admin_id),
+                new SqlParameter("@Phone", adminPhoneDto.Phone)
+            };
+
+            await _context.Database.ExecuteSqlRawAsync("EXEC sp_CreateAdminPhone @Admin_id, @Phone", parameters);
+
+            // Obtener el adminPhone recién creado
+            var adminPhones = await _context.AdminPhone
+                .FromSqlRaw("SELECT * FROM [AdminPhone] WHERE [Admin_id] = {0} AND [Phone] = {1}", adminPhoneDto.Admin_id, adminPhoneDto.Phone)
+                .ToListAsync();
+
+            var adminPhone = adminPhones.FirstOrDefault();
 
             var createdAdminPhoneDto = _mapper.Map<AdminPhoneDTO>(adminPhone);
 
-            // Reemplazar CreatedAtAction con Created, ya que GetAdminPhone no existe
-            return Created(string.Empty, createdAdminPhoneDto);
+            return CreatedAtAction(nameof(GetPhonesByAdminId), new { admin_id = adminPhone?.Admin_id }, createdAdminPhoneDto);
         }
 
         // PUT: api/AdminPhone/{admin_id}/{phone}
@@ -61,10 +95,10 @@ namespace SQL_Server.Controllers
         public async Task<IActionResult> PutAdminPhone(int admin_id, int phone, AdminPhoneDTO_Update adminPhoneDtoUpdate)
         {
             // Verificar si la entidad actual existe
-            var existingAdminPhone = await _context.AdminPhone
-                .FirstOrDefaultAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
+            var adminPhoneExists = await _context.AdminPhone
+                .AnyAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
 
-            if (existingAdminPhone == null)
+            if (!adminPhoneExists)
             {
                 return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {phone} not found." });
             }
@@ -83,28 +117,16 @@ namespace SQL_Server.Controllers
                 return Conflict(new { message = $"An AdminPhone with Admin_id {admin_id} and Phone {newPhone} already exists." });
             }
 
-            // Eliminar la entidad existente
-            _context.AdminPhone.Remove(existingAdminPhone);
-
-            // Crear una nueva entidad con el nuevo Phone
-            var newAdminPhone = new AdminPhone
+            // Llamada al Stored Procedure
+            var parameters = new[]
             {
-                Admin_id = admin_id,
-                Phone = newPhone
+                new SqlParameter("@Admin_id", admin_id),
+                new SqlParameter("@OldPhone", phone),
+                new SqlParameter("@NewPhone", newPhone)
             };
 
-            // Agregar la nueva entidad al contexto
-            _context.AdminPhone.Add(newAdminPhone);
+            await _context.Database.ExecuteSqlRawAsync("EXEC sp_UpdateAdminPhone @Admin_id, @OldPhone, @NewPhone", parameters);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                // Manejar posibles excepciones y retornar un error apropiado
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while updating the AdminPhone.", details = ex.Message });
-            }
             return NoContent();
         }
 
@@ -112,43 +134,19 @@ namespace SQL_Server.Controllers
         [HttpDelete("{admin_id}/{phone}")]
         public async Task<IActionResult> DeleteAdminPhone(int admin_id, int phone)
         {
-            var adminPhone = await _context.AdminPhone
-                                           .FirstOrDefaultAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
-            if (adminPhone == null)
+            // Verificar si la entidad actual existe
+            var adminPhoneExists = await _context.AdminPhone
+                .AnyAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
+
+            if (!adminPhoneExists)
             {
                 return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {phone} not found." });
             }
 
-            _context.AdminPhone.Remove(adminPhone);
-            await _context.SaveChangesAsync();
+            // Llamada al Stored Procedure
+            await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteAdminPhone @Admin_id = {0}, @Phone = {1}", admin_id, phone);
+
             return NoContent();
-        }
-        
-        private bool AdminPhoneExists(int admin_id, int phone)
-        {
-            return _context.AdminPhone.Any(ap => ap.Admin_id == admin_id && ap.Phone == phone);
-        }
-
-        // GET: api/AdminPhone/Admin/{admin_id}/Phones
-        [HttpGet("{admin_id}/Phones")]
-        public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetPhonesByAdminId(int admin_id)
-        {
-            // Verificar si el Admin existe
-            var adminExists = await _context.Admin.AnyAsync(a => a.Id == admin_id);
-            if (!adminExists)
-            {
-                return NotFound(new { message = $"Admin with Id {admin_id} not found." });
-            }
-
-            // Obtener todas las entidades AdminPhone asociadas al Admin_id
-            var adminPhones = await _context.AdminPhone
-                .Where(ap => ap.Admin_id == admin_id)
-                .ToListAsync();
-
-            // Mapear las entidades a DTOs
-            var adminPhoneDtos = _mapper.Map<List<AdminPhoneDTO>>(adminPhones);
-
-            return Ok(adminPhoneDtos);
         }
     }
 }
