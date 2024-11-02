@@ -356,6 +356,34 @@ namespace SQL_Server.Migrations
                     b.ToTable("Client");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.ConsolidatedSalesReportView", b =>
+                {
+                    b.Property<string>("Affiliate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Conductor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Purchases")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ServiceAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalAmount")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_ConsolidatedSalesReport", (string)null);
+                });
+
             modelBuilder.Entity("SQL_Server.Models.FeedBack", b =>
                 {
                     b.Property<int?>("Id")
@@ -487,7 +515,6 @@ namespace SQL_Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FoodDeliveryMan_UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("State")
@@ -609,6 +636,44 @@ namespace SQL_Server.Migrations
                         .IsUnique();
 
                     b.ToTable("ProofOfPayment");
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.SalesReportByAffiliateView", b =>
+                {
+                    b.Property<string>("Affiliate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Purchases")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ServiceAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalAmount")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_SalesReportByAffiliate", (string)null);
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.TopSellingProductsView", b =>
+                {
+                    b.Property<string>("Affiliate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TotalRevenue")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalSold")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_TopSellingProducts", (string)null);
                 });
 
             modelBuilder.Entity("SQL_Server.Models.AdminPhone", b =>
@@ -741,9 +806,7 @@ namespace SQL_Server.Migrations
 
                     b.HasOne("SQL_Server.Models.FoodDeliveryMan", "FoodDeliveryMan")
                         .WithMany("Orders")
-                        .HasForeignKey("FoodDeliveryMan_UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FoodDeliveryMan_UserId");
 
                     b.Navigation("Client");
 

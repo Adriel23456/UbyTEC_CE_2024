@@ -29,6 +29,9 @@ namespace SQL_Server.Data
         public DbSet<Order_Product> Order_Product { get; set; }
         public DbSet<ProofOfPayment> ProofOfPayment { get; set; }
         public DbSet<FeedBack> FeedBack { get; set; }
+        public DbSet<ConsolidatedSalesReportView> ConsolidatedSalesReportView { get; set; }
+        public DbSet<SalesReportByAffiliateView> SalesReportByAffiliateView { get; set; }
+        public DbSet<TopSellingProductsView> TopSellingProductsView { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -326,6 +329,25 @@ namespace SQL_Server.Data
                 .WithMany(ba => ba.FeedBacks)
                 .HasForeignKey(f => f.BusinessAssociate_Legal_Id)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            // Configure the views
+            modelBuilder.Entity<ConsolidatedSalesReportView>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("vw_ConsolidatedSalesReport");
+            });
+
+            modelBuilder.Entity<SalesReportByAffiliateView>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("vw_SalesReportByAffiliate");
+            });
+
+            modelBuilder.Entity<TopSellingProductsView>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("vw_TopSellingProducts");
+            });
         }
     }
 }

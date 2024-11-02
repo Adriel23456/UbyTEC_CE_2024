@@ -266,6 +266,11 @@ namespace SQL_Server.Mappings
                 .ForMember(dest => dest.FoodDeliveryMan, opt => opt.Ignore())
                 .ForMember(dest => dest.BusinessAssociate, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+            
+            // View mappings
+            CreateMap<ConsolidatedSalesReportView, ConsolidatedSalesReportDTO>();
+            CreateMap<SalesReportByAffiliateView, SalesReportByAffiliateDTO>();
+            CreateMap<TopSellingProductsView, TopSellingProductsDTO>();
         }
     }
 }

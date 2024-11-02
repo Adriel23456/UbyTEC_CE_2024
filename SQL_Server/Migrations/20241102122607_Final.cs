@@ -228,7 +228,7 @@ namespace SQL_Server.Migrations
                     TotalService = table.Column<int>(type: "int", nullable: true),
                     Direction = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Client_Id = table.Column<int>(type: "int", nullable: false),
-                    FoodDeliveryMan_UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    FoodDeliveryMan_UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -243,8 +243,7 @@ namespace SQL_Server.Migrations
                         name: "FK_Order_FoodDeliveryMan_FoodDeliveryMan_UserId",
                         column: x => x.FoodDeliveryMan_UserId,
                         principalTable: "FoodDeliveryMan",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(

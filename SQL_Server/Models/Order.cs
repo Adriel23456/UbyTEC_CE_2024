@@ -22,9 +22,8 @@ namespace SQL_Server.Models
         [ForeignKey("Client")]
         public required int Client_Id { get; set; } // FK to Client.Id
 
-        [Required]
         [ForeignKey("FoodDeliveryMan")]
-        public required string FoodDeliveryMan_UserId { get; set; } // FK to FoodDeliveryMan.UserId
+        public string? FoodDeliveryMan_UserId { get; set; } // FK to FoodDeliveryMan.UserId
 
         // Navigation properties
         [JsonIgnore]
