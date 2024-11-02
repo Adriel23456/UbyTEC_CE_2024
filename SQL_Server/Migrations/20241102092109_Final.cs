@@ -5,7 +5,7 @@
 namespace SQL_Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Cart : Migration
+    public partial class Final : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -219,6 +219,35 @@ namespace SQL_Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalService = table.Column<int>(type: "int", nullable: true),
+                    Direction = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Client_Id = table.Column<int>(type: "int", nullable: false),
+                    FoodDeliveryMan_UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_Order_Client_Client_Id",
+                        column: x => x.Client_Id,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Order_FoodDeliveryMan_FoodDeliveryMan_UserId",
+                        column: x => x.FoodDeliveryMan_UserId,
+                        principalTable: "FoodDeliveryMan",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BusinessAssociatePhone",
                 columns: table => new
                 {
@@ -259,6 +288,71 @@ namespace SQL_Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FeedBack",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FeedBack_Business = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BusinessGrade = table.Column<double>(type: "float", nullable: false),
+                    FeedBack_Order = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderGrade = table.Column<double>(type: "float", nullable: false),
+                    FeedBack_DeliveryMan = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryManGrade = table.Column<double>(type: "float", nullable: false),
+                    FoodDeliveryMan_UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Order_Code = table.Column<int>(type: "int", nullable: false),
+                    BusinessAssociate_Legal_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FeedBack", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FeedBack_BusinessAssociate_BusinessAssociate_Legal_Id",
+                        column: x => x.BusinessAssociate_Legal_Id,
+                        principalTable: "BusinessAssociate",
+                        principalColumn: "Legal_Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FeedBack_FoodDeliveryMan_FoodDeliveryMan_UserId",
+                        column: x => x.FoodDeliveryMan_UserId,
+                        principalTable: "FoodDeliveryMan",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FeedBack_Order_Order_Code",
+                        column: x => x.Order_Code,
+                        principalTable: "Order",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProofOfPayment",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreditCardName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastDigitsCreditCard = table.Column<int>(type: "int", nullable: false),
+                    TotalPayment = table.Column<int>(type: "int", nullable: true),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientFullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientPhone = table.Column<int>(type: "int", nullable: true),
+                    Order_Code = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProofOfPayment", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_ProofOfPayment_Order_Order_Code",
+                        column: x => x.Order_Code,
+                        principalTable: "Order",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cart_Product",
                 columns: table => new
                 {
@@ -277,6 +371,31 @@ namespace SQL_Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cart_Product_Product_Product_Code",
+                        column: x => x.Product_Code,
+                        principalTable: "Product",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Order_Product",
+                columns: table => new
+                {
+                    Order_Code = table.Column<int>(type: "int", nullable: false),
+                    Product_Code = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order_Product", x => new { x.Order_Code, x.Product_Code });
+                    table.ForeignKey(
+                        name: "FK_Order_Product_Order_Order_Code",
+                        column: x => x.Order_Code,
+                        principalTable: "Order",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Order_Product_Product_Product_Code",
                         column: x => x.Product_Code,
                         principalTable: "Product",
                         principalColumn: "Code",
@@ -347,9 +466,46 @@ namespace SQL_Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_FeedBack_BusinessAssociate_Legal_Id",
+                table: "FeedBack",
+                column: "BusinessAssociate_Legal_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FeedBack_FoodDeliveryMan_UserId",
+                table: "FeedBack",
+                column: "FoodDeliveryMan_UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FeedBack_Order_Code",
+                table: "FeedBack",
+                column: "Order_Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_Client_Id",
+                table: "Order",
+                column: "Client_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_FoodDeliveryMan_UserId",
+                table: "Order",
+                column: "FoodDeliveryMan_UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_Product_Product_Code",
+                table: "Order_Product",
+                column: "Product_Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Product_BusinessAssociate_Legal_Id",
                 table: "Product",
                 column: "BusinessAssociate_Legal_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProofOfPayment_Order_Code",
+                table: "ProofOfPayment",
+                column: "Order_Code",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -368,10 +524,19 @@ namespace SQL_Server.Migrations
                 name: "Cart_Product");
 
             migrationBuilder.DropTable(
+                name: "FeedBack");
+
+            migrationBuilder.DropTable(
                 name: "FoodDeliveryManPhone");
 
             migrationBuilder.DropTable(
+                name: "Order_Product");
+
+            migrationBuilder.DropTable(
                 name: "ProductPhoto");
+
+            migrationBuilder.DropTable(
+                name: "ProofOfPayment");
 
             migrationBuilder.DropTable(
                 name: "Admin");
@@ -380,16 +545,19 @@ namespace SQL_Server.Migrations
                 name: "Cart");
 
             migrationBuilder.DropTable(
-                name: "FoodDeliveryMan");
+                name: "Product");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "BusinessAssociate");
 
             migrationBuilder.DropTable(
                 name: "Client");
 
             migrationBuilder.DropTable(
-                name: "BusinessAssociate");
+                name: "FoodDeliveryMan");
 
             migrationBuilder.DropTable(
                 name: "BusinessManager");

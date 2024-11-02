@@ -35,5 +35,11 @@ namespace SQL_Server.Models
 
         [JsonIgnore]
         public ICollection<Order_Product> Order_Products { get; set; } = new List<Order_Product>();
+        
+        [JsonIgnore]
+        public ProofOfPayment? ProofOfPayment { get; set; }
+
+        [JsonIgnore]
+        public FeedBack? FeedBack { get; set; }
     }
 }

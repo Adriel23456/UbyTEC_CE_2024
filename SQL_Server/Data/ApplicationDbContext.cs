@@ -9,7 +9,7 @@ namespace SQL_Server.Data
             : base(options)
         {
         }
-
+        
         // DbSet properties
         public DbSet<Admin> Admin { get; set; }
         public DbSet<AdminPhone> AdminPhone { get; set; }
@@ -27,6 +27,8 @@ namespace SQL_Server.Data
         public DbSet<Cart_Product> Cart_Product { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Order_Product> Order_Product { get; set; }
+        public DbSet<ProofOfPayment> ProofOfPayment { get; set; }
+        public DbSet<FeedBack> FeedBack { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -280,6 +282,50 @@ namespace SQL_Server.Data
                 .HasOne(op => op.Product)
                 .WithMany(p => p.Order_Products)
                 .HasForeignKey(op => op.Product_Code);
+            
+            // ProofOfPayment configurations
+            modelBuilder.Entity<ProofOfPayment>()
+                .HasKey(p => p.Code);
+
+            modelBuilder.Entity<ProofOfPayment>()
+                .Property(p => p.Code)
+                .ValueGeneratedOnAdd(); // Auto-generated
+
+            // Configure one-to-one relationship between Order and ProofOfPayment
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.ProofOfPayment)
+                .WithOne(p => p.Order)
+                .HasForeignKey<ProofOfPayment>(p => p.Order_Code)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // FeedBack configurations
+            modelBuilder.Entity<FeedBack>()
+                .HasKey(f => f.Id);
+
+            modelBuilder.Entity<FeedBack>()
+                .Property(f => f.Id)
+                .ValueGeneratedOnAdd(); // Auto-generated
+
+            // Configure one-to-one relationship between Order and FeedBack
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.FeedBack)
+                .WithOne(f => f.Order)
+                .HasForeignKey<FeedBack>(f => f.Order_Code)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure one-to-many relationship between FoodDeliveryMan and FeedBack
+            modelBuilder.Entity<FeedBack>()
+                .HasOne(f => f.FoodDeliveryMan)
+                .WithMany(fdm => fdm.FeedBacks)
+                .HasForeignKey(f => f.FoodDeliveryMan_UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure one-to-many relationship between BusinessAssociate and FeedBack
+            modelBuilder.Entity<FeedBack>()
+                .HasOne(f => f.BusinessAssociate)
+                .WithMany(ba => ba.FeedBacks)
+                .HasForeignKey(f => f.BusinessAssociate_Legal_Id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

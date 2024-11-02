@@ -224,6 +224,48 @@ namespace SQL_Server.Mappings
                 .ForMember(dest => dest.Product, opt => opt.Ignore())
                 .ForMember(dest => dest.Order_Code, opt => opt.Ignore())
                 .ForMember(dest => dest.Product_Code, opt => opt.Ignore());
+            
+            // ProofOfPayment mappings
+            CreateMap<ProofOfPayment, ProofOfPaymentDTO>()
+                .ReverseMap()
+                .ForMember(dest => dest.Order, opt => opt.Ignore());
+
+            CreateMap<ProofOfPayment, ProofOfPaymentDTO_Create>()
+                .ReverseMap()
+                .ForMember(dest => dest.Order, opt => opt.Ignore())
+                .ForMember(dest => dest.Code, opt => opt.Ignore())
+                .ForMember(dest => dest.TotalPayment, opt => opt.Ignore())
+                .ForMember(dest => dest.ClientFullName, opt => opt.Ignore())
+                .ForMember(dest => dest.ClientPhone, opt => opt.Ignore());
+
+            CreateMap<ProofOfPayment, ProofOfPaymentDTO_Update>()
+                .ReverseMap()
+                .ForMember(dest => dest.Order, opt => opt.Ignore())
+                .ForMember(dest => dest.Code, opt => opt.Ignore())
+                .ForMember(dest => dest.TotalPayment, opt => opt.Ignore())
+                .ForMember(dest => dest.ClientFullName, opt => opt.Ignore())
+                .ForMember(dest => dest.ClientPhone, opt => opt.Ignore());
+
+            // FeedBack mappings
+            CreateMap<FeedBack, FeedBackDTO>()
+                .ReverseMap()
+                .ForMember(dest => dest.Order, opt => opt.Ignore())
+                .ForMember(dest => dest.FoodDeliveryMan, opt => opt.Ignore())
+                .ForMember(dest => dest.BusinessAssociate, opt => opt.Ignore());
+
+            CreateMap<FeedBack, FeedBackDTO_Create>()
+                .ReverseMap()
+                .ForMember(dest => dest.Order, opt => opt.Ignore())
+                .ForMember(dest => dest.FoodDeliveryMan, opt => opt.Ignore())
+                .ForMember(dest => dest.BusinessAssociate, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<FeedBack, FeedBackDTO_Update>()
+                .ReverseMap()
+                .ForMember(dest => dest.Order, opt => opt.Ignore())
+                .ForMember(dest => dest.FoodDeliveryMan, opt => opt.Ignore())
+                .ForMember(dest => dest.BusinessAssociate, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

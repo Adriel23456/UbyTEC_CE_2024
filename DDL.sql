@@ -1,3 +1,240 @@
+---------------Funciones de creacion de la base de datos en general----------
+GO
+CREATE TABLE [Admin] (
+    [Id] int NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [FirstSurname] nvarchar(max) NOT NULL,
+    [SecondSurname] nvarchar(max) NOT NULL,
+    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
+    [Province] nvarchar(max) NOT NULL,
+    [Canton] nvarchar(max) NOT NULL,
+    [District] nvarchar(max) NOT NULL,
+    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
+    [UserId] nvarchar(450) NOT NULL,
+    [Password] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Admin] PRIMARY KEY ([Id])
+);
+GO
+CREATE TABLE [BusinessManager] (
+    [Email] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [FirstSurname] nvarchar(max) NOT NULL,
+    [SecondSurname] nvarchar(max) NOT NULL,
+    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
+    [Province] nvarchar(max) NOT NULL,
+    [Canton] nvarchar(max) NOT NULL,
+    [District] nvarchar(max) NOT NULL,
+    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
+    [UserId] nvarchar(450) NOT NULL,
+    [Password] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_BusinessManager] PRIMARY KEY ([Email])
+);
+GO
+CREATE TABLE [BusinessType] (
+    [Identification] int NOT NULL IDENTITY,
+    [Name] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_BusinessType] PRIMARY KEY ([Identification])
+);
+GO
+CREATE TABLE [Client] (
+    [Id] int NOT NULL,
+    [UserId] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [FirstSurname] nvarchar(max) NOT NULL,
+    [SecondSurname] nvarchar(max) NOT NULL,
+    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
+    [Province] nvarchar(max) NOT NULL,
+    [Canton] nvarchar(max) NOT NULL,
+    [District] nvarchar(max) NOT NULL,
+    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
+    [Password] nvarchar(max) NOT NULL,
+    [Phone] int NOT NULL,
+    [BirthDate] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_Client] PRIMARY KEY ([Id])
+);
+GO
+CREATE TABLE [FoodDeliveryMan] (
+    [UserId] nvarchar(450) NOT NULL,
+    [Name] nvarchar(max) NOT NULL,
+    [FirstSurname] nvarchar(max) NOT NULL,
+    [SecondSurname] nvarchar(max) NOT NULL,
+    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
+    [Province] nvarchar(max) NOT NULL,
+    [Canton] nvarchar(max) NOT NULL,
+    [District] nvarchar(max) NOT NULL,
+    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
+    [Password] nvarchar(max) NOT NULL,
+    [State] nvarchar(max) NOT NULL,
+    CONSTRAINT [PK_FoodDeliveryMan] PRIMARY KEY ([UserId])
+);
+GO
+CREATE TABLE [AdminPhone] (
+    [Admin_id] int NOT NULL,
+    [Phone] int NOT NULL,
+    CONSTRAINT [PK_AdminPhone] PRIMARY KEY ([Admin_id], [Phone]),
+    CONSTRAINT [FK_AdminPhone_Admin_Admin_id] FOREIGN KEY ([Admin_id]) REFERENCES [Admin] ([Id]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [BusinessManagerPhone] (
+    [BusinessManager_Email] nvarchar(450) NOT NULL,
+    [Phone] int NOT NULL,
+    CONSTRAINT [PK_BusinessManagerPhone] PRIMARY KEY ([BusinessManager_Email], [Phone]),
+    CONSTRAINT [FK_BusinessManagerPhone_BusinessManager_BusinessManager_Email] FOREIGN KEY ([BusinessManager_Email]) REFERENCES [BusinessManager] ([Email]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [BusinessAssociate] (
+    [Legal_Id] int NOT NULL,
+    [Email] nvarchar(max) NOT NULL,
+    [State] nvarchar(max) NOT NULL,
+    [BusinessName] nvarchar(max) NOT NULL,
+    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
+    [Province] nvarchar(max) NOT NULL,
+    [Canton] nvarchar(max) NOT NULL,
+    [District] nvarchar(max) NOT NULL,
+    [SINPE] int NOT NULL,
+    [RejectReason] nvarchar(max) NULL,
+    [BusinessManager_Email] nvarchar(450) NOT NULL,
+    [BusinessType_Identification] int NOT NULL,
+    CONSTRAINT [PK_BusinessAssociate] PRIMARY KEY ([Legal_Id]),
+    CONSTRAINT [FK_BusinessAssociate_BusinessManager_BusinessManager_Email] FOREIGN KEY ([BusinessManager_Email]) REFERENCES [BusinessManager] ([Email]) ON DELETE CASCADE,
+    CONSTRAINT [FK_BusinessAssociate_BusinessType_BusinessType_Identification] FOREIGN KEY ([BusinessType_Identification]) REFERENCES [BusinessType] ([Identification]) ON DELETE CASCADE        
+);
+GO
+CREATE TABLE [Cart] (
+    [Code] int NOT NULL IDENTITY,
+    [BusinessAssociate_Legal_Id] int NULL,
+    [TotalProductsPrice] int NULL,
+    [Client_Id] int NOT NULL,
+    CONSTRAINT [PK_Cart] PRIMARY KEY ([Code]),
+    CONSTRAINT [FK_Cart_Client_Client_Id] FOREIGN KEY ([Client_Id]) REFERENCES [Client] ([Id]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [FoodDeliveryManPhone] (
+    [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
+    [Phone] int NOT NULL,
+    CONSTRAINT [PK_FoodDeliveryManPhone] PRIMARY KEY ([FoodDeliveryMan_UserId], [Phone]),
+    CONSTRAINT [FK_FoodDeliveryManPhone_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [Order] (
+    [Code] int NOT NULL IDENTITY,
+    [State] nvarchar(max) NOT NULL,
+    [TotalService] int NULL,
+    [Direction] nvarchar(max) NULL,
+    [Client_Id] int NOT NULL,
+    [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_Order] PRIMARY KEY ([Code]),
+    CONSTRAINT [FK_Order_Client_Client_Id] FOREIGN KEY ([Client_Id]) REFERENCES [Client] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Order_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [BusinessAssociatePhone] (
+    [BusinessAssociate_Legal_Id] int NOT NULL,
+    [Phone] int NOT NULL,
+    CONSTRAINT [PK_BusinessAssociatePhone] PRIMARY KEY ([BusinessAssociate_Legal_Id], [Phone]),
+    CONSTRAINT [FK_BusinessAssociatePhone_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE 
+);
+GO
+CREATE TABLE [Product] (
+    [Code] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [Price] int NOT NULL,
+    [Category] nvarchar(max) NOT NULL,
+    [BusinessAssociate_Legal_Id] int NOT NULL,
+    CONSTRAINT [PK_Product] PRIMARY KEY ([Code]),
+    CONSTRAINT [FK_Product_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [FeedBack] (
+    [Id] int NOT NULL IDENTITY,
+    [FeedBack_Business] nvarchar(max) NOT NULL,
+    [BusinessGrade] float NOT NULL,
+    [FeedBack_Order] nvarchar(max) NOT NULL,
+    [OrderGrade] float NOT NULL,
+    [FeedBack_DeliveryMan] nvarchar(max) NOT NULL,
+    [DeliveryManGrade] float NOT NULL,
+    [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
+    [Order_Code] int NOT NULL,
+    [BusinessAssociate_Legal_Id] int NOT NULL,
+    CONSTRAINT [PK_FeedBack] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_FeedBack_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_FeedBack_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_FeedBack_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE NO ACTION
+);
+GO
+CREATE TABLE [ProofOfPayment] (
+    [Code] int NOT NULL IDENTITY,
+    [CreditCardName] nvarchar(max) NOT NULL,
+    [LastDigitsCreditCard] int NOT NULL,
+    [TotalPayment] int NULL,
+    [Date] nvarchar(max) NOT NULL,
+    [Time] nvarchar(max) NOT NULL,
+    [ClientFullName] nvarchar(max) NULL,
+    [ClientPhone] int NULL,
+    [Order_Code] int NOT NULL,
+    CONSTRAINT [PK_ProofOfPayment] PRIMARY KEY ([Code]),
+    CONSTRAINT [FK_ProofOfPayment_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [Cart_Product] (
+    [Cart_Code] int NOT NULL,
+    [Product_Code] int NOT NULL,
+    [Amount] int NOT NULL,
+    CONSTRAINT [PK_Cart_Product] PRIMARY KEY ([Cart_Code], [Product_Code]),
+    CONSTRAINT [FK_Cart_Product_Cart_Cart_Code] FOREIGN KEY ([Cart_Code]) REFERENCES [Cart] ([Code]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Cart_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [Order_Product] (
+    [Order_Code] int NOT NULL,
+    [Product_Code] int NOT NULL,
+    [Amount] int NOT NULL,
+    CONSTRAINT [PK_Order_Product] PRIMARY KEY ([Order_Code], [Product_Code]),
+    CONSTRAINT [FK_Order_Product_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Order_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
+);
+GO
+CREATE TABLE [ProductPhoto] (
+    [Product_Code] int NOT NULL,
+    [PhotoURL] nvarchar(450) NOT NULL,
+    CONSTRAINT [PK_ProductPhoto] PRIMARY KEY ([Product_Code], [PhotoURL]),
+    CONSTRAINT [FK_ProductPhoto_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
+);
+GO
+CREATE UNIQUE INDEX [IX_Admin_UserId] ON [Admin] ([UserId]);
+GO
+CREATE UNIQUE INDEX [IX_BusinessAssociate_BusinessManager_Email] ON [BusinessAssociate] ([BusinessManager_Email]);
+GO
+CREATE INDEX [IX_BusinessAssociate_BusinessType_Identification] ON [BusinessAssociate] ([BusinessType_Identification]);
+GO
+CREATE UNIQUE INDEX [IX_BusinessManager_UserId] ON [BusinessManager] ([UserId]);
+GO
+CREATE UNIQUE INDEX [IX_BusinessType_Name] ON [BusinessType] ([Name]);
+GO
+CREATE INDEX [IX_Cart_Client_Id] ON [Cart] ([Client_Id]);
+GO
+CREATE INDEX [IX_Cart_Product_Product_Code] ON [Cart_Product] ([Product_Code]);
+GO
+CREATE UNIQUE INDEX [IX_Client_UserId] ON [Client] ([UserId]);
+GO
+CREATE INDEX [IX_FeedBack_BusinessAssociate_Legal_Id] ON [FeedBack] ([BusinessAssociate_Legal_Id]);
+GO
+CREATE INDEX [IX_FeedBack_FoodDeliveryMan_UserId] ON [FeedBack] ([FoodDeliveryMan_UserId]);
+GO
+CREATE UNIQUE INDEX [IX_FeedBack_Order_Code] ON [FeedBack] ([Order_Code]);
+GO
+CREATE INDEX [IX_Order_Client_Id] ON [Order] ([Client_Id]);
+GO
+CREATE INDEX [IX_Order_FoodDeliveryMan_UserId] ON [Order] ([FoodDeliveryMan_UserId]);
+GO
+CREATE INDEX [IX_Order_Product_Product_Code] ON [Order_Product] ([Product_Code]);
+GO
+CREATE INDEX [IX_Product_BusinessAssociate_Legal_Id] ON [Product] ([BusinessAssociate_Legal_Id]);
+GO
+CREATE UNIQUE INDEX [IX_ProofOfPayment_Order_Code] ON [ProofOfPayment] ([Order_Code]);
+GO
+---------------Funciones de creacion de la base de datos en general----------
+
 ---------------Funciones para Admin---------------
 GO
 CREATE PROCEDURE sp_GetAllAdmins
@@ -1144,76 +1381,185 @@ END;
 GO
 ---------------Funciones para Order_Product---------------
 
----------------Funciones para Eliminar TODO---------------
--- Eliminar Stored Procedures
+---------------Funciones para ProofOfPayment---------------
 GO
-DECLARE @sql NVARCHAR(MAX) = '';
-SELECT @sql += 'DROP PROCEDURE ' + QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name) + '; '
-FROM sys.procedures;
-IF LEN(@sql) > 0
-    EXEC sp_executesql @sql;
-GO
-
--- Eliminar Funciones
-DECLARE @sql NVARCHAR(MAX) = '';
-SELECT @sql += 'DROP FUNCTION ' + QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name) + '; '
-FROM sys.objects
-WHERE type_desc LIKE '%FUNCTION%';
-IF LEN(@sql) > 0
-    EXEC sp_executesql @sql;
+CREATE PROCEDURE sp_GetAllProofOfPayments
+AS
+BEGIN
+    SELECT * FROM [ProofOfPayment];
+END;
 GO
 
--- Eliminar Vistas
-DECLARE @sql NVARCHAR(MAX) = '';
-SELECT @sql += 'DROP VIEW ' + QUOTENAME(SCHEMA_NAME(schema_id)) + '.' + QUOTENAME(name) + '; '
-FROM sys.views;
-IF LEN(@sql) > 0
-    EXEC sp_executesql @sql;
+CREATE PROCEDURE sp_GetProofOfPaymentByCode
+    @Code INT
+AS
+BEGIN
+    SELECT * FROM [ProofOfPayment]
+    WHERE [Code] = @Code;
+END;
 GO
 
--- Eliminar Triggers
-DECLARE @sql NVARCHAR(MAX) = '';
-SELECT @sql += 'DROP TRIGGER ' + QUOTENAME(SCHEMA_NAME(o.schema_id)) + '.' + QUOTENAME(t.name) + '; '
-FROM sys.triggers t
-INNER JOIN sys.objects o ON t.object_id = o.object_id
-WHERE t.parent_class = 1; -- Solo triggers a nivel de tabla
-IF LEN(@sql) > 0
-    EXEC sp_executesql @sql;
+CREATE PROCEDURE sp_CreateProofOfPayment
+    @CreditCardName NVARCHAR(MAX),
+    @LastDigitsCreditCard INT,
+    @Date NVARCHAR(MAX),
+    @Time NVARCHAR(MAX),
+    @Order_Code INT
+AS
+BEGIN
+    DECLARE @TotalPayment INT;
+    DECLARE @ClientFullName NVARCHAR(MAX);
+    DECLARE @ClientPhone INT;
+
+    -- Calculate TotalPayment
+    DECLARE @TotalPrice INT;
+    SELECT @TotalPrice = SUM(p.Price * op.Amount)
+    FROM [Order_Product] op
+    INNER JOIN [Product] p ON op.Product_Code = p.Code
+    WHERE op.Order_Code = @Order_Code;
+
+    -- Calculate TotalPayment as TotalPrice + 5% of TotalPrice
+    SET @TotalPayment = @TotalPrice + ((@TotalPrice * 5) / 100);
+
+    -- Get ClientFullName and ClientPhone from Order
+    DECLARE @Client_Id INT;
+    SELECT @Client_Id = [Client_Id]
+    FROM [Order]
+    WHERE [Code] = @Order_Code;
+
+    SELECT @ClientFullName = [FullName], @ClientPhone = [Phone]
+    FROM [Client]
+    WHERE [Id] = @Client_Id;
+
+    INSERT INTO [ProofOfPayment] ([CreditCardName], [LastDigitsCreditCard], [TotalPayment], [Date], [Time], [ClientFullName], [ClientPhone], [Order_Code])
+    VALUES (@CreditCardName, @LastDigitsCreditCard, @TotalPayment, @Date, @Time, @ClientFullName, @ClientPhone, @Order_Code);
+END;
 GO
 
---Eliminacion de la tablas
-Drop table Cart_Product;
-Drop table Cart;
-Drop table ProductPhoto;
-Drop table Product;
-Drop table BusinessAssociatePhone;
-Drop table BusinessAssociate;
-Drop table AdminPhone;
-Drop table BusinessManagerPhone;
-Drop table FoodDeliveryManPhone;
-Drop table Admin;
-Drop table BusinessManager;
-Drop table FoodDeliveryMan;
-Drop table Client;
-Drop table BusinessType;
----------------Funciones para Eliminar TODO---------------
+CREATE PROCEDURE sp_UpdateProofOfPayment
+    @Code INT,
+    @CreditCardName NVARCHAR(MAX),
+    @LastDigitsCreditCard INT,
+    @Date NVARCHAR(MAX),
+    @Time NVARCHAR(MAX),
+    @Order_Code INT
+AS
+BEGIN
+    DECLARE @TotalPayment INT;
+    DECLARE @ClientFullName NVARCHAR(MAX);
+    DECLARE @ClientPhone INT;
 
+    -- Calculate TotalPayment
+    DECLARE @TotalPrice INT;
+    SELECT @TotalPrice = SUM(p.Price * op.Amount)
+    FROM [Order_Product] op
+    INNER JOIN [Product] p ON op.Product_Code = p.Code
+    WHERE op.Order_Code = @Order_Code;
 
----------------Funciones para probar detalles---------------
-Select * from Admin;
-Select * from AdminPhone;
-Select * from BusinessManager;
-Select * from BusinessManagerPhone;
-Select * from FoodDeliveryMan;
-Select * from FoodDeliveryManPhone;
-Select * from Client;
-Select * from BusinessType;
-Select * from BusinessAssociate;
-Select * from BusinessAssociatePhone;
-Select * from Product;
-Select * from ProductPhoto;
-Select * from Cart;
-Select * from Cart_Product;
-Select * from "Order";
-Select * from Order_Product;
----------------Funciones para probar detalles---------------
+    -- Calculate TotalPayment as TotalPrice + 5% of TotalPrice
+    SET @TotalPayment = @TotalPrice + ((@TotalPrice * 5) / 100);
+
+    -- Get ClientFullName and ClientPhone from Order
+    DECLARE @Client_Id INT;
+    SELECT @Client_Id = [Client_Id]
+    FROM [Order]
+    WHERE [Code] = @Order_Code;
+
+    SELECT @ClientFullName = [FullName], @ClientPhone = [Phone]
+    FROM [Client]
+    WHERE [Id] = @Client_Id;
+
+    UPDATE [ProofOfPayment]
+    SET [CreditCardName] = @CreditCardName,
+        [LastDigitsCreditCard] = @LastDigitsCreditCard,
+        [TotalPayment] = @TotalPayment,
+        [Date] = @Date,
+        [Time] = @Time,
+        [ClientFullName] = @ClientFullName,
+        [ClientPhone] = @ClientPhone,
+        [Order_Code] = @Order_Code
+    WHERE [Code] = @Code;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteProofOfPayment
+    @Code INT
+AS
+BEGIN
+    DELETE FROM [ProofOfPayment]
+    WHERE [Code] = @Code;
+END;
+GO
+---------------Funciones para ProofOfPayment---------------
+
+---------------Funciones para FeedBack---------------
+GO
+CREATE PROCEDURE sp_GetAllFeedBacks
+AS
+BEGIN
+    SELECT * FROM [FeedBack];
+END;
+GO
+
+CREATE PROCEDURE sp_GetFeedBackById
+    @Id INT
+AS
+BEGIN
+    SELECT * FROM [FeedBack]
+    WHERE [Id] = @Id;
+END;
+GO
+
+CREATE PROCEDURE sp_CreateFeedBack
+    @FeedBack_Business NVARCHAR(MAX),
+    @BusinessGrade FLOAT,
+    @FeedBack_Order NVARCHAR(MAX),
+    @OrderGrade FLOAT,
+    @FeedBack_DeliveryMan NVARCHAR(MAX),
+    @DeliveryManGrade FLOAT,
+    @FoodDeliveryMan_UserId NVARCHAR(450),
+    @Order_Code INT,
+    @BusinessAssociate_Legal_Id INT
+AS
+BEGIN
+    INSERT INTO [FeedBack] ([FeedBack_Business], [BusinessGrade], [FeedBack_Order], [OrderGrade], [FeedBack_DeliveryMan], [DeliveryManGrade], [FoodDeliveryMan_UserId], [Order_Code], [BusinessAssociate_Legal_Id])
+    VALUES (@FeedBack_Business, @BusinessGrade, @FeedBack_Order, @OrderGrade, @FeedBack_DeliveryMan, @DeliveryManGrade, @FoodDeliveryMan_UserId, @Order_Code, @BusinessAssociate_Legal_Id);
+END;
+GO
+
+CREATE PROCEDURE sp_UpdateFeedBack
+    @Id INT,
+    @FeedBack_Business NVARCHAR(MAX),
+    @BusinessGrade FLOAT,
+    @FeedBack_Order NVARCHAR(MAX),
+    @OrderGrade FLOAT,
+    @FeedBack_DeliveryMan NVARCHAR(MAX),
+    @DeliveryManGrade FLOAT,
+    @FoodDeliveryMan_UserId NVARCHAR(450),
+    @Order_Code INT,
+    @BusinessAssociate_Legal_Id INT
+AS
+BEGIN
+    UPDATE [FeedBack]
+    SET [FeedBack_Business] = @FeedBack_Business,
+        [BusinessGrade] = @BusinessGrade,
+        [FeedBack_Order] = @FeedBack_Order,
+        [OrderGrade] = @OrderGrade,
+        [FeedBack_DeliveryMan] = @FeedBack_DeliveryMan,
+        [DeliveryManGrade] = @DeliveryManGrade,
+        [FoodDeliveryMan_UserId] = @FoodDeliveryMan_UserId,
+        [Order_Code] = @Order_Code,
+        [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id
+    WHERE [Id] = @Id;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteFeedBack
+    @Id INT
+AS
+BEGIN
+    DELETE FROM [FeedBack]
+    WHERE [Id] = @Id;
+END;
+GO
+---------------Funciones para FeedBack---------------

@@ -356,6 +356,57 @@ namespace SQL_Server.Migrations
                     b.ToTable("Client");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.FeedBack", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<int>("BusinessAssociate_Legal_Id")
+                        .HasColumnType("int");
+
+                    b.Property<double>("BusinessGrade")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DeliveryManGrade")
+                        .HasColumnType("float");
+
+                    b.Property<string>("FeedBack_Business")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FeedBack_DeliveryMan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FeedBack_Order")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FoodDeliveryMan_UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("OrderGrade")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Order_Code")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BusinessAssociate_Legal_Id");
+
+                    b.HasIndex("FoodDeliveryMan_UserId");
+
+                    b.HasIndex("Order_Code")
+                        .IsUnique();
+
+                    b.ToTable("FeedBack");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.FoodDeliveryMan", b =>
                 {
                     b.Property<string>("UserId")
@@ -517,6 +568,49 @@ namespace SQL_Server.Migrations
                     b.ToTable("ProductPhoto");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.ProofOfPayment", b =>
+                {
+                    b.Property<int?>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Code"));
+
+                    b.Property<string>("ClientFullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientPhone")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreditCardName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LastDigitsCreditCard")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Order_Code")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Time")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TotalPayment")
+                        .HasColumnType("int");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("Order_Code")
+                        .IsUnique();
+
+                    b.ToTable("ProofOfPayment");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.AdminPhone", b =>
                 {
                     b.HasOne("SQL_Server.Models.Admin", "Admin")
@@ -599,6 +693,33 @@ namespace SQL_Server.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.FeedBack", b =>
+                {
+                    b.HasOne("SQL_Server.Models.BusinessAssociate", "BusinessAssociate")
+                        .WithMany("FeedBacks")
+                        .HasForeignKey("BusinessAssociate_Legal_Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SQL_Server.Models.FoodDeliveryMan", "FoodDeliveryMan")
+                        .WithMany("FeedBacks")
+                        .HasForeignKey("FoodDeliveryMan_UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SQL_Server.Models.Order", "Order")
+                        .WithOne("FeedBack")
+                        .HasForeignKey("SQL_Server.Models.FeedBack", "Order_Code")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("BusinessAssociate");
+
+                    b.Navigation("FoodDeliveryMan");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.FoodDeliveryManPhone", b =>
                 {
                     b.HasOne("SQL_Server.Models.FoodDeliveryMan", "FoodDeliveryMan")
@@ -670,6 +791,17 @@ namespace SQL_Server.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.ProofOfPayment", b =>
+                {
+                    b.HasOne("SQL_Server.Models.Order", "Order")
+                        .WithOne("ProofOfPayment")
+                        .HasForeignKey("SQL_Server.Models.ProofOfPayment", "Order_Code")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.Admin", b =>
                 {
                     b.Navigation("AdminPhones");
@@ -678,6 +810,8 @@ namespace SQL_Server.Migrations
             modelBuilder.Entity("SQL_Server.Models.BusinessAssociate", b =>
                 {
                     b.Navigation("BusinessAssociatePhones");
+
+                    b.Navigation("FeedBacks");
 
                     b.Navigation("Products");
                 });
@@ -708,6 +842,8 @@ namespace SQL_Server.Migrations
 
             modelBuilder.Entity("SQL_Server.Models.FoodDeliveryMan", b =>
                 {
+                    b.Navigation("FeedBacks");
+
                     b.Navigation("FoodDeliveryManPhones");
 
                     b.Navigation("Orders");
@@ -715,7 +851,11 @@ namespace SQL_Server.Migrations
 
             modelBuilder.Entity("SQL_Server.Models.Order", b =>
                 {
+                    b.Navigation("FeedBack");
+
                     b.Navigation("Order_Products");
+
+                    b.Navigation("ProofOfPayment");
                 });
 
             modelBuilder.Entity("SQL_Server.Models.Product", b =>

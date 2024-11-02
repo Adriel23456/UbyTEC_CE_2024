@@ -42,7 +42,11 @@ namespace SQL_Server.Models
         // Navigation property
         [JsonIgnore]
         public ICollection<FoodDeliveryManPhone> FoodDeliveryManPhones { get; set; } = new List<FoodDeliveryManPhone>();
+        
         [JsonIgnore]
         public ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        [JsonIgnore]
+        public ICollection<FeedBack> FeedBacks { get; set; } = new List<FeedBack>();
     }
 }
