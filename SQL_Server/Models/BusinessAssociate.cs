@@ -55,5 +55,7 @@ namespace SQL_Server.Models
 
         [JsonIgnore]
         public ICollection<BusinessAssociatePhone> BusinessAssociatePhones { get; set; } = new List<BusinessAssociatePhone>();
+        [JsonIgnore]
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

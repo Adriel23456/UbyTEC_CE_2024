@@ -45,5 +45,11 @@ namespace SQL_Server.Models
         [Required]
         [RegularExpression(@"\d{2}-\d{2}-\d{4}", ErrorMessage = "BirthDate must be in the format dd-mm-yyyy")]
         public required string BirthDate { get; set; } // Format "dd-mm-yyyy"
+
+        //Propiedades de navegacion
+        [JsonIgnore]
+        public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+        [JsonIgnore]
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

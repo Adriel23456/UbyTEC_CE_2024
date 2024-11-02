@@ -21,6 +21,12 @@ namespace SQL_Server.Data
         public DbSet<BusinessType> BusinessType { get; set; }
         public DbSet<BusinessAssociate> BusinessAssociate { get; set; }
         public DbSet<BusinessAssociatePhone> BusinessAssociatePhone { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<ProductPhoto> ProductPhoto { get; set; }
+        public DbSet<Cart> Cart { get; set; }
+        public DbSet<Cart_Product> Cart_Product { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<Order_Product> Order_Product { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -182,6 +188,98 @@ namespace SQL_Server.Data
                 .HasOne(bap => bap.BusinessAssociate)
                 .WithMany(ba => ba.BusinessAssociatePhones)
                 .HasForeignKey(bap => bap.BusinessAssociate_Legal_Id);
+            
+            // Product configurations
+            modelBuilder.Entity<Product>()
+                .HasKey(p => p.Code);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Code)
+                .ValueGeneratedOnAdd(); // Auto-generated
+
+            // Configure one-to-many relationship between BusinessAssociate and Product
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.BusinessAssociate)
+                .WithMany(ba => ba.Products)
+                .HasForeignKey(p => p.BusinessAssociate_Legal_Id);
+
+            // ProductPhoto configurations
+            modelBuilder.Entity<ProductPhoto>()
+                .HasKey(pp => new { pp.Product_Code, pp.PhotoURL });
+
+            // Configure one-to-many relationship between Product and ProductPhoto
+            modelBuilder.Entity<ProductPhoto>()
+                .HasOne(pp => pp.Product)
+                .WithMany(p => p.ProductPhotos)
+                .HasForeignKey(pp => pp.Product_Code);
+            
+            // Cart configurations
+            modelBuilder.Entity<Cart>()
+                .HasKey(c => c.Code);
+
+            modelBuilder.Entity<Cart>()
+                .Property(c => c.Code)
+                .ValueGeneratedOnAdd(); // Auto-generated
+
+            // Configure one-to-many relationship between Client and Cart
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.Client)
+                .WithMany(cl => cl.Carts)
+                .HasForeignKey(c => c.Client_Id);
+
+            // Cart_Product configurations
+            // Configure composite primary key for Cart_Product
+            modelBuilder.Entity<Cart_Product>()
+                .HasKey(cp => new { cp.Cart_Code, cp.Product_Code });
+
+            // Configure many-to-one relationship between Cart_Product and Cart
+            modelBuilder.Entity<Cart_Product>()
+                .HasOne(cp => cp.Cart)
+                .WithMany(c => c.Cart_Products)
+                .HasForeignKey(cp => cp.Cart_Code);
+
+            // Configure many-to-one relationship between Cart_Product and Product
+            modelBuilder.Entity<Cart_Product>()
+                .HasOne(cp => cp.Product)
+                .WithMany(p => p.Cart_Products)
+                .HasForeignKey(cp => cp.Product_Code);
+            
+            // Order configurations
+            modelBuilder.Entity<Order>()
+                .HasKey(o => o.Code);
+                
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Code)
+                .ValueGeneratedOnAdd(); // Auto-generated
+
+            // Configure one-to-many relationship between Client and Order
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Client)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(o => o.Client_Id);
+
+            // Configure one-to-many relationship between FoodDeliveryMan and Order
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.FoodDeliveryMan)
+                .WithMany(fdm => fdm.Orders)
+                .HasForeignKey(o => o.FoodDeliveryMan_UserId);
+
+            // Order_Product configurations
+            // Configure composite primary key for Order_Product
+            modelBuilder.Entity<Order_Product>()
+                .HasKey(op => new { op.Order_Code, op.Product_Code });
+
+            // Configure many-to-one relationship between Order_Product and Order
+            modelBuilder.Entity<Order_Product>()
+                .HasOne(op => op.Order)
+                .WithMany(o => o.Order_Products)
+                .HasForeignKey(op => op.Order_Code);
+
+            // Configure many-to-one relationship between Order_Product and Product
+            modelBuilder.Entity<Order_Product>()
+                .HasOne(op => op.Product)
+                .WithMany(p => p.Order_Products)
+                .HasForeignKey(op => op.Product_Code);
         }
     }
 }

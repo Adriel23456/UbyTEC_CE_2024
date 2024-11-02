@@ -12,8 +12,8 @@ using SQL_Server.Data;
 namespace SQL_Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241102001953_AddBusinessEntity")]
-    partial class AddBusinessEntity
+    [Migration("20241102030248_Cart")]
+    partial class Cart
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,6 +253,50 @@ namespace SQL_Server.Migrations
                     b.ToTable("BusinessType");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.Cart", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
+
+                    b.Property<int?>("BusinessAssociate_Legal_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Client_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalProductsPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("Client_Id");
+
+                    b.ToTable("Cart");
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.Cart_Product", b =>
+                {
+                    b.Property<int>("Cart_Code")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("Product_Code")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Cart_Code", "Product_Code");
+
+                    b.HasIndex("Product_Code");
+
+                    b.ToTable("Cart_Product");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -380,6 +424,48 @@ namespace SQL_Server.Migrations
                     b.ToTable("FoodDeliveryManPhone");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.Product", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Code"));
+
+                    b.Property<int>("BusinessAssociate_Legal_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("BusinessAssociate_Legal_Id");
+
+                    b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.ProductPhoto", b =>
+                {
+                    b.Property<int>("Product_Code")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoURL")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Product_Code", "PhotoURL");
+
+                    b.ToTable("ProductPhoto");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.AdminPhone", b =>
                 {
                     b.HasOne("SQL_Server.Models.Admin", "Admin")
@@ -432,6 +518,36 @@ namespace SQL_Server.Migrations
                     b.Navigation("BusinessManager");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.Cart", b =>
+                {
+                    b.HasOne("SQL_Server.Models.Client", "Client")
+                        .WithMany("Carts")
+                        .HasForeignKey("Client_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.Cart_Product", b =>
+                {
+                    b.HasOne("SQL_Server.Models.Cart", "Cart")
+                        .WithMany("Cart_Products")
+                        .HasForeignKey("Cart_Code")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SQL_Server.Models.Product", "Product")
+                        .WithMany("Cart_Products")
+                        .HasForeignKey("Product_Code")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.FoodDeliveryManPhone", b =>
                 {
                     b.HasOne("SQL_Server.Models.FoodDeliveryMan", "FoodDeliveryMan")
@@ -443,6 +559,28 @@ namespace SQL_Server.Migrations
                     b.Navigation("FoodDeliveryMan");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.Product", b =>
+                {
+                    b.HasOne("SQL_Server.Models.BusinessAssociate", "BusinessAssociate")
+                        .WithMany("Products")
+                        .HasForeignKey("BusinessAssociate_Legal_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BusinessAssociate");
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.ProductPhoto", b =>
+                {
+                    b.HasOne("SQL_Server.Models.Product", "Product")
+                        .WithMany("ProductPhotos")
+                        .HasForeignKey("Product_Code")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.Admin", b =>
                 {
                     b.Navigation("AdminPhones");
@@ -451,6 +589,8 @@ namespace SQL_Server.Migrations
             modelBuilder.Entity("SQL_Server.Models.BusinessAssociate", b =>
                 {
                     b.Navigation("BusinessAssociatePhones");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("SQL_Server.Models.BusinessManager", b =>
@@ -465,9 +605,26 @@ namespace SQL_Server.Migrations
                     b.Navigation("BusinessAssociates");
                 });
 
+            modelBuilder.Entity("SQL_Server.Models.Cart", b =>
+                {
+                    b.Navigation("Cart_Products");
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.Client", b =>
+                {
+                    b.Navigation("Carts");
+                });
+
             modelBuilder.Entity("SQL_Server.Models.FoodDeliveryMan", b =>
                 {
                     b.Navigation("FoodDeliveryManPhones");
+                });
+
+            modelBuilder.Entity("SQL_Server.Models.Product", b =>
+                {
+                    b.Navigation("Cart_Products");
+
+                    b.Navigation("ProductPhotos");
                 });
 #pragma warning restore 612, 618
         }

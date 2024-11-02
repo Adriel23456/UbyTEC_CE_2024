@@ -638,6 +638,512 @@ END;
 GO
 ---------------Funciones para BusinessAssociatePhone---------------
 
+---------------Funciones para Product---------------
+GO
+CREATE PROCEDURE sp_GetAllProducts
+AS
+BEGIN
+    SELECT * FROM [Product];
+END;
+GO
+
+CREATE PROCEDURE sp_GetProductByCode
+    @Code INT
+AS
+BEGIN
+    SELECT * FROM [Product]
+    WHERE [Code] = @Code;
+END;
+GO
+
+CREATE PROCEDURE sp_CreateProduct
+    @Name NVARCHAR(MAX),
+    @Price INT,
+    @Category NVARCHAR(MAX),
+    @BusinessAssociate_Legal_Id INT
+AS
+BEGIN
+    INSERT INTO [Product] (
+        [Name], [Price], [Category], [BusinessAssociate_Legal_Id]
+    )
+    VALUES (
+        @Name, @Price, @Category, @BusinessAssociate_Legal_Id
+    );
+END;
+GO
+
+CREATE PROCEDURE sp_UpdateProduct
+    @Code INT,
+    @Name NVARCHAR(MAX),
+    @Price INT,
+    @Category NVARCHAR(MAX),
+    @BusinessAssociate_Legal_Id INT
+AS
+BEGIN
+    UPDATE [Product]
+    SET [Name] = @Name,
+        [Price] = @Price,
+        [Category] = @Category,
+        [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id
+    WHERE [Code] = @Code;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteProduct
+    @Code INT
+AS
+BEGIN
+    DELETE FROM [Product]
+    WHERE [Code] = @Code;
+END;
+GO
+---------------Funciones para Product---------------
+
+---------------Funciones para ProductPhoto---------------
+GO
+CREATE PROCEDURE sp_GetAllProductPhotos
+AS
+BEGIN
+    SELECT * FROM [ProductPhoto];
+END;
+GO
+
+CREATE PROCEDURE sp_GetProductPhotosByProductCode
+    @Product_Code INT
+AS
+BEGIN
+    SELECT * FROM [ProductPhoto]
+    WHERE [Product_Code] = @Product_Code;
+END;
+GO
+
+CREATE PROCEDURE sp_CreateProductPhoto
+    @Product_Code INT,
+    @PhotoURL NVARCHAR(MAX)
+AS
+BEGIN
+    INSERT INTO [ProductPhoto] ([Product_Code], [PhotoURL])
+    VALUES (@Product_Code, @PhotoURL);
+END;
+GO
+
+CREATE PROCEDURE sp_UpdateProductPhoto
+    @Product_Code INT,
+    @OldPhotoURL NVARCHAR(MAX),
+    @NewPhotoURL NVARCHAR(MAX)
+AS
+BEGIN
+    BEGIN TRANSACTION;
+        DELETE FROM [ProductPhoto]
+        WHERE [Product_Code] = @Product_Code AND [PhotoURL] = @OldPhotoURL;
+
+        INSERT INTO [ProductPhoto] ([Product_Code], [PhotoURL])
+        VALUES (@Product_Code, @NewPhotoURL);
+    COMMIT TRANSACTION;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteProductPhoto
+    @Product_Code INT,
+    @PhotoURL NVARCHAR(MAX)
+AS
+BEGIN
+    DELETE FROM [ProductPhoto]
+    WHERE [Product_Code] = @Product_Code AND [PhotoURL] = @PhotoURL;
+END;
+GO
+---------------Funciones para ProductPhoto---------------
+
+---------------Funciones para Cart---------------
+GO
+CREATE PROCEDURE sp_GetAllCarts
+AS
+BEGIN
+    SELECT * FROM [Cart];
+END;
+GO
+
+CREATE PROCEDURE sp_GetCartByCode
+    @Code INT
+AS
+BEGIN
+    SELECT * FROM [Cart]
+    WHERE [Code] = @Code;
+END;
+GO
+
+CREATE PROCEDURE sp_CreateCart
+    @Client_Id INT
+AS
+BEGIN
+    INSERT INTO [Cart] ([Client_Id])
+    VALUES (@Client_Id);
+END;
+GO
+
+CREATE PROCEDURE sp_UpdateCart
+    @Code INT,
+    @Client_Id INT
+AS
+BEGIN
+    UPDATE [Cart]
+    SET [Client_Id] = @Client_Id
+    WHERE [Code] = @Code;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteCart
+    @Code INT
+AS
+BEGIN
+    -- Delete related Cart_Product entries
+    DELETE FROM [Cart_Product]
+    WHERE [Cart_Code] = @Code;
+
+    -- Delete the Cart
+    DELETE FROM [Cart]
+    WHERE [Code] = @Code;
+END;
+GO
+---------------Funciones para Cart---------------
+
+---------------Funciones para Cart_Product---------------
+GO
+CREATE PROCEDURE sp_GetAllCartProducts
+AS
+BEGIN
+    SELECT * FROM [Cart_Product];
+END;
+GO
+
+CREATE PROCEDURE sp_GetCartProductsByCartCode
+    @Cart_Code INT
+AS
+BEGIN
+    SELECT * FROM [Cart_Product]
+    WHERE [Cart_Code] = @Cart_Code;
+END;
+GO
+
+CREATE PROCEDURE sp_CreateCartProduct
+    @Cart_Code INT,
+    @Product_Code INT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM [Cart_Product] WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code)
+    BEGIN
+        -- Increment the amount
+        UPDATE [Cart_Product]
+        SET [Amount] = [Amount] + 1
+        WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
+    END
+    ELSE
+    BEGIN
+        -- Insert new entry with Amount = 1
+        INSERT INTO [Cart_Product] ([Cart_Code], [Product_Code], [Amount])
+        VALUES (@Cart_Code, @Product_Code, 1);
+    END
+
+    -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
+    DECLARE @BusinessAssociate_Legal_Id INT;
+    DECLARE @TotalProductsPrice INT;
+
+    -- Get BusinessAssociate_Legal_Id from first Product in Cart
+    SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
+    FROM [Cart_Product] cp
+    INNER JOIN [Product] p ON cp.Product_Code = p.Code
+    WHERE cp.Cart_Code = @Cart_Code;
+
+    -- Calculate TotalProductsPrice
+    SELECT @TotalProductsPrice = SUM(p.Price * cp.Amount)
+    FROM [Cart_Product] cp
+    INNER JOIN [Product] p ON cp.Product_Code = p.Code
+    WHERE cp.Cart_Code = @Cart_Code;
+
+    -- Update the Cart
+    UPDATE [Cart]
+    SET [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id,
+        [TotalProductsPrice] = @TotalProductsPrice
+    WHERE [Code] = @Cart_Code;
+END;
+GO
+
+CREATE PROCEDURE sp_UpdateCartProduct
+    @Cart_Code INT,
+    @Product_Code INT,
+    @Amount INT
+AS
+BEGIN
+    UPDATE [Cart_Product]
+    SET [Amount] = @Amount
+    WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
+
+    -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
+    DECLARE @BusinessAssociate_Legal_Id INT;
+    DECLARE @TotalProductsPrice INT;
+
+    -- Get BusinessAssociate_Legal_Id from first Product in Cart
+    SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
+    FROM [Cart_Product] cp
+    INNER JOIN [Product] p ON cp.Product_Code = p.Code
+    WHERE cp.Cart_Code = @Cart_Code;
+
+    -- Calculate TotalProductsPrice
+    SELECT @TotalProductsPrice = SUM(p.Price * cp.Amount)
+    FROM [Cart_Product] cp
+    INNER JOIN [Product] p ON cp.Product_Code = p.Code
+    WHERE cp.Cart_Code = @Cart_Code;
+
+    -- Update the Cart
+    UPDATE [Cart]
+    SET [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id,
+        [TotalProductsPrice] = @TotalProductsPrice
+    WHERE [Code] = @Cart_Code;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteCartProduct
+    @Cart_Code INT,
+    @Product_Code INT
+AS
+BEGIN
+    DELETE FROM [Cart_Product]
+    WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
+
+    -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
+    DECLARE @BusinessAssociate_Legal_Id INT;
+    DECLARE @TotalProductsPrice INT;
+
+    -- Check if there are remaining products in the cart
+    IF EXISTS (SELECT 1 FROM [Cart_Product] WHERE [Cart_Code] = @Cart_Code)
+    BEGIN
+        -- Get BusinessAssociate_Legal_Id from first remaining Product
+        SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
+        FROM [Cart_Product] cp
+        INNER JOIN [Product] p ON cp.Product_Code = p.Code
+        WHERE cp.Cart_Code = @Cart_Code;
+
+        -- Calculate TotalProductsPrice
+        SELECT @TotalProductsPrice = SUM(p.Price * cp.Amount)
+        FROM [Cart_Product] cp
+        INNER JOIN [Product] p ON cp.Product_Code = p.Code
+        WHERE cp.Cart_Code = @Cart_Code;
+    END
+    ELSE
+    BEGIN
+        -- No products left in cart
+        SET @BusinessAssociate_Legal_Id = NULL;
+        SET @TotalProductsPrice = NULL;
+    END
+
+    -- Update the Cart
+    UPDATE [Cart]
+    SET [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id,
+        [TotalProductsPrice] = @TotalProductsPrice
+    WHERE [Code] = @Cart_Code;
+END;
+GO
+---------------Funciones para Cart_Product---------------
+
+---------------Funciones para Order---------------
+GO
+CREATE PROCEDURE sp_GetAllOrders
+AS
+BEGIN
+    SELECT * FROM [Order];
+END;
+GO
+
+CREATE PROCEDURE sp_GetOrderByCode
+    @Code INT
+AS
+BEGIN
+    SELECT * FROM [Order]
+    WHERE [Code] = @Code;
+END;
+GO
+
+CREATE PROCEDURE sp_CreateOrder
+    @State NVARCHAR(MAX),
+    @Client_Id INT,
+    @FoodDeliveryMan_UserId NVARCHAR(450)
+AS
+BEGIN
+    DECLARE @Direction NVARCHAR(MAX);
+
+    -- Get Direction from Client
+    SELECT @Direction = [Direction]
+    FROM [Client]
+    WHERE [Id] = @Client_Id;
+
+    INSERT INTO [Order] ([State], [Client_Id], [FoodDeliveryMan_UserId], [Direction])
+    VALUES (@State, @Client_Id, @FoodDeliveryMan_UserId, @Direction);
+END;
+GO
+
+CREATE PROCEDURE sp_UpdateOrder
+    @Code INT,
+    @State NVARCHAR(MAX),
+    @Client_Id INT,
+    @FoodDeliveryMan_UserId NVARCHAR(450)
+AS
+BEGIN
+    DECLARE @Direction NVARCHAR(MAX);
+
+    -- Get Direction from Client
+    SELECT @Direction = [Direction]
+    FROM [Client]
+    WHERE [Id] = @Client_Id;
+
+    UPDATE [Order]
+    SET [State] = @State,
+        [Client_Id] = @Client_Id,
+        [FoodDeliveryMan_UserId] = @FoodDeliveryMan_UserId,
+        [Direction] = @Direction
+    WHERE [Code] = @Code;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteOrder
+    @Code INT
+AS
+BEGIN
+    -- Delete related Order_Product entries
+    DELETE FROM [Order_Product]
+    WHERE [Order_Code] = @Code;
+
+    -- Delete the Order
+    DELETE FROM [Order]
+    WHERE [Code] = @Code;
+END;
+GO
+---------------Funciones para Order---------------
+
+---------------Funciones para Order_Product---------------
+GO
+CREATE PROCEDURE sp_GetAllOrderProducts
+AS
+BEGIN
+    SELECT * FROM [Order_Product];
+END;
+GO
+
+CREATE PROCEDURE sp_GetOrderProductsByOrderCode
+    @Order_Code INT
+AS
+BEGIN
+    SELECT * FROM [Order_Product]
+    WHERE [Order_Code] = @Order_Code;
+END;
+GO
+
+CREATE PROCEDURE sp_CreateOrderProduct
+    @Order_Code INT,
+    @Product_Code INT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM [Order_Product] WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code)
+    BEGIN
+        -- Increment the amount
+        UPDATE [Order_Product]
+        SET [Amount] = [Amount] + 1
+        WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
+    END
+    ELSE
+    BEGIN
+        -- Insert new entry with Amount = 1
+        INSERT INTO [Order_Product] ([Order_Code], [Product_Code], [Amount])
+        VALUES (@Order_Code, @Product_Code, 1);
+    END
+
+    -- Update Order's TotalService
+    DECLARE @TotalPrice INT;
+    DECLARE @TotalService INT;
+
+    -- Calculate TotalPrice
+    SELECT @TotalPrice = SUM(p.Price * op.Amount)
+    FROM [Order_Product] op
+    INNER JOIN [Product] p ON op.Product_Code = p.Code
+    WHERE op.Order_Code = @Order_Code;
+
+    -- Calculate TotalService as 5% of TotalPrice
+    SET @TotalService = (@TotalPrice * 5) / 100;
+
+    -- Update the Order
+    UPDATE [Order]
+    SET [TotalService] = @TotalService
+    WHERE [Code] = @Order_Code;
+END;
+GO
+
+CREATE PROCEDURE sp_UpdateOrderProduct
+    @Order_Code INT,
+    @Product_Code INT,
+    @Amount INT
+AS
+BEGIN
+    UPDATE [Order_Product]
+    SET [Amount] = @Amount
+    WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
+
+    -- Update Order's TotalService
+    DECLARE @TotalPrice INT;
+    DECLARE @TotalService INT;
+
+    -- Calculate TotalPrice
+    SELECT @TotalPrice = SUM(p.Price * op.Amount)
+    FROM [Order_Product] op
+    INNER JOIN [Product] p ON op.Product_Code = p.Code
+    WHERE op.Order_Code = @Order_Code;
+
+    -- Calculate TotalService as 5% of TotalPrice
+    SET @TotalService = (@TotalPrice * 5) / 100;
+
+    -- Update the Order
+    UPDATE [Order]
+    SET [TotalService] = @TotalService
+    WHERE [Code] = @Order_Code;
+END;
+GO
+
+CREATE PROCEDURE sp_DeleteOrderProduct
+    @Order_Code INT,
+    @Product_Code INT
+AS
+BEGIN
+    DELETE FROM [Order_Product]
+    WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
+
+    -- Update Order's TotalService
+    DECLARE @TotalPrice INT;
+    DECLARE @TotalService INT;
+
+    -- Check if there are remaining products in the order
+    IF EXISTS (SELECT 1 FROM [Order_Product] WHERE [Order_Code] = @Order_Code)
+    BEGIN
+        -- Calculate TotalPrice
+        SELECT @TotalPrice = SUM(p.Price * op.Amount)
+        FROM [Order_Product] op
+        INNER JOIN [Product] p ON op.Product_Code = p.Code
+        WHERE op.Order_Code = @Order_Code;
+
+        -- Calculate TotalService as 5% of TotalPrice
+        SET @TotalService = (@TotalPrice * 5) / 100;
+    END
+    ELSE
+    BEGIN
+        -- No products left in order
+        SET @TotalService = NULL;
+    END
+
+    -- Update the Order
+    UPDATE [Order]
+    SET [TotalService] = @TotalService
+    WHERE [Code] = @Order_Code;
+END;
+GO
+---------------Funciones para Order_Product---------------
+
 ---------------Funciones para Eliminar TODO---------------
 -- Eliminar Stored Procedures
 GO
@@ -676,6 +1182,10 @@ IF LEN(@sql) > 0
 GO
 
 --Eliminacion de la tablas
+Drop table Cart_Product;
+Drop table Cart;
+Drop table ProductPhoto;
+Drop table Product;
 Drop table BusinessAssociatePhone;
 Drop table BusinessAssociate;
 Drop table AdminPhone;
@@ -700,4 +1210,10 @@ Select * from Client;
 Select * from BusinessType;
 Select * from BusinessAssociate;
 Select * from BusinessAssociatePhone;
+Select * from Product;
+Select * from ProductPhoto;
+Select * from Cart;
+Select * from Cart_Product;
+Select * from "Order";
+Select * from Order_Product;
 ---------------Funciones para probar detalles---------------

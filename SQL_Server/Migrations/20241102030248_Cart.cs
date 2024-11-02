@@ -5,7 +5,7 @@
 namespace SQL_Server.Migrations
 {
     /// <inheritdoc />
-    public partial class AddBusinessEntity : Migration
+    public partial class Cart : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -180,6 +180,27 @@ namespace SQL_Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cart",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessAssociate_Legal_Id = table.Column<int>(type: "int", nullable: true),
+                    TotalProductsPrice = table.Column<int>(type: "int", nullable: true),
+                    Client_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cart", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_Cart_Client_Client_Id",
+                        column: x => x.Client_Id,
+                        principalTable: "Client",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FoodDeliveryManPhone",
                 columns: table => new
                 {
@@ -215,6 +236,71 @@ namespace SQL_Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Code = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BusinessAssociate_Legal_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Code);
+                    table.ForeignKey(
+                        name: "FK_Product_BusinessAssociate_BusinessAssociate_Legal_Id",
+                        column: x => x.BusinessAssociate_Legal_Id,
+                        principalTable: "BusinessAssociate",
+                        principalColumn: "Legal_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cart_Product",
+                columns: table => new
+                {
+                    Cart_Code = table.Column<int>(type: "int", nullable: false),
+                    Product_Code = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cart_Product", x => new { x.Cart_Code, x.Product_Code });
+                    table.ForeignKey(
+                        name: "FK_Cart_Product_Cart_Cart_Code",
+                        column: x => x.Cart_Code,
+                        principalTable: "Cart",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cart_Product_Product_Product_Code",
+                        column: x => x.Product_Code,
+                        principalTable: "Product",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductPhoto",
+                columns: table => new
+                {
+                    Product_Code = table.Column<int>(type: "int", nullable: false),
+                    PhotoURL = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductPhoto", x => new { x.Product_Code, x.PhotoURL });
+                    table.ForeignKey(
+                        name: "FK_ProductPhoto_Product_Product_Code",
+                        column: x => x.Product_Code,
+                        principalTable: "Product",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Admin_UserId",
                 table: "Admin",
@@ -245,10 +331,25 @@ namespace SQL_Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cart_Client_Id",
+                table: "Cart",
+                column: "Client_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_Product_Product_Code",
+                table: "Cart_Product",
+                column: "Product_Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Client_UserId",
                 table: "Client",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_BusinessAssociate_Legal_Id",
+                table: "Product",
+                column: "BusinessAssociate_Legal_Id");
         }
 
         /// <inheritdoc />
@@ -264,19 +365,31 @@ namespace SQL_Server.Migrations
                 name: "BusinessManagerPhone");
 
             migrationBuilder.DropTable(
-                name: "Client");
+                name: "Cart_Product");
 
             migrationBuilder.DropTable(
                 name: "FoodDeliveryManPhone");
 
             migrationBuilder.DropTable(
+                name: "ProductPhoto");
+
+            migrationBuilder.DropTable(
                 name: "Admin");
 
             migrationBuilder.DropTable(
-                name: "BusinessAssociate");
+                name: "Cart");
 
             migrationBuilder.DropTable(
                 name: "FoodDeliveryMan");
+
+            migrationBuilder.DropTable(
+                name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Client");
+
+            migrationBuilder.DropTable(
+                name: "BusinessAssociate");
 
             migrationBuilder.DropTable(
                 name: "BusinessManager");
