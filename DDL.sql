@@ -1,7 +1,7 @@
 ---------------Funciones de creacion de la base de datos en general----------
 GO
 CREATE TABLE [Admin] (
-    [Id] int NOT NULL,
+    [Id] bigint NOT NULL,
     [Name] nvarchar(max) NOT NULL,
     [FirstSurname] nvarchar(max) NOT NULL,
     [SecondSurname] nvarchar(max) NOT NULL,
@@ -31,13 +31,13 @@ CREATE TABLE [BusinessManager] (
 );
 GO
 CREATE TABLE [BusinessType] (
-    [Identification] int NOT NULL IDENTITY,
+    [Identification] bigint NOT NULL IDENTITY,
     [Name] nvarchar(450) NOT NULL,
     CONSTRAINT [PK_BusinessType] PRIMARY KEY ([Identification])
 );
 GO
 CREATE TABLE [Client] (
-    [Id] int NOT NULL,
+    [Id] bigint NOT NULL,
     [UserId] nvarchar(450) NOT NULL,
     [Name] nvarchar(max) NOT NULL,
     [FirstSurname] nvarchar(max) NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE [Client] (
     [District] nvarchar(max) NOT NULL,
     [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
     [Password] nvarchar(max) NOT NULL,
-    [Phone] int NOT NULL,
+    [Phone] bigint NOT NULL,
     [BirthDate] nvarchar(max) NOT NULL,
     CONSTRAINT [PK_Client] PRIMARY KEY ([Id])
 );
@@ -69,21 +69,21 @@ CREATE TABLE [FoodDeliveryMan] (
 );
 GO
 CREATE TABLE [AdminPhone] (
-    [Admin_id] int NOT NULL,
-    [Phone] int NOT NULL,
+    [Admin_id] bigint NOT NULL,
+    [Phone] bigint NOT NULL,
     CONSTRAINT [PK_AdminPhone] PRIMARY KEY ([Admin_id], [Phone]),
     CONSTRAINT [FK_AdminPhone_Admin_Admin_id] FOREIGN KEY ([Admin_id]) REFERENCES [Admin] ([Id]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [BusinessManagerPhone] (
     [BusinessManager_Email] nvarchar(450) NOT NULL,
-    [Phone] int NOT NULL,
+    [Phone] bigint NOT NULL,
     CONSTRAINT [PK_BusinessManagerPhone] PRIMARY KEY ([BusinessManager_Email], [Phone]),
     CONSTRAINT [FK_BusinessManagerPhone_BusinessManager_BusinessManager_Email] FOREIGN KEY ([BusinessManager_Email]) REFERENCES [BusinessManager] ([Email]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [BusinessAssociate] (
-    [Legal_Id] int NOT NULL,
+    [Legal_Id] bigint NOT NULL,
     [Email] nvarchar(max) NOT NULL,
     [State] nvarchar(max) NOT NULL,
     [BusinessName] nvarchar(max) NOT NULL,
@@ -91,37 +91,37 @@ CREATE TABLE [BusinessAssociate] (
     [Province] nvarchar(max) NOT NULL,
     [Canton] nvarchar(max) NOT NULL,
     [District] nvarchar(max) NOT NULL,
-    [SINPE] int NOT NULL,
+    [SINPE] bigint NOT NULL,
     [RejectReason] nvarchar(max) NULL,
     [BusinessManager_Email] nvarchar(450) NOT NULL,
-    [BusinessType_Identification] int NOT NULL,
+    [BusinessType_Identification] bigint NOT NULL,
     CONSTRAINT [PK_BusinessAssociate] PRIMARY KEY ([Legal_Id]),
     CONSTRAINT [FK_BusinessAssociate_BusinessManager_BusinessManager_Email] FOREIGN KEY ([BusinessManager_Email]) REFERENCES [BusinessManager] ([Email]) ON DELETE CASCADE,
     CONSTRAINT [FK_BusinessAssociate_BusinessType_BusinessType_Identification] FOREIGN KEY ([BusinessType_Identification]) REFERENCES [BusinessType] ([Identification]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [Cart] (
-    [Code] int NOT NULL IDENTITY,
-    [BusinessAssociate_Legal_Id] int NULL,
-    [TotalProductsPrice] int NULL,
-    [Client_Id] int NOT NULL,
+    [Code] bigint NOT NULL IDENTITY,
+    [BusinessAssociate_Legal_Id] bigint NULL,
+    [TotalProductsPrice] bigint NULL,
+    [Client_Id] bigint NOT NULL,
     CONSTRAINT [PK_Cart] PRIMARY KEY ([Code]),
     CONSTRAINT [FK_Cart_Client_Client_Id] FOREIGN KEY ([Client_Id]) REFERENCES [Client] ([Id]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [FoodDeliveryManPhone] (
     [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
-    [Phone] int NOT NULL,
+    [Phone] bigint NOT NULL,
     CONSTRAINT [PK_FoodDeliveryManPhone] PRIMARY KEY ([FoodDeliveryMan_UserId], [Phone]),
     CONSTRAINT [FK_FoodDeliveryManPhone_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [Order] (
-    [Code] int NOT NULL IDENTITY,
+    [Code] bigint NOT NULL IDENTITY,
     [State] nvarchar(max) NOT NULL,
-    [TotalService] int NULL,
+    [TotalService] bigint NULL,
     [Direction] nvarchar(max) NULL,
-    [Client_Id] int NOT NULL,
+    [Client_Id] bigint NOT NULL,
     [FoodDeliveryMan_UserId] nvarchar(450) NULL,
     CONSTRAINT [PK_Order] PRIMARY KEY ([Code]),
     CONSTRAINT [FK_Order_Client_Client_Id] FOREIGN KEY ([Client_Id]) REFERENCES [Client] ([Id]) ON DELETE CASCADE,
@@ -129,24 +129,24 @@ CREATE TABLE [Order] (
 );
 GO
 CREATE TABLE [BusinessAssociatePhone] (
-    [BusinessAssociate_Legal_Id] int NOT NULL,
-    [Phone] int NOT NULL,
+    [BusinessAssociate_Legal_Id] bigint NOT NULL,
+    [Phone] bigint NOT NULL,
     CONSTRAINT [PK_BusinessAssociatePhone] PRIMARY KEY ([BusinessAssociate_Legal_Id], [Phone]),
     CONSTRAINT [FK_BusinessAssociatePhone_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [Product] (
-    [Code] int NOT NULL IDENTITY,
+    [Code] bigint NOT NULL IDENTITY,
     [Name] nvarchar(max) NOT NULL,
-    [Price] int NOT NULL,
+    [Price] bigint NOT NULL,
     [Category] nvarchar(max) NOT NULL,
-    [BusinessAssociate_Legal_Id] int NOT NULL,
+    [BusinessAssociate_Legal_Id] bigint NOT NULL,
     CONSTRAINT [PK_Product] PRIMARY KEY ([Code]),
     CONSTRAINT [FK_Product_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [FeedBack] (
-    [Id] int NOT NULL IDENTITY,
+    [Id] bigint NOT NULL IDENTITY,
     [FeedBack_Business] nvarchar(max) NOT NULL,
     [BusinessGrade] float NOT NULL,
     [FeedBack_Order] nvarchar(max) NOT NULL,
@@ -154,8 +154,8 @@ CREATE TABLE [FeedBack] (
     [FeedBack_DeliveryMan] nvarchar(max) NOT NULL,
     [DeliveryManGrade] float NOT NULL,
     [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
-    [Order_Code] int NOT NULL,
-    [BusinessAssociate_Legal_Id] int NOT NULL,
+    [Order_Code] bigint NOT NULL,
+    [BusinessAssociate_Legal_Id] bigint NOT NULL,
     CONSTRAINT [PK_FeedBack] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_FeedBack_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE NO ACTION,
     CONSTRAINT [FK_FeedBack_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE NO ACTION,
@@ -163,39 +163,39 @@ CREATE TABLE [FeedBack] (
 );
 GO
 CREATE TABLE [ProofOfPayment] (
-    [Code] int NOT NULL IDENTITY,
+    [Code] bigint NOT NULL IDENTITY,
     [CreditCardName] nvarchar(max) NOT NULL,
-    [LastDigitsCreditCard] int NOT NULL,
-    [TotalPayment] int NULL,
+    [LastDigitsCreditCard] bigint NOT NULL,
+    [TotalPayment] bigint NULL,
     [Date] nvarchar(max) NOT NULL,
     [Time] nvarchar(max) NOT NULL,
     [ClientFullName] nvarchar(max) NULL,
-    [ClientPhone] int NULL,
-    [Order_Code] int NOT NULL,
+    [ClientPhone] bigint NULL,
+    [Order_Code] bigint NOT NULL,
     CONSTRAINT [PK_ProofOfPayment] PRIMARY KEY ([Code]),
     CONSTRAINT [FK_ProofOfPayment_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [Cart_Product] (
-    [Cart_Code] int NOT NULL,
-    [Product_Code] int NOT NULL,
-    [Amount] int NOT NULL,
+    [Cart_Code] bigint NOT NULL,
+    [Product_Code] bigint NOT NULL,
+    [Amount] bigint NOT NULL,
     CONSTRAINT [PK_Cart_Product] PRIMARY KEY ([Cart_Code], [Product_Code]),
     CONSTRAINT [FK_Cart_Product_Cart_Cart_Code] FOREIGN KEY ([Cart_Code]) REFERENCES [Cart] ([Code]) ON DELETE CASCADE,
     CONSTRAINT [FK_Cart_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [Order_Product] (
-    [Order_Code] int NOT NULL,
-    [Product_Code] int NOT NULL,
-    [Amount] int NOT NULL,
+    [Order_Code] bigint NOT NULL,
+    [Product_Code] bigint NOT NULL,
+    [Amount] bigint NOT NULL,
     CONSTRAINT [PK_Order_Product] PRIMARY KEY ([Order_Code], [Product_Code]),
     CONSTRAINT [FK_Order_Product_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE CASCADE,
     CONSTRAINT [FK_Order_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
 );
 GO
 CREATE TABLE [ProductPhoto] (
-    [Product_Code] int NOT NULL,
+    [Product_Code] bigint NOT NULL,
     [PhotoURL] nvarchar(450) NOT NULL,
     CONSTRAINT [PK_ProductPhoto] PRIMARY KEY ([Product_Code], [PhotoURL]),
     CONSTRAINT [FK_ProductPhoto_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
@@ -237,15 +237,15 @@ GO
 
 ---------------Funciones para Admin---------------
 GO
-CREATE PROCEDURE sp_GetAllAdmins
+CREATE or ALTER PROCEDURE sp_GetAllAdmins
 AS
 BEGIN
     SELECT * FROM [Admin];
 END;
 
 GO
-CREATE PROCEDURE sp_GetAdminById
-    @Id INT
+CREATE or ALTER PROCEDURE sp_GetAdminById
+    @Id BIGINT
 AS
 BEGIN
     SELECT *
@@ -254,8 +254,8 @@ BEGIN
 END;
 
 GO
-CREATE PROCEDURE sp_CreateAdmin
-    @Id INT,
+CREATE or ALTER PROCEDURE sp_CreateAdmin
+    @Id BIGINT,
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
     @SecondSurname NVARCHAR(MAX),
@@ -271,8 +271,8 @@ BEGIN
 END;
 
 GO
-CREATE PROCEDURE sp_UpdateAdmin
-    @Id INT,
+CREATE or ALTER PROCEDURE sp_UpdateAdmin
+    @Id BIGINT,
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
     @SecondSurname NVARCHAR(MAX),
@@ -296,15 +296,15 @@ BEGIN
 END;
 
 GO
-CREATE PROCEDURE sp_DeleteAdmin
-    @Id INT
+CREATE or ALTER PROCEDURE sp_DeleteAdmin
+    @Id BIGINT
 AS
 BEGIN
     DELETE FROM [Admin]
     WHERE [Id] = @Id;
 END;
 GO
-CREATE PROCEDURE sp_AuthenticateAdmin
+CREATE or ALTER PROCEDURE sp_AuthenticateAdmin
     @UserId NVARCHAR(450),
     @Password NVARCHAR(MAX)
 AS
@@ -317,15 +317,15 @@ END;
 
 ---------------Funciones para AdminPhone---------------
 GO
-CREATE PROCEDURE sp_GetAllAdminPhones
+CREATE or ALTER PROCEDURE sp_GetAllAdminPhones
 AS
 BEGIN
     SELECT * FROM [AdminPhone];
 END;
 
 GO
-CREATE PROCEDURE sp_GetAdminPhonesByAdminId
-    @Admin_id INT
+CREATE or ALTER PROCEDURE sp_GetAdminPhonesByAdminId
+    @Admin_id BIGINT
 AS
 BEGIN
     SELECT * FROM [AdminPhone]
@@ -333,9 +333,9 @@ BEGIN
 END;
 
 GO
-CREATE PROCEDURE sp_CreateAdminPhone
-    @Admin_id INT,
-    @Phone INT
+CREATE or ALTER PROCEDURE sp_CreateAdminPhone
+    @Admin_id BIGINT,
+    @Phone BIGINT
 AS
 BEGIN
     INSERT INTO [AdminPhone] ([Admin_id], [Phone])
@@ -343,10 +343,10 @@ BEGIN
 END;
 
 GO
-CREATE PROCEDURE sp_UpdateAdminPhone
-    @Admin_id INT,
-    @OldPhone INT,
-    @NewPhone INT
+CREATE or ALTER PROCEDURE sp_UpdateAdminPhone
+    @Admin_id BIGINT,
+    @OldPhone BIGINT,
+    @NewPhone BIGINT
 AS
 BEGIN
     BEGIN TRANSACTION;
@@ -359,9 +359,9 @@ BEGIN
 END;
 
 GO
-CREATE PROCEDURE sp_DeleteAdminPhone
-    @Admin_id INT,
-    @Phone INT
+CREATE or ALTER PROCEDURE sp_DeleteAdminPhone
+    @Admin_id BIGINT,
+    @Phone BIGINT
 AS
 BEGIN
     DELETE FROM [AdminPhone]
@@ -372,14 +372,14 @@ GO
 
 ---------------Funciones para BusinessManager---------------
 GO
-CREATE PROCEDURE sp_GetAllBusinessManagers
+CREATE or ALTER PROCEDURE sp_GetAllBusinessManagers
 AS
 BEGIN
     SELECT * FROM [BusinessManager];
 END;
 GO
 
-CREATE PROCEDURE sp_GetBusinessManagerByEmail
+CREATE or ALTER PROCEDURE sp_GetBusinessManagerByEmail
     @Email NVARCHAR(MAX)
 AS
 BEGIN
@@ -389,7 +389,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateBusinessManager
+CREATE or ALTER PROCEDURE sp_CreateBusinessManager
     @Email NVARCHAR(MAX),
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
@@ -406,7 +406,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateBusinessManager
+CREATE or ALTER PROCEDURE sp_UpdateBusinessManager
     @Email NVARCHAR(MAX),
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
@@ -431,7 +431,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteBusinessManager
+CREATE or ALTER PROCEDURE sp_DeleteBusinessManager
     @Email NVARCHAR(MAX)
 AS
 BEGIN
@@ -440,7 +440,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_AuthenticateBusinessManager
+CREATE or ALTER PROCEDURE sp_AuthenticateBusinessManager
     @Email NVARCHAR(MAX),
     @Password NVARCHAR(MAX)
 AS
@@ -451,7 +451,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetBusinessAssociateByManagerEmail
+CREATE or ALTER PROCEDURE sp_GetBusinessAssociateByManagerEmail
     @BusinessManager_Email NVARCHAR(MAX)
 AS
 BEGIN
@@ -464,14 +464,14 @@ GO
 
 ---------------Funciones para BusinessManagerPhone---------------
 GO
-CREATE PROCEDURE sp_GetAllBusinessManagerPhones
+CREATE or ALTER PROCEDURE sp_GetAllBusinessManagerPhones
 AS
 BEGIN
     SELECT * FROM [BusinessManagerPhone];
 END;
 GO
 
-CREATE PROCEDURE sp_GetBusinessManagerPhonesByEmail
+CREATE or ALTER PROCEDURE sp_GetBusinessManagerPhonesByEmail
     @BusinessManager_Email NVARCHAR(MAX)
 AS
 BEGIN
@@ -480,9 +480,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateBusinessManagerPhone
+CREATE or ALTER PROCEDURE sp_CreateBusinessManagerPhone
     @BusinessManager_Email NVARCHAR(MAX),
-    @Phone INT
+    @Phone BIGINT
 AS
 BEGIN
     INSERT INTO [BusinessManagerPhone] ([BusinessManager_Email], [Phone])
@@ -490,10 +490,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateBusinessManagerPhone
+CREATE or ALTER PROCEDURE sp_UpdateBusinessManagerPhone
     @BusinessManager_Email NVARCHAR(MAX),
-    @OldPhone INT,
-    @NewPhone INT
+    @OldPhone BIGINT,
+    @NewPhone BIGINT
 AS
 BEGIN
     BEGIN TRANSACTION;
@@ -506,9 +506,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteBusinessManagerPhone
+CREATE or ALTER PROCEDURE sp_DeleteBusinessManagerPhone
     @BusinessManager_Email NVARCHAR(MAX),
-    @Phone INT
+    @Phone BIGINT
 AS
 BEGIN
     DELETE FROM [BusinessManagerPhone]
@@ -519,14 +519,14 @@ GO
 
 ---------------Funciones para FoodDeliveryMan---------------
 GO
-CREATE PROCEDURE sp_GetAllFoodDeliveryMen
+CREATE or ALTER PROCEDURE sp_GetAllFoodDeliveryMen
 AS
 BEGIN
     SELECT * FROM [FoodDeliveryMan];
 END;
 GO
 
-CREATE PROCEDURE sp_GetFoodDeliveryManByUserId
+CREATE or ALTER PROCEDURE sp_GetFoodDeliveryManByUserId
     @UserId NVARCHAR(MAX)
 AS
 BEGIN
@@ -536,7 +536,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateFoodDeliveryMan
+CREATE or ALTER PROCEDURE sp_CreateFoodDeliveryMan
     @UserId NVARCHAR(MAX),
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
@@ -553,7 +553,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateFoodDeliveryMan
+CREATE or ALTER PROCEDURE sp_UpdateFoodDeliveryMan
     @UserId NVARCHAR(MAX),
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
@@ -578,7 +578,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteFoodDeliveryMan
+CREATE or ALTER PROCEDURE sp_DeleteFoodDeliveryMan
     @UserId NVARCHAR(MAX)
 AS
 BEGIN
@@ -587,7 +587,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_AuthenticateFoodDeliveryMan
+CREATE or ALTER PROCEDURE sp_AuthenticateFoodDeliveryMan
     @UserId NVARCHAR(MAX),
     @Password NVARCHAR(MAX)
 AS
@@ -601,14 +601,14 @@ GO
 
 ---------------Funciones para FoodDeliveryManPhone---------------
 GO
-CREATE PROCEDURE sp_GetAllFoodDeliveryManPhones
+CREATE or ALTER PROCEDURE sp_GetAllFoodDeliveryManPhones
 AS
 BEGIN
     SELECT * FROM [FoodDeliveryManPhone];
 END;
 GO
 
-CREATE PROCEDURE sp_GetFoodDeliveryManPhonesByUserId
+CREATE or ALTER PROCEDURE sp_GetFoodDeliveryManPhonesByUserId
     @FoodDeliveryMan_UserId NVARCHAR(MAX)
 AS
 BEGIN
@@ -617,9 +617,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateFoodDeliveryManPhone
+CREATE or ALTER PROCEDURE sp_CreateFoodDeliveryManPhone
     @FoodDeliveryMan_UserId NVARCHAR(MAX),
-    @Phone INT
+    @Phone BIGINT
 AS
 BEGIN
     INSERT INTO [FoodDeliveryManPhone] ([FoodDeliveryMan_UserId], [Phone])
@@ -627,10 +627,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateFoodDeliveryManPhone
+CREATE or ALTER PROCEDURE sp_UpdateFoodDeliveryManPhone
     @FoodDeliveryMan_UserId NVARCHAR(MAX),
-    @OldPhone INT,
-    @NewPhone INT
+    @OldPhone BIGINT,
+    @NewPhone BIGINT
 AS
 BEGIN
     BEGIN TRANSACTION;
@@ -643,9 +643,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteFoodDeliveryManPhone
+CREATE or ALTER PROCEDURE sp_DeleteFoodDeliveryManPhone
     @FoodDeliveryMan_UserId NVARCHAR(MAX),
-    @Phone INT
+    @Phone BIGINT
 AS
 BEGIN
     DELETE FROM [FoodDeliveryManPhone]
@@ -656,15 +656,15 @@ GO
 
 ---------------Funciones para Client---------------
 GO
-CREATE PROCEDURE sp_GetAllClients
+CREATE or ALTER PROCEDURE sp_GetAllClients
 AS
 BEGIN
     SELECT * FROM [Client];
 END;
 GO
 
-CREATE PROCEDURE sp_GetClientById
-    @Id INT
+CREATE or ALTER PROCEDURE sp_GetClientById
+    @Id BIGINT
 AS
 BEGIN
     SELECT * FROM [Client]
@@ -672,8 +672,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateClient
-    @Id INT,
+CREATE or ALTER PROCEDURE sp_CreateClient
+    @Id BIGINT,
     @UserId NVARCHAR(450),
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
@@ -682,7 +682,7 @@ CREATE PROCEDURE sp_CreateClient
     @Canton NVARCHAR(MAX),
     @District NVARCHAR(MAX),
     @Password NVARCHAR(MAX),
-    @Phone INT,
+    @Phone BIGINT,
     @BirthDate NVARCHAR(10)
 AS
 BEGIN
@@ -691,8 +691,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateClient
-    @Id INT,
+CREATE or ALTER PROCEDURE sp_UpdateClient
+    @Id BIGINT,
     @UserId NVARCHAR(450),
     @Name NVARCHAR(MAX),
     @FirstSurname NVARCHAR(MAX),
@@ -701,7 +701,7 @@ CREATE PROCEDURE sp_UpdateClient
     @Canton NVARCHAR(MAX),
     @District NVARCHAR(MAX),
     @Password NVARCHAR(MAX),
-    @Phone INT,
+    @Phone BIGINT,
     @BirthDate NVARCHAR(10)
 AS
 BEGIN
@@ -720,8 +720,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteClient
-    @Id INT
+CREATE or ALTER PROCEDURE sp_DeleteClient
+    @Id BIGINT
 AS
 BEGIN
     DELETE FROM [Client]
@@ -729,7 +729,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_AuthenticateClient
+CREATE or ALTER PROCEDURE sp_AuthenticateClient
     @UserId NVARCHAR(450),
     @Password NVARCHAR(MAX)
 AS
@@ -743,15 +743,15 @@ GO
 
 ---------------Funciones para BusinessType---------------
 GO
-CREATE PROCEDURE sp_GetAllBusinessTypes
+CREATE or ALTER PROCEDURE sp_GetAllBusinessTypes
 AS
 BEGIN
     SELECT * FROM [BusinessType];
 END;
 GO
 
-CREATE PROCEDURE sp_GetBusinessTypeById
-    @Identification INT
+CREATE or ALTER PROCEDURE sp_GetBusinessTypeById
+    @Identification BIGINT
 AS
 BEGIN
     SELECT * FROM [BusinessType]
@@ -760,7 +760,7 @@ END;
 GO
 
 GO
-CREATE PROCEDURE sp_CreateBusinessType
+CREATE or ALTER PROCEDURE sp_CreateBusinessType
     @Name NVARCHAR(MAX)
 AS
 BEGIN
@@ -769,8 +769,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateBusinessType
-    @Identification INT,
+CREATE or ALTER PROCEDURE sp_UpdateBusinessType
+    @Identification BIGINT,
     @Name NVARCHAR(MAX)
 AS
 BEGIN
@@ -780,8 +780,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteBusinessType
-    @Identification INT
+CREATE or ALTER PROCEDURE sp_DeleteBusinessType
+    @Identification BIGINT
 AS
 BEGIN
     DELETE FROM [BusinessType]
@@ -792,14 +792,14 @@ GO
 
 ---------------Funciones para BusinessAssociate---------------
 GO
-CREATE PROCEDURE sp_GetAllBusinessAssociates
+CREATE or ALTER PROCEDURE sp_GetAllBusinessAssociates
 AS
 BEGIN
     SELECT * FROM [BusinessAssociate];
 END;
 GO
 
-CREATE PROCEDURE sp_GetBusinessAssociateById
+CREATE or ALTER PROCEDURE sp_GetBusinessAssociateById
     @Legal_Id INT
 AS
 BEGIN
@@ -808,17 +808,17 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateBusinessAssociate
-    @Legal_Id INT,
+CREATE or ALTER PROCEDURE sp_CreateBusinessAssociate
+    @Legal_Id BIGINT,
     @Email NVARCHAR(MAX),
     @State NVARCHAR(MAX),
     @BusinessName NVARCHAR(MAX),
     @Province NVARCHAR(MAX),
     @Canton NVARCHAR(MAX),
     @District NVARCHAR(MAX),
-    @SINPE INT,
+    @SINPE BIGINT,
     @BusinessManager_Email NVARCHAR(MAX),
-    @BusinessType_Identification INT
+    @BusinessType_Identification BIGINT
 AS
 BEGIN
     INSERT INTO [BusinessAssociate] (
@@ -834,18 +834,18 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateBusinessAssociate
-    @Legal_Id INT,
+CREATE or ALTER PROCEDURE sp_UpdateBusinessAssociate
+    @Legal_Id BIGINT,
     @Email NVARCHAR(MAX),
     @State NVARCHAR(MAX),
     @BusinessName NVARCHAR(MAX),
     @Province NVARCHAR(MAX),
     @Canton NVARCHAR(MAX),
     @District NVARCHAR(MAX),
-    @SINPE INT,
+    @SINPE BIGINT,
     @RejectReason NVARCHAR(MAX) = NULL,
     @BusinessManager_Email NVARCHAR(MAX),
-    @BusinessType_Identification INT
+    @BusinessType_Identification BIGINT
 AS
 BEGIN
     UPDATE [BusinessAssociate]
@@ -863,8 +863,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteBusinessAssociate
-    @Legal_Id INT
+CREATE or ALTER PROCEDURE sp_DeleteBusinessAssociate
+    @Legal_Id BIGINT
 AS
 BEGIN
     DELETE FROM [BusinessAssociate]
@@ -875,15 +875,15 @@ GO
 
 ---------------Funciones para BusinessAssociatePhone---------------
 GO
-CREATE PROCEDURE sp_GetAllBusinessAssociatePhones
+CREATE or ALTER PROCEDURE sp_GetAllBusinessAssociatePhones
 AS
 BEGIN
     SELECT * FROM [BusinessAssociatePhone];
 END;
 GO
 
-CREATE PROCEDURE sp_GetBusinessAssociatePhonesByLegalId
-    @BusinessAssociate_Legal_Id INT
+CREATE or ALTER PROCEDURE sp_GetBusinessAssociatePhonesByLegalId
+    @BusinessAssociate_Legal_Id BIGINT
 AS
 BEGIN
     SELECT * FROM [BusinessAssociatePhone]
@@ -891,9 +891,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateBusinessAssociatePhone
-    @BusinessAssociate_Legal_Id INT,
-    @Phone INT
+CREATE or ALTER PROCEDURE sp_CreateBusinessAssociatePhone
+    @BusinessAssociate_Legal_Id BIGINT,
+    @Phone BIGINT
 AS
 BEGIN
     INSERT INTO [BusinessAssociatePhone] ([BusinessAssociate_Legal_Id], [Phone])
@@ -901,10 +901,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateBusinessAssociatePhone
-    @BusinessAssociate_Legal_Id INT,
-    @OldPhone INT,
-    @NewPhone INT
+CREATE or ALTER PROCEDURE sp_UpdateBusinessAssociatePhone
+    @BusinessAssociate_Legal_Id BIGINT,
+    @OldPhone BIGINT,
+    @NewPhone BIGINT
 AS
 BEGIN
     BEGIN TRANSACTION;
@@ -917,9 +917,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteBusinessAssociatePhone
-    @BusinessAssociate_Legal_Id INT,
-    @Phone INT
+CREATE or ALTER PROCEDURE sp_DeleteBusinessAssociatePhone
+    @BusinessAssociate_Legal_Id BIGINT,
+    @Phone BIGINT
 AS
 BEGIN
     DELETE FROM [BusinessAssociatePhone]
@@ -930,15 +930,15 @@ GO
 
 ---------------Funciones para Product---------------
 GO
-CREATE PROCEDURE sp_GetAllProducts
+CREATE or ALTER PROCEDURE sp_GetAllProducts
 AS
 BEGIN
     SELECT * FROM [Product];
 END;
 GO
 
-CREATE PROCEDURE sp_GetProductByCode
-    @Code INT
+CREATE or ALTER PROCEDURE sp_GetProductByCode
+    @Code BIGINT
 AS
 BEGIN
     SELECT * FROM [Product]
@@ -946,11 +946,11 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateProduct
+CREATE or ALTER PROCEDURE sp_CreateProduct
     @Name NVARCHAR(MAX),
-    @Price INT,
+    @Price BIGINT,
     @Category NVARCHAR(MAX),
-    @BusinessAssociate_Legal_Id INT
+    @BusinessAssociate_Legal_Id BIGINT
 AS
 BEGIN
     INSERT INTO [Product] (
@@ -962,12 +962,12 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateProduct
-    @Code INT,
+CREATE or ALTER PROCEDURE sp_UpdateProduct
+    @Code BIGINT,
     @Name NVARCHAR(MAX),
-    @Price INT,
+    @Price BIGINT,
     @Category NVARCHAR(MAX),
-    @BusinessAssociate_Legal_Id INT
+    @BusinessAssociate_Legal_Id BIGINT
 AS
 BEGIN
     UPDATE [Product]
@@ -979,8 +979,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteProduct
-    @Code INT
+CREATE or ALTER PROCEDURE sp_DeleteProduct
+    @Code BIGINT
 AS
 BEGIN
     DELETE FROM [Product]
@@ -991,15 +991,15 @@ GO
 
 ---------------Funciones para ProductPhoto---------------
 GO
-CREATE PROCEDURE sp_GetAllProductPhotos
+CREATE or ALTER PROCEDURE sp_GetAllProductPhotos
 AS
 BEGIN
     SELECT * FROM [ProductPhoto];
 END;
 GO
 
-CREATE PROCEDURE sp_GetProductPhotosByProductCode
-    @Product_Code INT
+CREATE or ALTER PROCEDURE sp_GetProductPhotosByProductCode
+    @Product_Code BIGINT
 AS
 BEGIN
     SELECT * FROM [ProductPhoto]
@@ -1007,8 +1007,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateProductPhoto
-    @Product_Code INT,
+CREATE or ALTER PROCEDURE sp_CreateProductPhoto
+    @Product_Code BIGINT,
     @PhotoURL NVARCHAR(MAX)
 AS
 BEGIN
@@ -1017,8 +1017,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateProductPhoto
-    @Product_Code INT,
+CREATE or ALTER PROCEDURE sp_UpdateProductPhoto
+    @Product_Code BIGINT,
     @OldPhotoURL NVARCHAR(MAX),
     @NewPhotoURL NVARCHAR(MAX)
 AS
@@ -1033,8 +1033,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteProductPhoto
-    @Product_Code INT,
+CREATE or ALTER PROCEDURE sp_DeleteProductPhoto
+    @Product_Code BIGINT,
     @PhotoURL NVARCHAR(MAX)
 AS
 BEGIN
@@ -1046,15 +1046,15 @@ GO
 
 ---------------Funciones para Cart---------------
 GO
-CREATE PROCEDURE sp_GetAllCarts
+CREATE or ALTER PROCEDURE sp_GetAllCarts
 AS
 BEGIN
     SELECT * FROM [Cart];
 END;
 GO
 
-CREATE PROCEDURE sp_GetCartByCode
-    @Code INT
+CREATE or ALTER PROCEDURE sp_GetCartByCode
+    @Code BIGINT
 AS
 BEGIN
     SELECT * FROM [Cart]
@@ -1062,8 +1062,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateCart
-    @Client_Id INT
+CREATE or ALTER PROCEDURE sp_CreateCart
+    @Client_Id BIGINT
 AS
 BEGIN
     INSERT INTO [Cart] ([Client_Id])
@@ -1071,9 +1071,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateCart
+CREATE or ALTER PROCEDURE sp_UpdateCart
     @Code INT,
-    @Client_Id INT
+    @Client_Id BIGINT
 AS
 BEGIN
     UPDATE [Cart]
@@ -1082,8 +1082,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteCart
-    @Code INT
+CREATE or ALTER PROCEDURE sp_DeleteCart
+    @Code BIGINT
 AS
 BEGIN
     -- Delete related Cart_Product entries
@@ -1099,15 +1099,15 @@ GO
 
 ---------------Funciones para Cart_Product---------------
 GO
-CREATE PROCEDURE sp_GetAllCartProducts
+CREATE or ALTER PROCEDURE sp_GetAllCartProducts
 AS
 BEGIN
     SELECT * FROM [Cart_Product];
 END;
 GO
 
-CREATE PROCEDURE sp_GetCartProductsByCartCode
-    @Cart_Code INT
+CREATE or ALTER PROCEDURE sp_GetCartProductsByCartCode
+    @Cart_Code BIGINT
 AS
 BEGIN
     SELECT * FROM [Cart_Product]
@@ -1115,9 +1115,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateCartProduct
-    @Cart_Code INT,
-    @Product_Code INT
+CREATE or ALTER PROCEDURE sp_CreateCartProduct
+    @Cart_Code BIGINT,
+    @Product_Code BIGINT
 AS
 BEGIN
     IF EXISTS (SELECT 1 FROM [Cart_Product] WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code)
@@ -1135,8 +1135,8 @@ BEGIN
     END
 
     -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
-    DECLARE @BusinessAssociate_Legal_Id INT;
-    DECLARE @TotalProductsPrice INT;
+    DECLARE @BusinessAssociate_Legal_Id BIGINT;
+    DECLARE @TotalProductsPrice BIGINT;
 
     -- Get BusinessAssociate_Legal_Id from first Product in Cart
     SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
@@ -1158,10 +1158,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateCartProduct
-    @Cart_Code INT,
-    @Product_Code INT,
-    @Amount INT
+CREATE or ALTER PROCEDURE sp_UpdateCartProduct
+    @Cart_Code BIGINT,
+    @Product_Code BIGINT,
+    @Amount BIGINT
 AS
 BEGIN
     UPDATE [Cart_Product]
@@ -1169,8 +1169,8 @@ BEGIN
     WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
 
     -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
-    DECLARE @BusinessAssociate_Legal_Id INT;
-    DECLARE @TotalProductsPrice INT;
+    DECLARE @BusinessAssociate_Legal_Id BIGINT;
+    DECLARE @TotalProductsPrice BIGINT;
 
     -- Get BusinessAssociate_Legal_Id from first Product in Cart
     SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
@@ -1192,17 +1192,17 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteCartProduct
-    @Cart_Code INT,
-    @Product_Code INT
+CREATE or ALTER PROCEDURE sp_DeleteCartProduct
+    @Cart_Code BIGINT,
+    @Product_Code BIGINT
 AS
 BEGIN
     DELETE FROM [Cart_Product]
     WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
 
     -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
-    DECLARE @BusinessAssociate_Legal_Id INT;
-    DECLARE @TotalProductsPrice INT;
+    DECLARE @BusinessAssociate_Legal_Id BIGINT;
+    DECLARE @TotalProductsPrice BIGINT;
 
     -- Check if there are remaining products in the cart
     IF EXISTS (SELECT 1 FROM [Cart_Product] WHERE [Cart_Code] = @Cart_Code)
@@ -1237,15 +1237,15 @@ GO
 
 ---------------Funciones para Order---------------
 GO
-CREATE PROCEDURE sp_GetAllOrders
+CREATE or ALTER PROCEDURE sp_GetAllOrders
 AS
 BEGIN
     SELECT * FROM [Order];
 END;
 GO
 
-CREATE PROCEDURE sp_GetOrderByCode
-    @Code INT
+CREATE or ALTER PROCEDURE sp_GetOrderByCode
+    @Code BIGINT
 AS
 BEGIN
     SELECT * FROM [Order]
@@ -1253,9 +1253,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateOrder
+CREATE or ALTER PROCEDURE sp_CreateOrder
     @State NVARCHAR(MAX),
-    @Client_Id INT,
+    @Client_Id BIGINT,
     @FoodDeliveryMan_UserId NVARCHAR(450)
 AS
 BEGIN
@@ -1271,10 +1271,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateOrder
-    @Code INT,
+CREATE or ALTER PROCEDURE sp_UpdateOrder
+    @Code BIGINT,
     @State NVARCHAR(MAX),
-    @Client_Id INT,
+    @Client_Id BIGINT,
     @FoodDeliveryMan_UserId NVARCHAR(450)
 AS
 BEGIN
@@ -1294,8 +1294,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteOrder
-    @Code INT
+CREATE or ALTER PROCEDURE sp_DeleteOrder
+    @Code BIGINT
 AS
 BEGIN
     -- Delete related Order_Product entries
@@ -1311,15 +1311,15 @@ GO
 
 ---------------Funciones para Order_Product---------------
 GO
-CREATE PROCEDURE sp_GetAllOrderProducts
+CREATE or ALTER PROCEDURE sp_GetAllOrderProducts
 AS
 BEGIN
     SELECT * FROM [Order_Product];
 END;
 GO
 
-CREATE PROCEDURE sp_GetOrderProductsByOrderCode
-    @Order_Code INT
+CREATE or ALTER PROCEDURE sp_GetOrderProductsByOrderCode
+    @Order_Code BIGINT
 AS
 BEGIN
     SELECT * FROM [Order_Product]
@@ -1327,9 +1327,9 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateOrderProduct
-    @Order_Code INT,
-    @Product_Code INT
+CREATE or ALTER PROCEDURE sp_CreateOrderProduct
+    @Order_Code BIGINT,
+    @Product_Code BIGINT
 AS
 BEGIN
     IF EXISTS (SELECT 1 FROM [Order_Product] WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code)
@@ -1347,8 +1347,8 @@ BEGIN
     END
 
     -- Update Order's TotalService
-    DECLARE @TotalPrice INT;
-    DECLARE @TotalService INT;
+    DECLARE @TotalPrice BIGINT;
+    DECLARE @TotalService BIGINT;
 
     -- Calculate TotalPrice
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
@@ -1366,10 +1366,10 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateOrderProduct
-    @Order_Code INT,
-    @Product_Code INT,
-    @Amount INT
+CREATE or ALTER PROCEDURE sp_UpdateOrderProduct
+    @Order_Code BIGINT,
+    @Product_Code BIGINT,
+    @Amount BIGINT
 AS
 BEGIN
     UPDATE [Order_Product]
@@ -1377,8 +1377,8 @@ BEGIN
     WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
 
     -- Update Order's TotalService
-    DECLARE @TotalPrice INT;
-    DECLARE @TotalService INT;
+    DECLARE @TotalPrice BIGINT;
+    DECLARE @TotalService BIGINT;
 
     -- Calculate TotalPrice
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
@@ -1396,17 +1396,17 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteOrderProduct
-    @Order_Code INT,
-    @Product_Code INT
+CREATE or ALTER PROCEDURE sp_DeleteOrderProduct
+    @Order_Code BIGINT,
+    @Product_Code BIGINT
 AS
 BEGIN
     DELETE FROM [Order_Product]
     WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
 
     -- Update Order's TotalService
-    DECLARE @TotalPrice INT;
-    DECLARE @TotalService INT;
+    DECLARE @TotalPrice BIGINT;
+    DECLARE @TotalService BIGINT;
 
     -- Check if there are remaining products in the order
     IF EXISTS (SELECT 1 FROM [Order_Product] WHERE [Order_Code] = @Order_Code)
@@ -1436,14 +1436,14 @@ GO
 
 ---------------Funciones para ProofOfPayment---------------
 GO
-CREATE PROCEDURE sp_GetAllProofOfPayments
+CREATE or ALTER PROCEDURE sp_GetAllProofOfPayments
 AS
 BEGIN
     SELECT * FROM [ProofOfPayment];
 END;
 GO
 
-CREATE PROCEDURE sp_GetProofOfPaymentByCode
+CREATE or ALTER PROCEDURE sp_GetProofOfPaymentByCode
     @Code INT
 AS
 BEGIN
@@ -1452,17 +1452,17 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateProofOfPayment
+CREATE or ALTER PROCEDURE sp_CreateProofOfPayment
     @CreditCardName NVARCHAR(MAX),
-    @LastDigitsCreditCard INT,
+    @LastDigitsCreditCard BIGINT,
     @Date NVARCHAR(MAX),
     @Time NVARCHAR(MAX),
-    @Order_Code INT
+    @Order_Code BIGINT
 AS
 BEGIN
-    DECLARE @TotalPayment INT;
+    DECLARE @TotalPayment BIGINT;
     DECLARE @ClientFullName NVARCHAR(MAX);
-    DECLARE @ClientPhone INT;
+    DECLARE @ClientPhone BIGINT;
 
     -- Calculate TotalPayment
     DECLARE @TotalPrice INT;
@@ -1489,21 +1489,21 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateProofOfPayment
+CREATE or ALTER PROCEDURE sp_UpdateProofOfPayment
     @Code INT,
     @CreditCardName NVARCHAR(MAX),
-    @LastDigitsCreditCard INT,
+    @LastDigitsCreditCard BIGINT,
     @Date NVARCHAR(MAX),
     @Time NVARCHAR(MAX),
-    @Order_Code INT
+    @Order_Code BIGINT
 AS
 BEGIN
-    DECLARE @TotalPayment INT;
+    DECLARE @TotalPayment BIGINT;
     DECLARE @ClientFullName NVARCHAR(MAX);
-    DECLARE @ClientPhone INT;
+    DECLARE @ClientPhone BIGINT;
 
     -- Calculate TotalPayment
-    DECLARE @TotalPrice INT;
+    DECLARE @TotalPrice BIGINT;
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
     FROM [Order_Product] op
     INNER JOIN [Product] p ON op.Product_Code = p.Code
@@ -1513,7 +1513,7 @@ BEGIN
     SET @TotalPayment = @TotalPrice + ((@TotalPrice * 5) / 100);
 
     -- Get ClientFullName and ClientPhone from Order
-    DECLARE @Client_Id INT;
+    DECLARE @Client_Id BIGINT;
     SELECT @Client_Id = [Client_Id]
     FROM [Order]
     WHERE [Code] = @Order_Code;
@@ -1535,7 +1535,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteProofOfPayment
+CREATE or ALTER PROCEDURE sp_DeleteProofOfPayment
     @Code INT
 AS
 BEGIN
@@ -1547,14 +1547,14 @@ GO
 
 ---------------Funciones para FeedBack---------------
 GO
-CREATE PROCEDURE sp_GetAllFeedBacks
+CREATE or ALTER PROCEDURE sp_GetAllFeedBacks
 AS
 BEGIN
     SELECT * FROM [FeedBack];
 END;
 GO
 
-CREATE PROCEDURE sp_GetFeedBackById
+CREATE or ALTER PROCEDURE sp_GetFeedBackById
     @Id INT
 AS
 BEGIN
@@ -1563,7 +1563,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_CreateFeedBack
+CREATE or ALTER PROCEDURE sp_CreateFeedBack
     @FeedBack_Business NVARCHAR(MAX),
     @BusinessGrade FLOAT,
     @FeedBack_Order NVARCHAR(MAX),
@@ -1571,8 +1571,8 @@ CREATE PROCEDURE sp_CreateFeedBack
     @FeedBack_DeliveryMan NVARCHAR(MAX),
     @DeliveryManGrade FLOAT,
     @FoodDeliveryMan_UserId NVARCHAR(450),
-    @Order_Code INT,
-    @BusinessAssociate_Legal_Id INT
+    @Order_Code BIGINT,
+    @BusinessAssociate_Legal_Id BIGINT
 AS
 BEGIN
     INSERT INTO [FeedBack] ([FeedBack_Business], [BusinessGrade], [FeedBack_Order], [OrderGrade], [FeedBack_DeliveryMan], [DeliveryManGrade], [FoodDeliveryMan_UserId], [Order_Code], [BusinessAssociate_Legal_Id])
@@ -1580,8 +1580,8 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateFeedBack
-    @Id INT,
+CREATE or ALTER PROCEDURE sp_UpdateFeedBack
+    @Id BIGINT,
     @FeedBack_Business NVARCHAR(MAX),
     @BusinessGrade FLOAT,
     @FeedBack_Order NVARCHAR(MAX),
@@ -1589,8 +1589,8 @@ CREATE PROCEDURE sp_UpdateFeedBack
     @FeedBack_DeliveryMan NVARCHAR(MAX),
     @DeliveryManGrade FLOAT,
     @FoodDeliveryMan_UserId NVARCHAR(450),
-    @Order_Code INT,
-    @BusinessAssociate_Legal_Id INT
+    @Order_Code BIGINT,
+    @BusinessAssociate_Legal_Id BIGINT
 AS
 BEGIN
     UPDATE [FeedBack]
@@ -1607,7 +1607,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteFeedBack
+CREATE or ALTER PROCEDURE sp_DeleteFeedBack
     @Id INT
 AS
 BEGIN
@@ -1619,7 +1619,7 @@ GO
 
 ---------------Funciones extras importantes---------------
 GO
-CREATE FUNCTION dbo.ufn_GetAdminsByFilter(@Filter NVARCHAR(MAX))
+CREATE or ALTER FUNCTION dbo.ufn_GetAdminsByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1629,7 +1629,7 @@ RETURN
     WHERE [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
+CREATE or ALTER FUNCTION dbo.ufn_GetBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1640,7 +1640,7 @@ RETURN
       AND [State] IN ('En espera', 'Rechazado')
 );
 GO
-CREATE FUNCTION dbo.ufn_GetBusinessManagersByFilter(@Filter NVARCHAR(MAX))
+CREATE or ALTER FUNCTION dbo.ufn_GetBusinessManagersByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1650,7 +1650,7 @@ RETURN
     WHERE [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetAcceptedBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
+CREATE or ALTER FUNCTION dbo.ufn_GetAcceptedBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1661,7 +1661,7 @@ RETURN
       AND [State] = 'Aceptado'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetClientsByFilter(@Filter NVARCHAR(MAX))
+CREATE or ALTER FUNCTION dbo.ufn_GetClientsByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1671,7 +1671,7 @@ RETURN
     WHERE [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetFoodDeliveryMenByFilter(@Filter NVARCHAR(MAX))
+CREATE or ALTER FUNCTION dbo.ufn_GetFoodDeliveryMenByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1681,7 +1681,7 @@ RETURN
     WHERE [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetBusinessTypesByFilter(@Filter NVARCHAR(MAX))
+CREATE or ALTER FUNCTION dbo.ufn_GetBusinessTypesByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1691,7 +1691,7 @@ RETURN
     WHERE [Name] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndState(
+CREATE or ALTER FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndState(
     @BusinessAssociate_Legal_Id INT,
     @Filter NVARCHAR(MAX)
 )
@@ -1709,7 +1709,7 @@ RETURN
       AND o.State = 'Listo para envi�'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndStateFilter(
+CREATE or ALTER FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndStateFilter(
     @BusinessAssociate_Legal_Id INT,
     @ClientFilter NVARCHAR(MAX),
     @StateFilter NVARCHAR(MAX)
@@ -1728,7 +1728,7 @@ RETURN
       AND o.State LIKE '%' + @StateFilter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetProductsByNameAndBusiness(
+CREATE or ALTER FUNCTION dbo.ufn_GetProductsByNameAndBusiness(
     @BusinessAssociate_Legal_Id INT,
     @Filter NVARCHAR(MAX)
 )
@@ -1742,7 +1742,7 @@ RETURN
       AND [Name] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetCartsByBusinessName(
+CREATE or ALTER FUNCTION dbo.ufn_GetCartsByBusinessName(
     @Filter NVARCHAR(MAX)
 )
 RETURNS TABLE
@@ -1755,7 +1755,7 @@ RETURN
     WHERE ba.BusinessName LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetProductsByCartAndFilter(
+CREATE or ALTER FUNCTION dbo.ufn_GetProductsByCartAndFilter(
     @Cart_Code INT,
     @Filter NVARCHAR(MAX)
 )
@@ -1770,7 +1770,7 @@ RETURN
       AND p.Name LIKE '%' + @Filter + '%'
 );
 GO
-CREATE FUNCTION dbo.ufn_GetLast10OrdersByClient(
+CREATE or ALTER FUNCTION dbo.ufn_GetLast10OrdersByClient(
     @Client_Id INT
 )
 RETURNS TABLE
@@ -1783,7 +1783,7 @@ RETURN
     ORDER BY o.Code DESC
 );
 GO
-CREATE FUNCTION dbo.ufn_GetOrdersByDateFilter(
+CREATE or ALTER FUNCTION dbo.ufn_GetOrdersByDateFilter(
     @DateFilter NVARCHAR(MAX)
 )
 RETURNS TABLE
@@ -1800,7 +1800,7 @@ GO
 
 ---------------Funciones principales importantes---------------
 GO
-CREATE TRIGGER trg_PreventDeleteBusinessAssociateWithProducts
+CREATE or ALTER TRIGGER trg_PreventDeleteBusinessAssociateWithProducts
 ON [BusinessAssociate]
 AFTER DELETE
 AS
@@ -1820,7 +1820,7 @@ END
 GO
 
 GO
-CREATE TRIGGER trg_PreventDeleteBusinessManagerWithBusinesses
+CREATE or ALTER TRIGGER trg_PreventDeleteBusinessManagerWithBusinesses
 ON [BusinessManager]
 INSTEAD OF DELETE
 AS
@@ -1842,7 +1842,7 @@ BEGIN
     WHERE Email IN (SELECT Email FROM deleted);
 END
 GO
-CREATE TRIGGER trg_ValidateProductPrice
+CREATE or ALTER TRIGGER trg_ValidateProductPrice
 ON [Product]
 INSTEAD OF INSERT
 AS
