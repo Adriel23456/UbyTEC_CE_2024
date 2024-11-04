@@ -800,7 +800,7 @@ END;
 GO
 
 CREATE or ALTER PROCEDURE sp_GetBusinessAssociateById
-    @Legal_Id INT
+    @Legal_Id BIGINT
 AS
 BEGIN
     SELECT * FROM [BusinessAssociate]
@@ -1072,7 +1072,7 @@ END;
 GO
 
 CREATE or ALTER PROCEDURE sp_UpdateCart
-    @Code INT,
+    @Code BIGINT,
     @Client_Id BIGINT
 AS
 BEGIN
@@ -1444,7 +1444,7 @@ END;
 GO
 
 CREATE or ALTER PROCEDURE sp_GetProofOfPaymentByCode
-    @Code INT
+    @Code BIGINT
 AS
 BEGIN
     SELECT * FROM [ProofOfPayment]
@@ -1465,7 +1465,7 @@ BEGIN
     DECLARE @ClientPhone BIGINT;
 
     -- Calculate TotalPayment
-    DECLARE @TotalPrice INT;
+    DECLARE @TotalPrice BIGINT;
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
     FROM [Order_Product] op
     INNER JOIN [Product] p ON op.Product_Code = p.Code
@@ -1475,7 +1475,7 @@ BEGIN
     SET @TotalPayment = @TotalPrice + ((@TotalPrice * 5) / 100);
 
     -- Get ClientFullName and ClientPhone from Order
-    DECLARE @Client_Id INT;
+    DECLARE @Client_Id BIGINT;
     SELECT @Client_Id = [Client_Id]
     FROM [Order]
     WHERE [Code] = @Order_Code;
@@ -1536,7 +1536,7 @@ END;
 GO
 
 CREATE or ALTER PROCEDURE sp_DeleteProofOfPayment
-    @Code INT
+    @Code BIGINT
 AS
 BEGIN
     DELETE FROM [ProofOfPayment]
@@ -1555,7 +1555,7 @@ END;
 GO
 
 CREATE or ALTER PROCEDURE sp_GetFeedBackById
-    @Id INT
+    @Id BIGINT
 AS
 BEGIN
     SELECT * FROM [FeedBack]
@@ -1608,7 +1608,7 @@ END;
 GO
 
 CREATE or ALTER PROCEDURE sp_DeleteFeedBack
-    @Id INT
+    @Id BIGINT
 AS
 BEGIN
     DELETE FROM [FeedBack]
@@ -1618,81 +1618,87 @@ GO
 ---------------Funciones para FeedBack---------------
 
 ---------------Funciones extras importantes---------------
-GO
-CREATE or ALTER FUNCTION dbo.ufn_GetAdminsByFilter(@Filter NVARCHAR(MAX))
+CREATE OR ALTER FUNCTION dbo.ufn_GetAdminsByFilter(@Filter NVARCHAR(MAX) OR NULL)
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT *
     FROM [Admin]
-    WHERE [FullName] LIKE '%' + @Filter + '%'
+    WHERE @Filter IS NULL OR @Filter = '' OR [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT *
     FROM [BusinessAssociate]
-    WHERE [BusinessName] LIKE '%' + @Filter + '%'
+    WHERE (@Filter IS NULL OR @Filter = '' OR [BusinessName] LIKE '%' + @Filter + '%')
       AND [State] IN ('En espera', 'Rechazado')
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetBusinessManagersByFilter(@Filter NVARCHAR(MAX))
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetBusinessManagersByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT *
     FROM [BusinessManager]
-    WHERE [FullName] LIKE '%' + @Filter + '%'
+    WHERE @Filter IS NULL OR @Filter = '' OR [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetAcceptedBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetAcceptedBusinessAssociatesByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT *
     FROM [BusinessAssociate]
-    WHERE [BusinessName] LIKE '%' + @Filter + '%'
+    WHERE (@Filter IS NULL OR @Filter = '' OR [BusinessName] LIKE '%' + @Filter + '%')
       AND [State] = 'Aceptado'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetClientsByFilter(@Filter NVARCHAR(MAX))
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetClientsByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT *
     FROM [Client]
-    WHERE [FullName] LIKE '%' + @Filter + '%'
+    WHERE @Filter IS NULL OR @Filter = '' OR [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetFoodDeliveryMenByFilter(@Filter NVARCHAR(MAX))
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetFoodDeliveryMenByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT *
     FROM [FoodDeliveryMan]
-    WHERE [FullName] LIKE '%' + @Filter + '%'
+    WHERE @Filter IS NULL OR @Filter = '' OR [FullName] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetBusinessTypesByFilter(@Filter NVARCHAR(MAX))
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetBusinessTypesByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
 (
     SELECT *
     FROM [BusinessType]
-    WHERE [Name] LIKE '%' + @Filter + '%'
+    WHERE @Filter IS NULL OR @Filter = '' OR [Name] LIKE '%' + @Filter + '%'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndState(
-    @BusinessAssociate_Legal_Id INT,
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndState(
+    @BusinessAssociate_Legal_Id BIGINT,
     @Filter NVARCHAR(MAX)
 )
 RETURNS TABLE
@@ -1705,12 +1711,13 @@ RETURN
     INNER JOIN [Order_Product] op ON o.Code = op.Order_Code
     INNER JOIN [Product] p ON op.Product_Code = p.Code
     WHERE p.BusinessAssociate_Legal_Id = @BusinessAssociate_Legal_Id
-      AND c.FullName LIKE '%' + @Filter + '%'
-      AND o.State = 'Listo para envi�'
+      AND (@Filter IS NULL OR @Filter = '' OR c.FullName LIKE '%' + @Filter + '%')
+      AND o.State = 'Listo para envio'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndStateFilter(
-    @BusinessAssociate_Legal_Id INT,
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndStateFilter(
+    @BusinessAssociate_Legal_Id BIGINT,
     @ClientFilter NVARCHAR(MAX),
     @StateFilter NVARCHAR(MAX)
 )
@@ -1724,12 +1731,14 @@ RETURN
     INNER JOIN [Order_Product] op ON o.Code = op.Order_Code
     INNER JOIN [Product] p ON op.Product_Code = p.Code
     WHERE p.BusinessAssociate_Legal_Id = @BusinessAssociate_Legal_Id
-      AND c.FullName LIKE '%' + @ClientFilter + '%'
-      AND o.State LIKE '%' + @StateFilter + '%'
+      AND (@ClientFilter IS NULL OR @ClientFilter = '' OR c.FullName LIKE '%' + @ClientFilter + '%')
+      AND (@StateFilter IS NULL OR @StateFilter = '' OR o.State LIKE '%' + @StateFilter + '%')
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetProductsByNameAndBusiness(
-    @BusinessAssociate_Legal_Id INT,
+
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetProductsByNameAndBusiness(
+    @BusinessAssociate_Legal_Id BIGINT,
     @Filter NVARCHAR(MAX)
 )
 RETURNS TABLE
@@ -1739,10 +1748,11 @@ RETURN
     SELECT *
     FROM [Product]
     WHERE [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id
-      AND [Name] LIKE '%' + @Filter + '%'
+      AND (@Filter IS NULL OR @Filter = '' OR [Name] LIKE '%' + @Filter + '%')
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetCartsByBusinessName(
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetCartsByBusinessName(
     @Filter NVARCHAR(MAX)
 )
 RETURNS TABLE
@@ -1752,11 +1762,12 @@ RETURN
     SELECT c.*
     FROM [Cart] c
     INNER JOIN [BusinessAssociate] ba ON c.BusinessAssociate_Legal_Id = ba.Legal_Id
-    WHERE ba.BusinessName LIKE '%' + @Filter + '%'
+    WHERE @Filter IS NULL OR @Filter = '' OR ba.BusinessName LIKE '%' + @Filter + '%'
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetProductsByCartAndFilter(
-    @Cart_Code INT,
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetProductsByCartAndFilter(
+    @Cart_Code BIGINT,
     @Filter NVARCHAR(MAX)
 )
 RETURNS TABLE
@@ -1767,9 +1778,10 @@ RETURN
     FROM [Product] p
     INNER JOIN [Cart_Product] cp ON p.Code = cp.Product_Code
     WHERE cp.Cart_Code = @Cart_Code
-      AND p.Name LIKE '%' + @Filter + '%'
+      AND (@Filter IS NULL OR @Filter = '' OR p.Name LIKE '%' + @Filter + '%')
 );
 GO
+
 CREATE or ALTER FUNCTION dbo.ufn_GetLast10OrdersByClient(
     @Client_Id INT
 )
@@ -1783,7 +1795,8 @@ RETURN
     ORDER BY o.Code DESC
 );
 GO
-CREATE or ALTER FUNCTION dbo.ufn_GetOrdersByDateFilter(
+
+CREATE OR ALTER FUNCTION dbo.ufn_GetOrdersByDateFilter(
     @DateFilter NVARCHAR(MAX)
 )
 RETURNS TABLE
@@ -1793,7 +1806,7 @@ RETURN
     SELECT o.*
     FROM [Order] o
     INNER JOIN [ProofOfPayment] pop ON o.Code = pop.Order_Code
-    WHERE pop.Date LIKE '%' + @DateFilter + '%'
+    WHERE @DateFilter IS NULL OR @DateFilter = '' OR pop.Date LIKE '%' + @DateFilter + '%'
 );
 GO
 ---------------Funciones extras importantes---------------

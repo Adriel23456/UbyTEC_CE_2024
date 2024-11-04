@@ -23,13 +23,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetAdminsByFilter")]
         public async Task<ActionResult<IEnumerable<AdminDTO>>> GetAdminsByFilter([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var admins = await _context.Admin
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetAdminsByFilter({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetAdminsByFilter({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<AdminDTO>>(admins);
@@ -39,43 +34,30 @@ namespace SQL_Server.Controllers
         [HttpGet("GetBusinessAssociatesByFilter")]
         public async Task<ActionResult<IEnumerable<BusinessAssociateDTO>>> GetBusinessAssociatesByFilter([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var businessAssociates = await _context.BusinessAssociate
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetBusinessAssociatesByFilter({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetBusinessAssociatesByFilter({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<BusinessAssociateDTO>>(businessAssociates);
         }
+
         // GET: api/Extras/GetBusinessManagersByFilter?filter={filter}
         [HttpGet("GetBusinessManagersByFilter")]
         public async Task<ActionResult<IEnumerable<BusinessManagerDTO>>> GetBusinessManagersByFilter([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var businessManagers = await _context.BusinessManager
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetBusinessManagersByFilter({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetBusinessManagersByFilter({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<BusinessManagerDTO>>(businessManagers);
         }
+        
         // GET: api/Extras/GetAcceptedBusinessAssociatesByFilter?filter={filter}
         [HttpGet("GetAcceptedBusinessAssociatesByFilter")]
         public async Task<ActionResult<IEnumerable<BusinessAssociateDTO>>> GetAcceptedBusinessAssociatesByFilter([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var businessAssociates = await _context.BusinessAssociate
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetAcceptedBusinessAssociatesByFilter({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetAcceptedBusinessAssociatesByFilter({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<BusinessAssociateDTO>>(businessAssociates);
@@ -85,13 +67,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetClientsByFilter")]
         public async Task<ActionResult<IEnumerable<ClientDTO>>> GetClientsByFilter([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var clients = await _context.Client
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetClientsByFilter({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetClientsByFilter({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<ClientDTO>>(clients);
@@ -101,13 +78,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetFoodDeliveryMenByFilter")]
         public async Task<ActionResult<IEnumerable<FoodDeliveryManDTO>>> GetFoodDeliveryMenByFilter([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var deliveryMen = await _context.FoodDeliveryMan
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetFoodDeliveryMenByFilter({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetFoodDeliveryMenByFilter({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<FoodDeliveryManDTO>>(deliveryMen);
@@ -117,13 +89,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetBusinessTypesByFilter")]
         public async Task<ActionResult<IEnumerable<BusinessTypeDTO>>> GetBusinessTypesByFilter([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var businessTypes = await _context.BusinessType
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetBusinessTypesByFilter({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetBusinessTypesByFilter({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<BusinessTypeDTO>>(businessTypes);
@@ -133,13 +100,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetOrdersByClientNameAndBusinessAndState")]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByClientNameAndBusinessAndState([FromQuery] long businessId, [FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var orders = await _context.Order
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetOrdersByClientNameBusinessAndState({0}, {1})", businessId, filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetOrdersByClientNameBusinessAndState({0}, {1})", businessId, filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<OrderDTO>>(orders);
@@ -149,13 +111,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetOrdersByClientNameBusinessAndStateFilter")]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByClientNameBusinessAndStateFilter([FromQuery] long businessId, [FromQuery] string clientFilter, [FromQuery] string stateFilter)
         {
-            if (string.IsNullOrEmpty(clientFilter) || string.IsNullOrEmpty(stateFilter))
-            {
-                return BadRequest(new { message = "Both clientFilter and stateFilter parameters are required." });
-            }
-
             var orders = await _context.Order
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetOrdersByClientNameBusinessAndStateFilter({0}, {1}, {2})", businessId, clientFilter, stateFilter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetOrdersByClientNameBusinessAndStateFilter({0}, {1}, {2})", businessId, clientFilter ?? (object)DBNull.Value, stateFilter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<OrderDTO>>(orders);
@@ -165,13 +122,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetProductsByNameAndBusiness")]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsByNameAndBusiness([FromQuery] long businessId, [FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var products = await _context.Product
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetProductsByNameAndBusiness({0}, {1})", businessId, filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetProductsByNameAndBusiness({0}, {1})", businessId, filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<ProductDTO>>(products);
@@ -181,13 +133,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetCartsByBusinessName")]
         public async Task<ActionResult<IEnumerable<CartDTO>>> GetCartsByBusinessName([FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var carts = await _context.Cart
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetCartsByBusinessName({0})", filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetCartsByBusinessName({0})", filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<CartDTO>>(carts);
@@ -197,13 +144,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetProductsByCartAndFilter")]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsByCartAndFilter([FromQuery] long cartCode, [FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return BadRequest(new { message = "Filter parameter is required." });
-            }
-
             var products = await _context.Product
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetProductsByCartAndFilter({0}, {1})", cartCode, filter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetProductsByCartAndFilter({0}, {1})", cartCode, filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<ProductDTO>>(products);
@@ -224,13 +166,8 @@ namespace SQL_Server.Controllers
         [HttpGet("GetOrdersByDateFilter")]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByDateFilter([FromQuery] string dateFilter)
         {
-            if (string.IsNullOrEmpty(dateFilter))
-            {
-                return BadRequest(new { message = "DateFilter parameter is required." });
-            }
-
             var orders = await _context.Order
-                .FromSqlRaw("SELECT * FROM dbo.ufn_GetOrdersByDateFilter({0})", dateFilter)
+                .FromSqlRaw("SELECT * FROM dbo.ufn_GetOrdersByDateFilter({0})", dateFilter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<OrderDTO>>(orders);
