@@ -9,11 +9,11 @@ namespace SQL_Server.Models
         [ForeignKey("Admin")]
         [Key]
         [Required]
-        public required int Admin_id { get; set; }
+        public required long Admin_id { get; set; }
 
         [Key]
         [Required]
-        public required int Phone { get; set; }
+        public required long Phone { get; set; }
 
         // Propiedades de Navegación:
         [JsonIgnore]

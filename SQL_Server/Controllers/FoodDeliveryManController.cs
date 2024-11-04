@@ -147,5 +147,41 @@ namespace SQL_Server.Controllers
 
             return NoContent();
         }
+
+        // POST: api/FoodDeliveryMan/Authenticate
+        [HttpPost("Authenticate")]
+        public async Task<ActionResult<FoodDeliveryManDTO>> Authenticate(FoodDeliveryManDTO_Login loginDto)
+        {
+            // Call the stored procedure
+            var parameters = new[]
+            {
+                new SqlParameter("@UserId", loginDto.UserId),
+                new SqlParameter("@Password", loginDto.Password)
+            };
+
+            var foodDeliveryMen = await _context.FoodDeliveryMan
+                .FromSqlRaw("EXEC sp_AuthenticateFoodDeliveryMan @UserId, @Password", parameters)
+                .ToListAsync();
+
+            var foodDeliveryMan = foodDeliveryMen.FirstOrDefault();
+
+            if (foodDeliveryMan == null)
+            {
+                // Check if UserId exists
+                var userIdExists = await _context.FoodDeliveryMan.AnyAsync(fdm => fdm.UserId == loginDto.UserId);
+                if (!userIdExists)
+                {
+                    return NotFound(new { message = $"UserId '{loginDto.UserId}' not found." });
+                }
+                else
+                {
+                    return Unauthorized(new { message = "Incorrect password." });
+                }
+            }
+
+            var foodDeliveryManDto = _mapper.Map<FoodDeliveryManDTO>(foodDeliveryMan);
+
+            return Ok(foodDeliveryManDto);
+        }
     }
 }

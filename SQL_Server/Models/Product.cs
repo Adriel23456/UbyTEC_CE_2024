@@ -8,20 +8,20 @@ namespace SQL_Server.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Auto-generated
-        public int Code { get; set; } // PK
+        public long Code { get; set; } // PK
 
         [Required]
         public required string Name { get; set; }
 
         [Required]
-        public required int Price { get; set; }
+        public required long Price { get; set; }
 
         [Required]
         public required string Category { get; set; }
 
         [Required]
         [ForeignKey("BusinessAssociate")]
-        public required int BusinessAssociate_Legal_Id { get; set; } // FK to BusinessAssociate.Legal_Id
+        public required long BusinessAssociate_Legal_Id { get; set; } // FK to BusinessAssociate.Legal_Id
 
         // Navigation properties
         [JsonIgnore]

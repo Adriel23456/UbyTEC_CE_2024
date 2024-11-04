@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Cart_Product/{cart_code}/Products
         [HttpGet("{cart_code}/Products")]
-        public async Task<ActionResult<IEnumerable<Cart_ProductDTO>>> GetProductsByCartCode(int cart_code)
+        public async Task<ActionResult<IEnumerable<Cart_ProductDTO>>> GetProductsByCartCode(long cart_code)
         {
             // Check if Cart exists
             var cartExists = await _context.Cart.AnyAsync(c => c.Code == cart_code);
@@ -93,7 +93,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/Cart_Product/{cart_code}/{product_code}
         [HttpPut("{cart_code}/{product_code}")]
-        public async Task<IActionResult> PutCartProduct(int cart_code, int product_code, Cart_ProductDTO_Update cartProductDtoUpdate)
+        public async Task<IActionResult> PutCartProduct(long cart_code, long product_code, Cart_ProductDTO_Update cartProductDtoUpdate)
         {
             // Check if Cart_Product exists
             var cartProductExists = await _context.Cart_Product.AnyAsync(cp => cp.Cart_Code == cart_code && cp.Product_Code == product_code);
@@ -117,7 +117,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/Cart_Product/{cart_code}/{product_code}
         [HttpDelete("{cart_code}/{product_code}")]
-        public async Task<IActionResult> DeleteCartProduct(int cart_code, int product_code)
+        public async Task<IActionResult> DeleteCartProduct(long cart_code, long product_code)
         {
             // Check if Cart_Product exists
             var cartProductExists = await _context.Cart_Product.AnyAsync(cp => cp.Cart_Code == cart_code && cp.Product_Code == product_code);

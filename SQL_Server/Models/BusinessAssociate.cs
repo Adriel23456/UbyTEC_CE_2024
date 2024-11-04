@@ -9,7 +9,7 @@ namespace SQL_Server.Models
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public required int Legal_Id { get; set; } // PK
+        public required long Legal_Id { get; set; } // PK
 
         [Required]
         [EmailAddress]
@@ -34,7 +34,7 @@ namespace SQL_Server.Models
         public required string District { get; set; }
 
         [Required]
-        public required int SINPE { get; set; }
+        public required long SINPE { get; set; }
 
         public string? RejectReason { get; set; }
 
@@ -44,7 +44,7 @@ namespace SQL_Server.Models
 
         [Required]
         [ForeignKey("BusinessType")]
-        public required int BusinessType_Identification { get; set; } // FK to BusinessType.Identification
+        public required long BusinessType_Identification { get; set; } // FK to BusinessType.Identification
 
         // Navigation properties
         [JsonIgnore]

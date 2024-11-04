@@ -303,6 +303,16 @@ BEGIN
     DELETE FROM [Admin]
     WHERE [Id] = @Id;
 END;
+GO
+CREATE PROCEDURE sp_AuthenticateAdmin
+    @UserId NVARCHAR(450),
+    @Password NVARCHAR(MAX)
+AS
+BEGIN
+    SELECT *
+    FROM [Admin]
+    WHERE [UserId] = @UserId AND [Password] = @Password;
+END;
 ---------------Funciones para Admin---------------
 
 ---------------Funciones para AdminPhone---------------
@@ -429,6 +439,27 @@ BEGIN
     WHERE [Email] = @Email;
 END;
 GO
+
+CREATE PROCEDURE sp_AuthenticateBusinessManager
+    @Email NVARCHAR(MAX),
+    @Password NVARCHAR(MAX)
+AS
+BEGIN
+    SELECT *
+    FROM [BusinessManager]
+    WHERE [Email] = @Email AND [Password] = @Password;
+END;
+GO
+
+CREATE PROCEDURE sp_GetBusinessAssociateByManagerEmail
+    @BusinessManager_Email NVARCHAR(MAX)
+AS
+BEGIN
+    SELECT *
+    FROM [BusinessAssociate]
+    WHERE [BusinessManager_Email] = @BusinessManager_Email;
+END;
+GO
 ---------------Funciones para BusinessManager---------------
 
 ---------------Funciones para BusinessManagerPhone---------------
@@ -553,6 +584,17 @@ AS
 BEGIN
     DELETE FROM [FoodDeliveryMan]
     WHERE [UserId] = @UserId;
+END;
+GO
+
+CREATE PROCEDURE sp_AuthenticateFoodDeliveryMan
+    @UserId NVARCHAR(MAX),
+    @Password NVARCHAR(MAX)
+AS
+BEGIN
+    SELECT *
+    FROM [FoodDeliveryMan]
+    WHERE [UserId] = @UserId AND [Password] = @Password;
 END;
 GO
 ---------------Funciones para FoodDeliveryMan---------------
@@ -684,6 +726,17 @@ AS
 BEGIN
     DELETE FROM [Client]
     WHERE [Id] = @Id;
+END;
+GO
+
+CREATE PROCEDURE sp_AuthenticateClient
+    @UserId NVARCHAR(450),
+    @Password NVARCHAR(MAX)
+AS
+BEGIN
+    SELECT *
+    FROM [Client]
+    WHERE [UserId] = @UserId AND [Password] = @Password;
 END;
 GO
 ---------------Funciones para Client---------------
@@ -1653,7 +1706,7 @@ RETURN
     INNER JOIN [Product] p ON op.Product_Code = p.Code
     WHERE p.BusinessAssociate_Legal_Id = @BusinessAssociate_Legal_Id
       AND c.FullName LIKE '%' + @Filter + '%'
-      AND o.State = 'Listo para envió'
+      AND o.State = 'Listo para enviï¿½'
 );
 GO
 CREATE FUNCTION dbo.ufn_GetOrdersByClientNameBusinessAndStateFilter(

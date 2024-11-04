@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/ProductPhoto/{product_code}/Photos
         [HttpGet("{product_code}/Photos")]
-        public async Task<ActionResult<IEnumerable<ProductPhotoDTO>>> GetPhotosByProductCode(int product_code)
+        public async Task<ActionResult<IEnumerable<ProductPhotoDTO>>> GetPhotosByProductCode(long product_code)
         {
             // Check if Product exists
             var productExists = await _context.Product.AnyAsync(p => p.Code == product_code);
@@ -92,7 +92,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/ProductPhoto/{product_code}/{photoURL}
         [HttpPut("{product_code}/{photoURL}")]
-        public async Task<IActionResult> PutProductPhoto(int product_code, string photoURL, ProductPhotoDTO_Update photoDtoUpdate)
+        public async Task<IActionResult> PutProductPhoto(long product_code, string photoURL, ProductPhotoDTO_Update photoDtoUpdate)
         {
             // Decode URL-encoded strings if necessary
             photoURL = Uri.UnescapeDataString(photoURL);
@@ -134,7 +134,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/ProductPhoto/{product_code}/{photoURL}
         [HttpDelete("{product_code}/{photoURL}")]
-        public async Task<IActionResult> DeleteProductPhoto(int product_code, string photoURL)
+        public async Task<IActionResult> DeleteProductPhoto(long product_code, string photoURL)
         {
             // Decode URL-encoded strings if necessary
             photoURL = Uri.UnescapeDataString(photoURL);

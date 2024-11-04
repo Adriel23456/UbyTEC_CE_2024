@@ -8,15 +8,15 @@ namespace SQL_Server.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Code { get; set; } // PK, auto-generated
+        public long? Code { get; set; } // PK, auto-generated
 
         [Required]
         public required string CreditCardName { get; set; }
 
         [Required]
-        public required int LastDigitsCreditCard { get; set; }
+        public required long LastDigitsCreditCard { get; set; }
 
-        public int? TotalPayment { get; set; } // Assigned automatically
+        public long? TotalPayment { get; set; } // Assigned automatically
 
         [Required]
         [RegularExpression(@"\d{2}-\d{2}-\d{4}", ErrorMessage = "Date must be in the format dd-mm-yyyy")]
@@ -28,11 +28,11 @@ namespace SQL_Server.Models
 
         public string? ClientFullName { get; set; } // Assigned automatically
 
-        public int? ClientPhone { get; set; } // Assigned automatically
+        public long? ClientPhone { get; set; } // Assigned automatically
 
         [Required]
         [ForeignKey("Order")]
-        public required int Order_Code { get; set; } // FK to Order.Code
+        public required long Order_Code { get; set; } // FK to Order.Code
 
         // Navigation property
         [JsonIgnore]

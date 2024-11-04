@@ -9,7 +9,7 @@ namespace SQL_Server.Models
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Auto-generated
-        public int? Identification { get; set; } // PK
+        public long? Identification { get; set; } // PK
 
         [Required]
         public required string Name { get; set; } // Unique

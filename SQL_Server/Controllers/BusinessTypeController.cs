@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/BusinessType/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<BusinessTypeDTO>> GetBusinessType(int id)
+        public async Task<ActionResult<BusinessTypeDTO>> GetBusinessType(long id)
         {
             var businessTypes = await _context.BusinessType
                 .FromSqlRaw("EXEC sp_GetBusinessTypeById @Identification = {0}", id)
@@ -79,7 +79,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/BusinessType/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBusinessType(int id, BusinessTypeDTO_Update businessTypeDtoUpdate)
+        public async Task<IActionResult> PutBusinessType(long id, BusinessTypeDTO_Update businessTypeDtoUpdate)
         {
             // Check if BusinessType exists
             var businessTypeExists = await _context.BusinessType.AnyAsync(bt => bt.Identification == id);
@@ -109,7 +109,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/BusinessType/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBusinessType(int id)
+        public async Task<IActionResult> DeleteBusinessType(long id)
         {
             // Check if BusinessType exists
             var businessTypeExists = await _context.BusinessType.AnyAsync(bt => bt.Identification == id);

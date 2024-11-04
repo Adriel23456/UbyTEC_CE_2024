@@ -4,7 +4,7 @@ namespace SQL_Server.Models
     {
         public string? ProductName { get; set; }
         public string? Affiliate { get; set; }
-        public int? TotalSold { get; set; }
-        public int? TotalRevenue { get; set; }
+        public long? TotalSold { get; set; }
+        public long? TotalRevenue { get; set; }
     }
 }

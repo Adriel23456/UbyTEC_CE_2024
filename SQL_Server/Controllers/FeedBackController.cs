@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/FeedBack/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<FeedBackDTO>> GetFeedBack(int id)
+        public async Task<ActionResult<FeedBackDTO>> GetFeedBack(long id)
         {
             var feedBacks = await _context.FeedBack
                 .FromSqlRaw("EXEC sp_GetFeedBackById @Id = {0}", id)
@@ -125,7 +125,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/FeedBack/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeedBack(int id, FeedBackDTO_Update feedBackDtoUpdate)
+        public async Task<IActionResult> PutFeedBack(long id, FeedBackDTO_Update feedBackDtoUpdate)
         {
             // Check if FeedBack exists
             var feedBackExists = await _context.FeedBack.AnyAsync(f => f.Id == id);

@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Order_Product/{order_code}/Products
         [HttpGet("{order_code}/Products")]
-        public async Task<ActionResult<IEnumerable<Order_ProductDTO>>> GetProductsByOrderCode(int order_code)
+        public async Task<ActionResult<IEnumerable<Order_ProductDTO>>> GetProductsByOrderCode(long order_code)
         {
             // Check if Order exists
             var orderExists = await _context.Order.AnyAsync(o => o.Code == order_code);
@@ -93,7 +93,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/Order_Product/{order_code}/{product_code}
         [HttpPut("{order_code}/{product_code}")]
-        public async Task<IActionResult> PutOrderProduct(int order_code, int product_code, Order_ProductDTO_Update orderProductDtoUpdate)
+        public async Task<IActionResult> PutOrderProduct(long order_code, long product_code, Order_ProductDTO_Update orderProductDtoUpdate)
         {
             // Check if Order_Product exists
             var orderProductExists = await _context.Order_Product.AnyAsync(op => op.Order_Code == order_code && op.Product_Code == product_code);
@@ -117,7 +117,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/Order_Product/{order_code}/{product_code}
         [HttpDelete("{order_code}/{product_code}")]
-        public async Task<IActionResult> DeleteOrderProduct(int order_code, int product_code)
+        public async Task<IActionResult> DeleteOrderProduct(long order_code, long product_code)
         {
             // Check if Order_Product exists
             var orderProductExists = await _context.Order_Product.AnyAsync(op => op.Order_Code == order_code && op.Product_Code == product_code);

@@ -92,7 +92,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/BusinessManagerPhone/{email}/{phone}
         [HttpPut("{email}/{phone}")]
-        public async Task<IActionResult> PutBusinessManagerPhone(string email, int phone, BusinessManagerPhoneDTO_Update businessManagerPhoneDtoUpdate)
+        public async Task<IActionResult> PutBusinessManagerPhone(string email, long phone, BusinessManagerPhoneDTO_Update businessManagerPhoneDtoUpdate)
         {
             // Check if the current entity exists
             var businessManagerPhoneExists = await _context.BusinessManagerPhone
@@ -103,7 +103,7 @@ namespace SQL_Server.Controllers
                 return NotFound(new { message = $"BusinessManagerPhone with BusinessManager_Email {email} and Phone {phone} not found." });
             }
 
-            int newPhone = businessManagerPhoneDtoUpdate.Phone;
+            long newPhone = businessManagerPhoneDtoUpdate.Phone;
 
             // If the new phone is the same as the existing, nothing to update
             if (newPhone == phone)
@@ -132,7 +132,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/BusinessManagerPhone/{email}/{phone}
         [HttpDelete("{email}/{phone}")]
-        public async Task<IActionResult> DeleteBusinessManagerPhone(string email, int phone)
+        public async Task<IActionResult> DeleteBusinessManagerPhone(string email, long phone)
         {
             // Check if the entity exists
             var businessManagerPhoneExists = await _context.BusinessManagerPhone

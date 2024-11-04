@@ -2,6 +2,6 @@ namespace SQL_Server.DTOs
 {
     public class CartDTO_Update
     {
-        public required int Client_Id { get; set; } // FK
+        public required long Client_Id { get; set; } // FK
     }
 }

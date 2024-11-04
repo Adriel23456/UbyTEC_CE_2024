@@ -8,7 +8,7 @@ namespace SQL_Server.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; } // PK, auto-generated
+        public long? Id { get; set; } // PK, auto-generated
 
         [Required]
         public required string FeedBack_Business { get; set; }
@@ -37,11 +37,11 @@ namespace SQL_Server.Models
 
         [Required]
         [ForeignKey("Order")]
-        public required int Order_Code { get; set; } // FK to Order.Code
+        public required long Order_Code { get; set; } // FK to Order.Code
 
         [Required]
         [ForeignKey("BusinessAssociate")]
-        public required int BusinessAssociate_Legal_Id { get; set; } // FK to BusinessAssociate.Legal_Id
+        public required long BusinessAssociate_Legal_Id { get; set; } // FK to BusinessAssociate.Legal_Id
 
         // Navigation properties
         [JsonIgnore]

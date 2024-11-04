@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/BusinessAssociatePhone/{legal_id}/Phones
         [HttpGet("{legal_id}/Phones")]
-        public async Task<ActionResult<IEnumerable<BusinessAssociatePhoneDTO>>> GetPhonesByLegalId(int legal_id)
+        public async Task<ActionResult<IEnumerable<BusinessAssociatePhoneDTO>>> GetPhonesByLegalId(long legal_id)
         {
             // Check if BusinessAssociate exists
             var businessAssociateExists = await _context.BusinessAssociate.AnyAsync(ba => ba.Legal_Id == legal_id);
@@ -92,7 +92,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/BusinessAssociatePhone/{legal_id}/{phone}
         [HttpPut("{legal_id}/{phone}")]
-        public async Task<IActionResult> PutBusinessAssociatePhone(int legal_id, int phone, BusinessAssociatePhoneDTO_Update phoneDtoUpdate)
+        public async Task<IActionResult> PutBusinessAssociatePhone(long legal_id, long phone, BusinessAssociatePhoneDTO_Update phoneDtoUpdate)
         {
             // Check if the current entity exists
             var phoneExists = await _context.BusinessAssociatePhone.AnyAsync(bap => bap.BusinessAssociate_Legal_Id == legal_id && bap.Phone == phone);
@@ -102,7 +102,7 @@ namespace SQL_Server.Controllers
                 return NotFound(new { message = $"BusinessAssociatePhone with Legal_Id {legal_id} and Phone {phone} not found." });
             }
 
-            int newPhone = phoneDtoUpdate.Phone;
+            long newPhone = phoneDtoUpdate.Phone;
 
             // If the new phone is the same as the old one, nothing to update
             if (newPhone == phone)
@@ -131,7 +131,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/BusinessAssociatePhone/{legal_id}/{phone}
         [HttpDelete("{legal_id}/{phone}")]
-        public async Task<IActionResult> DeleteBusinessAssociatePhone(int legal_id, int phone)
+        public async Task<IActionResult> DeleteBusinessAssociatePhone(long legal_id, long phone)
         {
             // Check if the entity exists
             var phoneExists = await _context.BusinessAssociatePhone.AnyAsync(bap => bap.BusinessAssociate_Legal_Id == legal_id && bap.Phone == phone);

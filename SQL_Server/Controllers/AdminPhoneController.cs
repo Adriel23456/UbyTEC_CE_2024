@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/AdminPhone/{admin_id}/Phones
         [HttpGet("{admin_id}/Phones")]
-        public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetPhonesByAdminId(int admin_id)
+        public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetPhonesByAdminId(long admin_id)
         {
             // Verificar si el Admin existe
             var adminExists = await _context.Admin.AnyAsync(a => a.Id == admin_id);
@@ -92,7 +92,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/AdminPhone/{admin_id}/{phone}
         [HttpPut("{admin_id}/{phone}")]
-        public async Task<IActionResult> PutAdminPhone(int admin_id, int phone, AdminPhoneDTO_Update adminPhoneDtoUpdate)
+        public async Task<IActionResult> PutAdminPhone(long admin_id, long phone, AdminPhoneDTO_Update adminPhoneDtoUpdate)
         {
             // Verificar si la entidad actual existe
             var adminPhoneExists = await _context.AdminPhone
@@ -103,7 +103,7 @@ namespace SQL_Server.Controllers
                 return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {phone} not found." });
             }
 
-            int newPhone = adminPhoneDtoUpdate.Phone;
+            long newPhone = adminPhoneDtoUpdate.Phone;
 
             // Si el nuevo Phone es igual al existente, no hay nada que actualizar
             if (newPhone == phone)
@@ -132,7 +132,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/AdminPhone/{admin_id}/{phone}
         [HttpDelete("{admin_id}/{phone}")]
-        public async Task<IActionResult> DeleteAdminPhone(int admin_id, int phone)
+        public async Task<IActionResult> DeleteAdminPhone(long admin_id, long phone)
         {
             // Verificar si la entidad actual existe
             var adminPhoneExists = await _context.AdminPhone

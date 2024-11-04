@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Product/{code}
         [HttpGet("{code}")]
-        public async Task<ActionResult<ProductDTO>> GetProduct(int code)
+        public async Task<ActionResult<ProductDTO>> GetProduct(long code)
         {
             var products = await _context.Product
                 .FromSqlRaw("EXEC sp_GetProductByCode @Code = {0}", code)
@@ -85,7 +85,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/Product/{code}
         [HttpPut("{code}")]
-        public async Task<IActionResult> PutProduct(int code, ProductDTO_Update productDtoUpdate)
+        public async Task<IActionResult> PutProduct(long code, ProductDTO_Update productDtoUpdate)
         {
             // Check if Product exists
             var productExists = await _context.Product.AnyAsync(p => p.Code == code);
@@ -118,7 +118,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/Product/{code}
         [HttpDelete("{code}")]
-        public async Task<IActionResult> DeleteProduct(int code)
+        public async Task<IActionResult> DeleteProduct(long code)
         {
             // Check if Product exists
             var productExists = await _context.Product.AnyAsync(p => p.Code == code);

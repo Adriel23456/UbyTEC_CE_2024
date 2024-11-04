@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/BusinessAssociate/{legal_id}
         [HttpGet("{legal_id}")]
-        public async Task<ActionResult<BusinessAssociateDTO>> GetBusinessAssociate(int legal_id)
+        public async Task<ActionResult<BusinessAssociateDTO>> GetBusinessAssociate(long legal_id)
         {
             var businessAssociates = await _context.BusinessAssociate
                 .FromSqlRaw("EXEC sp_GetBusinessAssociateById @Legal_Id = {0}", legal_id)
@@ -106,7 +106,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/BusinessAssociate/{legal_id}
         [HttpPut("{legal_id}")]
-        public async Task<IActionResult> PutBusinessAssociate(int legal_id, BusinessAssociateDTO_Update businessAssociateDtoUpdate)
+        public async Task<IActionResult> PutBusinessAssociate(long legal_id, BusinessAssociateDTO_Update businessAssociateDtoUpdate)
         {
             // Check if BusinessAssociate exists
             var businessAssociateExists = await _context.BusinessAssociate.AnyAsync(ba => ba.Legal_Id == legal_id);
@@ -159,7 +159,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/BusinessAssociate/{legal_id}
         [HttpDelete("{legal_id}")]
-        public async Task<IActionResult> DeleteBusinessAssociate(int legal_id)
+        public async Task<IActionResult> DeleteBusinessAssociate(long legal_id)
         {
             // Check if BusinessAssociate exists
             var businessAssociateExists = await _context.BusinessAssociate.AnyAsync(ba => ba.Legal_Id == legal_id);

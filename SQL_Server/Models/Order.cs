@@ -8,19 +8,19 @@ namespace SQL_Server.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Code { get; set; } // PK, auto-generated
+        public long Code { get; set; } // PK, auto-generated
 
         [Required]
         [RegularExpression("Preparando|Listo para envio|En camino|Finalizado|Cancelado")]
         public required string State { get; set; }
 
-        public int? TotalService { get; set; } // Assigned automatically
+        public long? TotalService { get; set; } // Assigned automatically
 
         public string? Direction { get; set; } // Assigned automatically
 
         [Required]
         [ForeignKey("Client")]
-        public required int Client_Id { get; set; } // FK to Client.Id
+        public required long Client_Id { get; set; } // FK to Client.Id
 
         [ForeignKey("FoodDeliveryMan")]
         public string? FoodDeliveryMan_UserId { get; set; } // FK to FoodDeliveryMan.UserId

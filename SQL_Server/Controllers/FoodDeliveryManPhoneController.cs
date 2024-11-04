@@ -92,7 +92,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/FoodDeliveryManPhone/{userId}/{phone}
         [HttpPut("{userId}/{phone}")]
-        public async Task<IActionResult> PutFoodDeliveryManPhone(string userId, int phone, FoodDeliveryManPhoneDTO_Update foodDeliveryManPhoneDtoUpdate)
+        public async Task<IActionResult> PutFoodDeliveryManPhone(string userId, long phone, FoodDeliveryManPhoneDTO_Update foodDeliveryManPhoneDtoUpdate)
         {
             // Check if the current entity exists
             var foodDeliveryManPhoneExists = await _context.FoodDeliveryManPhone
@@ -103,7 +103,7 @@ namespace SQL_Server.Controllers
                 return NotFound(new { message = $"FoodDeliveryManPhone with UserId '{userId}' and Phone {phone} not found." });
             }
 
-            int newPhone = foodDeliveryManPhoneDtoUpdate.Phone;
+            long newPhone = foodDeliveryManPhoneDtoUpdate.Phone;
 
             // If the new phone is the same as the existing, nothing to update
             if (newPhone == phone)
@@ -132,7 +132,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/FoodDeliveryManPhone/{userId}/{phone}
         [HttpDelete("{userId}/{phone}")]
-        public async Task<IActionResult> DeleteFoodDeliveryManPhone(string userId, int phone)
+        public async Task<IActionResult> DeleteFoodDeliveryManPhone(string userId, long phone)
         {
             // Check if the entity exists
             var foodDeliveryManPhoneExists = await _context.FoodDeliveryManPhone

@@ -8,9 +8,9 @@ namespace SQL_Server.DTOs
         public required string Province { get; set; }
         public required string Canton { get; set; }
         public required string District { get; set; }
-        public required int SINPE { get; set; }
+        public required long SINPE { get; set; }
         public string? RejectReason { get; set; }
         public required string BusinessManager_Email { get; set; } // FK
-        public required int BusinessType_Identification { get; set; } // FK
+        public required long BusinessType_Identification { get; set; } // FK
     }
 }

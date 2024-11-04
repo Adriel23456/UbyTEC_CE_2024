@@ -9,7 +9,7 @@ namespace SQL_Server.Models
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public required int Id { get; set; } // Número de cédula del admin
+        public required long Id { get; set; } // Número de cédula del admin
 
         [Required]
         public required string Name { get; set; }

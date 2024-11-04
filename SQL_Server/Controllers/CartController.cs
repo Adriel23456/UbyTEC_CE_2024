@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Cart/{code}
         [HttpGet("{code}")]
-        public async Task<ActionResult<CartDTO>> GetCart(int code)
+        public async Task<ActionResult<CartDTO>> GetCart(long code)
         {
             var carts = await _context.Cart
                 .FromSqlRaw("EXEC sp_GetCartByCode @Code = {0}", code)
@@ -82,7 +82,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/Cart/{code}
         [HttpPut("{code}")]
-        public async Task<IActionResult> PutCart(int code, CartDTO_Update cartDtoUpdate)
+        public async Task<IActionResult> PutCart(long code, CartDTO_Update cartDtoUpdate)
         {
             // Check if Cart exists
             var cartExists = await _context.Cart.AnyAsync(c => c.Code == code);
@@ -112,7 +112,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/Cart/{code}
         [HttpDelete("{code}")]
-        public async Task<IActionResult> DeleteCart(int code)
+        public async Task<IActionResult> DeleteCart(long code)
         {
             // Check if Cart exists
             var cartExists = await _context.Cart.AnyAsync(c => c.Code == code);

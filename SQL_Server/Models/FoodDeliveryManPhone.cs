@@ -13,7 +13,7 @@ namespace SQL_Server.Models
 
         [Key]
         [Required]
-        public required int Phone { get; set; } // PK
+        public required long Phone { get; set; } // PK
 
         // Navigation property
         [JsonIgnore]

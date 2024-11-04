@@ -8,14 +8,14 @@ namespace SQL_Server.Models
     {
         [Key, Column(Order = 0)]
         [ForeignKey("Cart")]
-        public required int Cart_Code { get; set; } // PK, FK to Cart.Code
+        public required long Cart_Code { get; set; } // PK, FK to Cart.Code
 
         [Key, Column(Order = 1)]
         [ForeignKey("Product")]
-        public required int Product_Code { get; set; } // PK, FK to Product.Code
+        public required long Product_Code { get; set; } // PK, FK to Product.Code
 
         [Required]
-        public int Amount { get; set; } // Starts at 1, assigned automatically
+        public long Amount { get; set; } // Starts at 1, assigned automatically
 
         // Navigation properties
         [JsonIgnore]

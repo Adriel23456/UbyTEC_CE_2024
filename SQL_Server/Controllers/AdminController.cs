@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Admin/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<AdminDTO>> GetAdmin(int id)
+        public async Task<ActionResult<AdminDTO>> GetAdmin(long id)
         {
             var admins = await _context.Admin
                 .FromSqlRaw("EXEC sp_GetAdminById @Id = {0}", id)
@@ -93,7 +93,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/Admin/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAdmin(int id, AdminDTO_Update adminDtoUpdate)
+        public async Task<IActionResult> PutAdmin(long id, AdminDTO_Update adminDtoUpdate)
         {
             // Verificar si el Admin existe
             var adminExists = await _context.Admin.AnyAsync(a => a.Id == id);
@@ -130,7 +130,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/Admin/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAdmin(int id)
+        public async Task<IActionResult> DeleteAdmin(long id)
         {
             // Verificar si el Admin existe
             var adminExists = await _context.Admin.AnyAsync(a => a.Id == id);
@@ -144,6 +144,42 @@ namespace SQL_Server.Controllers
             await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteAdmin @Id = {0}", id);
 
             return NoContent();
+        }
+
+        // POST: api/Admin/Authenticate
+        [HttpPost("Authenticate")]
+        public async Task<ActionResult<AdminDTO>> Authenticate(AdminDTO_Login loginDto)
+        {
+            // Call the stored procedure
+            var parameters = new[]
+            {
+                new SqlParameter("@UserId", loginDto.UserId),
+                new SqlParameter("@Password", loginDto.Password)
+            };
+
+            var admins = await _context.Admin
+                .FromSqlRaw("EXEC sp_AuthenticateAdmin @UserId, @Password", parameters)
+                .ToListAsync();
+
+            var admin = admins.FirstOrDefault();
+
+            if (admin == null)
+            {
+                // Check if UserId exists
+                var userIdExists = await _context.Admin.AnyAsync(a => a.UserId == loginDto.UserId);
+                if (!userIdExists)
+                {
+                    return NotFound(new { message = $"UserId '{loginDto.UserId}' not found." });
+                }
+                else
+                {
+                    return Unauthorized(new { message = "Incorrect password." });
+                }
+            }
+
+            var adminDto = _mapper.Map<AdminDTO>(admin);
+
+            return Ok(adminDto);
         }
     }
 }

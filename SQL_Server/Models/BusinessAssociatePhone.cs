@@ -9,11 +9,11 @@ namespace SQL_Server.Models
         [ForeignKey("BusinessAssociate")]
         [Key]
         [Required]
-        public required int BusinessAssociate_Legal_Id { get; set; } // PK, FK to BusinessAssociate.Legal_Id
+        public required long BusinessAssociate_Legal_Id { get; set; } // PK, FK to BusinessAssociate.Legal_Id
 
         [Key]
         [Required]
-        public required int Phone { get; set; } // PK
+        public required long Phone { get; set; } // PK
 
         // Navigation property
         [JsonIgnore]

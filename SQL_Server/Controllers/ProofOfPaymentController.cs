@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/ProofOfPayment/{code}
         [HttpGet("{code}")]
-        public async Task<ActionResult<ProofOfPaymentDTO>> GetProofOfPayment(int code)
+        public async Task<ActionResult<ProofOfPaymentDTO>> GetProofOfPayment(long code)
         {
             var proofsOfPayment = await _context.ProofOfPayment
                 .FromSqlRaw("EXEC sp_GetProofOfPaymentByCode @Code = {0}", code)
@@ -105,7 +105,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/ProofOfPayment/{code}
         [HttpPut("{code}")]
-        public async Task<IActionResult> PutProofOfPayment(int code, ProofOfPaymentDTO_Update proofOfPaymentDtoUpdate)
+        public async Task<IActionResult> PutProofOfPayment(long code, ProofOfPaymentDTO_Update proofOfPaymentDtoUpdate)
         {
             // Check if ProofOfPayment exists
             var proofOfPaymentExists = await _context.ProofOfPayment.AnyAsync(p => p.Code == code);
@@ -158,7 +158,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/ProofOfPayment/{code}
         [HttpDelete("{code}")]
-        public async Task<IActionResult> DeleteProofOfPayment(int code)
+        public async Task<IActionResult> DeleteProofOfPayment(long code)
         {
             // Check if ProofOfPayment exists
             var proofOfPaymentExists = await _context.ProofOfPayment.AnyAsync(p => p.Code == code);

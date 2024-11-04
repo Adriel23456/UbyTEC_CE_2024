@@ -52,7 +52,7 @@ namespace SQL_Server.Controllers
 
         // POST: api/Principal/AssignOrderToDeliveryMan/{orderCode}
         [HttpPost("AssignOrderToDeliveryMan/{orderCode}")]
-        public async Task<IActionResult> AssignOrderToDeliveryMan(int orderCode)
+        public async Task<IActionResult> AssignOrderToDeliveryMan(long orderCode)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace SQL_Server.Controllers
 
         // POST: api/Principal/ReceiveOrderByClient/{orderCode}
         [HttpPost("ReceiveOrderByClient/{orderCode}")]
-        public async Task<IActionResult> ReceiveOrderByClient(int orderCode)
+        public async Task<IActionResult> ReceiveOrderByClient(long orderCode)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Extras/GetBusinessesByFilterAndClientLocation?clientId={clientId}&filter={filter}
         [HttpGet("GetBusinessesByFilterAndClientLocation")]
-        public async Task<ActionResult<IEnumerable<BusinessAssociateDTO>>> GetBusinessesByFilterAndClientLocation([FromQuery] int clientId, [FromQuery] string filter)
+        public async Task<ActionResult<IEnumerable<BusinessAssociateDTO>>> GetBusinessesByFilterAndClientLocation([FromQuery] long clientId, [FromQuery] string filter)
         {
             if (string.IsNullOrEmpty(filter))
             {

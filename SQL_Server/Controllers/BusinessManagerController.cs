@@ -146,5 +146,68 @@ namespace SQL_Server.Controllers
 
             return NoContent();
         }
+
+        // POST: api/BusinessManager/Authenticate
+        [HttpPost("Authenticate")]
+        public async Task<ActionResult<BusinessManagerDTO_AuthResponse>> Authenticate(BusinessManagerDTO_Login loginDto)
+        {
+            // Authenticate BusinessManager
+            var parameters = new[]
+            {
+                new SqlParameter("@Email", loginDto.Email),
+                new SqlParameter("@Password", loginDto.Password)
+            };
+
+            var businessManagers = await _context.BusinessManager
+                .FromSqlRaw("EXEC sp_AuthenticateBusinessManager @Email, @Password", parameters)
+                .ToListAsync();
+
+            var businessManager = businessManagers.FirstOrDefault();
+
+            if (businessManager == null)
+            {
+                // Check if Email exists
+                var emailExists = await _context.BusinessManager.AnyAsync(bm => bm.Email == loginDto.Email);
+                if (!emailExists)
+                {
+                    return NotFound(new { message = $"Email '{loginDto.Email}' not found." });
+                }
+                else
+                {
+                    return Unauthorized(new { message = "Incorrect password." });
+                }
+            }
+
+            // Get associated BusinessAssociate
+            var associateParameters = new[]
+            {
+                new SqlParameter("@BusinessManager_Email", businessManager.Email)
+            };
+
+            var businessAssociates = await _context.BusinessAssociate
+                .FromSqlRaw("EXEC sp_GetBusinessAssociateByManagerEmail @BusinessManager_Email", associateParameters)
+                .ToListAsync();
+
+            var businessAssociate = businessAssociates.FirstOrDefault();
+
+            if (businessAssociate == null)
+            {
+                return Unauthorized(new { message = "No BusinessAssociate associated with this BusinessManager." });
+            }
+
+            // Check if BusinessAssociate's State is 'Aceptado'
+            if (businessAssociate.State != "Aceptado")
+            {
+                return Unauthorized(new { message = $"BusinessAssociate is not in 'Aceptado' state. Current state: '{businessAssociate.State}'." });
+            }
+
+            var responseDto = new BusinessManagerDTO_AuthResponse
+            {
+                BusinessManager = _mapper.Map<BusinessManagerDTO>(businessManager),
+                BusinessAssociate = _mapper.Map<BusinessAssociateDTO>(businessAssociate)
+            };
+
+            return Ok(responseDto);
+        }
     }
 }

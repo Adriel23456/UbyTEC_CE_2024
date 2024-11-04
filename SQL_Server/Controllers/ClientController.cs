@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Client/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClientDTO>> GetClient(int id) // Changed id type to int
+        public async Task<ActionResult<ClientDTO>> GetClient(long id) // Changed id type to int
         {
             var clients = await _context.Client
                 .FromSqlRaw("EXEC sp_GetClientById @Id = {0}", id)
@@ -101,7 +101,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/Client/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClient(int id, ClientDTO_Update clientDtoUpdate)
+        public async Task<IActionResult> PutClient(long id, ClientDTO_Update clientDtoUpdate)
         {
             // Check if Client exists
             var clientExists = await _context.Client.AnyAsync(c => c.Id == id);
@@ -146,7 +146,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/Client/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClient(int id) // Changed id type to int
+        public async Task<IActionResult> DeleteClient(long id) // Changed id type to int
         {
             // Check if Client exists
             var clientExists = await _context.Client.AnyAsync(c => c.Id == id);
@@ -160,6 +160,42 @@ namespace SQL_Server.Controllers
             await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteClient @Id = {0}", id);
 
             return NoContent();
+        }
+
+        // POST: api/Client/Authenticate
+        [HttpPost("Authenticate")]
+        public async Task<ActionResult<ClientDTO>> Authenticate(ClientDTO_Login loginDto)
+        {
+            // Call the stored procedure
+            var parameters = new[]
+            {
+                new SqlParameter("@UserId", loginDto.UserId),
+                new SqlParameter("@Password", loginDto.Password)
+            };
+
+            var clients = await _context.Client
+                .FromSqlRaw("EXEC sp_AuthenticateClient @UserId, @Password", parameters)
+                .ToListAsync();
+
+            var client = clients.FirstOrDefault();
+
+            if (client == null)
+            {
+                // Check if UserId exists
+                var userIdExists = await _context.Client.AnyAsync(c => c.UserId == loginDto.UserId);
+                if (!userIdExists)
+                {
+                    return NotFound(new { message = $"UserId '{loginDto.UserId}' not found." });
+                }
+                else
+                {
+                    return Unauthorized(new { message = "Incorrect password." });
+                }
+            }
+
+            var clientDto = _mapper.Map<ClientDTO>(client);
+
+            return Ok(clientDto);
         }
     }
 }

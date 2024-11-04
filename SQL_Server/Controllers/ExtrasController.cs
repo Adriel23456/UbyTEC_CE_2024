@@ -131,7 +131,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Extras/GetOrdersByClientNameAndBusinessAndState?businessId={businessId}&filter={filter}
         [HttpGet("GetOrdersByClientNameAndBusinessAndState")]
-        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByClientNameAndBusinessAndState([FromQuery] int businessId, [FromQuery] string filter)
+        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByClientNameAndBusinessAndState([FromQuery] long businessId, [FromQuery] string filter)
         {
             if (string.IsNullOrEmpty(filter))
             {
@@ -147,7 +147,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Extras/GetOrdersByClientNameBusinessAndStateFilter?businessId={businessId}&clientFilter={clientFilter}&stateFilter={stateFilter}
         [HttpGet("GetOrdersByClientNameBusinessAndStateFilter")]
-        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByClientNameBusinessAndStateFilter([FromQuery] int businessId, [FromQuery] string clientFilter, [FromQuery] string stateFilter)
+        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByClientNameBusinessAndStateFilter([FromQuery] long businessId, [FromQuery] string clientFilter, [FromQuery] string stateFilter)
         {
             if (string.IsNullOrEmpty(clientFilter) || string.IsNullOrEmpty(stateFilter))
             {
@@ -163,7 +163,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Extras/GetProductsByNameAndBusiness?businessId={businessId}&filter={filter}
         [HttpGet("GetProductsByNameAndBusiness")]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsByNameAndBusiness([FromQuery] int businessId, [FromQuery] string filter)
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsByNameAndBusiness([FromQuery] long businessId, [FromQuery] string filter)
         {
             if (string.IsNullOrEmpty(filter))
             {
@@ -195,7 +195,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Extras/GetProductsByCartAndFilter?cartCode={cartCode}&filter={filter}
         [HttpGet("GetProductsByCartAndFilter")]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsByCartAndFilter([FromQuery] int cartCode, [FromQuery] string filter)
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsByCartAndFilter([FromQuery] long cartCode, [FromQuery] string filter)
         {
             if (string.IsNullOrEmpty(filter))
             {
@@ -211,7 +211,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Extras/GetLast10OrdersByClient?clientId={clientId}
         [HttpGet("GetLast10OrdersByClient")]
-        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetLast10OrdersByClient([FromQuery] int clientId)
+        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetLast10OrdersByClient([FromQuery] long clientId)
         {
             var orders = await _context.Order
                 .FromSqlRaw("SELECT * FROM dbo.ufn_GetLast10OrdersByClient({0})", clientId)

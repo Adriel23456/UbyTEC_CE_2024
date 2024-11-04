@@ -9,7 +9,7 @@ namespace SQL_Server.Models
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public required int Id { get; set; } // PK
+        public required long Id { get; set; } // PK
 
         [Required]
         public required string UserId { get; set; } // Unique
@@ -40,7 +40,7 @@ namespace SQL_Server.Models
         public required string Password { get; set; }
 
         [Required]
-        public required int Phone { get; set; }
+        public required long Phone { get; set; }
 
         [Required]
         [RegularExpression(@"\d{2}-\d{2}-\d{4}", ErrorMessage = "BirthDate must be in the format dd-mm-yyyy")]

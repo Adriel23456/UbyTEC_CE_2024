@@ -33,7 +33,7 @@ namespace SQL_Server.Controllers
 
         // GET: api/Order/{code}
         [HttpGet("{code}")]
-        public async Task<ActionResult<OrderDTO>> GetOrder(int code)
+        public async Task<ActionResult<OrderDTO>> GetOrder(long code)
         {
             var orders = await _context.Order
                 .FromSqlRaw("EXEC sp_GetOrderByCode @Code = {0}", code)
@@ -98,7 +98,7 @@ namespace SQL_Server.Controllers
 
         // PUT: api/Order/{code}
         [HttpPut("{code}")]
-        public async Task<IActionResult> PutOrder(int code, OrderDTO_Update orderDtoUpdate)
+        public async Task<IActionResult> PutOrder(long code, OrderDTO_Update orderDtoUpdate)
         {
             // Check if Order exists
             var orderExists = await _context.Order.AnyAsync(o => o.Code == code);
@@ -144,7 +144,7 @@ namespace SQL_Server.Controllers
 
         // DELETE: api/Order/{code}
         [HttpDelete("{code}")]
-        public async Task<IActionResult> DeleteOrder(int code)
+        public async Task<IActionResult> DeleteOrder(long code)
         {
             // Check if Order exists
             var orderExists = await _context.Order.AnyAsync(o => o.Code == code);

@@ -9,7 +9,7 @@ namespace SQL_Server.Models
         [ForeignKey("Product")]
         [Key]
         [Required]
-        public required int Product_Code { get; set; } // PK, FK to Product.Code
+        public required long Product_Code { get; set; } // PK, FK to Product.Code
 
         [Key]
         [Required]

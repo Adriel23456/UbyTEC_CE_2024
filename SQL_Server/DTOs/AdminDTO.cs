@@ -2,7 +2,7 @@ namespace SQL_Server.DTOs
 {
     public class AdminDTO
     {
-        public required int Id { get; set; }
+        public required long Id { get; set; }
         public required string Name { get; set; }
         public required string FirstSurname { get; set; }
         public required string SecondSurname { get; set; }
