@@ -12,7 +12,8 @@ namespace SQL_Server.Models
 
         public long? BusinessAssociate_Legal_Id { get; set; } // Assigned automatically
 
-        public long? TotalProductsPrice { get; set; } // Assigned automatically
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? TotalProductsPrice { get; set; } // Assigned automatically
 
         [Required]
         [ForeignKey("Client")]

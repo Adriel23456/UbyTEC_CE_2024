@@ -264,8 +264,8 @@ namespace SQL_Server.Migrations
                     b.Property<long>("Client_Id")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("TotalProductsPrice")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("TotalProductsPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Code");
 
@@ -373,11 +373,11 @@ namespace SQL_Server.Migrations
                     b.Property<long?>("Purchases")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ServiceAmount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("ServiceAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<long?>("TotalAmount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.ToTable((string)null);
 
@@ -521,8 +521,8 @@ namespace SQL_Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TotalService")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("TotalService")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Code");
 
@@ -572,8 +572,8 @@ namespace SQL_Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Price")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Code");
 
@@ -627,8 +627,8 @@ namespace SQL_Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TotalPayment")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("TotalPayment")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Code");
 
@@ -646,11 +646,11 @@ namespace SQL_Server.Migrations
                     b.Property<long?>("Purchases")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ServiceAmount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("ServiceAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<long?>("TotalAmount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.ToTable((string)null);
 
@@ -665,11 +665,11 @@ namespace SQL_Server.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TotalRevenue")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("TotalRevenue")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<long?>("TotalSold")
-                        .HasColumnType("bigint");
+                    b.Property<decimal?>("TotalSold")
+                        .HasColumnType("decimal(18,2)");
 
                     b.ToTable((string)null);
 

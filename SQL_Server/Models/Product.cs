@@ -14,7 +14,8 @@ namespace SQL_Server.Models
         public required string Name { get; set; }
 
         [Required]
-        public required long Price { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public required decimal Price { get; set; }
 
         [Required]
         public required string Category { get; set; }

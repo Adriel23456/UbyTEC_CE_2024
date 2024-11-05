@@ -88,13 +88,17 @@ namespace SQL_Server.Controllers
         [HttpGet("GetBusinessesByFilterAndClientLocation")]
         public async Task<ActionResult<IEnumerable<BusinessAssociateDTO>>> GetBusinessesByFilterAndClientLocation([FromQuery] long clientId, [FromQuery] string filter)
         {
-            if (string.IsNullOrEmpty(filter))
+            // Check if Client exists
+            var clientExists = await _context.Client.AnyAsync(c => c.Id == clientId);
+            if (!clientExists)
             {
-                return BadRequest(new { message = "Filter parameter is required." });
+                return NotFound(new { message = $"Client with Id {clientId} not found." });
             }
-
+            
             var businessAssociates = await _context.BusinessAssociate
-                .FromSqlRaw("EXEC sp_GetBusinessesByFilterAndClientLocation @Client_Id = {0}, @Filter = {1}", clientId, filter)
+                .FromSqlRaw("EXEC sp_GetBusinessesByFilterAndClientLocation @Client_Id = {0}, @Filter = {1}",
+                    clientId,
+                    filter ?? (object)DBNull.Value)
                 .ToListAsync();
 
             return _mapper.Map<List<BusinessAssociateDTO>>(businessAssociates);

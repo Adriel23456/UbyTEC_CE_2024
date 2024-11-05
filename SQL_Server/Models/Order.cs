@@ -14,7 +14,8 @@ namespace SQL_Server.Models
         [RegularExpression("Preparando|Listo para envio|En camino|Finalizado|Cancelado")]
         public required string State { get; set; }
 
-        public long? TotalService { get; set; } // Assigned automatically
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? TotalService { get; set; } // Assigned automatically
 
         public string? Direction { get; set; } // Assigned automatically
 

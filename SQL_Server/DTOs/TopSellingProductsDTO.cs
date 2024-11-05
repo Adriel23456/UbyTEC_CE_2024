@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SQL_Server.DTOs
 {
     public class TopSellingProductsDTO
@@ -5,6 +7,7 @@ namespace SQL_Server.DTOs
         public string? ProductName { get; set; }
         public string? Affiliate { get; set; }
         public long? TotalSold { get; set; }
-        public long? TotalRevenue { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? TotalRevenue { get; set; }
     }
 }

@@ -15,6 +15,7 @@ CREATE TABLE [Admin] (
     CONSTRAINT [PK_Admin] PRIMARY KEY ([Id])
 );
 GO
+
 CREATE TABLE [BusinessManager] (
     [Email] nvarchar(450) NOT NULL,
     [Name] nvarchar(max) NOT NULL,
@@ -30,12 +31,14 @@ CREATE TABLE [BusinessManager] (
     CONSTRAINT [PK_BusinessManager] PRIMARY KEY ([Email])
 );
 GO
+
 CREATE TABLE [BusinessType] (
     [Identification] bigint NOT NULL IDENTITY,
     [Name] nvarchar(450) NOT NULL,
     CONSTRAINT [PK_BusinessType] PRIMARY KEY ([Identification])
 );
 GO
+
 CREATE TABLE [Client] (
     [Id] bigint NOT NULL,
     [UserId] nvarchar(450) NOT NULL,
@@ -53,6 +56,7 @@ CREATE TABLE [Client] (
     CONSTRAINT [PK_Client] PRIMARY KEY ([Id])
 );
 GO
+
 CREATE TABLE [FoodDeliveryMan] (
     [UserId] nvarchar(450) NOT NULL,
     [Name] nvarchar(max) NOT NULL,
@@ -68,6 +72,7 @@ CREATE TABLE [FoodDeliveryMan] (
     CONSTRAINT [PK_FoodDeliveryMan] PRIMARY KEY ([UserId])
 );
 GO
+
 CREATE TABLE [AdminPhone] (
     [Admin_id] bigint NOT NULL,
     [Phone] bigint NOT NULL,
@@ -75,6 +80,7 @@ CREATE TABLE [AdminPhone] (
     CONSTRAINT [FK_AdminPhone_Admin_Admin_id] FOREIGN KEY ([Admin_id]) REFERENCES [Admin] ([Id]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [BusinessManagerPhone] (
     [BusinessManager_Email] nvarchar(450) NOT NULL,
     [Phone] bigint NOT NULL,
@@ -82,6 +88,7 @@ CREATE TABLE [BusinessManagerPhone] (
     CONSTRAINT [FK_BusinessManagerPhone_BusinessManager_BusinessManager_Email] FOREIGN KEY ([BusinessManager_Email]) REFERENCES [BusinessManager] ([Email]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [BusinessAssociate] (
     [Legal_Id] bigint NOT NULL,
     [Email] nvarchar(max) NOT NULL,
@@ -100,15 +107,17 @@ CREATE TABLE [BusinessAssociate] (
     CONSTRAINT [FK_BusinessAssociate_BusinessType_BusinessType_Identification] FOREIGN KEY ([BusinessType_Identification]) REFERENCES [BusinessType] ([Identification]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [Cart] (
     [Code] bigint NOT NULL IDENTITY,
     [BusinessAssociate_Legal_Id] bigint NULL,
-    [TotalProductsPrice] bigint NULL,
+    [TotalProductsPrice] decimal(18,2) NULL,
     [Client_Id] bigint NOT NULL,
     CONSTRAINT [PK_Cart] PRIMARY KEY ([Code]),
     CONSTRAINT [FK_Cart_Client_Client_Id] FOREIGN KEY ([Client_Id]) REFERENCES [Client] ([Id]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [FoodDeliveryManPhone] (
     [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
     [Phone] bigint NOT NULL,
@@ -116,10 +125,11 @@ CREATE TABLE [FoodDeliveryManPhone] (
     CONSTRAINT [FK_FoodDeliveryManPhone_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [Order] (
     [Code] bigint NOT NULL IDENTITY,
     [State] nvarchar(max) NOT NULL,
-    [TotalService] bigint NULL,
+    [TotalService] decimal(18,2) NULL,
     [Direction] nvarchar(max) NULL,
     [Client_Id] bigint NOT NULL,
     [FoodDeliveryMan_UserId] nvarchar(450) NULL,
@@ -128,6 +138,7 @@ CREATE TABLE [Order] (
     CONSTRAINT [FK_Order_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId])
 );
 GO
+
 CREATE TABLE [BusinessAssociatePhone] (
     [BusinessAssociate_Legal_Id] bigint NOT NULL,
     [Phone] bigint NOT NULL,
@@ -135,16 +146,18 @@ CREATE TABLE [BusinessAssociatePhone] (
     CONSTRAINT [FK_BusinessAssociatePhone_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [Product] (
     [Code] bigint NOT NULL IDENTITY,
     [Name] nvarchar(max) NOT NULL,
-    [Price] bigint NOT NULL,
+    [Price] decimal(18,2) NOT NULL,
     [Category] nvarchar(max) NOT NULL,
     [BusinessAssociate_Legal_Id] bigint NOT NULL,
     CONSTRAINT [PK_Product] PRIMARY KEY ([Code]),
     CONSTRAINT [FK_Product_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [FeedBack] (
     [Id] bigint NOT NULL IDENTITY,
     [FeedBack_Business] nvarchar(max) NOT NULL,
@@ -162,11 +175,12 @@ CREATE TABLE [FeedBack] (
     CONSTRAINT [FK_FeedBack_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE NO ACTION
 );
 GO
+
 CREATE TABLE [ProofOfPayment] (
     [Code] bigint NOT NULL IDENTITY,
     [CreditCardName] nvarchar(max) NOT NULL,
     [LastDigitsCreditCard] bigint NOT NULL,
-    [TotalPayment] bigint NULL,
+    [TotalPayment] decimal(18,2) NULL,
     [Date] nvarchar(max) NOT NULL,
     [Time] nvarchar(max) NOT NULL,
     [ClientFullName] nvarchar(max) NULL,
@@ -176,6 +190,7 @@ CREATE TABLE [ProofOfPayment] (
     CONSTRAINT [FK_ProofOfPayment_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [Cart_Product] (
     [Cart_Code] bigint NOT NULL,
     [Product_Code] bigint NOT NULL,
@@ -185,6 +200,7 @@ CREATE TABLE [Cart_Product] (
     CONSTRAINT [FK_Cart_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [Order_Product] (
     [Order_Code] bigint NOT NULL,
     [Product_Code] bigint NOT NULL,
@@ -194,6 +210,7 @@ CREATE TABLE [Order_Product] (
     CONSTRAINT [FK_Order_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
 );
 GO
+
 CREATE TABLE [ProductPhoto] (
     [Product_Code] bigint NOT NULL,
     [PhotoURL] nvarchar(450) NOT NULL,
@@ -201,36 +218,52 @@ CREATE TABLE [ProductPhoto] (
     CONSTRAINT [FK_ProductPhoto_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
 );
 GO
+
 CREATE UNIQUE INDEX [IX_Admin_UserId] ON [Admin] ([UserId]);
 GO
+
 CREATE UNIQUE INDEX [IX_BusinessAssociate_BusinessManager_Email] ON [BusinessAssociate] ([BusinessManager_Email]);
 GO
+
 CREATE INDEX [IX_BusinessAssociate_BusinessType_Identification] ON [BusinessAssociate] ([BusinessType_Identification]);
 GO
+
 CREATE UNIQUE INDEX [IX_BusinessManager_UserId] ON [BusinessManager] ([UserId]);
 GO
+
 CREATE UNIQUE INDEX [IX_BusinessType_Name] ON [BusinessType] ([Name]);
 GO
+
 CREATE INDEX [IX_Cart_Client_Id] ON [Cart] ([Client_Id]);
 GO
+
 CREATE INDEX [IX_Cart_Product_Product_Code] ON [Cart_Product] ([Product_Code]);
 GO
+
 CREATE UNIQUE INDEX [IX_Client_UserId] ON [Client] ([UserId]);
 GO
+
 CREATE INDEX [IX_FeedBack_BusinessAssociate_Legal_Id] ON [FeedBack] ([BusinessAssociate_Legal_Id]);
 GO
+
 CREATE INDEX [IX_FeedBack_FoodDeliveryMan_UserId] ON [FeedBack] ([FoodDeliveryMan_UserId]);
 GO
+
 CREATE UNIQUE INDEX [IX_FeedBack_Order_Code] ON [FeedBack] ([Order_Code]);
 GO
+
 CREATE INDEX [IX_Order_Client_Id] ON [Order] ([Client_Id]);
 GO
+
 CREATE INDEX [IX_Order_FoodDeliveryMan_UserId] ON [Order] ([FoodDeliveryMan_UserId]);
 GO
+
 CREATE INDEX [IX_Order_Product_Product_Code] ON [Order_Product] ([Product_Code]);
 GO
+
 CREATE INDEX [IX_Product_BusinessAssociate_Legal_Id] ON [Product] ([BusinessAssociate_Legal_Id]);
 GO
+
 CREATE UNIQUE INDEX [IX_ProofOfPayment_Order_Code] ON [ProofOfPayment] ([Order_Code]);
 GO
 ---------------Funciones de creacion de la base de datos en general----------
@@ -948,7 +981,7 @@ GO
 
 CREATE or ALTER PROCEDURE sp_CreateProduct
     @Name NVARCHAR(MAX),
-    @Price BIGINT,
+    @Price decimal(18,2),
     @Category NVARCHAR(MAX),
     @BusinessAssociate_Legal_Id BIGINT
 AS
@@ -965,7 +998,7 @@ GO
 CREATE or ALTER PROCEDURE sp_UpdateProduct
     @Code BIGINT,
     @Name NVARCHAR(MAX),
-    @Price BIGINT,
+    @Price decimal(18,2),
     @Category NVARCHAR(MAX),
     @BusinessAssociate_Legal_Id BIGINT
 AS
@@ -1136,7 +1169,7 @@ BEGIN
 
     -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
     DECLARE @BusinessAssociate_Legal_Id BIGINT;
-    DECLARE @TotalProductsPrice BIGINT;
+    DECLARE @TotalProductsPrice decimal(18,2);
 
     -- Get BusinessAssociate_Legal_Id from first Product in Cart
     SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
@@ -1170,7 +1203,7 @@ BEGIN
 
     -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
     DECLARE @BusinessAssociate_Legal_Id BIGINT;
-    DECLARE @TotalProductsPrice BIGINT;
+    DECLARE @TotalProductsPrice decimal(18,2);
 
     -- Get BusinessAssociate_Legal_Id from first Product in Cart
     SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
@@ -1202,7 +1235,7 @@ BEGIN
 
     -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
     DECLARE @BusinessAssociate_Legal_Id BIGINT;
-    DECLARE @TotalProductsPrice BIGINT;
+    DECLARE @TotalProductsPrice decimal(18,2);
 
     -- Check if there are remaining products in the cart
     IF EXISTS (SELECT 1 FROM [Cart_Product] WHERE [Cart_Code] = @Cart_Code)
@@ -1347,8 +1380,8 @@ BEGIN
     END
 
     -- Update Order's TotalService
-    DECLARE @TotalPrice BIGINT;
-    DECLARE @TotalService BIGINT;
+    DECLARE @TotalPrice decimal(18,2);
+    DECLARE @TotalService decimal(18,2);
 
     -- Calculate TotalPrice
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
@@ -1377,8 +1410,8 @@ BEGIN
     WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
 
     -- Update Order's TotalService
-    DECLARE @TotalPrice BIGINT;
-    DECLARE @TotalService BIGINT;
+    DECLARE @TotalPrice decimal(18,2);
+    DECLARE @TotalService decimal(18,2);
 
     -- Calculate TotalPrice
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
@@ -1405,8 +1438,8 @@ BEGIN
     WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
 
     -- Update Order's TotalService
-    DECLARE @TotalPrice BIGINT;
-    DECLARE @TotalService BIGINT;
+    DECLARE @TotalPrice decimal(18,2);
+    DECLARE @TotalService decimal(18,2);
 
     -- Check if there are remaining products in the order
     IF EXISTS (SELECT 1 FROM [Order_Product] WHERE [Order_Code] = @Order_Code)
@@ -1490,7 +1523,7 @@ END;
 GO
 
 CREATE or ALTER PROCEDURE sp_UpdateProofOfPayment
-    @Code INT,
+    @Code BIGINT,
     @CreditCardName NVARCHAR(MAX),
     @LastDigitsCreditCard BIGINT,
     @Date NVARCHAR(MAX),
@@ -1618,7 +1651,7 @@ GO
 ---------------Funciones para FeedBack---------------
 
 ---------------Funciones extras importantes---------------
-CREATE OR ALTER FUNCTION dbo.ufn_GetAdminsByFilter(@Filter NVARCHAR(MAX) OR NULL)
+CREATE OR ALTER FUNCTION dbo.ufn_GetAdminsByFilter(@Filter NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
@@ -1783,7 +1816,7 @@ RETURN
 GO
 
 CREATE or ALTER FUNCTION dbo.ufn_GetLast10OrdersByClient(
-    @Client_Id INT
+    @Client_Id BIGINT
 )
 RETURNS TABLE
 AS
@@ -1854,6 +1887,7 @@ BEGIN
     DELETE FROM [BusinessManager]
     WHERE Email IN (SELECT Email FROM deleted);
 END
+
 GO
 CREATE or ALTER TRIGGER trg_ValidateProductPrice
 ON [Product]
@@ -1870,13 +1904,12 @@ BEGIN
 END
 GO
 
-
 CREATE OR ALTER VIEW vw_ConsolidatedSalesReport AS
 SELECT
     c.Id AS ClientId,
     c.FullName AS ClientName,
     ba.BusinessName AS Affiliate,
-    COUNT(DISTINCT o.Code) AS Purchases,
+    CAST(COUNT(DISTINCT o.Code) AS BIGINT) AS Purchases, -- Cast COUNT to BIGINT
     fd.FullName AS Conductor,
     SUM(op.Amount * p.Price) AS TotalAmount,
     (SUM(op.Amount * p.Price) * 5) / 100 AS ServiceAmount
@@ -1898,13 +1931,13 @@ GROUP BY
     c.Id,
     c.FullName,
     ba.BusinessName,
-    fd.FullName
+    fd.FullName;
 GO
 
 CREATE OR ALTER VIEW vw_SalesReportByAffiliate AS
 SELECT
     ba.BusinessName AS Affiliate,
-    COUNT(DISTINCT o.Code) AS Purchases,
+    CAST(COUNT(DISTINCT o.Code) AS BIGINT) AS Purchases, -- Cast COUNT to BIGINT
     SUM(op.Amount * p.Price) AS TotalAmount,
     (SUM(op.Amount * p.Price) * 5) / 100 AS ServiceAmount
 FROM
@@ -1925,8 +1958,8 @@ CREATE OR ALTER VIEW vw_TopSellingProducts AS
 SELECT
     p.Name AS ProductName,
     ba.BusinessName AS Affiliate,
-    SUM(op.Amount) AS TotalSold,
-    SUM(op.Amount * p.Price) AS TotalRevenue
+    CAST(SUM(op.Amount) AS DECIMAL(18,2)) AS TotalSold, -- Cast SUM(op.Amount) to DECIMAL
+    CAST(SUM(op.Amount * p.Price) AS DECIMAL(18,2)) AS TotalRevenue -- Ensure SUM is DECIMAL
 FROM
     [Order] o
 INNER JOIN
@@ -1942,10 +1975,9 @@ GROUP BY
     ba.BusinessName
 GO
 
-
 GO
 CREATE OR ALTER PROCEDURE dbo.sp_GetBusinessesByFilterAndClientLocation
-    @Client_Id INT,
+    @Client_Id BIGINT,
     @Filter NVARCHAR(MAX)
 AS
 BEGIN
@@ -1959,7 +1991,7 @@ BEGIN
         END AS ProximityOrder
     FROM [BusinessAssociate] ba
     CROSS JOIN (SELECT Province, Canton, District FROM [Client] WHERE Id = @Client_Id) cl
-    WHERE ba.BusinessName LIKE '%' + @Filter + '%'
+    WHERE (@Filter IS NULL OR @Filter = '' OR ba.BusinessName LIKE '%' + @Filter + '%')
       AND ba.State = 'Aceptado'
     ORDER BY ProximityOrder, ba.BusinessName;
 END;
@@ -1967,7 +1999,7 @@ GO
 
 GO
 CREATE OR ALTER PROCEDURE sp_AssignOrderToDeliveryMan
-    @OrderCode INT
+    @OrderCode BIGINT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -1980,7 +2012,7 @@ BEGIN
     END
 
     -- Get the Client_Id associated with the Order
-    DECLARE @ClientId INT;
+    DECLARE @ClientId BIGINT;
     SELECT @ClientId = [Client_Id]
     FROM [Order]
     WHERE [Code] = @OrderCode;
@@ -2036,7 +2068,7 @@ GO
 
 GO
 CREATE OR ALTER PROCEDURE sp_ReceiveOrderByClient
-    @OrderCode INT
+    @OrderCode BIGINT
 AS
 BEGIN
     SET NOCOUNT ON;

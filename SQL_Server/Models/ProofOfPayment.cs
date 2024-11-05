@@ -16,7 +16,8 @@ namespace SQL_Server.Models
         [Required]
         public required long LastDigitsCreditCard { get; set; }
 
-        public long? TotalPayment { get; set; } // Assigned automatically
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? TotalPayment { get; set; } // Assigned automatically
 
         [Required]
         [RegularExpression(@"\d{2}-\d{2}-\d{4}", ErrorMessage = "Date must be in the format dd-mm-yyyy")]

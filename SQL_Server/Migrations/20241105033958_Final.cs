@@ -186,7 +186,7 @@ namespace SQL_Server.Migrations
                     Code = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BusinessAssociate_Legal_Id = table.Column<long>(type: "bigint", nullable: true),
-                    TotalProductsPrice = table.Column<long>(type: "bigint", nullable: true),
+                    TotalProductsPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Client_Id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -225,7 +225,7 @@ namespace SQL_Server.Migrations
                     Code = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalService = table.Column<long>(type: "bigint", nullable: true),
+                    TotalService = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Direction = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Client_Id = table.Column<long>(type: "bigint", nullable: false),
                     FoodDeliveryMan_UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -271,7 +271,7 @@ namespace SQL_Server.Migrations
                     Code = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<long>(type: "bigint", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BusinessAssociate_Legal_Id = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -333,7 +333,7 @@ namespace SQL_Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreditCardName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastDigitsCreditCard = table.Column<long>(type: "bigint", nullable: false),
-                    TotalPayment = table.Column<long>(type: "bigint", nullable: true),
+                    TotalPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClientFullName = table.Column<string>(type: "nvarchar(max)", nullable: true),

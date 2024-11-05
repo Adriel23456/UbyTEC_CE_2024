@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SQL_Server.DTOs
 {
     public class ProofOfPaymentDTO
@@ -5,7 +7,8 @@ namespace SQL_Server.DTOs
         public long? Code { get; set; } // PK
         public required string CreditCardName { get; set; }
         public required long LastDigitsCreditCard { get; set; }
-        public long? TotalPayment { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? TotalPayment { get; set; }
         public required string Date { get; set; } // Format "dd-mm-yyyy"
         public required string Time { get; set; } // Format "mm:hh"
         public string? ClientFullName { get; set; }
