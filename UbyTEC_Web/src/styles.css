@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+html { height: 100%; }
+
+/* Define los colores como variables CSS para facilitar la referencia y mantenimiento */
+:root {
+    --color1: #1A485B;  /* Color oscuro azul */
+    --color2: #4D7381;  /* Color gris azulado */
+    --color3: #E07B4F;  /* Color coral */
+    --color4: #FFC7A7;  /* Color melocotón claro */
+}
+  
+/* Aplica un gradiente de fondo a todo el body de la aplicación */
+body {
+  overflow-y: auto;
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, 
+    var(--color1) 25%, 
+    var(--color2) 25%, 
+    var(--color2) 50%, 
+    var(--color3) 50%, 
+    var(--color3) 75%, 
+    var(--color4) 75%);
+  background-size: cover;
+  color: #fff;        /* Establece un color de texto que contraste bien con los colores oscuros del fondo */
+}
+  
+/* Estilos adicionales para asegurar que el contenido no afecte la visibilidad del fondo */
+.optional-content {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

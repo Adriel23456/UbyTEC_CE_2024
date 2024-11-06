@@ -1,0 +1,37 @@
+.dialog-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #5C67F2;  /* Un color que podría coincidir con tu botón de login */
+    margin-bottom: 10px;
+    text-align: center;
+}
+  
+.dialog-message {
+    font-size: 16px;
+    color: #333;  /* Un color más suave para el texto del mensaje */
+    text-align: center;
+    margin-bottom: 20px;
+}
+  
+.dialog-container {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);  /* Añade una sombra sutil para el fondo */
+    border: 1px solid #ccc;  /* Un borde ligero para definir los límites del diálogo */
+}
+  
+/* Si usas Angular Material, también puedes ajustar los botones si están dentro del diálogo */
+.mat-dialog-actions {
+    justify-content: center;
+}
+  
+.mat-dialog-actions button {
+    margin: 0 10px;
+    background-color: #5C67F2;
+    color: white;
+}
+  
+.mat-dialog-actions button:hover {
+    background-color: #4a54e1;
+}

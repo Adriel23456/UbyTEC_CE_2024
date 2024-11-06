@@ -1,0 +1,92 @@
+h2 {
+    color: #333;
+    font-size: 40px;
+    margin-bottom: 12%;
+    font-weight: bold;
+    letter-spacing: 2.5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .login-container {
+    max-width: 360px;
+    margin: 100px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    background-color: #ffffff;
+  }
+    
+  .login-container h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .login-container .form-group {
+    margin-bottom: 20px;
+  }
+      
+  .login-container .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+    
+  .login-container .form-group input:focus {
+    border-color: #555;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  }
+    
+  .login-container .form-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+      
+  .login-container .form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+    
+  .login-container .form-actions .login-btn {
+    font-size: larger;
+    background-color: #5C67F2;
+    color: white;
+  }
+    
+  .login-container .form-actions .login-btn:hover {
+    background-color: #4a54e1;
+  }
+    
+  .login-container .form-actions .forgot-password-btn {
+    font-size: medium;
+    background-color: transparent;
+    color: #333;
+  }
+    
+  .login-container .form-actions .forgot-password-btn:hover {
+    text-decoration: underline;
+  }
+  
+  .login-container .register-btn {
+    display: block;
+    font-size: medium;
+    width: 100%;
+    padding: 10px 15px;
+    margin-top: 20%;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .login-container .register-btn:hover {
+    background-color: #45a049;
+  }
