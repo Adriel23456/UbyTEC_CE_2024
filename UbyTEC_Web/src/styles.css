@@ -164,3 +164,56 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--sage-pastel-deep);
 }
+
+/*----------------------------------Estilos negocio-------------------------------------*/
+div.negocio-form {
+    margin: 10px;
+}
+
+div.negocio-form > * {
+    margin-left: 150px;
+    width: 80%;
+}
+
+div.admin-form {
+    margin: 10px;
+}
+
+div.admin-form > * {
+    margin-left: 30px;
+    width: 90%;
+}
+
+div.title {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.boton-afiliacion button {
+    margin: 10px;
+    margin-left: 700px;
+    width: 10%;
+}
+
+.crear-admin button {
+    margin: 10px;
+    margin-left: 140px;
+    width: 50%;
+}
+
+.admin-button button {
+    margin: 20px;
+    margin-left: 570px;
+    width: 30%;
+}
+
+div.upload-button {
+    margin-left: 40px;
+    margin-bottom: 10px;
+}
+
+.upload-button button {
+    margin-left: 10px;
+}

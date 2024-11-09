@@ -28,7 +28,7 @@ export class LoginComponent {
   ) {}
 
   onLogin(): void {
-    console.log("Funciona");
+    this.router.navigate(['/sidenavNegocio'])
   }
 
   onForgotPassword(): void {

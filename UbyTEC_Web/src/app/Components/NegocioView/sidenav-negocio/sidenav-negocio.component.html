@@ -1,0 +1,34 @@
+<div class="container">
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened class="sideNavCont">
+      <mat-toolbar>Menú negocio</mat-toolbar>
+      <mat-nav-list>
+        <mat-list-item (click)="onAfiliacionClick()"> 
+          <span mat-line>Solicitud de afiliacion</span>
+          <mat-icon mat-line>dashboard</mat-icon>
+        </mat-list-item>
+        <mat-list-item (click)="OnAdminClick()"> 
+          <span mat-line>Gestion de administrador</span>
+          <mat-icon mat-line>dashboard</mat-icon>
+        </mat-list-item>
+        <mat-list-item (click)="onProductosClick()"> 
+          <span mat-line>Gestion de Productos</span>
+          <mat-icon mat-line>dashboard</mat-icon>
+        </mat-list-item>
+        <mat-list-item (click)="onPedidosClick()"> 
+          <span mat-line>Gestion de pedidos</span>
+          <mat-icon mat-line>dashboard</mat-icon>
+        </mat-list-item>
+        <mat-list-item (click)="onLogOutClick()"> 
+          <span mat-line>Cerrar sesión</span>
+          <mat-icon mat-line>logout</mat-icon>
+        </mat-list-item>
+
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+</div>

@@ -1,0 +1,23 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="side" opened class="sideNavCont">
+      <mat-toolbar>Menú Administrador</mat-toolbar>
+      <mat-nav-list>
+        <!--Dashboar button-->
+        <mat-list-item (click)="onDashboardClick()"> 
+          <span mat-line>Dashboard</span>
+          <mat-icon mat-line>dashboard</mat-icon>
+        </mat-list-item>
+        <!--log out button-->
+        <mat-list-item (click)="onLogOutClick()"> 
+          <span mat-line>Cerrar sesión</span>
+          <mat-icon mat-line>logout</mat-icon>
+        </mat-list-item>
+
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  

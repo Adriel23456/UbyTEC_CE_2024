@@ -1,0 +1,49 @@
+.sidenav-container {
+    height: 100vh; /* Mantiene la altura completa de la ventana */
+  }
+  mat-sidenav {
+    width: 280px;
+    background-color: #30426a; 
+    border-radius: 0; 
+  }
+  
+  mat-sidenav-content {
+    overflow-y: auto; 
+    height: 100vh; 
+  }
+  
+  mat-toolbar {
+    font-weight: 500;
+    color: white;
+    background-color: #2B3B5C; 
+    border-radius: 0; 
+  }
+  
+  mat-list-item {
+    position: relative;
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center; 
+    color: white;
+    margin-left: 2px; 
+    margin-bottom: 5px; 
+    padding: 10px 0; 
+  }
+  
+  mat-list-item span {
+    color: white !important;
+    padding-left: 20px; 
+  }
+   
+  mat-list-item mat-icon {
+    position: absolute;
+    right: 30px; 
+    color: white;
+    font-size: 24px; 
+  }
+  
+  /* Efecto hover en los elementos del sidenav */
+  mat-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
