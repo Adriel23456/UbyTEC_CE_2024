@@ -1,38 +1,166 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos base */
+html, body { 
+    height: 100%; 
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Previene el scrollbar extra */
+}
 
-/* You can add global styles to this file, and also import other style files */
-html { height: 100%; }
-
-/* Define los colores como variables CSS para facilitar la referencia y mantenimiento */
+/* Paleta de colores */
 :root {
-    --color1: #1A485B;  /* Color oscuro azul */
-    --color2: #4D7381;  /* Color gris azulado */
-    --color3: #E07B4F;  /* Color coral */
-    --color4: #FFC7A7;  /* Color melocotón claro */
+    /* Tonos suaves (izquierda) */
+    --sage-pastel-light: #C5E6C5;
+    --mint-pastel-light: #B8E5B8;
+    --leaf-pastel-light: #A9DBA9;
+    
+    /* Tonos medios (centro) */
+    --sage-pastel: #8AC98A;
+    --mint-pastel: #7BC17B;
+    --leaf-pastel: #6CB86C;
+    
+    /* Tonos intensos (derecha) */
+    --sage-pastel-deep: #59A859;
+    --mint-pastel-deep: #4B994B;
+    --leaf-pastel-deep: #3D8B3D;
 }
-  
-/* Aplica un gradiente de fondo a todo el body de la aplicación */
+
 body {
-  overflow-y: auto;
-  height: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, 
-    var(--color1) 25%, 
-    var(--color2) 25%, 
-    var(--color2) 50%, 
-    var(--color3) 50%, 
-    var(--color3) 75%, 
-    var(--color4) 75%);
-  background-size: cover;
-  color: #fff;        /* Establece un color de texto que contraste bien con los colores oscuros del fondo */
+    position: relative;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: #4A644A;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    overflow-y: auto; /* Solo permitimos scroll vertical si es necesario */
 }
-  
-/* Estilos adicionales para asegurar que el contenido no afecte la visibilidad del fondo */
+
+/* Fondo base con gradiente */
+.pattern-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background: linear-gradient(
+        90deg,
+        var(--mint-pastel-light) 0%,
+        var(--mint-pastel) 50%,
+        var(--mint-pastel-deep) 100%
+    );
+}
+
+/* Patrón de cuadros */
+.pattern-top::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg,
+            rgba(255, 255, 255, 0.15) 25%,
+            transparent 25%),
+        linear-gradient(-45deg,
+            rgba(255, 255, 255, 0.15) 25%,
+            transparent 25%),
+        linear-gradient(45deg,
+            transparent 75%,
+            rgba(255, 255, 255, 0.15) 75%),
+        linear-gradient(-45deg,
+            transparent 75%,
+            rgba(255, 255, 255, 0.15) 75%);
+    background-size: 60px 60px;
+    background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Patrón secundario - rombos entrelazados con animación mejorada */
+.pattern-bottom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: transparent;
+    background-image: 
+        linear-gradient(45deg, 
+            rgba(255, 255, 255, 0.1) 25%, 
+            transparent 25%, 
+            transparent 75%, 
+            rgba(255, 255, 255, 0.1) 75%),
+        linear-gradient(-45deg, 
+            rgba(255, 255, 255, 0.1) 25%, 
+            transparent 25%, 
+            transparent 75%, 
+            rgba(255, 255, 255, 0.1) 75%);
+    background-size: 100px 100px;
+    background-position: 0 0, 50px 50px;
+    animation: movePattern 10s linear infinite;
+}
+
+/* Animación mejorada para movimiento continuo */
+@keyframes movePattern {
+    0% {
+        background-position: 0 0, 50px 50px;
+    }
+    100% {
+        background-position: -100px -100px, -50px -50px;
+    }
+}
+
+/* Capa adicional para profundidad */
+.pattern-bottom::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(0deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.05) 70%),
+        linear-gradient(90deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.05) 70%);
+    background-size: 50px 50px;
+    opacity: 0.8;
+}
+
+/* Contenedor con efecto suave */
 .optional-content {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.85);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #4A644A;
+    position: relative;
+    z-index: 2;
+    margin: 20px;
+    backdrop-filter: blur(5px);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--mint-pastel-light);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sage-pastel);
+    border-radius: 6px;
+    border: 3px solid var(--mint-pastel-light);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sage-pastel-deep);
 }

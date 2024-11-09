@@ -1,0 +1,19 @@
+.main-container {
+    min-height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 2;
+    height: auto;
+    width: 100%;
+}
+
+/* Asegurando que el router-outlet ocupe el espacio necesario */
+::ng-deep router-outlet ~ * {
+    display: block;
+    min-height: fit-content;
+}
