@@ -1,92 +1,180 @@
+/* Contenedor principal con tema de comida */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 40px;  /* Aumentado para más espacio interno */
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+}
+
+/* Selector de tipo de usuario */
+.user-type-selector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  margin: -5px;  /* Compensar el padding de los botones */
+  padding: 0 10px;  /* Añadir padding horizontal */
+}
+
+.user-type-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  background-color: #f0f0f0;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 14px;
+  margin: 5px;  /* Espaciado uniforme entre botones */
+}
+
+.user-type-btn.active {
+  background-color: var(--sage-pastel);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Título con estilo gastronómico */
 h2 {
-    color: #333;
-    font-size: 40px;
-    margin-bottom: 12%;
-    font-weight: bold;
-    letter-spacing: 2.5px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-  }
-  
+  color: var(--sage-pastel-deep);
+  font-size: 32px;
+  margin: 30px 0;  /* Margen vertical uniforme */
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Formulario */
+form {
+  width: 100%;
+  padding: 0 10px;  /* Padding horizontal para el formulario */
+  box-sizing: border-box;
+}
+
+/* Campos de formulario */
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid var(--mint-pastel-light);
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: rgba(255,255,255,0.9);
+  box-sizing: border-box;  /* Importante para incluir padding en el width */
+  margin: 0;  /* Eliminar márgenes automáticos */
+}
+
+.form-group input:focus {
+  border-color: var(--sage-pastel);
+  box-shadow: 0 0 15px rgba(108,184,108,0.1);
+  outline: none;
+}
+
+/* Botones de acción */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-btn {
+  padding: 12px 30px;
+  background-color: var(--sage-pastel-deep);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  min-width: 120px;  /* Ancho mínimo para el botón */
+}
+
+.login-btn:hover {
+  background-color: var(--leaf-pastel-deep);
+  transform: translateY(-2px);
+}
+
+.forgot-password-btn {
+  background: transparent;
+  border: none;
+  color: var(--sage-pastel-deep);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: underline;
+  padding: 5px;
+}
+
+.forgot-password-btn:hover {
+  color: var(--leaf-pastel-deep);
+}
+
+.register-btn {
+  display: block;
+  width: calc(100% - 20px);  /* Ajustado para mantener margen consistente */
+  padding: 12px;
+  margin: 30px 10px 0;  /* Centrado con márgenes laterales */
+  background-color: white;
+  border: 2px solid var(--sage-pastel);
+  color: var(--sage-pastel-deep);
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.register-btn:hover {
+  background-color: var(--sage-pastel-light);
+  color: var(--sage-pastel-deep);
+  transform: translateY(-2px);
+}
+
+/* Efectos hover y focus */
+button:focus {
+  outline: none;
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
   .login-container {
-    max-width: 360px;
-    margin: 100px auto;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    background-color: #ffffff;
+      margin: 20px;
+      padding: 20px;
   }
-    
-  .login-container h2 {
-    text-align: center;
-    color: #333;
+
+  .form-actions {
+      flex-direction: column;
+      align-items: stretch;
   }
-  
-  .login-container .form-group {
-    margin-bottom: 20px;
+
+  .forgot-password-btn {
+      text-align: center;
   }
-      
-  .login-container .form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+
+  .register-btn {
+      width: calc(100% - 10px);
+      margin: 30px 5px 0;
   }
-    
-  .login-container .form-group input:focus {
-    border-color: #555;
-    box-shadow: 0 0 8px rgba(0,0,0,0.05);
-  }
-    
-  .login-container .form-actions {
-    display: flex;
-    justify-content: space-between;
-  }
-      
-  .login-container .form-actions button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-    
-  .login-container .form-actions .login-btn {
-    font-size: larger;
-    background-color: #5C67F2;
-    color: white;
-  }
-    
-  .login-container .form-actions .login-btn:hover {
-    background-color: #4a54e1;
-  }
-    
-  .login-container .form-actions .forgot-password-btn {
-    font-size: medium;
-    background-color: transparent;
-    color: #333;
-  }
-    
-  .login-container .form-actions .forgot-password-btn:hover {
-    text-decoration: underline;
-  }
-  
-  .login-container .register-btn {
-    display: block;
-    font-size: medium;
-    width: 100%;
-    padding: 10px 15px;
-    margin-top: 20%;
-    border: none;
-    border-radius: 4px;
-    background-color: #4CAF50;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .login-container .register-btn:hover {
-    background-color: #45a049;
-  }
+}

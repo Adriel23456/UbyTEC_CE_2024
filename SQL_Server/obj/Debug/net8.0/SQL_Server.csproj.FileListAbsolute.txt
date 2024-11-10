@@ -145,3 +145,4 @@ C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Da
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\obj\Debug\net8.0\SQL_Server.pdb
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\obj\Debug\net8.0\SQL_Server.genruntimeconfig.cache
 C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\obj\Debug\net8.0\ref\SQL_Server.dll
+C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\SQL_Server\bin\Debug\net8.0\package-lock.json

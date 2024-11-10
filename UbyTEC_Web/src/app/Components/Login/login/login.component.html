@@ -1,16 +1,52 @@
 <div class="login-container">
-    <h2>Iniciar Sesión</h2>
-    <form (submit)="onLogin()">
+  <!-- Selector de tipo de usuario -->
+  <div class="user-type-selector">
+      <button 
+          *ngFor="let type of userTypes" 
+          [class.active]="selectedUserType === type.value"
+          (click)="selectUserType(type.value)"
+          class="user-type-btn">
+          {{ type.label }}
+      </button>
+  </div>
+
+  <h2>{{ getLoginTitle() }}</h2>
+  
+  <form (submit)="onLogin()">
       <div class="form-group">
-        <input type="email" [(ngModel)]="email" name="email" required placeholder="Correo Electrónico">
+          <input 
+              [type]="selectedUserType === 'afiliado' ? 'email' : 'text'"
+              [(ngModel)]="username" 
+              [name]="selectedUserType === 'afiliado' ? 'email' : 'username'" 
+              required 
+              [placeholder]="selectedUserType === 'afiliado' ? 'Correo Electrónico' : 'Usuario'">
       </div>
       <div class="form-group">
-        <input type="password" [(ngModel)]="password" name="password" required placeholder="Contraseña">
+          <input 
+              type="password" 
+              [(ngModel)]="password" 
+              name="password" 
+              required 
+              placeholder="Contraseña">
       </div>
       <div class="form-actions">
-        <button type="submit" class="login-btn">Ingresar</button>
-        <button type="button" class="forgot-password-btn" (click)="onForgotPassword()">Olvidé mi contraseña</button>
+          <button type="submit" class="login-btn">
+              <i class="fas fa-sign-in-alt"></i> Ingresar
+          </button>
+          <button 
+              *ngIf="selectedUserType !== 'administrador'" 
+              type="button" 
+              class="forgot-password-btn" 
+              (click)="onForgotPassword()">
+              Olvidé mi contraseña
+          </button>
       </div>
-    </form>
-    <button class="register-btn" (click)="onRegister()">Registrarse</button>
-  </div>
+  </form>
+  
+  <button 
+      *ngIf="selectedUserType !== 'administrador'" 
+      class="register-btn" 
+      (click)="onRegister()">
+      <i class="fas fa-user-plus"></i> Registrarse
+  </button>
+</div>
