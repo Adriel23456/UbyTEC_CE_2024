@@ -1493,12 +1493,12 @@ CREATE or ALTER PROCEDURE sp_CreateProofOfPayment
     @Order_Code BIGINT
 AS
 BEGIN
-    DECLARE @TotalPayment BIGINT;
+    DECLARE @TotalPayment decimal(18,2);
     DECLARE @ClientFullName NVARCHAR(MAX);
     DECLARE @ClientPhone BIGINT;
 
     -- Calculate TotalPayment
-    DECLARE @TotalPrice BIGINT;
+    DECLARE @TotalPrice decimal(18,2);
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
     FROM [Order_Product] op
     INNER JOIN [Product] p ON op.Product_Code = p.Code
@@ -1531,12 +1531,12 @@ CREATE or ALTER PROCEDURE sp_UpdateProofOfPayment
     @Order_Code BIGINT
 AS
 BEGIN
-    DECLARE @TotalPayment BIGINT;
+    DECLARE @TotalPayment decimal(18,2);
     DECLARE @ClientFullName NVARCHAR(MAX);
     DECLARE @ClientPhone BIGINT;
 
     -- Calculate TotalPayment
-    DECLARE @TotalPrice BIGINT;
+    DECLARE @TotalPrice decimal(18,2);
     SELECT @TotalPrice = SUM(p.Price * op.Amount)
     FROM [Order_Product] op
     INNER JOIN [Product] p ON op.Product_Code = p.Code
