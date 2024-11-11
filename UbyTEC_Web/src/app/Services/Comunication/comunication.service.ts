@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Client, ClientCreate, ClientLogin, ClientUpdate } from '../Client/client.service';
 import { Admin, AdminCreate, AdminLogin, AdminPhone, AdminPhoneUpdate, AdminUpdate } from '../Admin/admin.service';
+import { FoodDeliveryMan, FoodDeliveryManCreate, FoodDeliveryManLogin, FoodDeliveryManPhone, FoodDeliveryManPhoneUpdate, FoodDeliveryManUpdate } from '../FoodDeliveryMan/food-delivery-man.service';
 
 @Injectable({
   providedIn: 'root'
@@ -262,6 +263,107 @@ export class ComunicationService {
     const operation = `DELETE Admin Phone: ${adminId}/${phone}`;
     return this.http.delete<void>(
       `${this.apiUrl}/AdminPhone/${adminId}/${phone}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para FoodDeliveryMan (Identificado por userId)
+  // -----------------------------------
+
+  getFoodDeliveryMen(): Observable<FoodDeliveryMan[]> {
+    const operation = 'GET FoodDeliveryMen';
+    return this.http.get<FoodDeliveryMan[]>(`${this.apiUrl}/FoodDeliveryMan`, { headers: this.headers })
+      .pipe(catchError(this.handleError(operation)));
+  }
+
+  getFoodDeliveryManByUserId(userId: string): Observable<FoodDeliveryMan> {
+    const operation = `GET FoodDeliveryMan By UserID: ${userId}`;
+    return this.http.get<FoodDeliveryMan>(`${this.apiUrl}/FoodDeliveryMan/${userId}`, { headers: this.headers })
+      .pipe(catchError(this.handleError(operation)));
+  }
+
+  createFoodDeliveryMan(foodDeliveryMan: FoodDeliveryManCreate): Observable<FoodDeliveryMan> {
+    const operation = 'POST Create FoodDeliveryMan';
+    return this.http.post<FoodDeliveryMan>(
+      `${this.apiUrl}/FoodDeliveryMan`,
+      foodDeliveryMan,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateFoodDeliveryMan(userId: string, update: FoodDeliveryManUpdate): Observable<void> {
+    const operation = `PUT Update FoodDeliveryMan ID: ${userId}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/FoodDeliveryMan/${userId}`,
+      update,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteFoodDeliveryMan(userId: string): Observable<void> {
+    const operation = `DELETE FoodDeliveryMan ID: ${userId}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/FoodDeliveryMan/${userId}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  authenticateFoodDeliveryMan(credentials: FoodDeliveryManLogin): Observable<FoodDeliveryMan> {
+    const operation = 'POST Authenticate FoodDeliveryMan';
+    return this.http.post<FoodDeliveryMan>(
+      `${this.apiUrl}/FoodDeliveryMan/Authenticate`,
+      credentials,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para FoodDeliveryManPhone
+  // -----------------------------------
+
+  getFoodDeliveryManPhones(): Observable<FoodDeliveryManPhone[]> {
+    const operation = 'GET FoodDeliveryMan Phones';
+    return this.http.get<FoodDeliveryManPhone[]>(
+      `${this.apiUrl}/FoodDeliveryManPhone`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  getPhonesByFoodDeliveryManUserId(userId: string): Observable<FoodDeliveryManPhone[]> {
+    const operation = `GET Phones By FoodDeliveryMan UserID: ${userId}`;
+    return this.http.get<FoodDeliveryManPhone[]>(
+      `${this.apiUrl}/FoodDeliveryManPhone/${userId}/Phones`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  createFoodDeliveryManPhone(phone: FoodDeliveryManPhone): Observable<FoodDeliveryManPhone> {
+    const operation = 'POST Create FoodDeliveryMan Phone';
+    return this.http.post<FoodDeliveryManPhone>(
+      `${this.apiUrl}/FoodDeliveryManPhone`,
+      phone,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateFoodDeliveryManPhone(
+    userId: string,
+    oldPhone: number,
+    update: FoodDeliveryManPhoneUpdate
+  ): Observable<void> {
+    const operation = `PUT Update FoodDeliveryMan Phone: ${userId}/${oldPhone}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/FoodDeliveryManPhone/${userId}/${oldPhone}`,
+      update,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteFoodDeliveryManPhone(userId: string, phone: number): Observable<void> {
+    const operation = `DELETE FoodDeliveryMan Phone: ${userId}/${phone}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/FoodDeliveryManPhone/${userId}/${phone}`,
       { headers: this.headers }
     ).pipe(catchError(this.handleError(operation)));
   }
