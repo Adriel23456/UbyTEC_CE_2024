@@ -7,6 +7,7 @@ import { FoodDeliveryMan, FoodDeliveryManCreate, FoodDeliveryManLogin, FoodDeliv
 import { BusinessAssociate, BusinessAssociateCreate, BusinessAssociatePhone, BusinessAssociatePhoneUpdate, BusinessAssociateUpdate } from '../BusinessAssociate/business-associate.service';
 import { BusinessType, BusinessTypeCreate, BusinessTypeUpdate } from '../BusinessType/business-type.service';
 import { BusinessManager, BusinessManagerAuthResponse, BusinessManagerCreate, BusinessManagerLogin, BusinessManagerPhone, BusinessManagerPhoneUpdate, BusinessManagerUpdate } from '../BusinessManager/business-manager.service';
+import { Product, ProductCreate, ProductPhoto, ProductPhotoUpdate, ProductUpdate } from '../Product/product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -635,6 +636,104 @@ export class ComunicationService {
     const operation = `DELETE BusinessManager Phone: ${email}/${phone}`;
     return this.http.delete<void>(
       `${this.apiUrl}/BusinessManagerPhone/${email}/${phone}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para Product (Identificado por code)
+  // -----------------------------------
+
+  getProducts(): Observable<Product[]> {
+    const operation = 'GET Products';
+    return this.http.get<Product[]>(`${this.apiUrl}/Product`, { headers: this.headers })
+      .pipe(catchError(this.handleError(operation)));
+  }
+
+  getProductByCode(code: number): Observable<Product> {
+    const operation = `GET Product By Code: ${code}`;
+    return this.http.get<Product>(
+      `${this.apiUrl}/Product/${code}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  createProduct(product: ProductCreate): Observable<Product> {
+    const operation = 'POST Create Product';
+    return this.http.post<Product>(
+      `${this.apiUrl}/Product`,
+      product,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateProduct(code: number, product: ProductUpdate): Observable<void> {
+    const operation = `PUT Update Product Code: ${code}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/Product/${code}`,
+      product,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteProduct(code: number): Observable<void> {
+    const operation = `DELETE Product Code: ${code}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/Product/${code}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para ProductPhoto
+  // -----------------------------------
+
+  getProductPhotos(): Observable<ProductPhoto[]> {
+    const operation = 'GET Product Photos';
+    return this.http.get<ProductPhoto[]>(
+      `${this.apiUrl}/ProductPhoto`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  getPhotosByProductCode(productCode: number): Observable<ProductPhoto[]> {
+    const operation = `GET Photos By Product Code: ${productCode}`;
+    return this.http.get<ProductPhoto[]>(
+      `${this.apiUrl}/ProductPhoto/${productCode}/Photos`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  createProductPhoto(photo: ProductPhoto): Observable<ProductPhoto> {
+    const operation = 'POST Create Product Photo';
+    return this.http.post<ProductPhoto>(
+      `${this.apiUrl}/ProductPhoto`,
+      photo,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateProductPhoto(
+    productCode: number,
+    oldPhotoUrl: string,
+    update: ProductPhotoUpdate
+  ): Observable<void> {
+    const operation = `PUT Update Product Photo: ${productCode}/${oldPhotoUrl}`;
+    const encodedPhotoUrl = encodeURIComponent(oldPhotoUrl);
+    
+    return this.http.put<void>(
+      `${this.apiUrl}/ProductPhoto/${productCode}/${encodedPhotoUrl}`,
+      update,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteProductPhoto(productCode: number, photoUrl: string): Observable<void> {
+    const operation = `DELETE Product Photo: ${productCode}/${photoUrl}`;
+    const encodedPhotoUrl = encodeURIComponent(photoUrl);
+
+    return this.http.delete<void>(
+      `${this.apiUrl}/ProductPhoto/${productCode}/${encodedPhotoUrl}`,
       { headers: this.headers }
     ).pipe(catchError(this.handleError(operation)));
   }
