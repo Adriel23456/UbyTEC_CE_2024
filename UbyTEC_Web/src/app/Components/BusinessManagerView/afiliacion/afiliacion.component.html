@@ -1,0 +1,49 @@
+<div class="title">
+    Solicitar afiliación
+</div>
+<form [formGroup]="service.afiliacion_form">
+    <div class="negocio-form">
+        <input type="hidden" formControlName="$key">
+        <mat-form-field>
+            <input formControlName="cedula" matInput placeholder="Número Cédula*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="nombre" matInput placeholder="Nombre comercio*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="tipo" matInput placeholder="Tipo de comercio*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="direccion" matInput placeholder="Direccion*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="telefono" matInput placeholder="Teléfonos*">
+            <mat-error *ngIf="service.afiliacion_form.controls['telefono'].errors?.['required']">Este campo es obligatorio.</mat-error>
+            <mat-error *ngIf="service.afiliacion_form.controls['telefono'].errors?.['minlength'] || service.afiliacion_form.controls['telefono'].errors?.['maxlength']">
+                El número debe ser de 8 dígitos
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="correo" matInput placeholder="Correo Electrónico*">
+            <mat-error *ngIf="service.afiliacion_form.controls['correo'].errors?.['required']">Este campo es obligatorio</mat-error>
+            <mat-error *ngIf="service.afiliacion_form.controls['correo'].errors?.['email']">Ingresar un correo válido</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="no_sinpe" matInput placeholder="Número SINPE móvil*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select formControlName="admin" placeholder="Administrador del comercio*">
+                <mat-option>Admin1</mat-option>
+            </mat-select>
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="boton-afiliacion">
+        <button mat-raised-button color="primary" type="submit" [disabled]="service.afiliacion_form.invalid">Solicitar</button>
+    </div>
+</form>

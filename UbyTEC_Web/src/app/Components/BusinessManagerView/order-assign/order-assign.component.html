@@ -1,1 +1,55 @@
-<p>order-assign works!</p>
+<div class="title">
+    Asignación de pedidos
+</div>
+<div class="search-div">
+    <mat-form-field class="search-form-field">
+        <mat-label>Buscar</mat-label>
+        <input matInput type="text" [(ngModel)]="searchKey">
+        @if (searchKey) {
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="searchKey=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+    </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData" matSort>
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="cliente">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.cliente}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="observar">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef>
+                <button mat-flat-button>Observar</button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.estado}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="listo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Listo</mat-header-cell>
+            <mat-cell *matCellDef><mat-checkbox></mat-checkbox></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="5">
+                No data.
+            </mat-footer-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-header-row *matRowDef="let row; columns: displayedColumns;"></mat-header-row>
+        <!--<mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !(listData!=null && listData.length==0)}"></mat-footer-row>-->
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>

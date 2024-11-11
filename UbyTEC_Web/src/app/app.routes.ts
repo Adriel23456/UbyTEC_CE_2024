@@ -23,6 +23,8 @@ import { InitialComponent } from './Components/ClientView/initial/initial.compon
 import { ManagementComponent } from './Components/ClientView/management/management.component';
 import { OrderReceptionComponent } from './Components/ClientView/order-reception/order-reception.component';
 import { ModifyStateComponent } from './Components/FoodDeliveryManView/modify-state/modify-state.component';
+import { AfiliacionComponent } from './Components/BusinessManagerView/afiliacion/afiliacion.component';
+import { AdministradorComponent } from './Components/BusinessManagerView/administrador/administrador.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -57,9 +59,10 @@ export const routes: Routes = [
     {
       path: 'sidenavBusiness',
       component: SidenavBusinessManagerComponent,
-      canActivate: [authenticationBusinessGuard],
+      //canActivate: [authenticationBusinessGuard],
       children: [
         { path: '', redirectTo: 'managementOrders', pathMatch: 'full' },
+        { path: 'afiliacion', component: AfiliacionComponent },
         { path: 'managementOrders', component: ManagementOrdersComponent },
         { path: 'managementProducts', component: ManagementProductsComponent },
         { path: 'orderAssign', component: OrderAssignComponent }

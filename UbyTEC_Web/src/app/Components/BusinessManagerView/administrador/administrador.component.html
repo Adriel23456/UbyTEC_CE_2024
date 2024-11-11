@@ -1,9 +1,10 @@
 <div class="title">
-    <mat-toolbar>
-        <span>Gestión de pedidos</span>
-    </mat-toolbar>
+    Gestión de administrador
 </div>
 <div class="search-div">
+    <button mat-raised-button (click)="createDialog()">
+        <mat-icon>add</mat-icon>Nuevo
+    </button>
     <mat-form-field class="search-form-field">
         <mat-label>Buscar</mat-label>
         <input matInput type="text" [(ngModel)]="searchKey">
@@ -16,31 +17,26 @@
 </div>
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData" matSort>
-        <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="cliente">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.cliente}}</mat-cell>
+        <ng-container matColumnDef="direccion">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Dirección</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.direccion}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="observar">
-            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-            <mat-cell *matCellDef>
-                <button mat-flat-button (click)="openDialog()">Observar</button>
-            </mat-cell>
+        <ng-container matColumnDef="telefono">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Teléfono</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.telefono}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.estado}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="listo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Listo</mat-header-cell>
-            <mat-cell *matCellDef><mat-checkbox></mat-checkbox></mat-cell>
+        <ng-container matColumnDef="usuario">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.usuario}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
+                <button mat-icon-button (click)="updateDialog()"><mat-icon>launch</mat-icon></button>
                 <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
             </mat-cell>
         </ng-container>

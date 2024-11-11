@@ -171,7 +171,7 @@ div.negocio-form {
 }
 
 div.negocio-form > * {
-    margin-left: 150px;
+    margin-left: 100px;
     width: 80%;
 }
 
@@ -185,15 +185,15 @@ div.admin-form > * {
 }
 
 div.title {
+    margin: 20px;
     max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    font-size: 200%;
 }
-
 
 .boton-afiliacion button {
     margin: 10px;
-    margin-left: 700px;
     width: 10%;
 }
 
@@ -232,7 +232,6 @@ div.upload-button {
     width: 90%;
     margin-left: 10px;
     padding: 5px 10px;
-    background-color: #ffffff;
     border-radius: 5px;
 }
 
