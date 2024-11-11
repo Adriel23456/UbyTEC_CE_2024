@@ -4,7 +4,7 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
 
 export interface FoodDeliveryMan {
-  UserID: string; // Unique
+  UserId: string; // Unique
   Name: string;
   FirstSurname: string;
   SecondSurname: string;
@@ -18,7 +18,7 @@ export interface FoodDeliveryMan {
 }
 
 export interface FoodDeliveryManCreate {
-  UserID: string; // Unique
+  UserId: string; // Unique
   Name: string;
   FirstSurname: string;
   SecondSurname: string;
@@ -30,7 +30,7 @@ export interface FoodDeliveryManCreate {
 }
 
 export interface FoodDeliveryManLogin {
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
@@ -113,7 +113,7 @@ export class FoodDeliveryManService {
   public update(userId: string, deliveryMan: FoodDeliveryManUpdate): Observable<void> {
     return this.comunicationService.updateFoodDeliveryMan(userId, deliveryMan).pipe(
       tap(() => {
-        if (this.currentDeliveryManValue?.UserID === userId) {
+        if (this.currentDeliveryManValue?.UserId === userId) {
           const updatedDeliveryMan = { ...this.currentDeliveryManValue, ...deliveryMan };
           this.updateStoredDeliveryMan(updatedDeliveryMan);
         }
@@ -125,7 +125,7 @@ export class FoodDeliveryManService {
   public delete(userId: string): Observable<void> {
     return this.comunicationService.deleteFoodDeliveryMan(userId).pipe(
       tap(() => {
-        if (this.currentDeliveryManValue?.UserID === userId) {
+        if (this.currentDeliveryManValue?.UserId === userId) {
           this.logout();
         }
       }),
@@ -151,7 +151,7 @@ export class FoodDeliveryManService {
       return throwError(() => new Error('No hay repartidor autenticado'));
     }
 
-    return this.comunicationService.getFoodDeliveryManByUserId(this.currentDeliveryManValue.UserID).pipe(
+    return this.comunicationService.getFoodDeliveryManByUserId(this.currentDeliveryManValue.UserId).pipe(
       tap(deliveryMan => {
         const deliveryManUpdate: FoodDeliveryManUpdate = {
           Name: deliveryMan.Name,
@@ -164,7 +164,7 @@ export class FoodDeliveryManService {
           State: deliveryMan.State
         };
         
-        this.comunicationService.updateFoodDeliveryMan(deliveryMan.UserID, deliveryManUpdate).pipe(
+        this.comunicationService.updateFoodDeliveryMan(deliveryMan.UserId, deliveryManUpdate).pipe(
           tap(() => {
             this.updateStoredDeliveryMan(deliveryMan);
           })

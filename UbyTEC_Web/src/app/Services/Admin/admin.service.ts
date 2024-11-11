@@ -13,7 +13,7 @@ export interface Admin {
   Canton: string;
   District: string;
   Direction: string; // Computed property
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
@@ -25,12 +25,12 @@ export interface AdminCreate {
   Province: string;
   Canton: string;
   District: string;
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
 export interface AdminLogin {
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
@@ -41,7 +41,7 @@ export interface AdminUpdate {
   Province: string;
   Canton: string;
   District: string;
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
@@ -152,7 +152,7 @@ export class AdminService {
     return this.comunicationService.getAdminById(this.currentAdminValue.Id).pipe(
       tap(admin => {
         const adminUpdate: AdminUpdate = {
-          UserID: admin.UserID,
+          UserId: admin.UserId,
           Name: admin.Name,
           FirstSurname: admin.FirstSurname,
           SecondSurname: admin.SecondSurname,

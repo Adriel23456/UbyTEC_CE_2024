@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ClientCreate, ClientService, ClientUpdate } from '../../../Services/Client/client.service';
 import { DialogComponent } from '../dialog/dialog.component';
 import { FormsModule } from "@angular/forms";
 import { CommonModule, NgIf } from '@angular/common';
+import { ClientLogin, ClientService } from '../../../Services/Client/client.service';
+import { AdminLogin, AdminService } from '../../../Services/Admin/admin.service';
+import { BusinessManagerLogin, BusinessManagerService } from '../../../Services/BusinessManager/business-manager.service';
+import { FoodDeliveryManLogin, FoodDeliveryManService } from '../../../Services/FoodDeliveryMan/food-delivery-man.service';
 
 type UserType = 'cliente' | 'administrador' | 'afiliado' | 'repartidor';
 
@@ -32,7 +35,13 @@ export class LoginComponent {
         { value: 'repartidor' as UserType, label: 'Repartidor' }
     ];
 
-    constructor(private dialog: MatDialog, private clientService: ClientService) {}
+    constructor(
+        private dialog: MatDialog,
+        private clientService: ClientService,
+        private adminService: AdminService,
+        private businessManagerService: BusinessManagerService,
+        private foodDeliveryManService: FoodDeliveryManService
+    ) {}
 
     selectUserType(type: UserType): void {
         this.selectedUserType = type;
@@ -51,33 +60,103 @@ export class LoginComponent {
     }
 
     onLogin(): void {
-        if (this.selectedUserType === 'cliente') {
-            const clientLogin = {
-                UserId: this.username,
-                Password: this.password
-            };
-            this.clientService.login(clientLogin).subscribe({
-                next: (client) => {
-                    console.log('Login exitoso:', client);
-                    this.openDialog('Inicio de Sesión', 'Login exitoso como cliente');
-                },
-                error: (err) => {
-                    // Extraemos el mensaje de error del objeto Error
-                    const errorMessage = err.toString();
-                    console.error('Error en login:', errorMessage);
-                    
-                    // Verificamos si el mensaje contiene las cadenas específicas
-                    if (errorMessage.includes('not found')) {
-                        this.openDialog('Error', `Usuario "${this.username}" no encontrado`);
-                    } else if (errorMessage.includes('Incorrect password')) {
-                        this.openDialog('Error', 'Contraseña incorrecta');
-                    } else {
-                        this.openDialog('Error', 'Error en el inicio de sesión');
-                    }
-                }
-            });
+        if (!this.username || !this.password) {
+            this.openDialog('Error', 'Por favor, ingrese su usuario y contraseña.');
+            return;
+        }
+
+        switch (this.selectedUserType) {
+            case 'cliente':
+                this.loginClient();
+                break;
+            case 'administrador':
+                this.loginAdmin();
+                break;
+            case 'afiliado':
+                this.loginBusinessManager();
+                break;
+            case 'repartidor':
+                this.loginFoodDeliveryMan();
+                break;
+            default:
+                this.openDialog('Error', 'Tipo de usuario desconocido.');
+        }
+    }
+
+    private loginClient(): void {
+        const clientLogin: ClientLogin = {
+            UserId: this.username,
+            Password: this.password
+        };
+
+        this.clientService.login(clientLogin).subscribe({
+            next: (client) => {
+                console.log('Login exitoso:', client);
+                this.openDialog('Inicio de Sesión', 'Login exitoso como cliente');
+                this.router.navigate(['/sidenavClient']);
+            },
+            error: (err) => this.handleLoginError(err, 'cliente')
+        });
+    }
+
+    private loginAdmin(): void {
+        const adminLogin: AdminLogin = {
+            UserId: this.username,
+            Password: this.password
+        };
+
+        this.adminService.login(adminLogin).subscribe({
+            next: (admin) => {
+                console.log('Login exitoso:', admin);
+                this.openDialog('Inicio de Sesión', 'Login exitoso como administrador');
+                this.router.navigate(['/sidenavAdmin']);
+            },
+            error: (err) => this.handleLoginError(err, 'administrador')
+        });
+    }
+
+    private loginBusinessManager(): void {
+        const businessManagerLogin: BusinessManagerLogin = {
+            Email: this.username,
+            Password: this.password
+        };
+
+        this.businessManagerService.login(businessManagerLogin).subscribe({
+            next: (manager) => {
+                console.log('Login exitoso:', manager);
+                this.openDialog('Inicio de Sesión', 'Login exitoso como afiliado');
+                this.router.navigate(['/sidenavBusiness']);
+            },
+            error: (err) => this.handleLoginError(err, 'afiliado')
+        });
+    }
+
+    private loginFoodDeliveryMan(): void {
+        const foodDeliveryManLogin: FoodDeliveryManLogin = {
+            UserId: this.username,
+            Password: this.password
+        };
+
+        this.foodDeliveryManService.login(foodDeliveryManLogin).subscribe({
+            next: (deliveryMan) => {
+                console.log('Login exitoso:', deliveryMan);
+                this.openDialog('Inicio de Sesión', 'Login exitoso como repartidor');
+                this.router.navigate(['/sidenavFoodDeliveryMan']);
+            },
+            error: (err) => this.handleLoginError(err, 'repartidor')
+        });
+    }
+
+    private handleLoginError(error: any, userType: UserType): void {
+        const errorMessage = error.message || 'Error en el inicio de sesión';
+        console.error(`Error en login (${userType}):`, errorMessage);
+
+        if (errorMessage.toLowerCase().includes('not found')) {
+            this.openDialog('Error', `Usuario "${this.username}" no encontrado`);
+        } else if (errorMessage.toLowerCase().includes('incorrect password')) {
+            this.openDialog('Error', 'Contraseña incorrecta');
         } else {
-            this.openDialog('Inicio de Sesión', `Intentando iniciar sesión como ${this.selectedUserType}`);
+            this.openDialog('Error', 'Error en el inicio de sesión');
         }
     }
 

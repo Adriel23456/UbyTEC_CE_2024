@@ -14,7 +14,7 @@ export interface BusinessManager {
   Canton: string;
   District: string;
   Direction: string; // Computed property
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
@@ -25,7 +25,7 @@ export interface BusinessManagerUpdate {
   Province: string;
   Canton: string;
   District: string;
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
@@ -42,7 +42,7 @@ export interface BusinessManagerCreate {
   Province: string;
   Canton: string;
   District: string;
-  UserID: string; // Unique
+  UserId: string; // Unique
   Password: string;
 }
 
@@ -174,7 +174,7 @@ export class BusinessManagerService {
           Province: businessManager.Province,
           Canton: businessManager.Canton,
           District: businessManager.District,
-          UserID: businessManager.UserID,
+          UserId: businessManager.UserId,
           Password: businessManager.Password
         };
         
