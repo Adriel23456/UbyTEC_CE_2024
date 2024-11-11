@@ -4,6 +4,9 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Client, ClientCreate, ClientLogin, ClientUpdate } from '../Client/client.service';
 import { Admin, AdminCreate, AdminLogin, AdminPhone, AdminPhoneUpdate, AdminUpdate } from '../Admin/admin.service';
 import { FoodDeliveryMan, FoodDeliveryManCreate, FoodDeliveryManLogin, FoodDeliveryManPhone, FoodDeliveryManPhoneUpdate, FoodDeliveryManUpdate } from '../FoodDeliveryMan/food-delivery-man.service';
+import { BusinessAssociate, BusinessAssociateCreate, BusinessAssociatePhone, BusinessAssociatePhoneUpdate, BusinessAssociateUpdate } from '../BusinessAssociate/business-associate.service';
+import { BusinessType, BusinessTypeCreate, BusinessTypeUpdate } from '../BusinessType/business-type.service';
+import { BusinessManager, BusinessManagerAuthResponse, BusinessManagerCreate, BusinessManagerLogin, BusinessManagerPhone, BusinessManagerPhoneUpdate, BusinessManagerUpdate } from '../BusinessManager/business-manager.service';
 
 @Injectable({
   providedIn: 'root'
@@ -364,6 +367,274 @@ export class ComunicationService {
     const operation = `DELETE FoodDeliveryMan Phone: ${userId}/${phone}`;
     return this.http.delete<void>(
       `${this.apiUrl}/FoodDeliveryManPhone/${userId}/${phone}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para BusinessAssociate (Identificado por legal_id)
+  // -----------------------------------
+
+  getBusinessAssociates(): Observable<BusinessAssociate[]> {
+    const operation = 'GET BusinessAssociates';
+    return this.http.get<BusinessAssociate[]>(`${this.apiUrl}/BusinessAssociate`, { headers: this.headers })
+      .pipe(catchError(this.handleError(operation)));
+  }
+
+  getBusinessAssociateByLegalId(legalId: number): Observable<BusinessAssociate> {
+    const operation = `GET BusinessAssociate By Legal ID: ${legalId}`;
+    return this.http.get<BusinessAssociate>(
+      `${this.apiUrl}/BusinessAssociate/${legalId}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  createBusinessAssociate(businessAssociate: BusinessAssociateCreate): Observable<BusinessAssociate> {
+    const operation = 'POST Create BusinessAssociate';
+    return this.http.post<BusinessAssociate>(
+      `${this.apiUrl}/BusinessAssociate`,
+      businessAssociate,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateBusinessAssociate(legalId: number, update: BusinessAssociateUpdate): Observable<void> {
+    const operation = `PUT Update BusinessAssociate ID: ${legalId}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/BusinessAssociate/${legalId}`,
+      update,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteBusinessAssociate(legalId: number): Observable<void> {
+    const operation = `DELETE BusinessAssociate ID: ${legalId}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/BusinessAssociate/${legalId}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para BusinessAssociatePhone
+  // -----------------------------------
+
+  getBusinessAssociatePhones(): Observable<BusinessAssociatePhone[]> {
+    const operation = 'GET BusinessAssociate Phones';
+    return this.http.get<BusinessAssociatePhone[]>(
+      `${this.apiUrl}/BusinessAssociatePhone`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  getPhonesByBusinessAssociateLegalId(legalId: number): Observable<BusinessAssociatePhone[]> {
+    const operation = `GET Phones By BusinessAssociate Legal ID: ${legalId}`;
+    return this.http.get<BusinessAssociatePhone[]>(
+      `${this.apiUrl}/BusinessAssociatePhone/${legalId}/Phones`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  createBusinessAssociatePhone(phone: BusinessAssociatePhone): Observable<BusinessAssociatePhone> {
+    const operation = 'POST Create BusinessAssociate Phone';
+    return this.http.post<BusinessAssociatePhone>(
+      `${this.apiUrl}/BusinessAssociatePhone`,
+      phone,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateBusinessAssociatePhone(
+    legalId: number,
+    oldPhone: number,
+    update: BusinessAssociatePhoneUpdate
+  ): Observable<void> {
+    const operation = `PUT Update BusinessAssociate Phone: ${legalId}/${oldPhone}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/BusinessAssociatePhone/${legalId}/${oldPhone}`,
+      update,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteBusinessAssociatePhone(legalId: number, phone: number): Observable<void> {
+    const operation = `DELETE BusinessAssociate Phone: ${legalId}/${phone}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/BusinessAssociatePhone/${legalId}/${phone}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para BusinessType (Identificado por Identification)
+  // -----------------------------------
+
+  /**
+   * Obtiene todos los tipos de negocio.
+   * @returns Observable con la lista de tipos de negocio.
+   */
+  getBusinessTypes(): Observable<BusinessType[]> {
+    const operation = 'GET BusinessTypes';
+    return this.http.get<BusinessType[]>(
+      `${this.apiUrl}/BusinessType`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  /**
+   * Obtiene un tipo de negocio específico por su ID.
+   * @param id Identificador único del tipo de negocio.
+   * @returns Observable con el tipo de negocio solicitado.
+   */
+  getBusinessTypeById(id: number): Observable<BusinessType> {
+    const operation = `GET BusinessType By ID: ${id}`;
+    return this.http.get<BusinessType>(
+      `${this.apiUrl}/BusinessType/${id}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  /**
+   * Crea un nuevo tipo de negocio.
+   * @param businessType Objeto de tipo BusinessTypeCreate para crear el tipo de negocio.
+   * @returns Observable con el tipo de negocio creado.
+   */
+  createBusinessType(businessType: BusinessTypeCreate): Observable<BusinessType> {
+    const operation = 'POST Create BusinessType';
+    return this.http.post<BusinessType>(
+      `${this.apiUrl}/BusinessType`,
+      businessType,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  /**
+   * Actualiza un tipo de negocio existente.
+   * @param id Identificador único del tipo de negocio.
+   * @param businessType Objeto con los datos a actualizar.
+   * @returns Observable vacío.
+   */
+  updateBusinessType(id: number, businessType: BusinessTypeUpdate): Observable<void> {
+    const operation = `PUT Update BusinessType ID: ${id}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/BusinessType/${id}`,
+      businessType,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  /**
+   * Elimina un tipo de negocio por su ID.
+   * @param id Identificador único del tipo de negocio a eliminar.
+   * @returns Observable vacío.
+   */
+  deleteBusinessType(id: number): Observable<void> {
+    const operation = `DELETE BusinessType ID: ${id}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/BusinessType/${id}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para BusinessManager (Identificado por email)
+  // -----------------------------------
+
+  getBusinessManagers(): Observable<BusinessManager[]> {
+    const operation = 'GET BusinessManagers';
+    return this.http.get<BusinessManager[]>(`${this.apiUrl}/BusinessManager`, { headers: this.headers })
+      .pipe(catchError(this.handleError(operation)));
+  }
+
+  getBusinessManagerByEmail(email: string): Observable<BusinessManager> {
+    const operation = `GET BusinessManager By Email: ${email}`;
+    return this.http.get<BusinessManager>(
+      `${this.apiUrl}/BusinessManager/${email}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  createBusinessManager(businessManager: BusinessManagerCreate): Observable<BusinessManager> {
+    const operation = 'POST Create BusinessManager';
+    return this.http.post<BusinessManager>(
+      `${this.apiUrl}/BusinessManager`,
+      businessManager,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateBusinessManager(email: string, businessManager: BusinessManagerUpdate): Observable<void> {
+    const operation = `PUT Update BusinessManager Email: ${email}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/BusinessManager/${email}`,
+      businessManager,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteBusinessManager(email: string): Observable<void> {
+    const operation = `DELETE BusinessManager Email: ${email}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/BusinessManager/${email}`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  authenticateBusinessManager(credentials: BusinessManagerLogin): Observable<BusinessManagerAuthResponse> {
+    const operation = 'POST Authenticate BusinessManager';
+    return this.http.post<BusinessManagerAuthResponse>(
+      `${this.apiUrl}/BusinessManager/Authenticate`,
+      credentials,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  // -----------------------------------
+  // Métodos para BusinessManagerPhone
+  // -----------------------------------
+
+  getBusinessManagerPhones(): Observable<BusinessManagerPhone[]> {
+    const operation = 'GET BusinessManager Phones';
+    return this.http.get<BusinessManagerPhone[]>(
+      `${this.apiUrl}/BusinessManagerPhone`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  getPhonesByBusinessManagerEmail(email: string): Observable<BusinessManagerPhone[]> {
+    const operation = `GET Phones By BusinessManager Email: ${email}`;
+    return this.http.get<BusinessManagerPhone[]>(
+      `${this.apiUrl}/BusinessManagerPhone/${email}/Phones`,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  createBusinessManagerPhone(phone: BusinessManagerPhone): Observable<BusinessManagerPhone> {
+    const operation = 'POST Create BusinessManager Phone';
+    return this.http.post<BusinessManagerPhone>(
+      `${this.apiUrl}/BusinessManagerPhone`,
+      phone,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  updateBusinessManagerPhone(
+    email: string,
+    oldPhone: number,
+    update: BusinessManagerPhoneUpdate
+  ): Observable<void> {
+    const operation = `PUT Update BusinessManager Phone: ${email}/${oldPhone}`;
+    return this.http.put<void>(
+      `${this.apiUrl}/BusinessManagerPhone/${email}/${oldPhone}`,
+      update,
+      { headers: this.headers }
+    ).pipe(catchError(this.handleError(operation)));
+  }
+
+  deleteBusinessManagerPhone(email: string, phone: number): Observable<void> {
+    const operation = `DELETE BusinessManager Phone: ${email}/${phone}`;
+    return this.http.delete<void>(
+      `${this.apiUrl}/BusinessManagerPhone/${email}/${phone}`,
       { headers: this.headers }
     ).pipe(catchError(this.handleError(operation)));
   }
