@@ -1,0 +1,47 @@
+<div class="sidenav-container">
+    <mat-toolbar color="primary" class="toolbar">
+      <button (click)="drawer.toggle()" class="custom-background">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="session-info">
+        Nombre completo:
+        <input [(ngModel)]="currentSessionName" style="background: transparent; color: white; border: none;">
+      </span>
+      <button mat-button class="logout-button" (click)="logout()">Cerrar Sesión</button>
+    </mat-toolbar>
+    
+    <!-- Para el sidebar-->
+    <mat-drawer-container class="drawer-container"> 
+      <!-- Cajón en el lado izquierdo -->
+      <mat-drawer #drawer opened="false" mode="over" class="custom-background-drawer">
+        <mat-nav-list >
+          <mat-list-item>
+            <button routerLink="/sidenavBusiness/managementOrders" mat-button class="custom-background" style="color: white;">
+              <mat-icon style="color: white;">local_dining</mat-icon>
+              Gestión De Pedidos
+            </button>
+          </mat-list-item>
+          <mat-list-item>
+            <button routerLink="/sidenavBusiness/managementProducts" mat-button class="custom-background" style="color: white;">
+              <mat-icon style="color: white;">local_dining</mat-icon>
+              Gestión De Productos
+            </button>
+          </mat-list-item>
+          <mat-list-item>
+            <button routerLink="/sidenavBusiness/orderAssign" mat-button class="custom-background" style="color: white;">
+              <mat-icon style="color: white;">local_dining</mat-icon>
+              Asignación De Pedidos
+            </button>
+          </mat-list-item>
+          <!-- Agregar más elementos de lista aquí de ser necesario -->
+        </mat-nav-list>
+      </mat-drawer>
+      <!-- Contenido principal -->
+      <mat-drawer-content>
+        <div style="text-align: center;min-height: 600px;">
+          <router-outlet></router-outlet>
+          <!-- aca se debe de lamar el router-outlet para que funcione -->
+        </div>
+      </mat-drawer-content>
+    </mat-drawer-container>
+</div>
