@@ -10,7 +10,4 @@ import { MaterialModule } from '../../../../material/material/material.module';
   styleUrl: './create-dialog.component.css'
 })
 export class CreateDialogComponent {
-  csvInputChange(fileInputEvent: any) {
-    console.log(fileInputEvent.target.files[0]);
-  }
 }

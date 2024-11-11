@@ -8,7 +8,7 @@ export class NegocioService {
 
   constructor() { }
 
-  form: FormGroup = new FormGroup({
+  afiliacion_form: FormGroup = new FormGroup({
     $key: new FormControl(null),
     cedula: new FormControl('', Validators.required),
     nombre: new FormControl('', Validators.required),
@@ -18,5 +18,13 @@ export class NegocioService {
     correo: new FormControl('', [Validators.required, Validators.email]),
     no_sinpe: new FormControl('', Validators.required),
     admin: new FormControl(0, Validators.required),
+  })
+
+  admin_form: FormGroup = new FormGroup({
+    $key: new FormControl(null),
+    usuario: new FormControl('', Validators.required),
+    nombre: new FormControl('', Validators.required),
+    telefono: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+    direccion: new FormControl('', Validators.required),
   })
 }

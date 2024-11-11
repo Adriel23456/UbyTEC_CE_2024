@@ -3,11 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from '../../../../material/material/material.module';
 
 @Component({
-  selector: 'app-update-dialog',
+  selector: 'app-pedido-dialog',
   standalone: true,
   imports: [MaterialModule],
-  templateUrl: './update-dialog.component.html',
-  styleUrl: './update-dialog.component.css'
+  templateUrl: './pedido-dialog.component.html',
+  styleUrl: './pedido-dialog.component.css'
 })
-export class UpdateDialogComponent {
+export class PedidoDialogComponent {
+  
 }

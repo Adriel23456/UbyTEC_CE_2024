@@ -1,24 +1,35 @@
-<!--Form-->
 <div class="title">
     <mat-toolbar>
         <span>Crear administrador</span>
     </mat-toolbar>
 </div>
-<div class="admin-form">
-    <mat-form-field>
-        <input matInput placeholder="Nombre completo*">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="Dirección*">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="Teléfono*">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput placeholder="Usuario*">
-    </mat-form-field>
-<!--TODO: Crear contraseña y enviar a correo-->
-</div>
-<div class="crear-admin">
-    <button mat-raised-button color="primary" type="submit">Crear</button>
-</div>
+<form [formGroup]="service.admin_form">
+    <div class="admin-form">
+        <input type="hidden" formControlName="$key">
+        <mat-form-field>
+            <input formControlName="nombre" matInput placeholder="Nombre completo*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="direccion" matInput placeholder="Dirección*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="telefono" matInput placeholder="Teléfono*">
+            <mat-error *ngIf="service.admin_form.controls['telefono'].errors?.['required']">
+                Este campo es obligatorio.
+            </mat-error>
+            <mat-error *ngIf="service.admin_form.controls['telefono'].errors?.['minlength'] || service.admin_form.controls['telefono'].errors?.['maxlength']">
+                El número debe ser de 8 dígitos
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="usuario" matInput placeholder="Usuario*">
+            <mat-error>Este campo es obligatorio</mat-error>
+        </mat-form-field>
+    <!--TODO: Crear contraseña y enviar a correo-->
+    </div>
+    <div class="crear-admin">
+        <button mat-raised-button color="primary" type="submit">Crear</button>
+    </div>
+</form>

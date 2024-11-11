@@ -209,6 +209,11 @@ div.title {
     width: 30%;
 }
 
+div.mat-elevation-z8 {
+    margin-left: 30px;
+    width: 97%;
+}
+
 div.upload-button {
     margin-left: 40px;
     margin-bottom: 10px;
@@ -216,4 +221,34 @@ div.upload-button {
 
 .upload-button button {
     margin-left: 10px;
+}
+
+.search-div {
+    margin: 10px;
+    margin-left: 30px;
+}
+
+.search-form-field {
+    width: 90%;
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.search-form-field div.mat-form-field-underline {
+    display: none;
+}
+
+.search-form-field div.mat-form-field-infix{
+    border-top: 0px;
+}
+
+.search-form-field div.mat-form-field-wrapper{
+  padding-bottom: 0px;
+}
+
+.search-form-field div.mat-form-field-suffix button{
+  height: 32px;
+  width: 32px;
 }

@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -18,7 +21,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule
   ],
   exports: [
     CommonModule,
@@ -28,7 +34,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule { }
