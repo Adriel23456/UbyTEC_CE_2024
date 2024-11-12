@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export interface Product {
   Code?: number; // PK
@@ -42,6 +43,14 @@ export class ProductService {
     private comunicationService: ComunicationService
   ) { }
 
+  form: FormGroup = new FormGroup ({
+    Code: new FormControl('null', Validators.required),
+    Name: new FormControl('', Validators.required),
+    Price: new FormControl('', Validators.required),
+    Category: new FormControl('', Validators.required),
+    BusinessAssociate_Legal_Id: new FormControl('', Validators.required),
+    PhotoURL: new FormControl('', Validators.required),
+  })
   /**
     * Obtiene todos los productos.
     */

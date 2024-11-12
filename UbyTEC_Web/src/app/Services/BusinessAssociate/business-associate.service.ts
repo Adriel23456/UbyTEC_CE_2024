@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export interface BusinessAssociate {
   Legal_Id: number; // PK
@@ -70,6 +71,22 @@ export class BusinessAssociateService {
     );
     this.currentBusinessAssociate = this.currentBusinessAssociateSubject.asObservable();
   }
+
+  form: FormGroup = new FormGroup({
+    Legal_Id: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]),
+    State: new FormControl('', Validators.required),
+    BusinessName: new FormControl('', Validators.required),
+    Direction: new FormControl('', Validators.required),
+    Province: new FormControl('', Validators.required),
+    Canton: new FormControl('', Validators.required),
+    District: new FormControl('', Validators.required),
+    SINPE: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+    RejectReason: new FormControl('', Validators.required),
+    BusinessManager_Email: new FormControl('', [Validators.required, Validators.email]),
+    BusinessType_Identification: new FormControl(0, Validators.required),
+    Phone: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+    BusinessAssociate_Legal_Id: new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]),
+  })
 
   public get currentBusinessAssociateValue(): BusinessAssociate | null {
     return this.currentBusinessAssociateSubject.value;
@@ -187,13 +204,13 @@ export class BusinessAssociateService {
       catchError(error => throwError(() => error))
     );
   }
-
+  
   public createPhone(phone: BusinessAssociatePhone): Observable<BusinessAssociatePhone> {
     return this.comunicationService.createBusinessAssociatePhone(phone).pipe(
       catchError(error => throwError(() => error))
     );
   }
-
+  
   public updatePhone(legalId: number, oldPhone: number, newPhone: BusinessAssociatePhoneUpdate): Observable<void> {
     return this.comunicationService.updateBusinessAssociatePhone(legalId, oldPhone, newPhone).pipe(
       catchError(error => throwError(() => error))

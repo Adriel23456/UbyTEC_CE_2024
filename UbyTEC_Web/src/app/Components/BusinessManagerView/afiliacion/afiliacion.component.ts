@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MaterialModule } from '../../../material/material/material.module';
-import { NegocioService } from '../../../Services/Negocio/negocio.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import { BusinessAssociateService } from '../../../Services/BusinessAssociate/business-associate.service';
 
 @Component({
   selector: 'app-afiliacion',
@@ -14,5 +14,5 @@ import { CommonModule } from '@angular/common';
 })
 
 export class AfiliacionComponent {
-  constructor(public service: NegocioService) {}
+  constructor(public service: BusinessAssociateService) {}
 }

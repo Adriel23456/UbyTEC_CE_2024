@@ -1,49 +1,57 @@
 <div class="title">
     Solicitar afiliación
 </div>
-<form [formGroup]="service.afiliacion_form">
+<form [formGroup]="service.form">
     <div class="negocio-form">
-        <input type="hidden" formControlName="$key">
         <mat-form-field>
-            <input formControlName="cedula" matInput placeholder="Número Cédula*">
+            <input formControlName="Legal_Id" matInput placeholder="Número Cédula*">
+            <mat-error *ngIf="service.form.controls['Legal_Id'].errors?.['required']">Este campo es obligatorio.</mat-error>
+            <mat-error *ngIf="service.form.controls['Legal_Id'].errors?.['minlength'] || service.form.controls['Legal_Id'].errors?.['maxlength']">
+                El número debe ser de 9 dígitos
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input formControlName="BusinessName" matInput placeholder="Nombre comercio*">
             <mat-error>Este campo es obligatorio</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="nombre" matInput placeholder="Nombre comercio*">
+            <mat-select formControlName="BusinessType_Identification" placeholder="Tipo de comercio*">
+                <mat-option>Tipo1</mat-option>
+            </mat-select>
             <mat-error>Este campo es obligatorio</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="tipo" matInput placeholder="Tipo de comercio*">
+            <input formControlName="Direction" matInput placeholder="Direccion*">
             <mat-error>Este campo es obligatorio</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="direccion" matInput placeholder="Direccion*">
-            <mat-error>Este campo es obligatorio</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input formControlName="telefono" matInput placeholder="Teléfonos*">
-            <mat-error *ngIf="service.afiliacion_form.controls['telefono'].errors?.['required']">Este campo es obligatorio.</mat-error>
-            <mat-error *ngIf="service.afiliacion_form.controls['telefono'].errors?.['minlength'] || service.afiliacion_form.controls['telefono'].errors?.['maxlength']">
+            <input formControlName="Phone" matInput placeholder="Teléfonos*">
+            <mat-error *ngIf="service.form.controls['Phone'].errors?.['required']">Este campo es obligatorio.</mat-error>
+            <mat-error *ngIf="service.form.controls['Phone'].errors?.['minlength'] || service.form.controls['Phone'].errors?.['maxlength']">
                 El número debe ser de 8 dígitos
             </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="correo" matInput placeholder="Correo Electrónico*">
-            <mat-error *ngIf="service.afiliacion_form.controls['correo'].errors?.['required']">Este campo es obligatorio</mat-error>
-            <mat-error *ngIf="service.afiliacion_form.controls['correo'].errors?.['email']">Ingresar un correo válido</mat-error>
+            <input formControlName="BusinessManager_Email" matInput placeholder="Correo Electrónico de administrador*">
+            <mat-error *ngIf="service.form.controls['BusinessManager_Email'].errors?.['required']">Este campo es obligatorio</mat-error>
+            <mat-error *ngIf="service.form.controls['BusinessManager_Email'].errors?.['email']">Ingresar un correo válido</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="no_sinpe" matInput placeholder="Número SINPE móvil*">
-            <mat-error>Este campo es obligatorio</mat-error>
+            <input formControlName="SINPE" matInput placeholder="Número SINPE móvil*">
+            <mat-error *ngIf="service.form.controls['SINPE'].errors?.['required']">Este campo es obligatorio.</mat-error>
+            <mat-error *ngIf="service.form.controls['SINPE'].errors?.['minlength'] || service.form.controls['SINPE'].errors?.['maxlength']">
+                El número debe ser de 8 dígitos
+            </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <mat-select formControlName="admin" placeholder="Administrador del comercio*">
-                <mat-option>Admin1</mat-option>
-            </mat-select>
-            <mat-error>Este campo es obligatorio</mat-error>
+            <input formControlName="BusinessAssociate_Legal_Id" matInput placeholder="Cédula del administrador*">
+            <mat-error *ngIf="service.form.controls['BusinessAssociate_Legal_Id'].errors?.['required']">Este campo es obligatorio.</mat-error>
+            <mat-error *ngIf="service.form.controls['BusinessAssociate_Legal_Id'].errors?.['minlength'] || service.form.controls['BusinessAssociate_Legal_Id'].errors?.['maxlength']">
+                El número debe ser de 9 dígitos
+            </mat-error>
         </mat-form-field>
     </div>
     <div class="boton-afiliacion">
-        <button mat-raised-button color="primary" type="submit" [disabled]="service.afiliacion_form.invalid">Solicitar</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="service.form.invalid">Solicitar</button>
     </div>
 </form>

@@ -1,25 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj": {}
+    "C:\\Users\\uriza\\Documents\\TEC\\Bases\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj": {
+    "C:\\Users\\uriza\\Documents\\TEC\\Bases\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
+        "projectUniqueName": "C:\\Users\\uriza\\Documents\\TEC\\Bases\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
         "projectName": "SQL_Server",
-        "projectPath": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
-        "packagesPath": "C:\\Users\\Adriel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\obj\\",
+        "projectPath": "C:\\Users\\uriza\\Documents\\TEC\\Bases\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
+        "packagesPath": "C:\\Users\\uriza\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\uriza\\Documents\\TEC\\Bases\\UbyTEC_CE_2024\\SQL_Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Adriel\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\uriza\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -95,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
