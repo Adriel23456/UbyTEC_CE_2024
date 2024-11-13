@@ -52,7 +52,7 @@ export interface BusinessManagerAuthResponse {
 }
 
 export interface BusinessManagerPhone {
-  Email: string; // PK
+  BusinessManager_Email: string; // PK
   Phone: number;
 }
 

@@ -33,7 +33,7 @@ h2 {
   gap: 15px;
 }
 
-.return-button, .assign-button {
+.return-button, .login-button {
   padding: 12px 25px;
   font-size: 16px;
   font-weight: 600;
@@ -48,9 +48,17 @@ h2 {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.return-button:hover, .assign-button:hover {
+.return-button:hover, .login-button:hover {
   background-color: var(--leaf-pastel-deep);
   transform: translateY(-2px);
+}
+
+.section-title {
+  color: var(--sage-pastel-deep);
+  font-size: 24px;
+  margin: 30px 0 20px;
+  font-weight: 600;
+  grid-column: 1 / -1;
 }
 
 form {
@@ -62,12 +70,6 @@ form {
 
 .full-width {
   grid-column: 1 / -1;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 mat-form-field {
@@ -196,7 +198,7 @@ table {
     flex-direction: column;
   }
   
-  .return-button, .assign-button {
+  .return-button, .login-button {
     width: 100%;
   }
   

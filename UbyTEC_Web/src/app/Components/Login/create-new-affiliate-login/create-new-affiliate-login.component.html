@@ -1,1 +1,92 @@
-<p>create-new-affiliate-login works!</p>
+<div class="register-container">
+  <div class="header">
+    <h2>Registro de Afiliado</h2>
+    <div class="action-buttons">
+      <button class="assign-button" (click)="onAssignBusiness()">Asignar Empresa</button>
+      <button class="return-button" (click)="onReturn()">Regresar</button>
+    </div>
+  </div>
+
+  <form [formGroup]="managerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="Email" required>
+      <mat-error *ngIf="managerForm.get('Email')?.hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="managerForm.get('Email')?.hasError('email')">Email inválido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Usuario" formControlName="UserId" required>
+      <mat-error *ngIf="managerForm.get('UserId')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Nombre" formControlName="Name" required>
+      <mat-error *ngIf="managerForm.get('Name')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Primer apellido" formControlName="FirstSurname" required>
+      <mat-error *ngIf="managerForm.get('FirstSurname')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Segundo apellido" formControlName="SecondSurname" required>
+      <mat-error *ngIf="managerForm.get('SecondSurname')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Provincia" formControlName="Province" required>
+      <mat-error *ngIf="managerForm.get('Province')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Cantón" formControlName="Canton" required>
+      <mat-error *ngIf="managerForm.get('Canton')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Distrito" formControlName="District" required>
+      <mat-error *ngIf="managerForm.get('District')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <div class="full-width phones-section">
+      <h3>Teléfonos</h3>
+      
+      <table mat-table [dataSource]="phoneDataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+          <td mat-cell *matCellDef="let phone">{{phone}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef>Editar</th>
+          <td mat-cell *matCellDef="let phone">
+            <button mat-icon-button color="primary" (click)="onEditPhone(phone)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+          <td mat-cell *matCellDef="let phone">
+            <button mat-icon-button color="warn" (click)="onDeletePhone(phone)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <button mat-raised-button color="primary" type="button" (click)="onCreatePhone()" class="add-phone-button">
+        <mat-icon>add</mat-icon> Agregar Teléfono
+      </button>
+    </div>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Registrar</button>
+    </div>
+  </form>
+</div>

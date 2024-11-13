@@ -26,6 +26,7 @@ import { ModifyStateComponent } from './Components/FoodDeliveryManView/modify-st
 import { CreateNewClientLoginComponent } from './Components/Login/create-new-client-login/create-new-client-login.component';
 import { CreateNewAffiliateLoginComponent } from './Components/Login/create-new-affiliate-login/create-new-affiliate-login.component';
 import { CreateNewFooddeliverymanLoginComponent } from './Components/Login/create-new-fooddeliveryman-login/create-new-fooddeliveryman-login.component';
+import { CreateNewBusinessAssociateComponent } from './Components/Login/create-new-business-associate/create-new-business-associate.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -33,6 +34,7 @@ export const routes: Routes = [
     { path: 'loginCreateNewClient', component: CreateNewClientLoginComponent },
     { path: 'loginCreateNewAffiliate', component: CreateNewAffiliateLoginComponent },
     { path: 'loginCreateNewFoodDeliveryMan', component: CreateNewFooddeliverymanLoginComponent },
+    { path: 'loginCreateNewBusiness', component: CreateNewBusinessAssociateComponent },
     {
       path: 'sidenavClient',
       component: SidenavClientComponent,
