@@ -1,0 +1,22 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Agregar Teléfono</h2>
+  <form [formGroup]="phoneForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <input matInput formControlName="phone" required>
+        <mat-error *ngIf="phoneForm.get('phone')?.hasError('required')">
+          El teléfono es requerido
+        </mat-error>
+        <mat-error *ngIf="phoneForm.get('phone')?.hasError('pattern')">
+          El teléfono debe tener 8 dígitos
+        </mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!phoneForm.valid">
+        Agregar
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>
