@@ -6,22 +6,22 @@ import { ComunicationService } from '../Comunication/comunication.service';
 export interface Order {
   Code: number; // PK
   State: string;
-  TotalService?: number;
-  Direction?: string;
+  TotalService?: number | null;
+  Direction?: string | null;
   Client_Id: number;
-  FoodDeliveryMan_UserId?: string;
+  FoodDeliveryMan_UserId?: string | null;
 }
 
 export interface OrderUpdate {
   State: string;
   Client_Id: number;
-  FoodDeliveryMan_UserId?: string;
+  FoodDeliveryMan_UserId?: string | null;
 }
 
 export interface OrderCreate {
   State: string;
   Client_Id: number;
-  FoodDeliveryMan_UserId?: string;
+  FoodDeliveryMan_UserId?: string | null;
 }
 
 export interface OrderProduct {

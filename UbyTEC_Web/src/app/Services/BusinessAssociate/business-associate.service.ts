@@ -13,7 +13,7 @@ export interface BusinessAssociate {
   Canton: string;
   District: string;
   SINPE: number;
-  RejectReason?: string;
+  RejectReason?: string | null;
   BusinessManager_Email: string; // FK
   BusinessType_Identification: number; // FK
 }
@@ -39,7 +39,7 @@ export interface BusinessAssociateUpdate {
   Canton: string;
   District: string;
   SINPE: number;
-  RejectReason?: string;
+  RejectReason?: string | null;
   BusinessManager_Email: string; // FK
   BusinessType_Identification: number; // FK
 }

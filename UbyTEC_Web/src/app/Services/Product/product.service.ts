@@ -3,7 +3,7 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
 
 export interface Product {
-  Code?: number; // PK
+  Code?: number | null; // PK
   Name: string;
   Price: number;
   Category: string;
