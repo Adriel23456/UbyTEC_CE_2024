@@ -9,6 +9,7 @@ import { ClientLogin, ClientService } from '../../../Services/Client/client.serv
 import { AdminLogin, AdminService } from '../../../Services/Admin/admin.service';
 import { BusinessManagerLogin, BusinessManagerService } from '../../../Services/BusinessManager/business-manager.service';
 import { FoodDeliveryManLogin, FoodDeliveryManService } from '../../../Services/FoodDeliveryMan/food-delivery-man.service';
+import emailjs from '@emailjs/browser';
 
 type UserType = 'cliente' | 'administrador' | 'afiliado' | 'repartidor';
 
@@ -64,7 +65,6 @@ export class LoginComponent {
             this.openDialog('Error', 'Por favor, ingrese su usuario y contraseña.');
             return;
         }
-
         switch (this.selectedUserType) {
             case 'cliente':
                 this.loginClient();
@@ -162,8 +162,38 @@ export class LoginComponent {
 
     onForgotPassword(): void {
         if (this.selectedUserType === 'afiliado') {
-            this.openDialog('Recuperación de Contraseña', 
-                'Se ha enviado un correo con su contraseña actual. Por favor, revise su bandeja de entrada.');
+            if (!this.username) {
+                this.openDialog('Error', 'Por favor, ingrese su correo electrónico.');
+                return;
+            }
+
+            this.businessManagerService.getByEmail(this.username).subscribe({
+                next: (manager) => {
+                    if (manager) {
+                        // Preparar los parámetros del correo
+                        const templateParams = {
+                            from_name: 'UbyTEC_CE',          // Añadido para el asunto
+                            to_name: manager.FullName,       // Ya existente
+                            to_email: manager.Email,         // Ya existente
+                            password: manager.Password,      // Ya existente
+                            reply_to: 'noreply@ubytec_ce.com' // Añadido para el campo "Reply To"
+                        };
+                        // Enviar el correo utilizando EmailJS
+                        emailjs.send('service_5ejt4rh', 'template_6ev2xao', templateParams, 'qUD-Q_YPdWb-wQtEl')
+                        .then((response) => {
+                            this.openDialog('Recuperación de Contraseña', 
+                                'Se ha enviado un correo con su contraseña actual. Por favor, revise su bandeja de entrada.');
+                        }, (err) => {
+                            this.openDialog('Error', 'Hubo un problema al enviar el correo.');
+                        });
+                    } else {
+                        this.openDialog('Error', 'Afiliado no encontrado.');
+                    }
+                },
+                error: (err) => {
+                    this.openDialog('Error', 'Afiliado no encontrado.');
+                }
+            });
         } else {
             this.openDialog('Recuperación de Contraseña', 
                 'Para recuperar su contraseña contacte al 2222-2222 y así recibir una contraseña provisional');
@@ -172,11 +202,11 @@ export class LoginComponent {
 
     onRegister(): void {
         if (this.selectedUserType === 'cliente') {
-            console.log('Registro de cliente');
+            this.router.navigate(['/loginCreateNewClient']);
         } else if (this.selectedUserType === 'afiliado') {
-            console.log('Registro de afiliado');
+            this.router.navigate(['/loginCreateNewAffiliate']);
         } else if (this.selectedUserType === 'repartidor') {
-            console.log('Registro de repartidor');
+            this.router.navigate(['/loginCreateNewFoodDeliveryMan']);
         } else {
             console.error('Intento de registro de una entidad desconocida');
         }

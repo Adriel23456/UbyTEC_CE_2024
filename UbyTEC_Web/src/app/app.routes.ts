@@ -23,10 +23,16 @@ import { InitialComponent } from './Components/ClientView/initial/initial.compon
 import { ManagementComponent } from './Components/ClientView/management/management.component';
 import { OrderReceptionComponent } from './Components/ClientView/order-reception/order-reception.component';
 import { ModifyStateComponent } from './Components/FoodDeliveryManView/modify-state/modify-state.component';
+import { CreateNewClientLoginComponent } from './Components/Login/create-new-client-login/create-new-client-login.component';
+import { CreateNewAffiliateLoginComponent } from './Components/Login/create-new-affiliate-login/create-new-affiliate-login.component';
+import { CreateNewFooddeliverymanLoginComponent } from './Components/Login/create-new-fooddeliveryman-login/create-new-fooddeliveryman-login.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
+    { path: 'loginCreateNewClient', component: CreateNewClientLoginComponent },
+    { path: 'loginCreateNewAffiliate', component: CreateNewAffiliateLoginComponent },
+    { path: 'loginCreateNewFoodDeliveryMan', component: CreateNewFooddeliverymanLoginComponent },
     {
       path: 'sidenavClient',
       component: SidenavClientComponent,
