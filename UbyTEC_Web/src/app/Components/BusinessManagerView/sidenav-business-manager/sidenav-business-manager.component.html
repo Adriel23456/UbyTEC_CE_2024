@@ -9,18 +9,12 @@
       </span>
       <button mat-button class="logout-button" (click)="logout()">Cerrar Sesión</button>
     </mat-toolbar>
-    
+      
     <!-- Para el sidebar-->
     <mat-drawer-container class="drawer-container"> 
       <!-- Cajón en el lado izquierdo -->
       <mat-drawer #drawer opened="false" mode="over" class="custom-background-drawer">
         <mat-nav-list >
-          <mat-list-item>
-            <button routerLink="/sidenavBusiness/afiliacion" mat-button class="custom-background" style="color: white;">
-              <mat-icon style="color: white;">local_dining</mat-icon>
-              Solicitud de afiliación
-            </button>
-          </mat-list-item>
           <mat-list-item>
             <button routerLink="/sidenavBusiness/managementOrders" mat-button class="custom-background" style="color: white;">
               <mat-icon style="color: white;">local_dining</mat-icon>

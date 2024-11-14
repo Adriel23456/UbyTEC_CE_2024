@@ -16,14 +16,14 @@
     </mat-form-field>
 </div>
     <div class="mat-elevation-z8">
-        <mat-table [dataSource]="listData" matSort>
+        <mat-table [dataSource]="products" matSort>
             <ng-container matColumnDef="nombre">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.Name}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="categoria">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.categoria}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.Category}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="fotos">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fotos</mat-header-cell>
@@ -33,13 +33,13 @@
             </ng-container>
             <ng-container matColumnDef="precio">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Precio</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.precio}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.Price}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let row">
                     <button mat-icon-button (click)="updateDialog()"><mat-icon>launch</mat-icon></button>
-                    <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
+                    <button mat-icon-button (click)="deleteProducto(row.Code)" color="warn"><mat-icon>delete_outline</mat-icon></button>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="noData">

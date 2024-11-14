@@ -121,9 +121,6 @@ export class LoginComponent {
             Password: this.password
         };
         
-        this.router.navigate(['/sidenavBusiness']);
-
-        /*
         this.businessManagerService.login(businessManagerLogin).subscribe({
             next: (manager) => {
                 console.log('Login exitoso:', manager);
@@ -132,7 +129,6 @@ export class LoginComponent {
             },
             error: (err) => this.handleLoginError(err, 'afiliado')
         });
-        */
     }
 
     private loginFoodDeliveryMan(): void {

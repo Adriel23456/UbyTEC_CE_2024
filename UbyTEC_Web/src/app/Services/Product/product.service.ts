@@ -44,12 +44,10 @@ export class ProductService {
   ) { }
 
   form: FormGroup = new FormGroup ({
-    Code: new FormControl('null', Validators.required),
     Name: new FormControl('', Validators.required),
     Price: new FormControl('', Validators.required),
     Category: new FormControl('', Validators.required),
-    BusinessAssociate_Legal_Id: new FormControl('', Validators.required),
-    PhotoURL: new FormControl('', Validators.required),
+    BusinessAssociate_Legal_Id: new FormControl(118890392, Validators.required),
   })
   /**
     * Obtiene todos los productos.
