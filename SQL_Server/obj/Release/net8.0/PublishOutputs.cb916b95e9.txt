@@ -2,6 +2,7 @@ C:\Publish\UbyTEC_API_SQL\SQL_Server.exe
 C:\Publish\UbyTEC_API_SQL\appsettings.Development.json
 C:\Publish\UbyTEC_API_SQL\appsettings.json
 C:\Publish\UbyTEC_API_SQL\appsettings.Production.json
+C:\Publish\UbyTEC_API_SQL\package-lock.json
 C:\Publish\UbyTEC_API_SQL\SQL_Server.dll
 C:\Publish\UbyTEC_API_SQL\SQL_Server.runtimeconfig.json
 C:\Publish\UbyTEC_API_SQL\SQL_Server.pdb

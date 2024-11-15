@@ -76,6 +76,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Configurar la canalización de solicitudes HTTP.
+app.UseAuthorization();
+
 // Mapear controladores
 app.MapControllers();
 
