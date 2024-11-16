@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:prod": "ng build --configuration=production --optimization=true --aot=true --stats-json",
+    "postbuild:prod": "gzip -k dist/uby-tec-web/*.js dist/uby-tec-web/*.css"
   },
   "private": true,
   "dependencies": {
