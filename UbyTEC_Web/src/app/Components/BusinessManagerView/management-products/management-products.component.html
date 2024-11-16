@@ -38,7 +38,7 @@
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <button mat-icon-button (click)="updateDialog()"><mat-icon>launch</mat-icon></button>
+                    <button mat-icon-button (click)="updateDialog(row.Code, row)"><mat-icon>launch</mat-icon></button>
                     <button mat-icon-button (click)="deleteProducto(row.Code)" color="warn"><mat-icon>delete_outline</mat-icon></button>
                 </mat-cell>
             </ng-container>

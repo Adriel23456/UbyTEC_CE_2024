@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   exports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule { }

@@ -44,6 +44,7 @@ export class ProductService {
   ) { }
 
   form: FormGroup = new FormGroup ({
+    Code: new FormControl(null),
     Name: new FormControl('', Validators.required),
     Price: new FormControl('', Validators.required),
     Category: new FormControl('', Validators.required),
@@ -141,5 +142,9 @@ export class ProductService {
     return this.comunicationService.deleteProductPhoto(productCode, photoUrl).pipe(
       catchError(error => throwError(() => error))
     );
+  }
+
+  public populateForm(product: any) {
+    this.form.setValue(product);
   }
 }
