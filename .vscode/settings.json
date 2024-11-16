@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/b5486269-b488-4909-bc36-a997cd3787b6/resourceGroups/Ubytec_DatabaseAPI/providers/Microsoft.Web/sites/UbyTEC-API",
-    "appService.deploySubpath": "SQL_Server"
-}

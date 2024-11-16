@@ -18,7 +18,7 @@ import { ConsolidatedSalesReport, SalesReportByAffiliate, TopSellingProducts } f
   providedIn: 'root'
 })
 export class ComunicationService {
-  private apiUrl = 'http://localhost:5500/api';
+  private apiUrl = 'https://ubytec-api-dkfpfjghc9fdfzad.canadacentral-01.azurewebsites.net/api';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) {}

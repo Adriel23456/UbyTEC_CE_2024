@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7DD36061-F95E-458E-8878-DE1BAB42343E}|SQL_Server\\SQL_Server.csproj|c:\\users\\adriel\\desktop\\informacion-de-prioridad\\tec\\2024\\semestre_2\\bases_de_datos\\evaluaciones\\proyectos\\p2\\ubytec_ce_2024\\sql_server\\sql_server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DD36061-F95E-458E-8878-DE1BAB42343E}|SQL_Server\\SQL_Server.csproj|solutionrelative:sql_server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server\\Program.cs",
+              "RelativeDocumentMoniker": "SQL_Server\\Program.cs",
+              "ToolTip": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server\\Program.cs",
+              "RelativeToolTip": "SQL_Server\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-16T02:08:14.076Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

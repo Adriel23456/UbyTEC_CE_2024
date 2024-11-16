@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "G62pL5XB5w6KPzGWvgRKsShPtxmKqtgIEExn6cGpAng=",
+  "Source": "SQL_Server",
+  "BasePath": "_content/SQL_Server",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
