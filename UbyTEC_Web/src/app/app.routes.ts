@@ -23,6 +23,7 @@ import { InitialComponent } from './Components/ClientView/initial/initial.compon
 import { ManagementComponent } from './Components/ClientView/management/management.component';
 import { OrderReceptionComponent } from './Components/ClientView/order-reception/order-reception.component';
 import { ModifyStateComponent } from './Components/FoodDeliveryManView/modify-state/modify-state.component';
+import { ShopInBusinesComponent } from './Components/ClientView/shopInBusines/shopInBusines/shop-in-busines/shop-in-busines.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -36,7 +37,8 @@ export const routes: Routes = [
         { path: 'carts', component: CartsComponent },
         { path: 'initial', component: InitialComponent },
         { path: 'management', component: ManagementComponent },
-        { path: 'orderReception', component: OrderReceptionComponent }
+        { path: 'orderReception', component: OrderReceptionComponent },
+        { path: 'shop-in-busines/:id', component: ShopInBusinesComponent}
       ]
     },
     {

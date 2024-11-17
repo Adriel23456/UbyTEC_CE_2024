@@ -1,0 +1,49 @@
+/*--------------------------------------------titulo---------------------------------*/
+.titulo-pedidos {
+    font-size: 24px;             /* Tamaño de fuente */
+    font-weight: bold;            /* Hace el texto más grueso */
+    color: #2B3B5C;              
+    text-align: center;           /* Centra el texto en la pantalla */
+    margin: 50px 0;               /* Espaciado superior e inferior */
+    padding-bottom: 10px;         /* Espaciado interno en la parte inferior */
+    border-bottom: 2px solid #2B3B5C; /* Línea inferior */
+    font-family: 'Arial', sans-serif; 
+}
+
+/*--------------------------------------------Cuadros de pedidos----------------------*/
+/* Asegura que el contenedor esté centrado y tenga márgenes */
+.container {
+    display: grid; /* Para que sea cuadrícula*/
+    grid-template-columns: repeat(4, 1fr);/*Número de columnas y el ancho de estas*/
+    gap: 20px;/* Espacio entre columnas del 2.5% */
+    margin-top: 20px; /* Espacio en la parte superior del contenedor */
+    justify-content: center; /*centrar la cuadrícula*/
+    padding: 0 2.5%; /* Espacio en los lados */
+  }
+  
+  /* Estilo para el título del card */
+  mat-card-title {
+    font-size: 24px; /* Tamaño del texto */
+    font-weight: bold; /* Negrita */
+    color: #2B3B5C; /* Color oscuro */
+    margin-bottom: 30px; /* Espacio inferior */
+  }
+  
+  /* Estilo para el contenido del card */
+  mat-card-content {
+    font-size: 16px; /* Tamaño de texto del contenido */
+    color: #6c757d; /* Color gris */
+  }
+  
+  /* Espaciado adicional para el card */
+  mat-card {
+    padding: 20px; /* Relleno interno del card */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  /* Agregar un hover efecto al card */
+  mat-card:hover {
+    transform: translateY(-2px); /* Eleva el card al pasar el mouse */
+    transition: transform 0.2s; /* Animación suave */
+  }

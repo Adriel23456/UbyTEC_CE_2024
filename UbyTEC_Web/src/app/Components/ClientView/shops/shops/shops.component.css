@@ -1,0 +1,44 @@
+.titulo-comercios {
+    font-size: 24px;             /* Tamaño de fuente */
+    font-weight: bold;            /* Hace el texto más grueso */
+    color: #2B3B5C;
+    text-align: center;           /* Centra el texto en la pantalla */
+    margin: 20px 0;               /* Espaciado superior e inferior */
+    padding-bottom: 10px;         /* Espaciado interno en la parte inferior */
+    border-bottom: 2px solid #2B3B5C; /* Línea inferior */
+    font-family: 'Arial', sans-serif; 
+}
+/*---------------------------------------------buscador---------------------------------------*/
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 25%;
+    margin: 10px auto;
+    margin-left: 2.5%;
+  }
+  
+  /* ------------------------------Contenedor de la tabla -------------------------------------------*/
+.mat-elevation-z8 {
+    width: 95%;         /* Ancho del 80% de la pantalla */
+    margin: 10px auto;     /* esapacio arriba yCentrar la tabla horizontalmente */
+  }
+  table {
+    width: 100%;
+  }
+
+  /*---------------------boton de comprar------------------------------------------------------------*/
+
+  button {
+    background: none; /* Eliminar el fondo del botón */
+    border: none; /* Eliminar el borde del botón */
+    padding: 0; /* Eliminar el padding del botón */
+    cursor: pointer; /* Cambiar el cursor al pasar el mouse sobre el botón */
+  }
+  
+  button mat-icon {
+    color: green; 
+    font-size: 24px; 
+  }
+  
+  button:hover mat-icon {
+    color: darkgreen; /* Cambiar el color del icono al pasar el mouse */
+  }

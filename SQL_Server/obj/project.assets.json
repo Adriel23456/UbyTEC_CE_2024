@@ -4572,19 +4572,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Adriel\\.nuget\\packages\\": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
+      "projectUniqueName": "C:\\Users\\User\\OneDrive\\Documentos\\VI semestre\\Bases\\Proyecto2\\RepoAdriel\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
       "projectName": "SQL_Server",
-      "projectPath": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
-      "packagesPath": "C:\\Users\\Adriel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\SQL_Server\\obj\\",
+      "projectPath": "C:\\Users\\User\\OneDrive\\Documentos\\VI semestre\\Bases\\Proyecto2\\RepoAdriel\\UbyTEC_CE_2024\\SQL_Server\\SQL_Server.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\OneDrive\\Documentos\\VI semestre\\Bases\\Proyecto2\\RepoAdriel\\UbyTEC_CE_2024\\SQL_Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Adriel\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -4665,7 +4665,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

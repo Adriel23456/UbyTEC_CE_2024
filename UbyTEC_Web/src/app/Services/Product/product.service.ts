@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
+import { BusinessAssociateService } from '../BusinessAssociate/business-associate.service';
 
 export interface Product {
   Code?: number; // PK
