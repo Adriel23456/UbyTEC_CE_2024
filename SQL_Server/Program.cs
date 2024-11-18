@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using SQL_Server.Data;
 using SQL_Server.Mappings;
+using SQL_Server.ServicesMongo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,9 @@ builder.Services.AddControllers()
 // Configurar la cadena de conexión a Microsoft SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Configurar Mongo
+builder.Services.AddSingleton<MongoDbService>();
 
 // Configurar CORS
 builder.Services.AddCors(options =>

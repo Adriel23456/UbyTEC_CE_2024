@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using SQL_Server.Data;
 using SQL_Server.DTOs;
 using Microsoft.Data.SqlClient;
+using SQL_Server.ServicesMongo;
+using SQL_Server.Models;
 
 namespace SQL_Server.Controllers
 {
@@ -11,13 +13,15 @@ namespace SQL_Server.Controllers
     [ApiController]
     public class FeedBackController : ControllerBase
     {
+        private readonly MongoDbService _mongoDbService;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public FeedBackController(ApplicationDbContext context, IMapper mapper)
+        public FeedBackController(ApplicationDbContext context, IMapper mapper, MongoDbService mongoDbService)
         {
             _context = context;
             _mapper = mapper;
+            _mongoDbService = mongoDbService;
         }
 
         // GET: api/FeedBack
@@ -117,6 +121,27 @@ namespace SQL_Server.Controllers
                 .ToListAsync();
 
             var feedBack = feedBacks.FirstOrDefault();
+
+            // Guardar en MongoDB
+                        
+            if (feedBack != null)
+            {
+                var mongoFeedback = new MongoFeedback
+                {
+                    FeedBack_Business = feedBack.FeedBack_Business,
+                    BusinessGrade = feedBack.BusinessGrade,
+                    FeedBack_Order = feedBack.FeedBack_Order,
+                    OrderGrade = feedBack.OrderGrade,
+                    FeedBack_DeliveryMan = feedBack.FeedBack_DeliveryMan,
+                    DeliveryManGrade = feedBack.DeliveryManGrade,
+                    FoodDeliveryMan_UserId = feedBack.FoodDeliveryMan_UserId,
+                    Order_Code = feedBack.Order_Code,
+                    BusinessAssociate_Legal_Id = feedBack.BusinessAssociate_Legal_Id
+                };
+
+                await _mongoDbService.AddFeedBackAsync(mongoFeedback);
+            }
+
 
             var createdFeedBackDto = _mapper.Map<FeedBackDTO>(feedBack);
 
