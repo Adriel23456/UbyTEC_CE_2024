@@ -215,6 +215,13 @@ div.title {
     width: 50%;
 }
 
+.crear-foto button {
+    margin: 10px;
+    margin-left: 200px;
+    width: 50%;
+}
+
+
 .admin-button button {
     margin: 20px;
     margin-left: 570px;
@@ -224,6 +231,11 @@ div.title {
 div.mat-elevation-z8 {
     margin-left: 30px;
     width: 97%;
+}
+
+div.fotos-elevation {
+    margin-left: 30px;
+    width: 90%;
 }
 
 div.upload-button {
@@ -240,12 +252,30 @@ div.upload-button {
     margin-left: 30px;
 }
 
+
+div.search-div-order {
+    margin: 10px;
+}
+
+.search-select-order {
+    margin-left: 30px;
+}
+.search-form-order {
+    width: 50%;
+}
+
+
 .search-form-field {
     width: 90%;
     margin-left: 10px;
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+.search-div mat-select {
+    margin-top: 7px;
+}
+
 
 .search-form-field div.mat-form-field-underline {
     display: none;
@@ -263,3 +293,28 @@ div.upload-button {
   height: 32px;
   width: 32px;
 }
+
+
+
+.product-photo {
+    width: 50%;
+}
+
+div.url-imagen {
+    margin-top: 30px;
+    margin-left: 40px;
+}
+
+div.url-imagen > * {
+    width: 90%;
+}
+
+.url-boton button {
+    margin-left: 230px;
+}
+
+mat-card img{
+    margin-left: 20px;
+    width: 500px;
+    height: 500px;
+    }

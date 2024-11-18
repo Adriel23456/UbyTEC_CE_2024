@@ -5,25 +5,29 @@
 </div>
 <form [formGroup]="service.form">
     <div class="admin-form">
-        <input type="hidden" formControlName="Code" >
         <mat-form-field>
             <input formControlName="Name" matInput placeholder="Nombre*">
             <mat-error>Este campo es obligatorio.</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input formControlName="Category" matInput placeholder="Categoría*">
-            <mat-error>Este campo es obligatorio.</mat-error>
+        <mat-select formControlName="Category" matInput placeholder="Categoria*">
+            <mat-option>Ninguna</mat-option>
+            <ng-container *ngFor="let categoria of categorias">
+                <mat-option [value]="categoria.value">{{categoria.value}}</mat-option>
+            </ng-container>
+        </mat-select>
         </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="URL de fotos*">
-        </mat-form-field>
-    <!-- Mostrar imagen aca -->
-        <mat-form-field>
-            <input type="number" formControlName="Price" matInput placeholder="Precio*">
-            <mat-error>Este campo es obligatorio.</mat-error>
+        </div>
+    <div>
+        <app-fotos [code]="data.code"></app-fotos>
+    </div>
+    <div class="admin-form">
+            <mat-form-field>
+                <input type="number" formControlName="Price" matInput placeholder="Precio*">
+                <mat-error>Este campo es obligatorio.</mat-error>
         </mat-form-field>
     </div>
-    <div class="crear-admin">
-        <button mat-raised-button color="primary" (click)="onUpdate()" type="submit">Actualizar</button>
+    <div class="crear-foto">
+        <button mat-raised-button color="primary" (click)="onUpdate()" type="submit">Actualizar producto</button>
     </div>
 </form>

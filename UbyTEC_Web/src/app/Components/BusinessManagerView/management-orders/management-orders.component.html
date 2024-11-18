@@ -1,8 +1,8 @@
 <div class="title">
     Gestión de pedidos
 </div>
-<div class="search-div">
-    <mat-form-field class="search-form-field">
+<div class="search-div-order">
+    <mat-form-field class="search-form-order">
         <mat-label>Buscar</mat-label>
         <input matInput type="text" [(ngModel)]="searchKey">
         @if (searchKey) {
@@ -11,16 +11,26 @@
           </button>
         }
     </mat-form-field>
+    <mat-form-field class="search-select-order">
+    <mat-select matInput placeholder="Filtro estado">
+        <mat-option>Ninguna</mat-option>
+        <ng-container *ngFor="let categoria of categorias">
+            <mat-option value="{{categoria.value}}">{{categoria.value}}</mat-option>
+        </ng-container>
+    </mat-select>
+</mat-form-field>
 </div>
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData" matSort>
         <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.Code}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="cliente">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.cliente}}</mat-cell>
+            <mat-cell *matCellDef="let element">
+                {{ element.$client }}
+            </mat-cell>
         </ng-container>
         <ng-container matColumnDef="observar">
             <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
@@ -30,16 +40,16 @@
         </ng-container>
         <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.estado}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.State}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="listo">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Listo</mat-header-cell>
-            <mat-cell *matCellDef><mat-checkbox></mat-checkbox></mat-cell>
+            <mat-cell *matCellDef><mat-checkbox [(ngModel)]="disabled" [disabled]="disabled()"></mat-checkbox></mat-cell>
         </ng-container>
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
+                <button (click)="onDelete(row.Code)" mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="noData">
@@ -49,7 +59,6 @@
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-header-row *matRowDef="let row; columns: displayedColumns;"></mat-header-row>
-        <!--<mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !(listData!=null && listData.length==0)}"></mat-footer-row>-->
     </mat-table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>

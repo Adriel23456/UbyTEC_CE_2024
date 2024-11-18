@@ -25,12 +25,6 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.Category}}</mat-cell>
             </ng-container>
-            <ng-container matColumnDef="fotos">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Fotos</mat-header-cell>
-                <mat-cell *matCellDef>
-                    <button mat-flat-button>Ver</button>
-                </mat-cell>
-            </ng-container>
             <ng-container matColumnDef="precio">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Precio</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.Price}}</mat-cell>
@@ -49,7 +43,6 @@
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-header-row *matRowDef="let row; columns: displayedColumns;"></mat-header-row>
-            <!--<mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !(listData!=null && listData.length==0)}"></mat-footer-row>-->
         </mat-table>
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
     </div>

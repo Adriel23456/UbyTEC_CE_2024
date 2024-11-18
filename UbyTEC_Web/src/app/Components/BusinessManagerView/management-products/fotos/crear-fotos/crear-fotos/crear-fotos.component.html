@@ -1,0 +1,22 @@
+<div class="title">
+    <mat-toolbar>
+        <span>Crear foto</span>
+    </mat-toolbar>
+</div>
+<div>
+    <mat-card class="img" appearance="outlined">
+        <img mat-card-image [src]="getImage()">
+    </mat-card>
+</div>
+<form [formGroup]='service.imageForm'>
+    <input type="hidden" formControlName="Product_Code">
+    <div class="url-imagen">
+        <mat-form-field>
+            <input matInput formControlName="PhotoURL" placeholder="Url de la imagen*">
+            <mat-error>Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+    </div>
+</form>
+<div class="url-boton">
+    <button mat-raised-button (click)="create()">Crear</button>
+</div>

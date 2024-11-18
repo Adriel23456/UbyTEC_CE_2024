@@ -50,6 +50,11 @@ export class ProductService {
     Category: new FormControl('', Validators.required),
     BusinessAssociate_Legal_Id: new FormControl(118890392, Validators.required),
   })
+
+  imageForm: FormGroup = new FormGroup ({
+    Product_Code: new FormControl(null),
+    PhotoURL: new FormControl('', Validators.required),
+  })
   /**
     * Obtiene todos los productos.
     */
@@ -146,5 +151,9 @@ export class ProductService {
 
   public populateForm(product: any) {
     this.form.setValue(product);
+  }
+
+  public populateImageForm(photo: any) {
+    this.imageForm.setValue(photo);
   }
 }
