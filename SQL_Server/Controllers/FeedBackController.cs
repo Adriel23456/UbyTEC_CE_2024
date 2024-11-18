@@ -217,6 +217,24 @@ namespace SQL_Server.Controllers
             };
 
             await _context.Database.ExecuteSqlRawAsync("EXEC sp_UpdateFeedBack @Id, @FeedBack_Business, @BusinessGrade, @FeedBack_Order, @OrderGrade, @FeedBack_DeliveryMan, @DeliveryManGrade, @FoodDeliveryMan_UserId, @Order_Code, @BusinessAssociate_Legal_Id", parameters);
+            
+            // Update MongoDB
+            var mongoFeedback = new MongoFeedback
+            {
+                Id = id, // Ensure you map the appropriate ID
+                FeedBack_Business = feedBackDtoUpdate.FeedBack_Business,
+                BusinessGrade = feedBackDtoUpdate.BusinessGrade,
+                FeedBack_Order = feedBackDtoUpdate.FeedBack_Order,
+                OrderGrade = feedBackDtoUpdate.OrderGrade,
+                FeedBack_DeliveryMan = feedBackDtoUpdate.FeedBack_DeliveryMan,
+                DeliveryManGrade = feedBackDtoUpdate.DeliveryManGrade,
+                FoodDeliveryMan_UserId = feedBackDtoUpdate.FoodDeliveryMan_UserId,
+                Order_Code = feedBackDtoUpdate.Order_Code,
+                BusinessAssociate_Legal_Id = feedBackDtoUpdate.BusinessAssociate_Legal_Id
+            };
+
+            await _mongoDbService.UpdateFeedbackAsync(id, mongoFeedback); // Add this method to MongoDbService
+
 
             return NoContent();
         }

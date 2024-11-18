@@ -19,5 +19,11 @@ namespace SQL_Server.ServicesMongo
         {
             await _feedbackCollection.InsertOneAsync(feedback);
         }
+
+        public async Task UpdateFeedbackAsync(long id, MongoFeedback feedback)
+        {
+            var filter = Builders<MongoFeedback>.Filter.Eq(f => f.Id, id);
+            await _feedbackCollection.ReplaceOneAsync(filter, feedback);
+        }
     }
 }
