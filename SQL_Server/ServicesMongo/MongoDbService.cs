@@ -25,5 +25,11 @@ namespace SQL_Server.ServicesMongo
             var filter = Builders<MongoFeedback>.Filter.Eq(f => f.Id, id);
             await _feedbackCollection.ReplaceOneAsync(filter, feedback);
         }
+
+        public async Task DeleteFeedbackAsync(long id)
+        {
+            var filter = Builders<MongoFeedback>.Filter.Eq(f => f.Id, id);
+            await _feedbackCollection.DeleteOneAsync(filter);
+        }
     }
 }

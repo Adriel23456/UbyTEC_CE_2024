@@ -252,6 +252,10 @@ namespace SQL_Server.Controllers
 
             // Call Stored Procedure
             await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteFeedBack @Id = {0}", id);
+            
+            //Delete from mongo db
+             // Delete from MongoDB
+            await _mongoDbService.DeleteFeedbackAsync(id);
 
             return NoContent();
         }
