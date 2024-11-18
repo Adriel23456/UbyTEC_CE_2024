@@ -33,7 +33,6 @@ export class EditCartComponent {
   ) {}
 
   ngOnInit(): void {
-    // Cargar productos asociados al carrito
     this.cartService.getProductsByCode(this.data.Carrito).subscribe(cartProducts => {
       console.log('Productos del carrito:', cartProducts);
       const productDetails$ = cartProducts.map(cartProduct =>
@@ -90,7 +89,6 @@ export class EditCartComponent {
       },
       error: (err) => {
         console.error('Error al eliminar el producto:', err);
-        // Notificar al usuario que ocurrió un error
       }
     });
   }

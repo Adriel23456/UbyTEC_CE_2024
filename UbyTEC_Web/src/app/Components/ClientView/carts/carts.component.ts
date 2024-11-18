@@ -122,8 +122,9 @@ export class CartsComponent {
   confirmDelete(cartCode: number, productCode: number): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'Confirmar Eliminación',
-        message: '¿Estás seguro de que deseas eliminar este carrito?'
+        titulo: 'Confirmar Eliminación',
+        message: '¿Estás seguro de que deseas eliminar este carrito?',
+        btn: 'Eliminar'
       }
     });
 

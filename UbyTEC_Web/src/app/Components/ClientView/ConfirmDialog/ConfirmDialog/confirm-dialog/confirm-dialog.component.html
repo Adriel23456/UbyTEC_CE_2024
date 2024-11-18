@@ -1,9 +1,9 @@
 <div class="confirm-dialog-container">
-    <h2 mat-dialog-title>Confirmar Eliminación</h2>
-    <mat-dialog-content class="dialog-content">¿Estás seguro de que deseas eliminar este carrito?</mat-dialog-content>
+    <h2 mat-dialog-title>{{data.titulo}}</h2>
+    <mat-dialog-content class="dialog-content">{{data.message}}</mat-dialog-content>
     <mat-dialog-actions align="end" class="dialog-actions">
-      <button mat-button (click)="onCancel()" class="cancel-button">Cancelar</button>
-      <button mat-button color="warn" (click)="onConfirm()" class="confirm-button">Eliminar</button>
+      <button mat-button (click)="onCancel()" class="cancel-button">Volver</button>
+      <button mat-button color="warn" (click)="onConfirm()" class="confirm-button">{{data.btn}}</button>
     </mat-dialog-actions>
   </div>
   

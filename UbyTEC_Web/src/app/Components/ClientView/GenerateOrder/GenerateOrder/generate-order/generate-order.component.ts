@@ -91,7 +91,7 @@ export class GenerateOrderComponent {
               },
             });
           } else {
-            alert('No hay delivery disponible en su cantón.');
+            alert('No hay delivery disponible en su cantón en este momento.');
           }
         },
         error: err => {
