@@ -1,1 +1,17 @@
-<p>reports works!</p>
+<div class="reports-container">
+  <h2>Generar Reportes</h2>
+  
+  <div class="button-group">
+    <button mat-raised-button color="primary" (click)="generateConsolidatedSalesReport()">
+      Generar Reporte: Consolidado de Ventas
+    </button>
+    
+    <button mat-raised-button color="accent" (click)="generateSalesByAffiliateReport()">
+      Generar Reporte: Ventas por Afiliado
+    </button>
+    
+    <button mat-raised-button color="warn" (click)="generateTopSellingProductsReport()">
+      Generar Reporte: Productos Más Vendidos
+    </button>
+  </div>
+</div>

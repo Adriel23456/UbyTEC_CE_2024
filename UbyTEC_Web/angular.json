@@ -14,7 +14,13 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
-              "moment"
+              "moment",
+              "canvg",
+              "jspdf-autotable",
+              "html2canvas",
+              "dompurify",
+              "raf",
+              "rgbcolor"
             ],
             "outputPath": "dist",
             "index": "src/index.html",

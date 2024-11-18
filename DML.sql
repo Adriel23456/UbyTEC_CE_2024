@@ -440,13 +440,13 @@ EXEC sp_CreateCartProduct @Cart_Code = 10, @Product_Code = 33; -- Aros de Ceboll
 EXEC sp_CreateOrder @State = 'Finalizado', @Client_Id = 2001, @FoodDeliveryMan_UserId = 'delivery1';
 EXEC sp_CreateOrder @State = 'En camino', @Client_Id = 2001, @FoodDeliveryMan_UserId = 'delivery3';
 EXEC sp_CreateOrder @State = 'Preparando', @Client_Id = 2002, @FoodDeliveryMan_UserId = 'delivery4';
-EXEC sp_CreateOrder @State = 'Listo para envió', @Client_Id = 2002, @FoodDeliveryMan_UserId = 'delivery1';
+EXEC sp_CreateOrder @State = 'Listo para envio', @Client_Id = 2002, @FoodDeliveryMan_UserId = 'delivery1';
 EXEC sp_CreateOrder @State = 'Finalizado', @Client_Id = 2003, @FoodDeliveryMan_UserId = 'delivery3';
 EXEC sp_CreateOrder @State = 'Cancelado', @Client_Id = 2003, @FoodDeliveryMan_UserId = NULL;
 EXEC sp_CreateOrder @State = 'En camino', @Client_Id = 2004, @FoodDeliveryMan_UserId = 'delivery4';
 EXEC sp_CreateOrder @State = 'Preparando', @Client_Id = 2004, @FoodDeliveryMan_UserId = 'delivery1';
 EXEC sp_CreateOrder @State = 'Finalizado', @Client_Id = 2005, @FoodDeliveryMan_UserId = 'delivery3';
-EXEC sp_CreateOrder @State = 'Listo para envió', @Client_Id = 2005, @FoodDeliveryMan_UserId = 'delivery4';
+EXEC sp_CreateOrder @State = 'Listo para envio', @Client_Id = 2005, @FoodDeliveryMan_UserId = 'delivery4';
 
 -- Agregar productos a las órdenes usando sp_CreateOrderProduct
 -- Orden 1 - Patricia (Sabor Casero)
