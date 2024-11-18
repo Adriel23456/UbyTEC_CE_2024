@@ -1,1 +1,81 @@
-<p>management works!</p>
+<div class="register-container">
+  <div class="header">
+    <h2>Gestión de Cliente</h2>
+    <button class="delete-button" (click)="onDelete()">Eliminar Cliente Actual</button>
+  </div>
+
+  <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input matInput placeholder="Usuario" formControlName="UserId" required>
+      <mat-error *ngIf="clientForm.get('UserId')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Contraseña Actual" formControlName="CurrentPassword" readonly>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Nueva Contraseña" formControlName="NewPassword">
+      <mat-error *ngIf="clientForm.get('NewPassword')?.hasError('minlength')">La contraseña debe tener al menos 6 caracteres</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <!-- Input oculto para el datepicker -->
+      <input matInput 
+             [matDatepicker]="picker" 
+             formControlName="BirthDate"
+             style="display: none">
+      <!-- Input visible para mostrar la fecha formateada -->
+      <input matInput 
+             [value]="formattedDate"
+             placeholder="Fecha de nacimiento" 
+             readonly
+             required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker (dateChange)="onDateChange($event)"></mat-datepicker>
+      <mat-error *ngIf="clientForm.get('BirthDate')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <div formGroupName="FullName" class="full-width form-group">
+      <mat-form-field>
+        <input matInput placeholder="Nombre" formControlName="Name" required>
+        <mat-error *ngIf="clientForm.get('FullName.Name')?.hasError('required')">Este campo es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Primer apellido" formControlName="FirstSurname" required>
+        <mat-error *ngIf="clientForm.get('FullName.FirstSurname')?.hasError('required')">Este campo es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Segundo apellido" formControlName="SecondSurname" required>
+        <mat-error *ngIf="clientForm.get('FullName.SecondSurname')?.hasError('required')">Este campo es obligatorio</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <input matInput placeholder="Teléfono" formControlName="Phone" required>
+      <mat-error *ngIf="clientForm.get('Phone')?.hasError('required')">Este campo es obligatorio</mat-error>
+      <mat-error *ngIf="clientForm.get('Phone')?.hasError('pattern')">Debe ser un número de 8 dígitos</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Provincia" formControlName="Province" required>
+      <mat-error *ngIf="clientForm.get('Province')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Cantón" formControlName="Canton" required>
+      <mat-error *ngIf="clientForm.get('Canton')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Distrito" formControlName="District" required>
+      <mat-error *ngIf="clientForm.get('District')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Actualizar</button>
+    </div>
+  </form>
+</div>

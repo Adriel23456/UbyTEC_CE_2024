@@ -45,12 +45,6 @@
       <mat-error *ngIf="clientForm.get('BirthDate')?.hasError('required')">Este campo es obligatorio</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <input matInput placeholder="Email" formControlName="Email" type="email" required>
-      <mat-error *ngIf="clientForm.get('Email')?.hasError('required')">Este campo es obligatorio</mat-error>
-      <mat-error *ngIf="clientForm.get('Email')?.hasError('email')">Email inválido</mat-error>
-    </mat-form-field>
-
     <div formGroupName="FullName" class="full-width form-group">
       <mat-form-field>
         <input matInput placeholder="Nombre" formControlName="Name" required>

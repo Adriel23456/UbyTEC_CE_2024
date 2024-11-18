@@ -28,6 +28,7 @@ import { CreateNewAffiliateLoginComponent } from './Components/Login/create-new-
 import { CreateNewFooddeliverymanLoginComponent } from './Components/Login/create-new-fooddeliveryman-login/create-new-fooddeliveryman-login.component';
 import { CreateNewBusinessAssociateComponent } from './Components/Login/create-new-business-associate/create-new-business-associate.component';
 
+
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },

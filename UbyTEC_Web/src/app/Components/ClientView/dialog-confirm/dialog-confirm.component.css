@@ -1,0 +1,35 @@
+.dialog-container {
+  padding: 20px;
+  min-width: 300px;
+}
+
+.dialog-message {
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+mat-dialog-title {
+  margin: 0;
+  color: var(--sage-pastel-deep);
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+mat-dialog-content {
+  text-align: center;
+}
+
+mat-dialog-actions {
+  justify-content: center;
+  gap: 16px;
+}
+
+mat-dialog-actions button {
+  min-width: 100px;
+}
+
+mat-dialog-actions button:hover {
+  opacity: 0.8;
+}

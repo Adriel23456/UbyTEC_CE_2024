@@ -86,43 +86,48 @@ export class CreateNewBusinessAssociateComponent implements OnInit {
   onManagerLogin(): void {
     const email = this.businessForm.get('managerEmail')?.value;
     const password = this.businessForm.get('managerPassword')?.value;
-
     if (!email || !password) {
-      this.openDialog('Error', 'Debe completar el email y la contraseña');
-      return;
-    }
-
-    this.managerService.getByEmail(email).subscribe({
-      next: (manager) => {
-        if (manager.Password === password) {
-          // Login exitoso
-          this.openDialog('Éxito', 'Login exitoso del administrador');
-          this.managerLoginStatus = true;
-          
-          // Deshabilitar campos de login
-          this.businessForm.get('managerEmail')?.disable();
-          this.businessForm.get('managerPassword')?.disable();
-          
-          // Habilitar el resto del formulario
-          this.businessForm.enable();
-          
-          // Mantener los campos de login deshabilitados
-          this.businessForm.get('managerEmail')?.disable();
-          this.businessForm.get('managerPassword')?.disable();
-        } else {
-          this.openDialog('Error', 'Contraseña incorrecta');
+      this.openDialog('Error', 'Debe completar el email y la contraseña')
+          .afterClosed()
+          .subscribe(() => {
+            return;
+          });
+    } else {
+      this.managerService.getByEmail(email).subscribe({
+        next: (manager) => {
+          if (manager.Password === password) {
+            // Login exitoso
+            this.openDialog('Éxito', 'Login exitoso del administrador');
+            this.managerLoginStatus = true;
+            
+            // Deshabilitar campos de login
+            this.businessForm.get('managerEmail')?.disable();
+            this.businessForm.get('managerPassword')?.disable();
+            
+            // Habilitar el resto del formulario
+            this.businessForm.enable();
+            
+            // Mantener los campos de login deshabilitados
+            this.businessForm.get('managerEmail')?.disable();
+            this.businessForm.get('managerPassword')?.disable();
+          } else {
+            this.openDialog('Error', 'Contraseña incorrecta');
+          }
+        },
+        error: (error) => {
+          this.openDialog('Error', 'No se encontró el administrador');
         }
-      },
-      error: (error) => {
-        this.openDialog('Error', 'No se encontró el administrador');
-      }
-    });
+      });
+    }
   }
 
   onSubmit(): void {
     if (!this.managerLoginStatus) {
-      this.openDialog('Error', 'Debe hacer login con un administrador primero');
-      return;
+      this.openDialog('Error', 'Debe hacer login con un administrador primero')
+          .afterClosed()
+          .subscribe(() => {
+            return;
+          });
     }
   
     if (this.businessForm.valid) {
@@ -162,8 +167,11 @@ export class CreateNewBusinessAssociateComponent implements OnInit {
     const phones = this.phoneDataSource.data;
     // Si ya procesamos todos los teléfonos, mostrar éxito y redirigir
     if (index >= phones.length) {
-      this.openDialog('Registro correcto', 'Se registró correctamente el nuevo negocio');
-      this.router.navigate(['/login']);
+      this.openDialog('Registro correcto', 'Se registró correctamente el nuevo negocio')
+          .afterClosed()
+          .subscribe(() => {
+            this.router.navigate(['/login']);
+          });
       return;
     }
     // Crear el teléfono actual
@@ -178,7 +186,6 @@ export class CreateNewBusinessAssociateComponent implements OnInit {
         this.createNextPhone(legalId, index + 1, business);
       },
       error: (error) => {
-        console.log(error);
         this.openDialog('Error', 'Error al crear el teléfono');
       }
     });
@@ -188,8 +195,8 @@ export class CreateNewBusinessAssociateComponent implements OnInit {
     this.router.navigate(['/loginCreateNewAffiliate']);
   }
 
-  openDialog(title: string, message: string): void {
-    this.dialog.open(DialogComponent, {
+  openDialog(title: string, message: string) {
+    return this.dialog.open(DialogComponent, {
       width: '300px',
       data: { title, message }
     });
@@ -204,8 +211,11 @@ export class CreateNewBusinessAssociateComponent implements OnInit {
       if (result) {
         const phones = this.phoneDataSource.data;
         if (phones.includes(result)) {
-          this.openDialog('Error', 'Este número de teléfono ya existe');
-          return;
+          this.openDialog('Error', 'Este número de teléfono ya existe')
+          .afterClosed()
+          .subscribe(() => {
+            return;
+          });
         }
         this.phoneDataSource.data = [...phones, result];
       }
@@ -225,8 +235,11 @@ export class CreateNewBusinessAssociateComponent implements OnInit {
         const phones = this.phoneDataSource.data;
         const index = phones.indexOf(phone);
         if (phones.includes(result.newPhone)) {
-          this.openDialog('Error', 'Este número de teléfono ya existe');
-          return;
+          this.openDialog('Error', 'Este número de teléfono ya existe')
+          .afterClosed()
+          .subscribe(() => {
+            return;
+          });
         }
         phones[index] = result.newPhone;
         this.phoneDataSource.data = [...phones];
@@ -241,8 +254,11 @@ export class CreateNewBusinessAssociateComponent implements OnInit {
 
   private validatePhones(): boolean {
     if (this.phoneDataSource.data.length === 0) {
-      this.openDialog('Error', 'Debe agregar al menos un teléfono');
-      return false;
+      this.openDialog('Error', 'Debe agregar al menos un teléfono')
+        .afterClosed()
+        .subscribe(() => {
+          return false;
+        });
     }
     return true;
   }

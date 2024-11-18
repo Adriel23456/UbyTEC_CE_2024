@@ -56,8 +56,11 @@ export class CreateNewAffiliateLoginComponent {
   onSubmit(): void {
     if (this.managerForm.valid) {
       if (this.phoneDataSource.data.length === 0) {
-        this.openDialog('Error', 'Debe agregar al menos un teléfono');
-        return;
+        this.openDialog('Error', 'Debe agregar al menos un teléfono')
+          .afterClosed()
+          .subscribe(() => {
+            return;
+          });
       }
 
       // Generar contraseña aleatoria
@@ -123,7 +126,6 @@ export class CreateNewAffiliateLoginComponent {
         this.createNextPhone(email, index + 1, manager);
       },
       error: (error) => {
-        console.log(error);
         this.openDialog('Error', 'Error al crear el teléfono');
       }
     });
@@ -137,8 +139,8 @@ export class CreateNewAffiliateLoginComponent {
     this.router.navigate(['/loginCreateNewBusiness']);
   }
 
-  openDialog(title: string, message: string): void {
-    this.dialog.open(DialogComponent, {
+  openDialog(title: string, message: string) {
+    return this.dialog.open(DialogComponent, {
       width: '300px',
       data: { title, message }
     });
@@ -153,8 +155,11 @@ export class CreateNewAffiliateLoginComponent {
       if (result) {
         const phones = this.phoneDataSource.data;
         if (phones.includes(result)) {
-          this.openDialog('Error', 'Este número de teléfono ya existe');
-          return;
+          this.openDialog('Error', 'Este número de teléfono ya existe')
+          .afterClosed()
+          .subscribe(() => {
+            return;
+          });
         }
         this.phoneDataSource.data = [...phones, result];
       }
@@ -174,8 +179,11 @@ export class CreateNewAffiliateLoginComponent {
         const phones = this.phoneDataSource.data;
         const index = phones.indexOf(phone);
         if (phones.includes(result.newPhone)) {
-          this.openDialog('Error', 'Este número de teléfono ya existe');
-          return;
+          this.openDialog('Error', 'Este número de teléfono ya existe')
+          .afterClosed()
+          .subscribe(() => {
+            return;
+          });
         }
         phones[index] = result.newPhone;
         this.phoneDataSource.data = [...phones];

@@ -5,7 +5,7 @@ import { ComunicationService } from '../Comunication/comunication.service';
 
 export interface Client {
   Id: number; // PK
-  UserID: string; // Unique
+  UserId: string; // Unique
   Name: string;
   FirstSurname: string;
   SecondSurname: string;
@@ -21,7 +21,7 @@ export interface Client {
 
 export interface ClientCreate {
   Id: number; // PK
-  UserID: string; // Unique
+  UserId: string; // Unique
   Name: string;
   FirstSurname: string;
   SecondSurname: string;
@@ -39,7 +39,7 @@ export interface ClientLogin {
 }
 
 export interface ClientUpdate {
-  UserID: string; // Unique
+  UserId: string; // Unique
   Name: string;
   FirstSurname: string;
   SecondSurname: string;
@@ -184,7 +184,7 @@ export class ClientService {
     return this.comunicationService.getClientById(this.currentClientValue.Id).pipe(
       tap(client => {
         const clientUpdate: ClientUpdate = {
-          UserID: client.UserID,
+          UserId: client.UserId,
           Name: client.Name,
           FirstSurname: client.FirstSurname,
           SecondSurname: client.SecondSurname,

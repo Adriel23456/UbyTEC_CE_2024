@@ -99,8 +99,11 @@ export class CreateNewFooddeliverymanLoginComponent {
     const phones = this.phoneDataSource.data;
     // Si ya procesamos todos los teléfonos, mostrar éxito
     if (index >= phones.length) {
-      this.openDialog('Registro correcto', 'Se registró correctamente el nuevo repartidor');
-      this.router.navigate(['/login']);
+      this.openDialog('Registro correcto', 'Se registró correctamente el nuevo repartidor')
+          .afterClosed()
+          .subscribe(() => {
+            this.router.navigate(['/login']);
+          });
       return;
     }
     // Crear el teléfono actual
@@ -123,8 +126,8 @@ export class CreateNewFooddeliverymanLoginComponent {
     this.router.navigate(['/login']);
   }
 
-  openDialog(title: string, message: string): void {
-    this.dialog.open(DialogComponent, {
+  openDialog(title: string, message: string) {
+    return this.dialog.open(DialogComponent, {
       width: '300px',
       data: { title, message }
     });

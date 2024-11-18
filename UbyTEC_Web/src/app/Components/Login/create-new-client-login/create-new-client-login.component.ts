@@ -48,7 +48,6 @@ export class CreateNewClientLoginComponent implements OnInit {
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required],
       BirthDate: ['', Validators.required],
-      Email: ['', [Validators.required, Validators.email]],
       FullName: this.fb.group({
         Name: ['', Validators.required],
         FirstSurname: ['', Validators.required],
@@ -95,7 +94,7 @@ export class CreateNewClientLoginComponent implements OnInit {
     if (this.clientForm.valid) {
       const clientData: ClientCreate = {
         Id: parseInt(this.clientForm.value.Id, 10),
-        UserID: this.clientForm.value.UserId,
+        UserId: this.clientForm.value.UserId,
         Name: this.clientForm.value.FullName.Name,
         FirstSurname: this.clientForm.value.FullName.FirstSurname,
         SecondSurname: this.clientForm.value.FullName.SecondSurname,
@@ -108,8 +107,11 @@ export class CreateNewClientLoginComponent implements OnInit {
       };
       this.clientService.create(clientData).subscribe({
         next: () => {
-          this.openDialog('Registro correcto', 'Se registró correctamente el nuevo cliente');
-          this.router.navigate(['/login']);
+          this.openDialog('Registro correcto', 'Se registró correctamente el nuevo cliente')
+          .afterClosed()
+          .subscribe(() => {
+            this.router.navigate(['/login']);
+          });
         },
         error: (err) => {
           this.openDialog('Error', 'Error al crear el cliente');
@@ -124,8 +126,8 @@ export class CreateNewClientLoginComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  openDialog(title: string, message: string): void {
-    this.dialog.open(DialogComponent, {
+  openDialog(title: string, message: string) {
+    return this.dialog.open(DialogComponent, {
       width: '300px',
       data: { title, message }
     });
