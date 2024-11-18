@@ -1,0 +1,61 @@
+.modify-state-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+}
+
+h2 {
+  color: var(--sage-pastel-deep);
+  font-size: 28px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button[type="submit"] {
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: var(--sage-pastel-deep);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+button[type="submit"]:hover {
+  background-color: var(--leaf-pastel-deep);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .modify-state-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+  }
+}
