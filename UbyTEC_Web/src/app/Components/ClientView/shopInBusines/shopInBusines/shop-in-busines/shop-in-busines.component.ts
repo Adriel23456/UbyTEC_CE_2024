@@ -10,6 +10,7 @@ import { BusinessAssociateService } from '../../../../../Services/BusinessAssoci
 import { Product } from '../../../../../Services/Product/product.service';
 import { CartService } from '../../../../../Services/Cart/cart.service';
 import { ClientService } from '../../../../../Services/Client/client.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-shop-in-busines',
@@ -38,7 +39,8 @@ export class ShopInBusinesComponent {
     private productService: ProductService,
     private businessAssociateService: BusinessAssociateService,
     private cartService: CartService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -130,7 +132,11 @@ export class ShopInBusinesComponent {
             // Llamar al servicio CartService para crear el nuevo item en el carrito
             this.cartService.addProduct(newCartProduct).subscribe(
               (response) => {
-                console.log('Producto añadido al carrito con éxito', response);
+                this.snackBar.open('Se añadió al carrito', 'Cerrar', {
+                  duration: 3000, // Duración del mensaje en milisegundos
+                  horizontalPosition: 'right', // Posición horizontal
+                  verticalPosition: 'bottom', // Posición vertical
+                });
               },
               (error) => {
                 console.error('Error al añadir producto al carrito', error);

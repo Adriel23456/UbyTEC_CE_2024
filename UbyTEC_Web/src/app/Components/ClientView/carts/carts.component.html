@@ -27,37 +27,41 @@
 
     <!-- QuantityProducts Column -->
     <ng-container matColumnDef="QuantityProducts">
-      <th mat-header-cell *matHeaderCellDef style="width: 20%;" > Cantidad de Productos </th>
+      <th mat-header-cell *matHeaderCellDef style="width: 20%;"> Cantidad de Productos </th>
       <td mat-cell *matCellDef="let element"> {{ element.QuantityProducts }} </td>
     </ng-container>
 
     <!-- Amount Column -->
     <ng-container matColumnDef="Amount">
-      <th mat-header-cell *matHeaderCellDef style="width: 20%;" > Monto total </th>
+      <th mat-header-cell *matHeaderCellDef style="width: 20%;"> Monto total </th>
       <td mat-cell *matCellDef="let element"> {{ element.Amount }} </td>
     </ng-container>
 
     <!-- Edit Column -->
     <ng-container matColumnDef="Edit">
-      <th mat-header-cell *matHeaderCellDef style="width: 7%;" > Editar </th>
+      <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Editar </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button color="primary" (click)="editCart()"><mat-icon>check_circle</mat-icon></button>
+        <button mat-button color="primary" (click)="editCart(element.Code)"> <mat-icon>check_circle</mat-icon> </button>
       </td>
     </ng-container>
 
     <!-- Delete Column -->
     <ng-container matColumnDef="Delete">
-      <th mat-header-cell *matHeaderCellDef style="width: 7%;" > Eliminar </th>
+      <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Eliminar </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button class="delete-btn" (click)="confirmDelete(element.Code, element.PCode)"><mat-icon>cancel</mat-icon></button>
+        <button mat-button class="delete-btn" (click)="confirmDelete(element.Code, element.PCode)">
+          <mat-icon>cancel</mat-icon>
+        </button>
       </td>
     </ng-container>
 
     <!-- FinalizeOrder Column -->
     <ng-container matColumnDef="FinalizeOrder">
-      <th mat-header-cell *matHeaderCellDef style="width: 7%;" > Realizar pedido </th>
-      <td mat-cell *matCellDef="let element" >
-        <button mat-button color="primary" (click)="finalizeCart(element.PCode)"><mat-icon>check_circle</mat-icon></button>
+      <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Realizar pedido </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="primary" (click)="finalizeCart(element.products, element.Code)">
+          <mat-icon>check_circle</mat-icon>
+        </button>
       </td>
     </ng-container>
 

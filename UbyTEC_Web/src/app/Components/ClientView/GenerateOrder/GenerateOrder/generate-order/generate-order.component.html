@@ -1,38 +1,39 @@
 <div class="generate-order-container">
     <h1>Confirmar pago</h1>
-
+  
     <!-- Bin de la tarjeta -->
     <div class="dialog-row">
-        <label class="dialog-label">Bin de la tarjeta:</label>
-        <input type="text" class="dialog-input" placeholder="Ingrese el BIN de la tarjeta" />
+      <label class="dialog-label">Bin de la tarjeta:</label>
+      <input type="text" class="dialog-input" placeholder="Ingrese el BIN de la tarjeta" [(ngModel)]="bin" maxlength="16" />
     </div>
-
+  
     <!-- Mes y Año -->
     <div class="dialog-row">
-        <label class="dialog-label">Fecha:</label>
-        <div class="d-flex">
-            <!-- Input para el mes -->
-            <input type="number" class="dialog-input" placeholder="Mes" min="1" max="12" />
-            <!-- Input para el año -->
-            <input type="number" class="dialog-input" placeholder="Año" min="2024" max="2034" />
-        </div>
+      <label class="dialog-label">Fecha:</label>
+      <div class="d-flex">
+        <!-- Input para el mes -->
+        <input type="number" class="dialog-input" placeholder="Mes" min="1" max="12" [(ngModel)]="month" />
+        <!-- Input para el año -->
+        <input type="number" class="dialog-input" placeholder="Año" min="2024" max="2034" [(ngModel)]="year" />
+      </div>
     </div>
-
+  
     <!-- Nombre del titular -->
     <div class="dialog-row">
-        <label class="dialog-label">Nombre del titular:</label>
-        <input type="text" class="dialog-input" placeholder="Ingrese el nombre del titular" />
+      <label class="dialog-label">Nombre del titular:</label>
+      <input type="text" class="dialog-input" placeholder="Ingrese el nombre del titular" [(ngModel)]="cardholderName" />
     </div>
-
+  
     <!-- CVC -->
     <div class="dialog-row">
-        <label class="dialog-label">CVC:</label>
-        <input type="text" class="dialog-input" placeholder="Ingrese el CVC" />
+      <label class="dialog-label">CVC:</label>
+      <input type="text" class="dialog-input" placeholder="Ingrese el CVC" [(ngModel)]="cvc" maxlength="3"/>
     </div>
-
+  
     <!-- Botones de acción -->
     <div class="dialog-actions">
-        <button mat-button (click)="onCancel()" class="cancel-button">Cancelar</button>
-        <button mat-button color="warn" (click)="onConfirm()" class="confirm-button">Aceptar</button>
+      <button mat-button (click)="dialogRef.close()" class="cancel-button">Cancelar</button>
+      <button mat-button color="warn" (click)="onConfirm()" class="confirm-button">Aceptar</button>
     </div>
-</div>
+  </div>
+  

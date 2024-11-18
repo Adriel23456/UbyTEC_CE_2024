@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -9,11 +9,12 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { ClientService } from '../../../Services/Client/client.service';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs';
-import { CartService, CartProduct } from '../../../Services/Cart/cart.service';
+import { CartService } from '../../../Services/Cart/cart.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../ConfirmDialog/ConfirmDialog/confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenerateOrderComponent } from '../GenerateOrder/GenerateOrder/generate-order/generate-order.component';
+import { EditCartComponent } from '../EditCart/EditCart/edit-cart/edit-cart.component';
 
 
 @Component({
@@ -68,15 +69,16 @@ export class CartsComponent {
                 const quantityProducts = cart.products ? cart.products.reduce((total: number, currentProduct: { Amount?: number }) => total + (currentProduct.Amount || 0), 0) : 0;
                 const pCode = cart.products && cart.products[0] ? cart.products[0].Product_Code : 0; 
                 if( quantityProducts === 0){
-                  this.deleteCar(cart.Code, pCode)
+                  this.deleteCar(cart.Code, pCode, "Carritos actualizados")
                 }
                 return {
                   BusinessName: businessAssociate ? businessAssociate.BusinessName : 'No disponible',
                   QuantityProducts: quantityProducts, 
                   Amount: cart.TotalProductsPrice, 
                   Code: cart.Code,
-                  PCode: pCode,
-                  products: cart.products,
+                  products: cart.products || [],
+                  PCode: pCode ,
+                  BALID: cart.BusinessAssociate_Legal_Id,
                   ...cart
                 };
               });
@@ -94,15 +96,29 @@ export class CartsComponent {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
   }
+//------------------------------------------------------------editar---------------------------------------------------------
+  editCart(cartCode: number): void {
+    
+    const dialogRef = this.dialog.open(EditCartComponent, {
+      width: '90%',
+      data: {Carrito: cartCode
+        }
+    });
 
-  editCart(): void {
-    
-    console.log('Editar carrito');
-    
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        window.location.reload();
+        this.snackBar.open('Carrito Actualizado', 'Cerrar', {
+          duration: 3000, // Duración del mensaje en milisegundos
+          horizontalPosition: 'right', // Posición horizontal
+          verticalPosition: 'bottom', // Posición vertical
+        });
+      }
+    });
   }
 
 
-
+//-------------------------------------------------------------confirmar delete--------------------------------------------------------
   confirmDelete(cartCode: number, productCode: number): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -113,12 +129,12 @@ export class CartsComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.deleteCar(cartCode, productCode);
+        this.deleteCar(cartCode, productCode, "Se eliminó el carrito");
       }
     });
   }
-
-  deleteCar(cartCode: number, productCode: number): void {
+//----------------------------------------------------------------delete----------------------------------------------
+  deleteCar(cartCode: number, productCode: number, msg: string): void {
     console.log('Eliminar carrito:', cartCode, 'Producto:', productCode); 
 
     this.cartService.deleteProduct(cartCode, productCode).subscribe({
@@ -135,13 +151,12 @@ export class CartsComponent {
         console.log('Carrito eliminado con éxito');
 
         // Mostrar el mensaje de éxito
-        this.snackBar.open('Se eliminó el carrito', 'Cerrar', {
+        this.snackBar.open(msg, 'Cerrar', {
           duration: 3000, // Duración del mensaje en milisegundos
           horizontalPosition: 'right', // Posición horizontal
           verticalPosition: 'bottom', // Posición vertical
         });
   
-        // Eliminar el carrito de la tabla 
         this.dataSource.data = this.dataSource.data.filter(cart => cart.Code !== cartCode);
       
       },
@@ -150,15 +165,20 @@ export class CartsComponent {
       }
     });
   }
-
-  finalizeCart(PCode: number): void {
+//--------------------------------------------------------------------finalizar-----------------------------------------------
+finalizeCart(products: { Product_Code: number }[], cartCode: number): void {
     const dialogRef = this.dialog.open(GenerateOrderComponent, {
       data: {
-        Client_Id : this.currentClientId,
-        State: "Preparando",
-        Product_Code: PCode
+        Products: products.map(product => product.Product_Code)
       }
     });
-  }
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteCar(cartCode, 0, "¡Espera al repartidor!");
+      }
+    });
+}
+
   
 }
