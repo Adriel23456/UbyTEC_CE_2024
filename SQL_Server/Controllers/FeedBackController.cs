@@ -23,6 +23,20 @@ namespace SQL_Server.Controllers
             _mapper = mapper;
             _mongoDbService = mongoDbService;
         }
+                // GET: api/FeedBack/mongo
+        [HttpGet("mongo")]
+        public async Task<ActionResult<IEnumerable<MongoFeedback>>> GetMongoFeedBacks()
+        {
+            var mongoFeedbacks = await _mongoDbService.GetAllFeedbacksAsync();
+
+            if (mongoFeedbacks == null || !mongoFeedbacks.Any())
+            {
+                return NotFound(new { message = "No feedbacks found in the MongoDB database." });
+            }
+
+            return Ok(mongoFeedbacks);
+        }
+
 
         // GET: api/FeedBack
         [HttpGet]
@@ -57,7 +71,7 @@ namespace SQL_Server.Controllers
         [HttpPost]
         public async Task<ActionResult<FeedBackDTO>> PostFeedBack(FeedBackDTO_Create feedBackDtoCreate)
         {
-            // Validate grades
+            // Validación de las calificaciones
             if (feedBackDtoCreate.BusinessGrade < 0 || feedBackDtoCreate.BusinessGrade > 5)
             {
                 return BadRequest(new { message = "BusinessGrade must be between 0 and 5." });
@@ -71,35 +85,21 @@ namespace SQL_Server.Controllers
                 return BadRequest(new { message = "DeliveryManGrade must be between 0 and 5." });
             }
 
-            // Check if Order exists
+            // Comprobación si el pedido existe
             var orderExists = await _context.Order.AnyAsync(o => o.Code == feedBackDtoCreate.Order_Code);
             if (!orderExists)
             {
                 return BadRequest(new { message = $"Order with Code {feedBackDtoCreate.Order_Code} does not exist." });
             }
 
-            // Check if a FeedBack already exists for this Order
+            // Comprobación si el Feedback ya existe
             var feedbackExists = await _context.FeedBack.AnyAsync(f => f.Order_Code == feedBackDtoCreate.Order_Code);
             if (feedbackExists)
             {
                 return Conflict(new { message = $"A FeedBack for Order_Code {feedBackDtoCreate.Order_Code} already exists." });
             }
 
-            // Check if FoodDeliveryMan exists
-            var fdmExists = await _context.FoodDeliveryMan.AnyAsync(fdm => fdm.UserId == feedBackDtoCreate.FoodDeliveryMan_UserId);
-            if (!fdmExists)
-            {
-                return BadRequest(new { message = $"FoodDeliveryMan with UserId '{feedBackDtoCreate.FoodDeliveryMan_UserId}' does not exist." });
-            }
-
-            // Check if BusinessAssociate exists
-            var baExists = await _context.BusinessAssociate.AnyAsync(ba => ba.Legal_Id == feedBackDtoCreate.BusinessAssociate_Legal_Id);
-            if (!baExists)
-            {
-                return BadRequest(new { message = $"BusinessAssociate with Legal_Id {feedBackDtoCreate.BusinessAssociate_Legal_Id} does not exist." });
-            }
-
-            // Call Stored Procedure
+            // Llamada al procedimiento almacenado
             var parameters = new[]
             {
                 new SqlParameter("@FeedBack_Business", feedBackDtoCreate.FeedBack_Business),
@@ -115,7 +115,7 @@ namespace SQL_Server.Controllers
 
             await _context.Database.ExecuteSqlRawAsync("EXEC sp_CreateFeedBack @FeedBack_Business, @BusinessGrade, @FeedBack_Order, @OrderGrade, @FeedBack_DeliveryMan, @DeliveryManGrade, @FoodDeliveryMan_UserId, @Order_Code, @BusinessAssociate_Legal_Id", parameters);
 
-            // Retrieve the newly created FeedBack
+            // Recuperar el Feedback recién creado
             var feedBacks = await _context.FeedBack
                 .FromSqlRaw("SELECT TOP 1 * FROM [FeedBack] WHERE [Order_Code] = {0} ORDER BY [Id] DESC", feedBackDtoCreate.Order_Code)
                 .ToListAsync();
@@ -123,11 +123,12 @@ namespace SQL_Server.Controllers
             var feedBack = feedBacks.FirstOrDefault();
 
             // Guardar en MongoDB
-                        
             if (feedBack != null)
-            {
+            {   
+                string idAsString = (feedBack.Id).ToString();
                 var mongoFeedback = new MongoFeedback
                 {
+                    IdSQL = idAsString, // Asegúrate de que este ID sea el de SQL
                     FeedBack_Business = feedBack.FeedBack_Business,
                     BusinessGrade = feedBack.BusinessGrade,
                     FeedBack_Order = feedBack.FeedBack_Order,
@@ -142,7 +143,6 @@ namespace SQL_Server.Controllers
                 await _mongoDbService.AddFeedBackAsync(mongoFeedback);
             }
 
-
             var createdFeedBackDto = _mapper.Map<FeedBackDTO>(feedBack);
 
             return CreatedAtAction(nameof(GetFeedBack), new { id = feedBack?.Id }, createdFeedBackDto);
@@ -152,14 +152,14 @@ namespace SQL_Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFeedBack(long id, FeedBackDTO_Update feedBackDtoUpdate)
         {
-            // Check if FeedBack exists
+            // Verificar si el FeedBack existe
             var feedBackExists = await _context.FeedBack.AnyAsync(f => f.Id == id);
             if (!feedBackExists)
             {
                 return NotFound(new { message = $"FeedBack with Id {id} not found." });
             }
 
-            // Validate grades
+            // Validación de las calificaciones
             if (feedBackDtoUpdate.BusinessGrade < 0 || feedBackDtoUpdate.BusinessGrade > 5)
             {
                 return BadRequest(new { message = "BusinessGrade must be between 0 and 5." });
@@ -173,35 +173,21 @@ namespace SQL_Server.Controllers
                 return BadRequest(new { message = "DeliveryManGrade must be between 0 and 5." });
             }
 
-            // Check if Order exists
+            // Comprobación si el pedido existe
             var orderExists = await _context.Order.AnyAsync(o => o.Code == feedBackDtoUpdate.Order_Code);
             if (!orderExists)
             {
                 return BadRequest(new { message = $"Order with Code {feedBackDtoUpdate.Order_Code} does not exist." });
             }
 
-            // Check if another FeedBack exists for this Order
+            // Comprobación si ya existe otro FeedBack para este pedido
             var feedbackExists = await _context.FeedBack.AnyAsync(f => f.Order_Code == feedBackDtoUpdate.Order_Code && f.Id != id);
             if (feedbackExists)
             {
                 return Conflict(new { message = $"Another FeedBack for Order_Code {feedBackDtoUpdate.Order_Code} already exists." });
             }
 
-            // Check if FoodDeliveryMan exists
-            var fdmExists = await _context.FoodDeliveryMan.AnyAsync(fdm => fdm.UserId == feedBackDtoUpdate.FoodDeliveryMan_UserId);
-            if (!fdmExists)
-            {
-                return BadRequest(new { message = $"FoodDeliveryMan with UserId '{feedBackDtoUpdate.FoodDeliveryMan_UserId}' does not exist." });
-            }
-
-            // Check if BusinessAssociate exists
-            var baExists = await _context.BusinessAssociate.AnyAsync(ba => ba.Legal_Id == feedBackDtoUpdate.BusinessAssociate_Legal_Id);
-            if (!baExists)
-            {
-                return BadRequest(new { message = $"BusinessAssociate with Legal_Id {feedBackDtoUpdate.BusinessAssociate_Legal_Id} does not exist." });
-            }
-
-            // Call Stored Procedure
+            // Llamada al procedimiento almacenado
             var parameters = new[]
             {
                 new SqlParameter("@Id", id),
@@ -217,11 +203,12 @@ namespace SQL_Server.Controllers
             };
 
             await _context.Database.ExecuteSqlRawAsync("EXEC sp_UpdateFeedBack @Id, @FeedBack_Business, @BusinessGrade, @FeedBack_Order, @OrderGrade, @FeedBack_DeliveryMan, @DeliveryManGrade, @FoodDeliveryMan_UserId, @Order_Code, @BusinessAssociate_Legal_Id", parameters);
-            
-            // Update MongoDB
+
+            // Actualizar en MongoDB
+            string idAsString = id.ToString();
             var mongoFeedback = new MongoFeedback
             {
-                Id = id, // Ensure you map the appropriate ID
+                IdSQL = idAsString, // Usar el Id de SQL
                 FeedBack_Business = feedBackDtoUpdate.FeedBack_Business,
                 BusinessGrade = feedBackDtoUpdate.BusinessGrade,
                 FeedBack_Order = feedBackDtoUpdate.FeedBack_Order,
@@ -233,11 +220,11 @@ namespace SQL_Server.Controllers
                 BusinessAssociate_Legal_Id = feedBackDtoUpdate.BusinessAssociate_Legal_Id
             };
 
-            await _mongoDbService.UpdateFeedbackAsync(id, mongoFeedback); // Add this method to MongoDbService
-
+            await _mongoDbService.UpdateFeedbackAsync(id, mongoFeedback);
 
             return NoContent();
         }
+
 
         // DELETE: api/FeedBack/{id}
         [HttpDelete("{id}")]
@@ -254,7 +241,6 @@ namespace SQL_Server.Controllers
             await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteFeedBack @Id = {0}", id);
             
             //Delete from mongo db
-             // Delete from MongoDB
             await _mongoDbService.DeleteFeedbackAsync(id);
 
             return NoContent();

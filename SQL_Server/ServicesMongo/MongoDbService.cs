@@ -15,6 +15,11 @@ namespace SQL_Server.ServicesMongo
             _feedbackCollection = mongoDatabase.GetCollection<MongoFeedback>(configuration["MongoDB:CollectionName"]);
         }
 
+        public async Task<List<MongoFeedback>> GetAllFeedbacksAsync()
+        {
+            return await _feedbackCollection.Find(_ => true).ToListAsync();
+        }
+
         public async Task AddFeedBackAsync(MongoFeedback feedback)
         {
             await _feedbackCollection.InsertOneAsync(feedback);
@@ -22,13 +27,15 @@ namespace SQL_Server.ServicesMongo
 
         public async Task UpdateFeedbackAsync(long id, MongoFeedback feedback)
         {
-            var filter = Builders<MongoFeedback>.Filter.Eq(f => f.Id, id);
+            string idAsString = id.ToString();
+            var filter = Builders<MongoFeedback>.Filter.Eq(f => f.IdSQL, idAsString);
             await _feedbackCollection.ReplaceOneAsync(filter, feedback);
         }
 
         public async Task DeleteFeedbackAsync(long id)
         {
-            var filter = Builders<MongoFeedback>.Filter.Eq(f => f.Id, id);
+            string idAsString = id.ToString();
+            var filter = Builders<MongoFeedback>.Filter.Eq(f => f.IdSQL, idAsString);
             await _feedbackCollection.DeleteOneAsync(filter);
         }
     }

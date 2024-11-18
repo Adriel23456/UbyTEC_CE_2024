@@ -9,6 +9,9 @@ namespace SQL_Server.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; } // MongoDB auto-generated ID
 
+        [BsonElement("Id_SQL")]
+        public string IdSQL {get;set;} //id en la base sql
+        
         [BsonElement("FeedBack_Business")]
         public string FeedBack_Business { get; set; } = string.Empty;
 
