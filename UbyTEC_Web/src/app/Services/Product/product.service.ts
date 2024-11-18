@@ -4,7 +4,7 @@ import { ComunicationService } from '../Comunication/comunication.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export interface Product {
-  Code?: number; // PK
+  Code?: number | null; // PK
   Name: string;
   Price: number;
   Category: string;

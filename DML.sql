@@ -1,1565 +1,619 @@
----------------Funciones de creacion de la base de datos en general----------
-GO
-CREATE TABLE [Admin] (
-    [Id] int NOT NULL,
-    [Name] nvarchar(max) NOT NULL,
-    [FirstSurname] nvarchar(max) NOT NULL,
-    [SecondSurname] nvarchar(max) NOT NULL,
-    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
-    [Province] nvarchar(max) NOT NULL,
-    [Canton] nvarchar(max) NOT NULL,
-    [District] nvarchar(max) NOT NULL,
-    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
-    [UserId] nvarchar(450) NOT NULL,
-    [Password] nvarchar(max) NOT NULL,
-    CONSTRAINT [PK_Admin] PRIMARY KEY ([Id])
-);
-GO
-CREATE TABLE [BusinessManager] (
-    [Email] nvarchar(450) NOT NULL,
-    [Name] nvarchar(max) NOT NULL,
-    [FirstSurname] nvarchar(max) NOT NULL,
-    [SecondSurname] nvarchar(max) NOT NULL,
-    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
-    [Province] nvarchar(max) NOT NULL,
-    [Canton] nvarchar(max) NOT NULL,
-    [District] nvarchar(max) NOT NULL,
-    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
-    [UserId] nvarchar(450) NOT NULL,
-    [Password] nvarchar(max) NOT NULL,
-    CONSTRAINT [PK_BusinessManager] PRIMARY KEY ([Email])
-);
-GO
-CREATE TABLE [BusinessType] (
-    [Identification] int NOT NULL IDENTITY,
-    [Name] nvarchar(450) NOT NULL,
-    CONSTRAINT [PK_BusinessType] PRIMARY KEY ([Identification])
-);
-GO
-CREATE TABLE [Client] (
-    [Id] int NOT NULL,
-    [UserId] nvarchar(450) NOT NULL,
-    [Name] nvarchar(max) NOT NULL,
-    [FirstSurname] nvarchar(max) NOT NULL,
-    [SecondSurname] nvarchar(max) NOT NULL,
-    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
-    [Province] nvarchar(max) NOT NULL,
-    [Canton] nvarchar(max) NOT NULL,
-    [District] nvarchar(max) NOT NULL,
-    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
-    [Password] nvarchar(max) NOT NULL,
-    [Phone] int NOT NULL,
-    [BirthDate] nvarchar(max) NOT NULL,
-    CONSTRAINT [PK_Client] PRIMARY KEY ([Id])
-);
-GO
-CREATE TABLE [FoodDeliveryMan] (
-    [UserId] nvarchar(450) NOT NULL,
-    [Name] nvarchar(max) NOT NULL,
-    [FirstSurname] nvarchar(max) NOT NULL,
-    [SecondSurname] nvarchar(max) NOT NULL,
-    [FullName] AS [Name] + ' ' + [FirstSurname] + ' ' + [SecondSurname] PERSISTED,
-    [Province] nvarchar(max) NOT NULL,
-    [Canton] nvarchar(max) NOT NULL,
-    [District] nvarchar(max) NOT NULL,
-    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
-    [Password] nvarchar(max) NOT NULL,
-    [State] nvarchar(max) NOT NULL,
-    CONSTRAINT [PK_FoodDeliveryMan] PRIMARY KEY ([UserId])
-);
-GO
-CREATE TABLE [AdminPhone] (
-    [Admin_id] int NOT NULL,
-    [Phone] int NOT NULL,
-    CONSTRAINT [PK_AdminPhone] PRIMARY KEY ([Admin_id], [Phone]),
-    CONSTRAINT [FK_AdminPhone_Admin_Admin_id] FOREIGN KEY ([Admin_id]) REFERENCES [Admin] ([Id]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [BusinessManagerPhone] (
-    [BusinessManager_Email] nvarchar(450) NOT NULL,
-    [Phone] int NOT NULL,
-    CONSTRAINT [PK_BusinessManagerPhone] PRIMARY KEY ([BusinessManager_Email], [Phone]),
-    CONSTRAINT [FK_BusinessManagerPhone_BusinessManager_BusinessManager_Email] FOREIGN KEY ([BusinessManager_Email]) REFERENCES [BusinessManager] ([Email]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [BusinessAssociate] (
-    [Legal_Id] int NOT NULL,
-    [Email] nvarchar(max) NOT NULL,
-    [State] nvarchar(max) NOT NULL,
-    [BusinessName] nvarchar(max) NOT NULL,
-    [Direction] AS [Province] + ', ' + [Canton] + ', ' + [District] PERSISTED,
-    [Province] nvarchar(max) NOT NULL,
-    [Canton] nvarchar(max) NOT NULL,
-    [District] nvarchar(max) NOT NULL,
-    [SINPE] int NOT NULL,
-    [RejectReason] nvarchar(max) NULL,
-    [BusinessManager_Email] nvarchar(450) NOT NULL,
-    [BusinessType_Identification] int NOT NULL,
-    CONSTRAINT [PK_BusinessAssociate] PRIMARY KEY ([Legal_Id]),
-    CONSTRAINT [FK_BusinessAssociate_BusinessManager_BusinessManager_Email] FOREIGN KEY ([BusinessManager_Email]) REFERENCES [BusinessManager] ([Email]) ON DELETE CASCADE,
-    CONSTRAINT [FK_BusinessAssociate_BusinessType_BusinessType_Identification] FOREIGN KEY ([BusinessType_Identification]) REFERENCES [BusinessType] ([Identification]) ON DELETE CASCADE        
-);
-GO
-CREATE TABLE [Cart] (
-    [Code] int NOT NULL IDENTITY,
-    [BusinessAssociate_Legal_Id] int NULL,
-    [TotalProductsPrice] int NULL,
-    [Client_Id] int NOT NULL,
-    CONSTRAINT [PK_Cart] PRIMARY KEY ([Code]),
-    CONSTRAINT [FK_Cart_Client_Client_Id] FOREIGN KEY ([Client_Id]) REFERENCES [Client] ([Id]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [FoodDeliveryManPhone] (
-    [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
-    [Phone] int NOT NULL,
-    CONSTRAINT [PK_FoodDeliveryManPhone] PRIMARY KEY ([FoodDeliveryMan_UserId], [Phone]),
-    CONSTRAINT [FK_FoodDeliveryManPhone_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [Order] (
-    [Code] int NOT NULL IDENTITY,
-    [State] nvarchar(max) NOT NULL,
-    [TotalService] int NULL,
-    [Direction] nvarchar(max) NULL,
-    [Client_Id] int NOT NULL,
-    [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
-    CONSTRAINT [PK_Order] PRIMARY KEY ([Code]),
-    CONSTRAINT [FK_Order_Client_Client_Id] FOREIGN KEY ([Client_Id]) REFERENCES [Client] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_Order_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [BusinessAssociatePhone] (
-    [BusinessAssociate_Legal_Id] int NOT NULL,
-    [Phone] int NOT NULL,
-    CONSTRAINT [PK_BusinessAssociatePhone] PRIMARY KEY ([BusinessAssociate_Legal_Id], [Phone]),
-    CONSTRAINT [FK_BusinessAssociatePhone_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE 
-);
-GO
-CREATE TABLE [Product] (
-    [Code] int NOT NULL IDENTITY,
-    [Name] nvarchar(max) NOT NULL,
-    [Price] int NOT NULL,
-    [Category] nvarchar(max) NOT NULL,
-    [BusinessAssociate_Legal_Id] int NOT NULL,
-    CONSTRAINT [PK_Product] PRIMARY KEY ([Code]),
-    CONSTRAINT [FK_Product_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [FeedBack] (
-    [Id] int NOT NULL IDENTITY,
-    [FeedBack_Business] nvarchar(max) NOT NULL,
-    [BusinessGrade] float NOT NULL,
-    [FeedBack_Order] nvarchar(max) NOT NULL,
-    [OrderGrade] float NOT NULL,
-    [FeedBack_DeliveryMan] nvarchar(max) NOT NULL,
-    [DeliveryManGrade] float NOT NULL,
-    [FoodDeliveryMan_UserId] nvarchar(450) NOT NULL,
-    [Order_Code] int NOT NULL,
-    [BusinessAssociate_Legal_Id] int NOT NULL,
-    CONSTRAINT [PK_FeedBack] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_FeedBack_BusinessAssociate_BusinessAssociate_Legal_Id] FOREIGN KEY ([BusinessAssociate_Legal_Id]) REFERENCES [BusinessAssociate] ([Legal_Id]) ON DELETE NO ACTION,
-    CONSTRAINT [FK_FeedBack_FoodDeliveryMan_FoodDeliveryMan_UserId] FOREIGN KEY ([FoodDeliveryMan_UserId]) REFERENCES [FoodDeliveryMan] ([UserId]) ON DELETE NO ACTION,
-    CONSTRAINT [FK_FeedBack_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE NO ACTION
-);
-GO
-CREATE TABLE [ProofOfPayment] (
-    [Code] int NOT NULL IDENTITY,
-    [CreditCardName] nvarchar(max) NOT NULL,
-    [LastDigitsCreditCard] int NOT NULL,
-    [TotalPayment] int NULL,
-    [Date] nvarchar(max) NOT NULL,
-    [Time] nvarchar(max) NOT NULL,
-    [ClientFullName] nvarchar(max) NULL,
-    [ClientPhone] int NULL,
-    [Order_Code] int NOT NULL,
-    CONSTRAINT [PK_ProofOfPayment] PRIMARY KEY ([Code]),
-    CONSTRAINT [FK_ProofOfPayment_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [Cart_Product] (
-    [Cart_Code] int NOT NULL,
-    [Product_Code] int NOT NULL,
-    [Amount] int NOT NULL,
-    CONSTRAINT [PK_Cart_Product] PRIMARY KEY ([Cart_Code], [Product_Code]),
-    CONSTRAINT [FK_Cart_Product_Cart_Cart_Code] FOREIGN KEY ([Cart_Code]) REFERENCES [Cart] ([Code]) ON DELETE CASCADE,
-    CONSTRAINT [FK_Cart_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [Order_Product] (
-    [Order_Code] int NOT NULL,
-    [Product_Code] int NOT NULL,
-    [Amount] int NOT NULL,
-    CONSTRAINT [PK_Order_Product] PRIMARY KEY ([Order_Code], [Product_Code]),
-    CONSTRAINT [FK_Order_Product_Order_Order_Code] FOREIGN KEY ([Order_Code]) REFERENCES [Order] ([Code]) ON DELETE CASCADE,
-    CONSTRAINT [FK_Order_Product_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
-);
-GO
-CREATE TABLE [ProductPhoto] (
-    [Product_Code] int NOT NULL,
-    [PhotoURL] nvarchar(450) NOT NULL,
-    CONSTRAINT [PK_ProductPhoto] PRIMARY KEY ([Product_Code], [PhotoURL]),
-    CONSTRAINT [FK_ProductPhoto_Product_Product_Code] FOREIGN KEY ([Product_Code]) REFERENCES [Product] ([Code]) ON DELETE CASCADE
-);
-GO
-CREATE UNIQUE INDEX [IX_Admin_UserId] ON [Admin] ([UserId]);
-GO
-CREATE UNIQUE INDEX [IX_BusinessAssociate_BusinessManager_Email] ON [BusinessAssociate] ([BusinessManager_Email]);
-GO
-CREATE INDEX [IX_BusinessAssociate_BusinessType_Identification] ON [BusinessAssociate] ([BusinessType_Identification]);
-GO
-CREATE UNIQUE INDEX [IX_BusinessManager_UserId] ON [BusinessManager] ([UserId]);
-GO
-CREATE UNIQUE INDEX [IX_BusinessType_Name] ON [BusinessType] ([Name]);
-GO
-CREATE INDEX [IX_Cart_Client_Id] ON [Cart] ([Client_Id]);
-GO
-CREATE INDEX [IX_Cart_Product_Product_Code] ON [Cart_Product] ([Product_Code]);
-GO
-CREATE UNIQUE INDEX [IX_Client_UserId] ON [Client] ([UserId]);
-GO
-CREATE INDEX [IX_FeedBack_BusinessAssociate_Legal_Id] ON [FeedBack] ([BusinessAssociate_Legal_Id]);
-GO
-CREATE INDEX [IX_FeedBack_FoodDeliveryMan_UserId] ON [FeedBack] ([FoodDeliveryMan_UserId]);
-GO
-CREATE UNIQUE INDEX [IX_FeedBack_Order_Code] ON [FeedBack] ([Order_Code]);
-GO
-CREATE INDEX [IX_Order_Client_Id] ON [Order] ([Client_Id]);
-GO
-CREATE INDEX [IX_Order_FoodDeliveryMan_UserId] ON [Order] ([FoodDeliveryMan_UserId]);
-GO
-CREATE INDEX [IX_Order_Product_Product_Code] ON [Order_Product] ([Product_Code]);
-GO
-CREATE INDEX [IX_Product_BusinessAssociate_Legal_Id] ON [Product] ([BusinessAssociate_Legal_Id]);
-GO
-CREATE UNIQUE INDEX [IX_ProofOfPayment_Order_Code] ON [ProofOfPayment] ([Order_Code]);
-GO
----------------Funciones de creacion de la base de datos en general----------
-
----------------Funciones para Admin---------------
-GO
-CREATE PROCEDURE sp_GetAllAdmins
-AS
-BEGIN
-    SELECT * FROM [Admin];
-END;
-
-GO
-CREATE PROCEDURE sp_GetAdminById
-    @Id INT
-AS
-BEGIN
-    SELECT *
-    FROM [Admin]
-    WHERE [Id] = @Id;
-END;
-
-GO
-CREATE PROCEDURE sp_CreateAdmin
-    @Id INT,
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @UserId NVARCHAR(450),
-    @Password NVARCHAR(MAX)
-AS
-BEGIN
-    INSERT INTO [Admin] ([Id], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [UserId], [Password])
-    VALUES (@Id, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @UserId, @Password);
-END;
-
-GO
-CREATE PROCEDURE sp_UpdateAdmin
-    @Id INT,
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @UserId NVARCHAR(450),
-    @Password NVARCHAR(MAX)
-AS
-BEGIN
-    UPDATE [Admin]
-    SET [Name] = @Name,
-        [FirstSurname] = @FirstSurname,
-        [SecondSurname] = @SecondSurname,
-        [Province] = @Province,
-        [Canton] = @Canton,
-        [District] = @District,
-        [UserId] = @UserId,
-        [Password] = @Password
-    WHERE [Id] = @Id;
-END;
-
-GO
-CREATE PROCEDURE sp_DeleteAdmin
-    @Id INT
-AS
-BEGIN
-    DELETE FROM [Admin]
-    WHERE [Id] = @Id;
-END;
----------------Funciones para Admin---------------
-
----------------Funciones para AdminPhone---------------
-GO
-CREATE PROCEDURE sp_GetAllAdminPhones
-AS
-BEGIN
-    SELECT * FROM [AdminPhone];
-END;
-
-GO
-CREATE PROCEDURE sp_GetAdminPhonesByAdminId
-    @Admin_id INT
-AS
-BEGIN
-    SELECT * FROM [AdminPhone]
-    WHERE [Admin_id] = @Admin_id;
-END;
-
-GO
-CREATE PROCEDURE sp_CreateAdminPhone
-    @Admin_id INT,
-    @Phone INT
-AS
-BEGIN
-    INSERT INTO [AdminPhone] ([Admin_id], [Phone])
-    VALUES (@Admin_id, @Phone);
-END;
-
-GO
-CREATE PROCEDURE sp_UpdateAdminPhone
-    @Admin_id INT,
-    @OldPhone INT,
-    @NewPhone INT
-AS
-BEGIN
-    BEGIN TRANSACTION;
-        DELETE FROM [AdminPhone]
-        WHERE [Admin_id] = @Admin_id AND [Phone] = @OldPhone;
-
-        INSERT INTO [AdminPhone] ([Admin_id], [Phone])
-        VALUES (@Admin_id, @NewPhone);
-    COMMIT TRANSACTION;
-END;
-
-GO
-CREATE PROCEDURE sp_DeleteAdminPhone
-    @Admin_id INT,
-    @Phone INT
-AS
-BEGIN
-    DELETE FROM [AdminPhone]
-    WHERE [Admin_id] = @Admin_id AND [Phone] = @Phone;
-END;
-GO
----------------Funciones para AdminPhone---------------
-
----------------Funciones para BusinessManager---------------
-GO
-CREATE PROCEDURE sp_GetAllBusinessManagers
-AS
-BEGIN
-    SELECT * FROM [BusinessManager];
-END;
-GO
-
-CREATE PROCEDURE sp_GetBusinessManagerByEmail
-    @Email NVARCHAR(MAX)
-AS
-BEGIN
-    SELECT *
-    FROM [BusinessManager]
-    WHERE [Email] = @Email;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateBusinessManager
-    @Email NVARCHAR(MAX),
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @UserId NVARCHAR(450),
-    @Password NVARCHAR(MAX)
-AS
-BEGIN
-    INSERT INTO [BusinessManager] ([Email], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [UserId], [Password])
-    VALUES (@Email, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @UserId, @Password);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateBusinessManager
-    @Email NVARCHAR(MAX),
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @UserId NVARCHAR(450),
-    @Password NVARCHAR(MAX)
-AS
-BEGIN
-    UPDATE [BusinessManager]
-    SET [Name] = @Name,
-        [FirstSurname] = @FirstSurname,
-        [SecondSurname] = @SecondSurname,
-        [Province] = @Province,
-        [Canton] = @Canton,
-        [District] = @District,
-        [UserId] = @UserId,
-        [Password] = @Password
-    WHERE [Email] = @Email;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteBusinessManager
-    @Email NVARCHAR(MAX)
-AS
-BEGIN
-    DELETE FROM [BusinessManager]
-    WHERE [Email] = @Email;
-END;
-GO
----------------Funciones para BusinessManager---------------
-
----------------Funciones para BusinessManagerPhone---------------
-GO
-CREATE PROCEDURE sp_GetAllBusinessManagerPhones
-AS
-BEGIN
-    SELECT * FROM [BusinessManagerPhone];
-END;
-GO
-
-CREATE PROCEDURE sp_GetBusinessManagerPhonesByEmail
-    @BusinessManager_Email NVARCHAR(MAX)
-AS
-BEGIN
-    SELECT * FROM [BusinessManagerPhone]
-    WHERE [BusinessManager_Email] = @BusinessManager_Email;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateBusinessManagerPhone
-    @BusinessManager_Email NVARCHAR(MAX),
-    @Phone INT
-AS
-BEGIN
-    INSERT INTO [BusinessManagerPhone] ([BusinessManager_Email], [Phone])
-    VALUES (@BusinessManager_Email, @Phone);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateBusinessManagerPhone
-    @BusinessManager_Email NVARCHAR(MAX),
-    @OldPhone INT,
-    @NewPhone INT
-AS
-BEGIN
-    BEGIN TRANSACTION;
-        DELETE FROM [BusinessManagerPhone]
-        WHERE [BusinessManager_Email] = @BusinessManager_Email AND [Phone] = @OldPhone;
-
-        INSERT INTO [BusinessManagerPhone] ([BusinessManager_Email], [Phone])
-        VALUES (@BusinessManager_Email, @NewPhone);
-    COMMIT TRANSACTION;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteBusinessManagerPhone
-    @BusinessManager_Email NVARCHAR(MAX),
-    @Phone INT
-AS
-BEGIN
-    DELETE FROM [BusinessManagerPhone]
-    WHERE [BusinessManager_Email] = @BusinessManager_Email AND [Phone] = @Phone;
-END;
-GO
----------------Funciones para BusinessManagerPhone---------------
-
----------------Funciones para FoodDeliveryMan---------------
-GO
-CREATE PROCEDURE sp_GetAllFoodDeliveryMen
-AS
-BEGIN
-    SELECT * FROM [FoodDeliveryMan];
-END;
-GO
-
-CREATE PROCEDURE sp_GetFoodDeliveryManByUserId
-    @UserId NVARCHAR(MAX)
-AS
-BEGIN
-    SELECT *
-    FROM [FoodDeliveryMan]
-    WHERE [UserId] = @UserId;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateFoodDeliveryMan
-    @UserId NVARCHAR(MAX),
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @Password NVARCHAR(MAX),
-    @State NVARCHAR(MAX)
-AS
-BEGIN
-    INSERT INTO [FoodDeliveryMan] ([UserId], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [Password], [State])
-    VALUES (@UserId, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @Password, @State);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateFoodDeliveryMan
-    @UserId NVARCHAR(MAX),
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @Password NVARCHAR(MAX),
-    @State NVARCHAR(MAX)
-AS
-BEGIN
-    UPDATE [FoodDeliveryMan]
-    SET [Name] = @Name,
-        [FirstSurname] = @FirstSurname,
-        [SecondSurname] = @SecondSurname,
-        [Province] = @Province,
-        [Canton] = @Canton,
-        [District] = @District,
-        [Password] = @Password,
-        [State] = @State
-    WHERE [UserId] = @UserId;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteFoodDeliveryMan
-    @UserId NVARCHAR(MAX)
-AS
-BEGIN
-    DELETE FROM [FoodDeliveryMan]
-    WHERE [UserId] = @UserId;
-END;
-GO
----------------Funciones para FoodDeliveryMan---------------
-
----------------Funciones para FoodDeliveryManPhone---------------
-GO
-CREATE PROCEDURE sp_GetAllFoodDeliveryManPhones
-AS
-BEGIN
-    SELECT * FROM [FoodDeliveryManPhone];
-END;
-GO
-
-CREATE PROCEDURE sp_GetFoodDeliveryManPhonesByUserId
-    @FoodDeliveryMan_UserId NVARCHAR(MAX)
-AS
-BEGIN
-    SELECT * FROM [FoodDeliveryManPhone]
-    WHERE [FoodDeliveryMan_UserId] = @FoodDeliveryMan_UserId;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateFoodDeliveryManPhone
-    @FoodDeliveryMan_UserId NVARCHAR(MAX),
-    @Phone INT
-AS
-BEGIN
-    INSERT INTO [FoodDeliveryManPhone] ([FoodDeliveryMan_UserId], [Phone])
-    VALUES (@FoodDeliveryMan_UserId, @Phone);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateFoodDeliveryManPhone
-    @FoodDeliveryMan_UserId NVARCHAR(MAX),
-    @OldPhone INT,
-    @NewPhone INT
-AS
-BEGIN
-    BEGIN TRANSACTION;
-        DELETE FROM [FoodDeliveryManPhone]
-        WHERE [FoodDeliveryMan_UserId] = @FoodDeliveryMan_UserId AND [Phone] = @OldPhone;
-
-        INSERT INTO [FoodDeliveryManPhone] ([FoodDeliveryMan_UserId], [Phone])
-        VALUES (@FoodDeliveryMan_UserId, @NewPhone);
-    COMMIT TRANSACTION;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteFoodDeliveryManPhone
-    @FoodDeliveryMan_UserId NVARCHAR(MAX),
-    @Phone INT
-AS
-BEGIN
-    DELETE FROM [FoodDeliveryManPhone]
-    WHERE [FoodDeliveryMan_UserId] = @FoodDeliveryMan_UserId AND [Phone] = @Phone;
-END;
-GO
----------------Funciones para FoodDeliveryManPhone---------------
-
----------------Funciones para Client---------------
-GO
-CREATE PROCEDURE sp_GetAllClients
-AS
-BEGIN
-    SELECT * FROM [Client];
-END;
-GO
-
-CREATE PROCEDURE sp_GetClientById
-    @Id INT
-AS
-BEGIN
-    SELECT * FROM [Client]
-    WHERE [Id] = @Id;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateClient
-    @Id INT,
-    @UserId NVARCHAR(450),
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @Password NVARCHAR(MAX),
-    @Phone INT,
-    @BirthDate NVARCHAR(10)
-AS
-BEGIN
-    INSERT INTO [Client] ([Id], [UserId], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [Password], [Phone], [BirthDate])
-    VALUES (@Id, @UserId, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @Password, @Phone, @BirthDate);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateClient
-    @Id INT,
-    @UserId NVARCHAR(450),
-    @Name NVARCHAR(MAX),
-    @FirstSurname NVARCHAR(MAX),
-    @SecondSurname NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @Password NVARCHAR(MAX),
-    @Phone INT,
-    @BirthDate NVARCHAR(10)
-AS
-BEGIN
-    UPDATE [Client]
-    SET [UserId] = @UserId,
-        [Name] = @Name,
-        [FirstSurname] = @FirstSurname,
-        [SecondSurname] = @SecondSurname,
-        [Province] = @Province,
-        [Canton] = @Canton,
-        [District] = @District,
-        [Password] = @Password,
-        [Phone] = @Phone,
-        [BirthDate] = @BirthDate
-    WHERE [Id] = @Id;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteClient
-    @Id INT
-AS
-BEGIN
-    DELETE FROM [Client]
-    WHERE [Id] = @Id;
-END;
-GO
----------------Funciones para Client---------------
-
----------------Funciones para BusinessType---------------
-GO
-CREATE PROCEDURE sp_GetAllBusinessTypes
-AS
-BEGIN
-    SELECT * FROM [BusinessType];
-END;
-GO
-
-CREATE PROCEDURE sp_GetBusinessTypeById
-    @Identification INT
-AS
-BEGIN
-    SELECT * FROM [BusinessType]
-    WHERE [Identification] = @Identification;
-END;
-GO
-
-GO
-CREATE PROCEDURE sp_CreateBusinessType
-    @Name NVARCHAR(MAX)
-AS
-BEGIN
-    INSERT INTO [BusinessType] ([Name])
-    VALUES (@Name);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateBusinessType
-    @Identification INT,
-    @Name NVARCHAR(MAX)
-AS
-BEGIN
-    UPDATE [BusinessType]
-    SET [Name] = @Name
-    WHERE [Identification] = @Identification;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteBusinessType
-    @Identification INT
-AS
-BEGIN
-    DELETE FROM [BusinessType]
-    WHERE [Identification] = @Identification;
-END;
-GO
----------------Funciones para BusinessType---------------
-
----------------Funciones para BusinessAssociate---------------
-GO
-CREATE PROCEDURE sp_GetAllBusinessAssociates
-AS
-BEGIN
-    SELECT * FROM [BusinessAssociate];
-END;
-GO
-
-CREATE PROCEDURE sp_GetBusinessAssociateById
-    @Legal_Id INT
-AS
-BEGIN
-    SELECT * FROM [BusinessAssociate]
-    WHERE [Legal_Id] = @Legal_Id;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateBusinessAssociate
-    @Legal_Id INT,
-    @Email NVARCHAR(MAX),
-    @State NVARCHAR(MAX),
-    @BusinessName NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @SINPE INT,
-    @BusinessManager_Email NVARCHAR(MAX),
-    @BusinessType_Identification INT
-AS
-BEGIN
-    INSERT INTO [BusinessAssociate] (
-        [Legal_Id], [Email], [State], [BusinessName],
-        [Province], [Canton], [District], [SINPE],
-        [BusinessManager_Email], [BusinessType_Identification]
-    )
-    VALUES (
-        @Legal_Id, @Email, @State, @BusinessName,
-        @Province, @Canton, @District, @SINPE,
-        @BusinessManager_Email, @BusinessType_Identification
-    );
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateBusinessAssociate
-    @Legal_Id INT,
-    @Email NVARCHAR(MAX),
-    @State NVARCHAR(MAX),
-    @BusinessName NVARCHAR(MAX),
-    @Province NVARCHAR(MAX),
-    @Canton NVARCHAR(MAX),
-    @District NVARCHAR(MAX),
-    @SINPE INT,
-    @RejectReason NVARCHAR(MAX) = NULL,
-    @BusinessManager_Email NVARCHAR(MAX),
-    @BusinessType_Identification INT
-AS
-BEGIN
-    UPDATE [BusinessAssociate]
-    SET [Email] = @Email,
-        [State] = @State,
-        [BusinessName] = @BusinessName,
-        [Province] = @Province,
-        [Canton] = @Canton,
-        [District] = @District,
-        [SINPE] = @SINPE,
-        [RejectReason] = @RejectReason,
-        [BusinessManager_Email] = @BusinessManager_Email,
-        [BusinessType_Identification] = @BusinessType_Identification
-    WHERE [Legal_Id] = @Legal_Id;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteBusinessAssociate
-    @Legal_Id INT
-AS
-BEGIN
-    DELETE FROM [BusinessAssociate]
-    WHERE [Legal_Id] = @Legal_Id;
-END;
-GO
----------------Funciones para BusinessAssociate---------------
-
----------------Funciones para BusinessAssociatePhone---------------
-GO
-CREATE PROCEDURE sp_GetAllBusinessAssociatePhones
-AS
-BEGIN
-    SELECT * FROM [BusinessAssociatePhone];
-END;
-GO
-
-CREATE PROCEDURE sp_GetBusinessAssociatePhonesByLegalId
-    @BusinessAssociate_Legal_Id INT
-AS
-BEGIN
-    SELECT * FROM [BusinessAssociatePhone]
-    WHERE [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateBusinessAssociatePhone
-    @BusinessAssociate_Legal_Id INT,
-    @Phone INT
-AS
-BEGIN
-    INSERT INTO [BusinessAssociatePhone] ([BusinessAssociate_Legal_Id], [Phone])
-    VALUES (@BusinessAssociate_Legal_Id, @Phone);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateBusinessAssociatePhone
-    @BusinessAssociate_Legal_Id INT,
-    @OldPhone INT,
-    @NewPhone INT
-AS
-BEGIN
-    BEGIN TRANSACTION;
-        DELETE FROM [BusinessAssociatePhone]
-        WHERE [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id AND [Phone] = @OldPhone;
-
-        INSERT INTO [BusinessAssociatePhone] ([BusinessAssociate_Legal_Id], [Phone])
-        VALUES (@BusinessAssociate_Legal_Id, @NewPhone);
-    COMMIT TRANSACTION;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteBusinessAssociatePhone
-    @BusinessAssociate_Legal_Id INT,
-    @Phone INT
-AS
-BEGIN
-    DELETE FROM [BusinessAssociatePhone]
-    WHERE [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id AND [Phone] = @Phone;
-END;
-GO
----------------Funciones para BusinessAssociatePhone---------------
-
----------------Funciones para Product---------------
-GO
-CREATE PROCEDURE sp_GetAllProducts
-AS
-BEGIN
-    SELECT * FROM [Product];
-END;
-GO
-
-CREATE PROCEDURE sp_GetProductByCode
-    @Code INT
-AS
-BEGIN
-    SELECT * FROM [Product]
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateProduct
-    @Name NVARCHAR(MAX),
-    @Price INT,
-    @Category NVARCHAR(MAX),
-    @BusinessAssociate_Legal_Id INT
-AS
-BEGIN
-    INSERT INTO [Product] (
-        [Name], [Price], [Category], [BusinessAssociate_Legal_Id]
-    )
-    VALUES (
-        @Name, @Price, @Category, @BusinessAssociate_Legal_Id
-    );
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateProduct
-    @Code INT,
-    @Name NVARCHAR(MAX),
-    @Price INT,
-    @Category NVARCHAR(MAX),
-    @BusinessAssociate_Legal_Id INT
-AS
-BEGIN
-    UPDATE [Product]
-    SET [Name] = @Name,
-        [Price] = @Price,
-        [Category] = @Category,
-        [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteProduct
-    @Code INT
-AS
-BEGIN
-    DELETE FROM [Product]
-    WHERE [Code] = @Code;
-END;
-GO
----------------Funciones para Product---------------
-
----------------Funciones para ProductPhoto---------------
-GO
-CREATE PROCEDURE sp_GetAllProductPhotos
-AS
-BEGIN
-    SELECT * FROM [ProductPhoto];
-END;
-GO
-
-CREATE PROCEDURE sp_GetProductPhotosByProductCode
-    @Product_Code INT
-AS
-BEGIN
-    SELECT * FROM [ProductPhoto]
-    WHERE [Product_Code] = @Product_Code;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateProductPhoto
-    @Product_Code INT,
-    @PhotoURL NVARCHAR(MAX)
-AS
-BEGIN
-    INSERT INTO [ProductPhoto] ([Product_Code], [PhotoURL])
-    VALUES (@Product_Code, @PhotoURL);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateProductPhoto
-    @Product_Code INT,
-    @OldPhotoURL NVARCHAR(MAX),
-    @NewPhotoURL NVARCHAR(MAX)
-AS
-BEGIN
-    BEGIN TRANSACTION;
-        DELETE FROM [ProductPhoto]
-        WHERE [Product_Code] = @Product_Code AND [PhotoURL] = @OldPhotoURL;
-
-        INSERT INTO [ProductPhoto] ([Product_Code], [PhotoURL])
-        VALUES (@Product_Code, @NewPhotoURL);
-    COMMIT TRANSACTION;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteProductPhoto
-    @Product_Code INT,
-    @PhotoURL NVARCHAR(MAX)
-AS
-BEGIN
-    DELETE FROM [ProductPhoto]
-    WHERE [Product_Code] = @Product_Code AND [PhotoURL] = @PhotoURL;
-END;
-GO
----------------Funciones para ProductPhoto---------------
-
----------------Funciones para Cart---------------
-GO
-CREATE PROCEDURE sp_GetAllCarts
-AS
-BEGIN
-    SELECT * FROM [Cart];
-END;
-GO
-
-CREATE PROCEDURE sp_GetCartByCode
-    @Code INT
-AS
-BEGIN
-    SELECT * FROM [Cart]
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateCart
-    @Client_Id INT
-AS
-BEGIN
-    INSERT INTO [Cart] ([Client_Id])
-    VALUES (@Client_Id);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateCart
-    @Code INT,
-    @Client_Id INT
-AS
-BEGIN
-    UPDATE [Cart]
-    SET [Client_Id] = @Client_Id
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteCart
-    @Code INT
-AS
-BEGIN
-    -- Delete related Cart_Product entries
-    DELETE FROM [Cart_Product]
-    WHERE [Cart_Code] = @Code;
-
-    -- Delete the Cart
-    DELETE FROM [Cart]
-    WHERE [Code] = @Code;
-END;
-GO
----------------Funciones para Cart---------------
-
----------------Funciones para Cart_Product---------------
-GO
-CREATE PROCEDURE sp_GetAllCartProducts
-AS
-BEGIN
-    SELECT * FROM [Cart_Product];
-END;
-GO
-
-CREATE PROCEDURE sp_GetCartProductsByCartCode
-    @Cart_Code INT
-AS
-BEGIN
-    SELECT * FROM [Cart_Product]
-    WHERE [Cart_Code] = @Cart_Code;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateCartProduct
-    @Cart_Code INT,
-    @Product_Code INT
-AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM [Cart_Product] WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code)
-    BEGIN
-        -- Increment the amount
-        UPDATE [Cart_Product]
-        SET [Amount] = [Amount] + 1
-        WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
-    END
-    ELSE
-    BEGIN
-        -- Insert new entry with Amount = 1
-        INSERT INTO [Cart_Product] ([Cart_Code], [Product_Code], [Amount])
-        VALUES (@Cart_Code, @Product_Code, 1);
-    END
-
-    -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
-    DECLARE @BusinessAssociate_Legal_Id INT;
-    DECLARE @TotalProductsPrice INT;
-
-    -- Get BusinessAssociate_Legal_Id from first Product in Cart
-    SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
-    FROM [Cart_Product] cp
-    INNER JOIN [Product] p ON cp.Product_Code = p.Code
-    WHERE cp.Cart_Code = @Cart_Code;
-
-    -- Calculate TotalProductsPrice
-    SELECT @TotalProductsPrice = SUM(p.Price * cp.Amount)
-    FROM [Cart_Product] cp
-    INNER JOIN [Product] p ON cp.Product_Code = p.Code
-    WHERE cp.Cart_Code = @Cart_Code;
-
-    -- Update the Cart
-    UPDATE [Cart]
-    SET [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id,
-        [TotalProductsPrice] = @TotalProductsPrice
-    WHERE [Code] = @Cart_Code;
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateCartProduct
-    @Cart_Code INT,
-    @Product_Code INT,
-    @Amount INT
-AS
-BEGIN
-    UPDATE [Cart_Product]
-    SET [Amount] = @Amount
-    WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
-
-    -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
-    DECLARE @BusinessAssociate_Legal_Id INT;
-    DECLARE @TotalProductsPrice INT;
-
-    -- Get BusinessAssociate_Legal_Id from first Product in Cart
-    SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
-    FROM [Cart_Product] cp
-    INNER JOIN [Product] p ON cp.Product_Code = p.Code
-    WHERE cp.Cart_Code = @Cart_Code;
-
-    -- Calculate TotalProductsPrice
-    SELECT @TotalProductsPrice = SUM(p.Price * cp.Amount)
-    FROM [Cart_Product] cp
-    INNER JOIN [Product] p ON cp.Product_Code = p.Code
-    WHERE cp.Cart_Code = @Cart_Code;
-
-    -- Update the Cart
-    UPDATE [Cart]
-    SET [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id,
-        [TotalProductsPrice] = @TotalProductsPrice
-    WHERE [Code] = @Cart_Code;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteCartProduct
-    @Cart_Code INT,
-    @Product_Code INT
-AS
-BEGIN
-    DELETE FROM [Cart_Product]
-    WHERE [Cart_Code] = @Cart_Code AND [Product_Code] = @Product_Code;
-
-    -- Update Cart's BusinessAssociate_Legal_Id and TotalProductsPrice
-    DECLARE @BusinessAssociate_Legal_Id INT;
-    DECLARE @TotalProductsPrice INT;
-
-    -- Check if there are remaining products in the cart
-    IF EXISTS (SELECT 1 FROM [Cart_Product] WHERE [Cart_Code] = @Cart_Code)
-    BEGIN
-        -- Get BusinessAssociate_Legal_Id from first remaining Product
-        SELECT TOP 1 @BusinessAssociate_Legal_Id = p.BusinessAssociate_Legal_Id
-        FROM [Cart_Product] cp
-        INNER JOIN [Product] p ON cp.Product_Code = p.Code
-        WHERE cp.Cart_Code = @Cart_Code;
-
-        -- Calculate TotalProductsPrice
-        SELECT @TotalProductsPrice = SUM(p.Price * cp.Amount)
-        FROM [Cart_Product] cp
-        INNER JOIN [Product] p ON cp.Product_Code = p.Code
-        WHERE cp.Cart_Code = @Cart_Code;
-    END
-    ELSE
-    BEGIN
-        -- No products left in cart
-        SET @BusinessAssociate_Legal_Id = NULL;
-        SET @TotalProductsPrice = NULL;
-    END
-
-    -- Update the Cart
-    UPDATE [Cart]
-    SET [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id,
-        [TotalProductsPrice] = @TotalProductsPrice
-    WHERE [Code] = @Cart_Code;
-END;
-GO
----------------Funciones para Cart_Product---------------
-
----------------Funciones para Order---------------
-GO
-CREATE PROCEDURE sp_GetAllOrders
-AS
-BEGIN
-    SELECT * FROM [Order];
-END;
-GO
-
-CREATE PROCEDURE sp_GetOrderByCode
-    @Code INT
-AS
-BEGIN
-    SELECT * FROM [Order]
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateOrder
-    @State NVARCHAR(MAX),
-    @Client_Id INT,
-    @FoodDeliveryMan_UserId NVARCHAR(450)
-AS
-BEGIN
-    DECLARE @Direction NVARCHAR(MAX);
-
-    -- Get Direction from Client
-    SELECT @Direction = [Direction]
-    FROM [Client]
-    WHERE [Id] = @Client_Id;
-
-    INSERT INTO [Order] ([State], [Client_Id], [FoodDeliveryMan_UserId], [Direction])
-    VALUES (@State, @Client_Id, @FoodDeliveryMan_UserId, @Direction);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateOrder
-    @Code INT,
-    @State NVARCHAR(MAX),
-    @Client_Id INT,
-    @FoodDeliveryMan_UserId NVARCHAR(450)
-AS
-BEGIN
-    DECLARE @Direction NVARCHAR(MAX);
-
-    -- Get Direction from Client
-    SELECT @Direction = [Direction]
-    FROM [Client]
-    WHERE [Id] = @Client_Id;
-
-    UPDATE [Order]
-    SET [State] = @State,
-        [Client_Id] = @Client_Id,
-        [FoodDeliveryMan_UserId] = @FoodDeliveryMan_UserId,
-        [Direction] = @Direction
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteOrder
-    @Code INT
-AS
-BEGIN
-    -- Delete related Order_Product entries
-    DELETE FROM [Order_Product]
-    WHERE [Order_Code] = @Code;
-
-    -- Delete the Order
-    DELETE FROM [Order]
-    WHERE [Code] = @Code;
-END;
-GO
----------------Funciones para Order---------------
-
----------------Funciones para Order_Product---------------
-GO
-CREATE PROCEDURE sp_GetAllOrderProducts
-AS
-BEGIN
-    SELECT * FROM [Order_Product];
-END;
-GO
-
-CREATE PROCEDURE sp_GetOrderProductsByOrderCode
-    @Order_Code INT
-AS
-BEGIN
-    SELECT * FROM [Order_Product]
-    WHERE [Order_Code] = @Order_Code;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateOrderProduct
-    @Order_Code INT,
-    @Product_Code INT
-AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM [Order_Product] WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code)
-    BEGIN
-        -- Increment the amount
-        UPDATE [Order_Product]
-        SET [Amount] = [Amount] + 1
-        WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
-    END
-    ELSE
-    BEGIN
-        -- Insert new entry with Amount = 1
-        INSERT INTO [Order_Product] ([Order_Code], [Product_Code], [Amount])
-        VALUES (@Order_Code, @Product_Code, 1);
-    END
-
-    -- Update Order's TotalService
-    DECLARE @TotalPrice INT;
-    DECLARE @TotalService INT;
-
-    -- Calculate TotalPrice
-    SELECT @TotalPrice = SUM(p.Price * op.Amount)
-    FROM [Order_Product] op
-    INNER JOIN [Product] p ON op.Product_Code = p.Code
-    WHERE op.Order_Code = @Order_Code;
-
-    -- Calculate TotalService as 5% of TotalPrice
-    SET @TotalService = (@TotalPrice * 5) / 100;
-
-    -- Update the Order
-    UPDATE [Order]
-    SET [TotalService] = @TotalService
-    WHERE [Code] = @Order_Code;
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateOrderProduct
-    @Order_Code INT,
-    @Product_Code INT,
-    @Amount INT
-AS
-BEGIN
-    UPDATE [Order_Product]
-    SET [Amount] = @Amount
-    WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
-
-    -- Update Order's TotalService
-    DECLARE @TotalPrice INT;
-    DECLARE @TotalService INT;
-
-    -- Calculate TotalPrice
-    SELECT @TotalPrice = SUM(p.Price * op.Amount)
-    FROM [Order_Product] op
-    INNER JOIN [Product] p ON op.Product_Code = p.Code
-    WHERE op.Order_Code = @Order_Code;
-
-    -- Calculate TotalService as 5% of TotalPrice
-    SET @TotalService = (@TotalPrice * 5) / 100;
-
-    -- Update the Order
-    UPDATE [Order]
-    SET [TotalService] = @TotalService
-    WHERE [Code] = @Order_Code;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteOrderProduct
-    @Order_Code INT,
-    @Product_Code INT
-AS
-BEGIN
-    DELETE FROM [Order_Product]
-    WHERE [Order_Code] = @Order_Code AND [Product_Code] = @Product_Code;
-
-    -- Update Order's TotalService
-    DECLARE @TotalPrice INT;
-    DECLARE @TotalService INT;
-
-    -- Check if there are remaining products in the order
-    IF EXISTS (SELECT 1 FROM [Order_Product] WHERE [Order_Code] = @Order_Code)
-    BEGIN
-        -- Calculate TotalPrice
-        SELECT @TotalPrice = SUM(p.Price * op.Amount)
-        FROM [Order_Product] op
-        INNER JOIN [Product] p ON op.Product_Code = p.Code
-        WHERE op.Order_Code = @Order_Code;
-
-        -- Calculate TotalService as 5% of TotalPrice
-        SET @TotalService = (@TotalPrice * 5) / 100;
-    END
-    ELSE
-    BEGIN
-        -- No products left in order
-        SET @TotalService = NULL;
-    END
-
-    -- Update the Order
-    UPDATE [Order]
-    SET [TotalService] = @TotalService
-    WHERE [Code] = @Order_Code;
-END;
-GO
----------------Funciones para Order_Product---------------
-
----------------Funciones para ProofOfPayment---------------
-GO
-CREATE PROCEDURE sp_GetAllProofOfPayments
-AS
-BEGIN
-    SELECT * FROM [ProofOfPayment];
-END;
-GO
-
-CREATE PROCEDURE sp_GetProofOfPaymentByCode
-    @Code INT
-AS
-BEGIN
-    SELECT * FROM [ProofOfPayment]
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateProofOfPayment
-    @CreditCardName NVARCHAR(MAX),
-    @LastDigitsCreditCard INT,
-    @Date NVARCHAR(MAX),
-    @Time NVARCHAR(MAX),
-    @Order_Code INT
-AS
-BEGIN
-    DECLARE @TotalPayment INT;
-    DECLARE @ClientFullName NVARCHAR(MAX);
-    DECLARE @ClientPhone INT;
-
-    -- Calculate TotalPayment
-    DECLARE @TotalPrice INT;
-    SELECT @TotalPrice = SUM(p.Price * op.Amount)
-    FROM [Order_Product] op
-    INNER JOIN [Product] p ON op.Product_Code = p.Code
-    WHERE op.Order_Code = @Order_Code;
-
-    -- Calculate TotalPayment as TotalPrice + 5% of TotalPrice
-    SET @TotalPayment = @TotalPrice + ((@TotalPrice * 5) / 100);
-
-    -- Get ClientFullName and ClientPhone from Order
-    DECLARE @Client_Id INT;
-    SELECT @Client_Id = [Client_Id]
-    FROM [Order]
-    WHERE [Code] = @Order_Code;
-
-    SELECT @ClientFullName = [FullName], @ClientPhone = [Phone]
-    FROM [Client]
-    WHERE [Id] = @Client_Id;
-
-    INSERT INTO [ProofOfPayment] ([CreditCardName], [LastDigitsCreditCard], [TotalPayment], [Date], [Time], [ClientFullName], [ClientPhone], [Order_Code])
-    VALUES (@CreditCardName, @LastDigitsCreditCard, @TotalPayment, @Date, @Time, @ClientFullName, @ClientPhone, @Order_Code);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateProofOfPayment
-    @Code INT,
-    @CreditCardName NVARCHAR(MAX),
-    @LastDigitsCreditCard INT,
-    @Date NVARCHAR(MAX),
-    @Time NVARCHAR(MAX),
-    @Order_Code INT
-AS
-BEGIN
-    DECLARE @TotalPayment INT;
-    DECLARE @ClientFullName NVARCHAR(MAX);
-    DECLARE @ClientPhone INT;
-
-    -- Calculate TotalPayment
-    DECLARE @TotalPrice INT;
-    SELECT @TotalPrice = SUM(p.Price * op.Amount)
-    FROM [Order_Product] op
-    INNER JOIN [Product] p ON op.Product_Code = p.Code
-    WHERE op.Order_Code = @Order_Code;
-
-    -- Calculate TotalPayment as TotalPrice + 5% of TotalPrice
-    SET @TotalPayment = @TotalPrice + ((@TotalPrice * 5) / 100);
-
-    -- Get ClientFullName and ClientPhone from Order
-    DECLARE @Client_Id INT;
-    SELECT @Client_Id = [Client_Id]
-    FROM [Order]
-    WHERE [Code] = @Order_Code;
-
-    SELECT @ClientFullName = [FullName], @ClientPhone = [Phone]
-    FROM [Client]
-    WHERE [Id] = @Client_Id;
-
-    UPDATE [ProofOfPayment]
-    SET [CreditCardName] = @CreditCardName,
-        [LastDigitsCreditCard] = @LastDigitsCreditCard,
-        [TotalPayment] = @TotalPayment,
-        [Date] = @Date,
-        [Time] = @Time,
-        [ClientFullName] = @ClientFullName,
-        [ClientPhone] = @ClientPhone,
-        [Order_Code] = @Order_Code
-    WHERE [Code] = @Code;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteProofOfPayment
-    @Code INT
-AS
-BEGIN
-    DELETE FROM [ProofOfPayment]
-    WHERE [Code] = @Code;
-END;
-GO
----------------Funciones para ProofOfPayment---------------
-
----------------Funciones para FeedBack---------------
-GO
-CREATE PROCEDURE sp_GetAllFeedBacks
-AS
-BEGIN
-    SELECT * FROM [FeedBack];
-END;
-GO
-
-CREATE PROCEDURE sp_GetFeedBackById
-    @Id INT
-AS
-BEGIN
-    SELECT * FROM [FeedBack]
-    WHERE [Id] = @Id;
-END;
-GO
-
-CREATE PROCEDURE sp_CreateFeedBack
-    @FeedBack_Business NVARCHAR(MAX),
-    @BusinessGrade FLOAT,
-    @FeedBack_Order NVARCHAR(MAX),
-    @OrderGrade FLOAT,
-    @FeedBack_DeliveryMan NVARCHAR(MAX),
-    @DeliveryManGrade FLOAT,
-    @FoodDeliveryMan_UserId NVARCHAR(450),
-    @Order_Code INT,
-    @BusinessAssociate_Legal_Id INT
-AS
-BEGIN
-    INSERT INTO [FeedBack] ([FeedBack_Business], [BusinessGrade], [FeedBack_Order], [OrderGrade], [FeedBack_DeliveryMan], [DeliveryManGrade], [FoodDeliveryMan_UserId], [Order_Code], [BusinessAssociate_Legal_Id])
-    VALUES (@FeedBack_Business, @BusinessGrade, @FeedBack_Order, @OrderGrade, @FeedBack_DeliveryMan, @DeliveryManGrade, @FoodDeliveryMan_UserId, @Order_Code, @BusinessAssociate_Legal_Id);
-END;
-GO
-
-CREATE PROCEDURE sp_UpdateFeedBack
-    @Id INT,
-    @FeedBack_Business NVARCHAR(MAX),
-    @BusinessGrade FLOAT,
-    @FeedBack_Order NVARCHAR(MAX),
-    @OrderGrade FLOAT,
-    @FeedBack_DeliveryMan NVARCHAR(MAX),
-    @DeliveryManGrade FLOAT,
-    @FoodDeliveryMan_UserId NVARCHAR(450),
-    @Order_Code INT,
-    @BusinessAssociate_Legal_Id INT
-AS
-BEGIN
-    UPDATE [FeedBack]
-    SET [FeedBack_Business] = @FeedBack_Business,
-        [BusinessGrade] = @BusinessGrade,
-        [FeedBack_Order] = @FeedBack_Order,
-        [OrderGrade] = @OrderGrade,
-        [FeedBack_DeliveryMan] = @FeedBack_DeliveryMan,
-        [DeliveryManGrade] = @DeliveryManGrade,
-        [FoodDeliveryMan_UserId] = @FoodDeliveryMan_UserId,
-        [Order_Code] = @Order_Code,
-        [BusinessAssociate_Legal_Id] = @BusinessAssociate_Legal_Id
-    WHERE [Id] = @Id;
-END;
-GO
-
-CREATE PROCEDURE sp_DeleteFeedBack
-    @Id INT
-AS
-BEGIN
-    DELETE FROM [FeedBack]
-    WHERE [Id] = @Id;
-END;
-GO
----------------Funciones para FeedBack---------------
+-- Insertar Admins
+INSERT INTO [Admin] ([Id], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [UserId], [Password])
+VALUES 
+(1001, 'Juan', 'García', 'Rodríguez', 'San José', 'Central', 'Carmen', 'juan.admin', 'pass123'),
+(1002, 'María', 'López', 'Hernández', 'Alajuela', 'Central', 'Alajuela', 'maria.admin', 'pass124'),
+(1003, 'Carlos', 'Martínez', 'Jiménez', 'Cartago', 'Central', 'Oriental', 'carlos.admin', 'pass125'),
+(1004, 'Ana', 'Sánchez', 'González', 'Heredia', 'Central', 'Heredia', 'ana.admin', 'pass126'),
+(1005, 'Pedro', 'Ramírez', 'Vargas', 'San José', 'Escazú', 'San Rafael', 'pedro.admin', 'pass127');
+
+-- Insertar teléfonos para Admins
+INSERT INTO [AdminPhone] ([Admin_id], [Phone])
+VALUES
+-- Teléfonos para Juan
+(1001, 88881111),
+(1001, 88882222),
+(1001, 88883333),
+-- Teléfonos para María
+(1002, 88884444),
+(1002, 88885555),
+(1002, 88886666),
+-- Teléfonos para Carlos
+(1003, 88887777),
+(1003, 88888888),
+(1003, 88889999),
+-- Teléfonos para Ana
+(1004, 88890000),
+(1004, 88891111),
+(1004, 88892222),
+-- Teléfonos para Pedro
+(1005, 88893333),
+(1005, 88894444),
+(1005, 88895555);
+
+-- Insertar FoodDeliveryMan
+INSERT INTO [FoodDeliveryMan] ([UserId], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [Password], [State])
+VALUES
+('delivery1', 'Roberto', 'Fernández', 'Castro', 'San José', 'Central', 'Catedral', 'pass201', 'Disponible'),
+('delivery2', 'Laura', 'Campos', 'Mora', 'Alajuela', 'San Ramón', 'Central', 'pass202', 'No disponible'),
+('delivery3', 'Diego', 'Vargas', 'Solís', 'Cartago', 'La Unión', 'Tres Ríos', 'pass203', 'Disponible'),
+('delivery4', 'Sofia', 'Rojas', 'Arguedas', 'Heredia', 'Santo Domingo', 'San Vicente', 'pass204', 'Disponible'),
+('delivery5', 'Miguel', 'Castro', 'Quesada', 'San José', 'Desamparados', 'Central', 'pass205', 'No disponible');
+
+-- Insertar teléfonos para FoodDeliveryMan
+INSERT INTO [FoodDeliveryManPhone] ([FoodDeliveryMan_UserId], [Phone])
+VALUES
+-- Teléfonos para Roberto
+('delivery1', 77771111),
+('delivery1', 77772222),
+('delivery1', 77773333),
+-- Teléfonos para Laura
+('delivery2', 77774444),
+('delivery2', 77775555),
+('delivery2', 77776666),
+-- Teléfonos para Diego
+('delivery3', 77777777),
+('delivery3', 77778888),
+('delivery3', 77779999),
+-- Teléfonos para Sofia
+('delivery4', 77780000),
+('delivery4', 77781111),
+('delivery4', 77782222),
+-- Teléfonos para Miguel
+('delivery5', 77783333),
+('delivery5', 77784444),
+('delivery5', 77785555);
+
+-- Insertar Clients
+INSERT INTO [Client] ([Id], [UserId], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [Password], [Phone], [BirthDate])
+VALUES
+(2001, 'client1', 'Patricia', 'Méndez', 'Araya', 'San José', 'Montes de Oca', 'San Pedro', 'pass301', 66661111, '1990-05-15'),
+(2002, 'client2', 'Fernando', 'Bonilla', 'Chaves', 'Alajuela', 'Atenas', 'Central', 'pass302', 66662222, '1988-08-22'),
+(2003, 'client3', 'Carmen', 'Villalobos', 'Pérez', 'Cartago', 'Paraíso', 'Central', 'pass303', 66663333, '1995-03-10'),
+(2004, 'client4', 'Andrés', 'Molina', 'Sáenz', 'Heredia', 'Belén', 'San Antonio', 'pass304', 66664444, '1992-11-28'),
+(2005, 'client5', 'Lucía', 'Cordero', 'Mata', 'San José', 'Moravia', 'San Vicente', 'pass305', 66665555, '1993-07-19');
+
+-- Insertar BusinessManager
+INSERT INTO [BusinessManager] ([Email], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [UserId], [Password])
+VALUES
+('manager1@email.com', 'Alberto', 'Herrera', 'Blanco', 'San José', 'Santa Ana', 'Pozos', 'alberto.manager', 'pass401'),
+('manager2@email.com', 'Isabel', 'Madrigal', 'Varela', 'Alajuela', 'Grecia', 'Central', 'isabel.manager', 'pass402'),
+('manager3@email.com', 'Ricardo', 'Guerrero', 'López', 'Cartago', 'El Guarco', 'Tejar', 'ricardo.manager', 'pass403'),
+('manager4@email.com', 'Mónica', 'Navarro', 'Castro', 'Heredia', 'San Pablo', 'Rincón', 'monica.manager', 'pass404'),
+('manager5@email.com', 'Gabriel', 'Porras', 'Rojas', 'San José', 'Tibás', 'Cinco Esquinas', 'gabriel.manager', 'pass405'),
+('manager6@email.com', 'Carolina', 'Jiménez', 'Mora', 'San José', 'Curridabat', 'Granadilla', 'carolina.manager', 'pass406'),
+('manager7@email.com', 'Eduardo', 'Solano', 'Vega', 'Cartago', 'Oreamuno', 'San Rafael', 'eduardo.manager', 'pass407');
+
+-- Insertar teléfonos para BusinessManager
+INSERT INTO [BusinessManagerPhone] ([BusinessManager_Email], [Phone])
+VALUES
+-- Teléfonos para Alberto
+('manager1@email.com', 99991111),
+('manager1@email.com', 99992222),
+('manager1@email.com', 99993333),
+-- Teléfonos para Isabel
+('manager2@email.com', 99994444),
+('manager2@email.com', 99995555),
+('manager2@email.com', 99996666),
+-- Teléfonos para Ricardo
+('manager3@email.com', 99997777),
+('manager3@email.com', 99998888),
+('manager3@email.com', 99999999),
+-- Teléfonos para Mónica
+('manager4@email.com', 99990000),
+('manager4@email.com', 99991111),
+('manager4@email.com', 99992222),
+-- Teléfonos para Gabriel
+('manager5@email.com', 99993333),
+('manager5@email.com', 99994444),
+('manager5@email.com', 99995555),
+-- Teléfonos para Carolina
+('manager6@email.com', 99996666),
+('manager6@email.com', 99996667),
+('manager6@email.com', 99996668),
+-- Teléfonos para Eduardo
+('manager7@email.com', 99997777),
+('manager7@email.com', 99997778),
+('manager7@email.com', 99997779);
+
+-- Insertar tipos de negocios
+INSERT INTO [BusinessType] ([Name])
+VALUES
+('Restaurante'),
+('Cafetería'),
+('Panadería'),
+('Heladería'),
+('Comida Rápida');
+
+-- Insertar negocios asociados
+INSERT INTO [BusinessAssociate] ([Legal_Id], [Email], [State], [BusinessName], [Province], [Canton], [District], [SINPE], [RejectReason], [BusinessManager_Email], [BusinessType_Identification])
+VALUES
+-- Negocios Aceptados
+(30101111, 'saborcasero@email.com', 'Aceptado', 'Sabor Casero', 'San José', 'Central', 'Merced', 88880001, NULL, 'manager1@email.com', 1),
+(30102222, 'cafedelicia@email.com', 'Aceptado', 'Café Delicia', 'Alajuela', 'Central', 'Alajuela', 88880002, NULL, 'manager2@email.com', 2),
+(30103333, 'panfresco@email.com', 'Aceptado', 'Pan Fresco', 'Cartago', 'Central', 'Oriental', 88880003, NULL, 'manager3@email.com', 3),
+(30104444, 'heladosdulces@email.com', 'Aceptado', 'Helados Dulces', 'Heredia', 'Central', 'Heredia', 88880004, NULL, 'manager4@email.com', 4),
+(30105555, 'burgerexpress@email.com', 'Aceptado', 'Burger Express', 'San José', 'Escazú', 'San Rafael', 88880005, NULL, 'manager5@email.com', 5),
+
+-- Negocio En Espera
+(30106666, 'pizzarapida@email.com', 'En espera', 'Pizza Rápida', 'San José', 'Desamparados', 'Central', 88880006, NULL, 'manager6@email.com', 5),
+
+-- Negocio Rechazado
+(30107777, 'tacoslocos@email.com', 'Rechazado', 'Tacos Locos', 'Cartago', 'La Unión', 'Tres Ríos', 88880007, 'No cumple con los requisitos sanitarios básicos', 'manager7@email.com', 1);
+
+-- Insertar teléfonos para los negocios asociados
+INSERT INTO [BusinessAssociatePhone] ([BusinessAssociate_Legal_Id], [Phone])
+VALUES
+-- Teléfonos Sabor Casero
+(30101111, 22221111),
+(30101111, 22221112),
+-- Teléfonos Café Delicia
+(30102222, 22222221),
+(30102222, 22222222),
+-- Teléfonos Pan Fresco
+(30103333, 22223331),
+(30103333, 22223332),
+-- Teléfonos Helados Dulces
+(30104444, 22224441),
+(30104444, 22224442),
+-- Teléfonos Burger Express
+(30105555, 22225551),
+(30105555, 22225552),
+-- Teléfonos Pizza Rápida (En espera)
+(30106666, 22226661),
+(30106666, 22226662),
+-- Teléfonos Tacos Locos (Rechazado)
+(30107777, 22227771),
+(30107777, 22227772);
+
+-- Productos para Sabor Casero (Restaurante)
+INSERT INTO [Product] ([Name], [Price], [Category], [BusinessAssociate_Legal_Id])
+VALUES 
+('Sopa de Pollo', 3500.00, 'Entrada', 30101111),
+('Casado con Pollo', 5500.00, 'Plato principal', 30101111),
+('Gallo Pinto', 2500.00, 'Plato principal', 30101111),
+('Refresco Natural', 1200.00, 'Bebida', 30101111),
+('Arroz con Leche', 1500.00, 'Postre', 30101111),
+('Flan de Coco', 2000.00, 'Postre', 30101111),
+('Porción Extra de Aguacate', 800.00, 'Extra', 30101111);
+
+-- Productos para Café Delicia (Cafetería)
+INSERT INTO [Product] ([Name], [Price], [Category], [BusinessAssociate_Legal_Id])
+VALUES 
+('Emparedado de Jamón y Queso', 2800.00, 'Entrada', 30102222),
+('Café Americano', 1500.00, 'Bebida', 30102222),
+('Cappuccino', 2000.00, 'Bebida', 30102222),
+('Queque de Chocolate', 2500.00, 'Postre', 30102222),
+('Galletas de Avena', 1000.00, 'Complemento', 30102222),
+('Té Verde', 1200.00, 'Bebida', 30102222),
+('Leche Extra', 500.00, 'Extra', 30102222);
+
+-- Productos para Pan Fresco (Panadería)
+INSERT INTO [Product] ([Name], [Price], [Category], [BusinessAssociate_Legal_Id])
+VALUES 
+('Pan Baguette', 1500.00, 'Plato principal', 30103333),
+('Croissant', 1200.00, 'Complemento', 30103333),
+('Pan Integral', 2000.00, 'Plato principal', 30103333),
+('Queque de Vainilla', 2500.00, 'Postre', 30103333),
+('Café con Leche', 1500.00, 'Bebida', 30103333),
+('Empanada de Queso', 1000.00, 'Complemento', 30103333),
+('Relleno Extra', 500.00, 'Extra', 30103333);
+
+-- Productos para Helados Dulces (Heladería)
+INSERT INTO [Product] ([Name], [Price], [Category], [BusinessAssociate_Legal_Id])
+VALUES 
+('Helado de Vainilla', 2000.00, 'Postre', 30104444),
+('Banana Split', 3500.00, 'Postre', 30104444),
+('Malteada de Fresa', 2500.00, 'Bebida', 30104444),
+('Sundae de Chocolate', 3000.00, 'Postre', 30104444),
+('Waffle con Helado', 3800.00, 'Postre', 30104444),
+('Café Helado', 2200.00, 'Bebida', 30104444),
+('Topping Extra', 500.00, 'Extra', 30104444);
+
+-- Productos para Burger Express (Comida Rápida)
+INSERT INTO [Product] ([Name], [Price], [Category], [BusinessAssociate_Legal_Id])
+VALUES 
+('Papas Fritas', 1500.00, 'Entrada', 30105555),
+('Hamburguesa Clásica', 3500.00, 'Plato principal', 30105555),
+('Coca Cola', 1200.00, 'Bebida', 30105555),
+('Hamburguesa con Queso', 4000.00, 'Plato principal', 30105555),
+('Aros de Cebolla', 2000.00, 'Complemento', 30105555),
+('Helado de Vainilla', 1000.00, 'Postre', 30105555),
+('Queso Extra', 500.00, 'Extra', 30105555);
+
+-- Fotos para los productos de Sabor Casero
+INSERT INTO [ProductPhoto] ([Product_Code], [PhotoURL])
+VALUES
+-- Sopa de Pollo (Producto 1)
+(1, 'https://especiasmontero.com/wp-content/uploads/2018/02/CaldoDePollo-1-500x500.jpg'),
+(1, 'https://imag.bonviveur.com/sopa-de-pollo.jpg'),
+(1, 'https://especiasmontero.com/wp-content/uploads/2018/02/CaldoDePollo-1.jpg'),
+-- Casado con Pollo (Producto 2)
+(2, 'https://media-cdn.tripadvisor.com/media/photo-s/19/d5/dd/52/casado-con-pollo.jpg'),
+(2, 'https://media-cdn.tripadvisor.com/media/photo-s/1c/ca/b4/70/casado-con-pechuga-de.jpg'),
+(2, 'https://alimentatedelobueno.com/storage/786/casado.png'),
+-- Gallo Pinto (Producto 3)
+(3, 'https://comedera.com/wp-content/uploads/sites/9/2022/10/Gallo-pinto-de-Costa-Rica-shutterstock_1148861354.jpg'),
+(3, 'https://nutritionstudies.org/wp-content/uploads/2022/05/gallo-pinto-costa-rican-rice-and-beans.jpg'),
+(3, 'https://laroussecocina.mx/wp-content/uploads/2020/09/gallo_pinto_-_Google_Search.png.webp'),
+-- Refresco Natural (Producto 4)
+(4, 'https://kaviapp.com/wp-content/uploads/2023/02/Jugo-natural.jpeg'),
+(4, 'https://www.acquajet.com/wp-content/uploads/2022/03/pb-zumos-nat.jpg'),
+(4, 'https://thumbs.dreamstime.com/b/refresco-natural-exquisito-jugo-de-naranja-con-madera-en-la-fotograf%C3%ADa-roca-para-los-amantes-del-c%C3%ADtrico-disfrute-placer-nuestro-279302592.jpg'),
+-- Arroz con Leche (Producto 5)
+(5, 'https://www.recetasnestlecam.com/sites/default/files/srh_recipes/667948856a0f2d2bc0112ed0a2d6a0f5.jpg'),
+(5, 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/A4F055C9-D340-4F2A-9015-6A2659851E84/Derivates/5b9a24d1-7748-4bfe-ba63-fb3e5f722db0.jpg'),
+(5, 'https://www.laylita.com/recetas/wp-content/uploads/2013/03/Receta-facil-del-arroz-con-leche.jpg'),
+-- Flan de Coco (Producto 6)
+(6, 'https://imag.bonviveur.com/flan-de-coco.jpg'),
+(6, 'https://d1uz88p17r663j.cloudfront.net/original/2d7ffbf145a60b4cc5d158802c73496d_Flan.jpg'),
+(6, 'https://7diasdesabor.com/wp-content/uploads/2022/11/flan-de-coco-web.jpg'),
+-- Porción Extra de Aguacate (Producto 7)
+(7, 'https://laposadadelarriero.com.co/wp-content/uploads/2021/08/Porcion-de-aguacate.jpg'),
+(7, 'https://www.comebien.club/uploads/8/8/8/5/8885007/20201007-142317_orig.jpg'),
+(7, 'https://s1.elespanol.com/2019/07/18/como/agua-aguacate-como_hacer_414720664_129236705_1706x1280.jpg'),
+
+-- Fotos para los productos de Café Delicia
+-- Emparedado (Producto 8)
+(8, 'https://d1uz88p17r663j.cloudfront.net/original/b285f1ac27d92b79d5392a4755980d7b_55.png'),
+(8, 'https://assets.unileversolutions.com/recipes-v2/238037.jpg'),
+(8, 'https://d1uz88p17r663j.cloudfront.net/original/393426b5a68626ecec6de82f8197bf69_emparedado-de-tiras-de-res.jpg'),
+-- Café Americano (Producto 9)
+(9, 'https://www.somoselcafe.com.ar/img/novedades/47.jpg'),
+(9, 'https://cdn.recetasderechupete.com/wp-content/uploads/2023/11/Cafe-americano-portada.jpg'),
+(9, 'https://i.blogs.es/139e0f/cafe-americano2/450_1000.jpeg'),
+-- Cappuccino (Producto 10)
+(10, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Cappuccino_at_Sightglass_Coffee.jpg/800px-Cappuccino_at_Sightglass_Coffee.jpg'),
+(10, 'https://dairyfarmersofcanada.ca/sites/default/files/image_file_browser/conso_recipe/2022/Capuccino.jpg'),
+(10, 'https://cafefabrique.com/cdn/shop/articles/Cappuccino.jpg'),
+-- Queque de Chocolate (Producto 11)
+(11, 'https://perudelights.com/wp-content/uploads/2013/09/Chocolate-cake-12-1024x7682.jpg'),
+(11, 'https://www.nacarina.com/wp-content/uploads/2018/08/blog_chocolate.jpg'),
+(11, 'https://s1.ppllstatics.com/canarias7/www/multimedia/2024/03/13/foto%20final.jpg'),
+-- Galletas de Avena (Producto 12)
+(12, 'https://cdn0.recetasgratis.net/es/posts/3/0/3/galletas_de_avena_faciles_y_rapidas_67303_600_square.jpg'),
+(12, 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4rZZqJb1yTazJlzUJ7pr6txQztfXMc9NrEHQem9kjmnUKXYquuUxwfJOK3XqFw8fd7ZJhGtFK3dLt1Y-9tJHyzrxW-tC24TdtS6FKF4CihyphenhyphenUzivwR7XAebd__p-98iCi3JvYtQZTaUcHv/s1600-rw/galletas-avena-facil.JPG'),
+(12, 'https://mojo.generalmills.com/api/public/content/DghZOSz42kCwArruP2Z_IA_gmi_hi_res_jpeg.jpeg?v=82b033ff&t=16e3ce250f244648bef28c5949fb99ff'),
+-- Té Verde (Producto 13)
+(13, 'https://image.tuasaude.com/media/article/yp/dt/beneficios-del-te-verde_17350_l.jpg'),
+(13, 'https://cdn.teamarket.co/wp-content/uploads/2019/10/como-preparar-te-verde-300x249.png'),
+(13, 'https://s1.elespanol.com/2015/03/12/cocinillas/cocinillas_17508326_115880908_1706x1280.jpg'),
+-- Leche Extra (Producto 14)
+(14, 'https://walmartcr.vtexassets.com/arquivos/ids/723177/4310_01.jpg'),
+(14, 'https://mercaditolalomahn.com/wp-content/uploads/2020/09/LECHE-EXTRA-CALCIO-DOS-PINOS-1-LT.png'),
+(14, 'https://sula.hn/wp-content/uploads/2020/02/01-leche-uht-extra-calcio-descremada-light-sula-946ml.jpg'),
+
+-- Fotos para los productos de Pan Fresco
+-- Baguette (Producto 15)
+(15, 'https://happyvegannie.com/wp-content/uploads/2023/06/IMG_0040_web_Thumbnail-Blog-1-500x375.jpg'),
+(15, 'https://static01.nyt.com/images/2023/07/21/multimedia/21baguettesrex-hbkc/21baguettesrex-hbkc-superJumbo.jpg'),
+(15, 'https://blog.elamasadero.com/wp-content/uploads/baguette_700.jpg'),
+-- Croissant (Producto 16)
+(16, 'https://imag.bonviveur.com/croissants.jpg'),
+(16, 'https://img.hellofresh.com/f_auto,fl_lossy,h_640,q_auto,w_1200/hellofresh_s3/image/645af756cd93ab51c00178bc-15c2ff16.jpg'),
+(16, 'https://es.cravingsjournal.com/wp-content/uploads/2021/04/croissants-4-1.jpg'),
+-- Pan Integral (Producto 17)
+(17, 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/f1ec1b78-4db1-45ac-9189-40619b7fad74/Derivates/2c238c6b-e380-486e-b9dc-39e41695a5ba.jpg'),
+(17, 'https://mandolina.co/wp-content/uploads/2023/06/pan-integral-1200x720.png'),
+(17, 'https://s1.elespanol.com/2023/06/14/cocinillas/recetas/771433771_233955143_1024x576.jpg'),
+-- Queque de Vainilla (Producto 18)
+(18, 'https://cdn0.recetasgratis.net/es/posts/0/8/3/queque_de_vainilla_tradicional_46380_600.jpg'),
+(18, 'https://cdn.bolivia.com/gastronomia/2018/04/13/queque-de-vainilla-3579.jpg'),
+(18, 'https://cocineroperu.com/wp-content/uploads/2015/12/queque-vainilla-1.jpg'),
+-- Café con Leche (Producto 19)
+(19, 'https://i.blogs.es/421374/cafe-con-leche2/1366_2000.jpg'),
+(19, 'https://imag.bonviveur.com/cafe-con-leche.jpg'),
+(19, 'https://www.splenda.com/wp-content/uploads/2023/02/cafe-au-lait-scaled.jpg'),
+-- Empanada de Queso (Producto 20)
+(20, 'https://i.blogs.es/eb58d2/empanadas-de-queso-2-/650_1200.jpg'),
+(20, 'https://www.gourmet.cl/wp-content/uploads/2018/09/empf9-1.jpg-editada.jpg'),
+(20, 'https://cdn.bolivia.com/gastronomia/2013/07/30/empanadas-de-queso-para-api-3245.jpg'),
+-- Relleno Extra (Producto 21)
+(21, 'https://img-global.cpcdn.com/recipes/1ba92ee1c531e819/680x482cq70/rellenos-para-empanadas-foto-principal.jpg'),
+(21, 'https://i.ytimg.com/vi/meBXMOVSpXc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCMi43Gea2m9fl-TCAjIEJxlPtPRg'),
+(21, 'https://www.cocinadominicana.com/wp-content/uploads/2021/08/relleno-chorizo-empanadas-ClaraGon1038.jpg'),
+
+-- Fotos para los productos de Helados Dulces
+-- Helado de Vainilla (Producto 22)
+(22, 'https://www.gourmet.cl/wp-content/uploads/2016/09/Helado_Vainilla-web-553x458.jpg'),
+(22, 'https://www.recetasnestle.com.do/sites/default/files/srh_recipes/62099096785a3c939a1a1eefb06bf358.jpg'),
+(22, 'https://cdn0.recetasgratis.net/es/posts/5/4/0/helado_de_vainilla_casero_74045_orig.jpg'),
+-- Banana Split (Producto 23)
+(23, 'https://www.twopeasandtheirpod.com/wp-content/uploads/2021/07/banana-split-9-500x375.jpg'),
+(23, 'https://bsstatic2.mrjack.es/wp-content/uploads/2020/06/banana-split-2.jpg'),
+(23, 'https://sivarious.com/wp-content/uploads/2022/07/banana-split.jpg'),
+-- Malteada de Fresa (Producto 23)
+(24, 'https://sazonsula.com/wp-content/uploads/2022/07/receta-malteada-de-fresas-sazon-sula.jpg'),
+(24, 'https://www.recetasnestle.com.co/sites/default/files/srh_recipes/23829ccf3c8af248298c5f91d95aa3ba.jpg'),
+(24, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST7P5N3EpQCddBEr5D0QOy6lJ773WfBuFAig&s'),
+-- Sundae de Chocolate (Producto 24)
+(25, 'https://mcdonalds.es/api/cms/images/mcdonalds-es/ZkZaMSol0Zci9OJU_1080x943_Postres_Sundae_Chocolate-1-.png'),
+(25, 'https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$sundae-chocolate.png'),
+(25, 'https://www.shutterstock.com/shutterstock/photos/1204508716/display_1500/stock-photo-chocolate-sundae-ice-cream-with-chocolate-syrup-in-cup-on-white-background-ice-cream-1204508716.jpg'),
+-- Waffle con Helado (Producto 25)
+(26, 'https://tiendasmartbrands.com/cdn/shop/articles/Waffles_Belgas_con_Helado_Casero_de_Vainilla.jpg'),
+(26, 'https://yayaya.com.ec/wp-content/uploads/2021/07/waffle-con-helado-y-salsa-de-chocolate-1.jpg'),
+(26, 'https://cremhelado.com.co/wp-content/uploads/2023/05/waffles-con-helado.webp'),
+-- Café Helado (Producto 26)
+(27, 'https://imag.bonviveur.com/portada-cafe-helado.jpg'),
+(27, 'https://www.recetaslider.cl/wp-content/uploads/2021/06/principal_5feb289d9adf7.jpg'),
+(27, 'https://images.mrcook.app/recipe-image/01914c7f-5e21-7f47-96a9-3cfead557429'),
+-- Topping Extra (Producto 27)
+(28, 'https://t1.uc.ltmcdn.com/es/posts/6/4/5/los_mejores_toppings_para_helados_que_no_te_puedes_perder_este_verano_54546_orig.jpg'),
+(28, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1auPcoO_Z9BH7xIh654UakUfbSJZAJk41tg&s'),
+
+-- Fotos para los productos de Burger Express
+-- Papas Fritas (Producto 29)
+(29, 'https://www.infobae.com/new-resizer/LE2n7cFqRWg-ffWLFzBaYNNb5G8=/arc-anglerfish-arc2-prod-infobae/public/BR3663HJBBB67BQO4UYAYTAFHQ.png'),
+(29, 'https://mejorconsalud.as.com/wp-content/uploads/2013/07/patatas-fritas-.jpg'),
+(29, 'https://aceitesclover.com/wp-content/uploads/2021/04/Papas-fritas.jpg'),
+-- Hamburguesa Clásica (Producto 30)
+(30, 'https://assets.unileversolutions.com/recipes-v2/218401.jpg'),
+(30, 'https://imag.bonviveur.com/hamburguesa-clasica.jpg'),
+(30, 'https://resizer.glanacion.com/resizer/v2/hamburguesa-FHBQ5XJM55H2PFSAFSC6HHESVQ.jpg'),
+-- Coca Cola (Producto 31)
+(31, 'https://walmartcr.vtexassets.com/arquivos/ids/489222/Gaseosa-Coca-Cola-regular-3-L-2-26374.jpg'),
+(31, 'https://walmartcr.vtexassets.com/arquivos/ids/489206/Gaseosa-Coca-Cola-Regular-Lata-354-ml-2-26337.jpg'),
+(31, 'https://walmartcr.vtexassets.com/arquivos/ids/564589/Gaseosa-Coca-Cola-regular-355-ml-1-31801.jpg'),
+-- Hamburguesa con Queso (Producto 32)
+(32, 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/5b57547a8825f9fac531c7c39ab1e00e/Derivates/1536354e54be6f02ff4b3e9ede6e8e7ea487ab3d.jpg'),
+(32, 'https://imag.bonviveur.com/cheeseburger.jpg'),
+(32, 'https://cocina-casera.com/wp-content/uploads/2016/11/hamburguesa-queso-receta.jpg'),
+-- Aros de Cebolla (Producto 33)
+(33, 'https://cdn7.kiwilimon.com/recetaimagen/14018/6392.jpg'),
+(33, 'https://www.mylatinatable.com/wp-content/uploads/2016/01/foto-heroe.jpg'),
+(33, 'https://www.pequerecetas.com/wp-content/uploads/2013/05/aros-de-cebolla-receta.jpeg'),
+-- Helado de Vainilla (Producto 34)
+(34, 'https://www.gourmet.cl/wp-content/uploads/2016/09/Helado_Vainilla-web-553x458.jpg'),
+(34, 'https://www.recetasnestle.com.do/sites/default/files/srh_recipes/62099096785a3c939a1a1eefb06bf358.jpg'),
+(34, 'https://cdn0.recetasgratis.net/es/posts/5/4/0/helado_de_vainilla_casero_74045_orig.jpg'),
+-- Queso Extra (Producto 35)
+(35, 'https://oleofinos.com.mx/img/productos/olfilac-extra-1.jpg'),
+(35, 'https://lorenzahamburguesas.com/wp-content/uploads/2022/07/queso-cheddar.jpg'),
+(35, 'https://correos-marketplace.ams3.cdn.digitaloceanspaces.com/prod-new/uploads/correos-marketplace-shop/1/product/82915-csq3m0iv-queseria-artesanal-el-palancar-queso-curado-en-aceite-virgen-extra-ecologico-950-g-3.jpg');
+
+-- Crear Carritos usando sp_CreateCart
+EXEC sp_CreateCart @Client_Id = 2001;  -- Patricia
+EXEC sp_CreateCart @Client_Id = 2001;  -- Patricia segundo carrito
+EXEC sp_CreateCart @Client_Id = 2002;  -- Fernando
+EXEC sp_CreateCart @Client_Id = 2002;  -- Fernando segundo carrito
+EXEC sp_CreateCart @Client_Id = 2003;  -- Carmen
+EXEC sp_CreateCart @Client_Id = 2003;  -- Carmen segundo carrito
+EXEC sp_CreateCart @Client_Id = 2004;  -- Andrés
+EXEC sp_CreateCart @Client_Id = 2004;  -- Andrés segundo carrito
+EXEC sp_CreateCart @Client_Id = 2005;  -- Lucía
+EXEC sp_CreateCart @Client_Id = 2005;  -- Lucía segundo carrito
+
+-- Agregar productos a los carritos usando sp_CreateCartProduct
+-- Carrito 1 - Patricia (Sabor Casero)
+EXEC sp_CreateCartProduct @Cart_Code = 1, @Product_Code = 1;  -- Sopa de Pollo
+EXEC sp_CreateCartProduct @Cart_Code = 1, @Product_Code = 2;  -- Casado con Pollo
+EXEC sp_CreateCartProduct @Cart_Code = 1, @Product_Code = 4;  -- Refresco Natural
+
+-- Carrito 2 - Patricia (Café Delicia)
+EXEC sp_CreateCartProduct @Cart_Code = 2, @Product_Code = 8;   -- Emparedado
+EXEC sp_CreateCartProduct @Cart_Code = 2, @Product_Code = 9;   -- Café Americano
+EXEC sp_CreateCartProduct @Cart_Code = 2, @Product_Code = 9;   -- Café Americano (segundo)
+
+-- Carrito 3 - Fernando (Pan Fresco)
+EXEC sp_CreateCartProduct @Cart_Code = 3, @Product_Code = 15;  -- Pan Baguette
+EXEC sp_CreateCartProduct @Cart_Code = 3, @Product_Code = 15;  -- Pan Baguette (segundo)
+EXEC sp_CreateCartProduct @Cart_Code = 3, @Product_Code = 16;  -- Croissant
+EXEC sp_CreateCartProduct @Cart_Code = 3, @Product_Code = 16;  -- Croissant (segundo)
+
+-- Carrito 4 - Fernando (Helados Dulces)
+EXEC sp_CreateCartProduct @Cart_Code = 4, @Product_Code = 22;  -- Helado de Vainilla
+EXEC sp_CreateCartProduct @Cart_Code = 4, @Product_Code = 22;  -- Helado de Vainilla (segundo)
+EXEC sp_CreateCartProduct @Cart_Code = 4, @Product_Code = 23;  -- Banana Split
+
+-- Carrito 5 - Carmen (Burger Express)
+EXEC sp_CreateCartProduct @Cart_Code = 5, @Product_Code = 29;  -- Papas Fritas
+EXEC sp_CreateCartProduct @Cart_Code = 5, @Product_Code = 30;  -- Hamburguesa Clásica
+EXEC sp_CreateCartProduct @Cart_Code = 5, @Product_Code = 31;  -- Coca Cola
+
+-- Carrito 6 - Carmen (Sabor Casero)
+EXEC sp_CreateCartProduct @Cart_Code = 6, @Product_Code = 1;   -- Sopa de Pollo
+EXEC sp_CreateCartProduct @Cart_Code = 6, @Product_Code = 2;   -- Casado con Pollo
+EXEC sp_CreateCartProduct @Cart_Code = 6, @Product_Code = 5;   -- Arroz con Leche
+
+-- Carrito 7 - Andrés (Café Delicia)
+EXEC sp_CreateCartProduct @Cart_Code = 7, @Product_Code = 8;   -- Emparedado
+EXEC sp_CreateCartProduct @Cart_Code = 7, @Product_Code = 10;  -- Cappuccino
+EXEC sp_CreateCartProduct @Cart_Code = 7, @Product_Code = 11;  -- Queque de Chocolate
+
+-- Carrito 8 - Andrés (Pan Fresco)
+EXEC sp_CreateCartProduct @Cart_Code = 8, @Product_Code = 15;  -- Pan Baguette
+EXEC sp_CreateCartProduct @Cart_Code = 8, @Product_Code = 17;  -- Pan Integral
+EXEC sp_CreateCartProduct @Cart_Code = 8, @Product_Code = 19;  -- Café con Leche
+
+-- Carrito 9 - Lucía (Helados Dulces)
+EXEC sp_CreateCartProduct @Cart_Code = 9, @Product_Code = 23;  -- Banana Split
+EXEC sp_CreateCartProduct @Cart_Code = 9, @Product_Code = 24;  -- Malteada de Fresa
+EXEC sp_CreateCartProduct @Cart_Code = 9, @Product_Code = 25;  -- Sundae de Chocolate
+
+-- Carrito 10 - Lucía (Burger Express)
+EXEC sp_CreateCartProduct @Cart_Code = 10, @Product_Code = 30; -- Hamburguesa Clásica
+EXEC sp_CreateCartProduct @Cart_Code = 10, @Product_Code = 31; -- Coca Cola
+EXEC sp_CreateCartProduct @Cart_Code = 10, @Product_Code = 33; -- Aros de Cebolla
+
+-- Crear Órdenes usando sp_CreateOrder
+EXEC sp_CreateOrder @State = 'Finalizado', @Client_Id = 2001, @FoodDeliveryMan_UserId = 'delivery1';
+EXEC sp_CreateOrder @State = 'En camino', @Client_Id = 2001, @FoodDeliveryMan_UserId = 'delivery3';
+EXEC sp_CreateOrder @State = 'Preparando', @Client_Id = 2002, @FoodDeliveryMan_UserId = 'delivery4';
+EXEC sp_CreateOrder @State = 'Listo para envió', @Client_Id = 2002, @FoodDeliveryMan_UserId = 'delivery1';
+EXEC sp_CreateOrder @State = 'Finalizado', @Client_Id = 2003, @FoodDeliveryMan_UserId = 'delivery3';
+EXEC sp_CreateOrder @State = 'Cancelado', @Client_Id = 2003, @FoodDeliveryMan_UserId = NULL;
+EXEC sp_CreateOrder @State = 'En camino', @Client_Id = 2004, @FoodDeliveryMan_UserId = 'delivery4';
+EXEC sp_CreateOrder @State = 'Preparando', @Client_Id = 2004, @FoodDeliveryMan_UserId = 'delivery1';
+EXEC sp_CreateOrder @State = 'Finalizado', @Client_Id = 2005, @FoodDeliveryMan_UserId = 'delivery3';
+EXEC sp_CreateOrder @State = 'Listo para envió', @Client_Id = 2005, @FoodDeliveryMan_UserId = 'delivery4';
+
+-- Agregar productos a las órdenes usando sp_CreateOrderProduct
+-- Orden 1 - Patricia (Sabor Casero)
+EXEC sp_CreateOrderProduct @Order_Code = 1, @Product_Code = 1;  -- Sopa de Pollo
+EXEC sp_CreateOrderProduct @Order_Code = 1, @Product_Code = 2;  -- Casado con Pollo
+EXEC sp_CreateOrderProduct @Order_Code = 1, @Product_Code = 4;  -- Refresco Natural
+
+-- Orden 2 - Patricia (Café Delicia)
+EXEC sp_CreateOrderProduct @Order_Code = 2, @Product_Code = 8;   -- Emparedado
+EXEC sp_CreateOrderProduct @Order_Code = 2, @Product_Code = 9;   -- Café Americano (x2)
+EXEC sp_CreateOrderProduct @Order_Code = 2, @Product_Code = 9;
+
+-- Orden 3 - Fernando (Pan Fresco)
+EXEC sp_CreateOrderProduct @Order_Code = 3, @Product_Code = 15;  -- Pan Baguette (x2)
+EXEC sp_CreateOrderProduct @Order_Code = 3, @Product_Code = 15;
+EXEC sp_CreateOrderProduct @Order_Code = 3, @Product_Code = 16;  -- Croissant (x2)
+EXEC sp_CreateOrderProduct @Order_Code = 3, @Product_Code = 16;
+
+-- Orden 4 - Fernando (Helados Dulces)
+EXEC sp_CreateOrderProduct @Order_Code = 4, @Product_Code = 22;  -- Helado de Vainilla (x2)
+EXEC sp_CreateOrderProduct @Order_Code = 4, @Product_Code = 22;  
+EXEC sp_CreateOrderProduct @Order_Code = 4, @Product_Code = 23;  -- Banana Split
+
+-- Orden 5 - Carmen (Burger Express)
+EXEC sp_CreateOrderProduct @Order_Code = 5, @Product_Code = 29; -- Papas Fritas
+EXEC sp_CreateOrderProduct @Order_Code = 5, @Product_Code = 30; -- Hamburguesa Clásica
+EXEC sp_CreateOrderProduct @Order_Code = 5, @Product_Code = 31; -- Coca Cola
+
+-- Orden 6 - Carmen (Sabor Casero)
+EXEC sp_CreateOrderProduct @Order_Code = 6, @Product_Code = 1;  -- Sopa de Pollo
+EXEC sp_CreateOrderProduct @Order_Code = 6, @Product_Code = 2;  -- Casado con Pollo
+EXEC sp_CreateOrderProduct @Order_Code = 6, @Product_Code = 5;  -- Arroz con Leche
+
+-- Orden 7 - Andrés (Café Delicia)
+EXEC sp_CreateOrderProduct @Order_Code = 7, @Product_Code = 8;  -- Emparedado
+EXEC sp_CreateOrderProduct @Order_Code = 7, @Product_Code = 10; -- Cappuccino
+EXEC sp_CreateOrderProduct @Order_Code = 7, @Product_Code = 11; -- Queque de Chocolate
+
+-- Orden 8 - Andrés (Pan Fresco)
+EXEC sp_CreateOrderProduct @Order_Code = 8, @Product_Code = 15; -- Pan Baguette
+EXEC sp_CreateOrderProduct @Order_Code = 8, @Product_Code = 17; -- Pan Integral
+EXEC sp_CreateOrderProduct @Order_Code = 8, @Product_Code = 19; -- Café con Leche
+
+-- Orden 9 - Lucía (Helados Dulces)
+EXEC sp_CreateOrderProduct @Order_Code = 9, @Product_Code = 23; -- Banana Split
+EXEC sp_CreateOrderProduct @Order_Code = 9, @Product_Code = 24; -- Malteada de Fresa
+EXEC sp_CreateOrderProduct @Order_Code = 9, @Product_Code = 25; -- Sundae de Chocolate
+
+-- Orden 10 - Lucía (Burger Express)
+EXEC sp_CreateOrderProduct @Order_Code = 10, @Product_Code = 30; -- Hamburguesa Clásica
+EXEC sp_CreateOrderProduct @Order_Code = 10, @Product_Code = 31; -- Coca Cola
+EXEC sp_CreateOrderProduct @Order_Code = 10, @Product_Code = 33; -- Aros de Cebolla
+
+-- Crear ProofOfPayment para todas las órdenes
+-- Orden 1 - Patricia (Finalizado)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'PATRICIA MENDEZ A',
+    @LastDigitsCreditCard = 1234,
+    @Date = '2024-03-14',
+    @Time = '12:30',
+    @Order_Code = 1;
+
+-- Orden 2 - Patricia (En camino)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'PATRICIA MENDEZ A',
+    @LastDigitsCreditCard = 1234,
+    @Date = '2024-03-14',
+    @Time = '13:45',
+    @Order_Code = 2;
+
+-- Orden 3 - Fernando (Preparando)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'FERNANDO BONILLA CH',
+    @LastDigitsCreditCard = 5678,
+    @Date = '2024-03-14',
+    @Time = '14:15',
+    @Order_Code = 3;
+
+-- Orden 4 - Fernando (Listo para envió)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'FERNANDO BONILLA CH',
+    @LastDigitsCreditCard = 5678,
+    @Date = '2024-03-14',
+    @Time = '15:00',
+    @Order_Code = 4;
+
+-- Orden 5 - Carmen (Finalizado)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'CARMEN VILLALOBOS P',
+    @LastDigitsCreditCard = 9012,
+    @Date = '2024-03-14',
+    @Time = '15:30',
+    @Order_Code = 5;
+
+-- Orden 6 - Carmen (Cancelado)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'CARMEN VILLALOBOS P',
+    @LastDigitsCreditCard = 9012,
+    @Date = '2024-03-14',
+    @Time = '16:00',
+    @Order_Code = 6;
+
+-- Orden 7 - Andrés (En camino)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'ANDRES MOLINA S',
+    @LastDigitsCreditCard = 3456,
+    @Date = '2024-03-14',
+    @Time = '16:30',
+    @Order_Code = 7;
+
+-- Orden 8 - Andrés (Preparando)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'ANDRES MOLINA S',
+    @LastDigitsCreditCard = 3456,
+    @Date = '2024-03-14',
+    @Time = '17:00',
+    @Order_Code = 8;
+
+-- Orden 9 - Lucía (Finalizado)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'LUCIA CORDERO M',
+    @LastDigitsCreditCard = 7890,
+    @Date = '2024-03-14',
+    @Time = '17:30',
+    @Order_Code = 9;
+
+-- Orden 10 - Lucía (Listo para envió)
+EXEC sp_CreateProofOfPayment 
+    @CreditCardName = 'LUCIA CORDERO M',
+    @LastDigitsCreditCard = 7890,
+    @Date = '2024-03-14',
+    @Time = '18:00',
+    @Order_Code = 10;
+
+-- Crear FeedBack para órdenes finalizadas
+-- Orden 1 - Patricia (Sabor Casero)
+EXEC sp_CreateFeedBack 
+    @FeedBack_Business = 'Excelente servicio y comida deliciosa',
+    @BusinessGrade = 4.8,
+    @FeedBack_Order = 'La orden llegó caliente y bien presentada',
+    @OrderGrade = 5.0,
+    @FeedBack_DeliveryMan = 'Muy amable y puntual',
+    @DeliveryManGrade = 4.9,
+    @FoodDeliveryMan_UserId = 'delivery1',
+    @Order_Code = 1,
+    @BusinessAssociate_Legal_Id = 30101111;
+
+-- Orden 5 - Carmen (Burger Express)
+EXEC sp_CreateFeedBack 
+    @FeedBack_Business = 'Buena hamburguesa, papas un poco frías',
+    @BusinessGrade = 4.0,
+    @FeedBack_Order = 'Entrega rápida',
+    @OrderGrade = 4.5,
+    @FeedBack_DeliveryMan = 'Servicio eficiente',
+    @DeliveryManGrade = 4.7,
+    @FoodDeliveryMan_UserId = 'delivery3',
+    @Order_Code = 5,
+    @BusinessAssociate_Legal_Id = 30105555;
+
+-- Orden 9 - Lucía (Helados Dulces)
+EXEC sp_CreateFeedBack 
+    @FeedBack_Business = 'Los helados llegaron en perfecto estado',
+    @BusinessGrade = 4.9,
+    @FeedBack_Order = 'Todo correcto con el pedido',
+    @OrderGrade = 4.8,
+    @FeedBack_DeliveryMan = 'Excelente actitud del repartidor',
+    @DeliveryManGrade = 5.0,
+    @FoodDeliveryMan_UserId = 'delivery3',
+    @Order_Code = 9,
+    @BusinessAssociate_Legal_Id = 30104444;

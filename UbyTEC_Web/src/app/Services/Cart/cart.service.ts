@@ -5,7 +5,7 @@ import { ComunicationService } from '../Comunication/comunication.service';
 
 export interface Cart {
   Code: number; // PK
-  BusinessAssociate_Legal_Id?: number;
+  BusinessAssociate_Legal_Id?: number | null;
   TotalProductsPrice: number;
   Client_Id: number;
 }

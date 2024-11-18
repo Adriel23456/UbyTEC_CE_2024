@@ -3,13 +3,13 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
 
 export interface ProofOfPayment {
-  Code?: number; // PK
+  Code?: number | null; // PK
   CreditCardName: string;
   LastDigitsCreditCard: number;
-  TotalPayment?: number;
+  TotalPayment?: number | null;
   Date: string; // Format "dd-mm-yyyy"
   Time: string; // Format "dd-mm-yyyy"
-  ClientFullName?: string;
+  ClientFullName?: string | null;
   ClientPhone?: number;
   Order_Code: number;
 }

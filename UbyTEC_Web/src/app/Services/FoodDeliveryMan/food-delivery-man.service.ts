@@ -46,7 +46,7 @@ export interface FoodDeliveryManUpdate {
 }
 
 export interface FoodDeliveryManPhone {
-  FoodDeliveryMan_UserId: number;
+  FoodDeliveryMan_UserId: string;
   Phone: number;
 }
 

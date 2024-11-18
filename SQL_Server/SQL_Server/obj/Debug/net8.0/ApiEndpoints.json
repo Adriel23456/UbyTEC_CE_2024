@@ -1,0 +1,2650 @@
+[
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminController",
+    "Method": "GetAdmins",
+    "RelativePath": "api/Admin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.AdminDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminController",
+    "Method": "PostAdmin",
+    "RelativePath": "api/Admin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminDtoCreate",
+        "Type": "SQL_Server.DTOs.AdminDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.AdminDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminController",
+    "Method": "GetAdmin",
+    "RelativePath": "api/Admin/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.AdminDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminController",
+    "Method": "PutAdmin",
+    "RelativePath": "api/Admin/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminDtoUpdate",
+        "Type": "SQL_Server.DTOs.AdminDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminController",
+    "Method": "DeleteAdmin",
+    "RelativePath": "api/Admin/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminController",
+    "Method": "Authenticate",
+    "RelativePath": "api/Admin/Authenticate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "SQL_Server.DTOs.AdminDTO_Login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.AdminDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminPhoneController",
+    "Method": "GetAdminPhones",
+    "RelativePath": "api/AdminPhone",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.AdminPhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminPhoneController",
+    "Method": "PostAdminPhone",
+    "RelativePath": "api/AdminPhone",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adminPhoneDto",
+        "Type": "SQL_Server.DTOs.AdminPhoneDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.AdminPhoneDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminPhoneController",
+    "Method": "PutAdminPhone",
+    "RelativePath": "api/AdminPhone/{admin_id}/{phone}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "admin_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "adminPhoneDtoUpdate",
+        "Type": "SQL_Server.DTOs.AdminPhoneDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminPhoneController",
+    "Method": "DeleteAdminPhone",
+    "RelativePath": "api/AdminPhone/{admin_id}/{phone}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "admin_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.AdminPhoneController",
+    "Method": "GetPhonesByAdminId",
+    "RelativePath": "api/AdminPhone/{admin_id}/Phones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "admin_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.AdminPhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociateController",
+    "Method": "GetBusinessAssociates",
+    "RelativePath": "api/BusinessAssociate",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessAssociateDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociateController",
+    "Method": "PostBusinessAssociate",
+    "RelativePath": "api/BusinessAssociate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessAssociateDtoCreate",
+        "Type": "SQL_Server.DTOs.BusinessAssociateDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessAssociateDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociateController",
+    "Method": "GetBusinessAssociate",
+    "RelativePath": "api/BusinessAssociate/{legal_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "legal_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessAssociateDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociateController",
+    "Method": "PutBusinessAssociate",
+    "RelativePath": "api/BusinessAssociate/{legal_id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "legal_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "businessAssociateDtoUpdate",
+        "Type": "SQL_Server.DTOs.BusinessAssociateDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociateController",
+    "Method": "DeleteBusinessAssociate",
+    "RelativePath": "api/BusinessAssociate/{legal_id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "legal_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociatePhoneController",
+    "Method": "GetBusinessAssociatePhones",
+    "RelativePath": "api/BusinessAssociatePhone",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessAssociatePhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociatePhoneController",
+    "Method": "PostBusinessAssociatePhone",
+    "RelativePath": "api/BusinessAssociatePhone",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "phoneDto",
+        "Type": "SQL_Server.DTOs.BusinessAssociatePhoneDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessAssociatePhoneDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociatePhoneController",
+    "Method": "PutBusinessAssociatePhone",
+    "RelativePath": "api/BusinessAssociatePhone/{legal_id}/{phone}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "legal_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "phoneDtoUpdate",
+        "Type": "SQL_Server.DTOs.BusinessAssociatePhoneDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociatePhoneController",
+    "Method": "DeleteBusinessAssociatePhone",
+    "RelativePath": "api/BusinessAssociatePhone/{legal_id}/{phone}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "legal_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessAssociatePhoneController",
+    "Method": "GetPhonesByLegalId",
+    "RelativePath": "api/BusinessAssociatePhone/{legal_id}/Phones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "legal_id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessAssociatePhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerController",
+    "Method": "GetBusinessManagers",
+    "RelativePath": "api/BusinessManager",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessManagerDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerController",
+    "Method": "PostBusinessManager",
+    "RelativePath": "api/BusinessManager",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessManagerDtoCreate",
+        "Type": "SQL_Server.DTOs.BusinessManagerDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessManagerDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerController",
+    "Method": "GetBusinessManager",
+    "RelativePath": "api/BusinessManager/{email}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessManagerDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerController",
+    "Method": "PutBusinessManager",
+    "RelativePath": "api/BusinessManager/{email}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "businessManagerDtoUpdate",
+        "Type": "SQL_Server.DTOs.BusinessManagerDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerController",
+    "Method": "DeleteBusinessManager",
+    "RelativePath": "api/BusinessManager/{email}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerController",
+    "Method": "Authenticate",
+    "RelativePath": "api/BusinessManager/Authenticate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "SQL_Server.DTOs.BusinessManagerDTO_Login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessManagerDTO_AuthResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerPhoneController",
+    "Method": "GetBusinessManagerPhones",
+    "RelativePath": "api/BusinessManagerPhone",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessManagerPhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerPhoneController",
+    "Method": "PostBusinessManagerPhone",
+    "RelativePath": "api/BusinessManagerPhone",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessManagerPhoneDto",
+        "Type": "SQL_Server.DTOs.BusinessManagerPhoneDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessManagerPhoneDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerPhoneController",
+    "Method": "PutBusinessManagerPhone",
+    "RelativePath": "api/BusinessManagerPhone/{email}/{phone}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "businessManagerPhoneDtoUpdate",
+        "Type": "SQL_Server.DTOs.BusinessManagerPhoneDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerPhoneController",
+    "Method": "DeleteBusinessManagerPhone",
+    "RelativePath": "api/BusinessManagerPhone/{email}/{phone}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessManagerPhoneController",
+    "Method": "GetPhonesByEmail",
+    "RelativePath": "api/BusinessManagerPhone/{email}/Phones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessManagerPhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessTypeController",
+    "Method": "GetBusinessTypes",
+    "RelativePath": "api/BusinessType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessTypeDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessTypeController",
+    "Method": "PostBusinessType",
+    "RelativePath": "api/BusinessType",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessTypeDtoCreate",
+        "Type": "SQL_Server.DTOs.BusinessTypeDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessTypeDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessTypeController",
+    "Method": "GetBusinessType",
+    "RelativePath": "api/BusinessType/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.BusinessTypeDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessTypeController",
+    "Method": "PutBusinessType",
+    "RelativePath": "api/BusinessType/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "businessTypeDtoUpdate",
+        "Type": "SQL_Server.DTOs.BusinessTypeDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.BusinessTypeController",
+    "Method": "DeleteBusinessType",
+    "RelativePath": "api/BusinessType/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.CartController",
+    "Method": "GetCarts",
+    "RelativePath": "api/Cart",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.CartDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.CartController",
+    "Method": "PostCart",
+    "RelativePath": "api/Cart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartDtoCreate",
+        "Type": "SQL_Server.DTOs.CartDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.CartDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Cart_ProductController",
+    "Method": "GetCartProducts",
+    "RelativePath": "api/Cart_Product",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.Cart_ProductDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Cart_ProductController",
+    "Method": "PostCartProduct",
+    "RelativePath": "api/Cart_Product",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartProductDtoCreate",
+        "Type": "SQL_Server.DTOs.Cart_ProductDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.Cart_ProductDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Cart_ProductController",
+    "Method": "PutCartProduct",
+    "RelativePath": "api/Cart_Product/{cart_code}/{product_code}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cart_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "product_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "cartProductDtoUpdate",
+        "Type": "SQL_Server.DTOs.Cart_ProductDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Cart_ProductController",
+    "Method": "DeleteCartProduct",
+    "RelativePath": "api/Cart_Product/{cart_code}/{product_code}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cart_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "product_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Cart_ProductController",
+    "Method": "GetProductsByCartCode",
+    "RelativePath": "api/Cart_Product/{cart_code}/Products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cart_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.Cart_ProductDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.CartController",
+    "Method": "GetCart",
+    "RelativePath": "api/Cart/{code}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.CartDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.CartController",
+    "Method": "PutCart",
+    "RelativePath": "api/Cart/{code}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "cartDtoUpdate",
+        "Type": "SQL_Server.DTOs.CartDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.CartController",
+    "Method": "DeleteCart",
+    "RelativePath": "api/Cart/{code}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ClientController",
+    "Method": "GetClients",
+    "RelativePath": "api/Client",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ClientDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ClientController",
+    "Method": "PostClient",
+    "RelativePath": "api/Client",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientDtoCreate",
+        "Type": "SQL_Server.DTOs.ClientDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ClientDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ClientController",
+    "Method": "GetClient",
+    "RelativePath": "api/Client/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ClientDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ClientController",
+    "Method": "PutClient",
+    "RelativePath": "api/Client/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "clientDtoUpdate",
+        "Type": "SQL_Server.DTOs.ClientDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ClientController",
+    "Method": "DeleteClient",
+    "RelativePath": "api/Client/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ClientController",
+    "Method": "Authenticate",
+    "RelativePath": "api/Client/Authenticate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "SQL_Server.DTOs.ClientDTO_Login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ClientDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetAcceptedBusinessAssociatesByFilter",
+    "RelativePath": "api/Extras/GetAcceptedBusinessAssociatesByFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessAssociateDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetAdminsByFilter",
+    "RelativePath": "api/Extras/GetAdminsByFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.AdminDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetBusinessAssociatesByFilter",
+    "RelativePath": "api/Extras/GetBusinessAssociatesByFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessAssociateDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetBusinessManagersByFilter",
+    "RelativePath": "api/Extras/GetBusinessManagersByFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessManagerDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetBusinessTypesByFilter",
+    "RelativePath": "api/Extras/GetBusinessTypesByFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessTypeDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetCartsByBusinessName",
+    "RelativePath": "api/Extras/GetCartsByBusinessName",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.CartDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetClientsByFilter",
+    "RelativePath": "api/Extras/GetClientsByFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ClientDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetFoodDeliveryMenByFilter",
+    "RelativePath": "api/Extras/GetFoodDeliveryMenByFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.FoodDeliveryManDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetLast10OrdersByClient",
+    "RelativePath": "api/Extras/GetLast10OrdersByClient",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientId",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.OrderDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetOrdersByClientNameAndBusinessAndState",
+    "RelativePath": "api/Extras/GetOrdersByClientNameAndBusinessAndState",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessId",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.OrderDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetOrdersByClientNameBusinessAndStateFilter",
+    "RelativePath": "api/Extras/GetOrdersByClientNameBusinessAndStateFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessId",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "clientFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "stateFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.OrderDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetOrdersByDateFilter",
+    "RelativePath": "api/Extras/GetOrdersByDateFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dateFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.OrderDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetProductsByCartAndFilter",
+    "RelativePath": "api/Extras/GetProductsByCartAndFilter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cartCode",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ProductDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ExtrasController",
+    "Method": "GetProductsByNameAndBusiness",
+    "RelativePath": "api/Extras/GetProductsByNameAndBusiness",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "businessId",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ProductDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FeedBackController",
+    "Method": "GetFeedBacks",
+    "RelativePath": "api/FeedBack",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.FeedBackDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FeedBackController",
+    "Method": "PostFeedBack",
+    "RelativePath": "api/FeedBack",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "feedBackDtoCreate",
+        "Type": "SQL_Server.DTOs.FeedBackDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.FeedBackDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FeedBackController",
+    "Method": "GetFeedBack",
+    "RelativePath": "api/FeedBack/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.FeedBackDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FeedBackController",
+    "Method": "PutFeedBack",
+    "RelativePath": "api/FeedBack/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "feedBackDtoUpdate",
+        "Type": "SQL_Server.DTOs.FeedBackDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FeedBackController",
+    "Method": "DeleteFeedBack",
+    "RelativePath": "api/FeedBack/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManController",
+    "Method": "GetFoodDeliveryMen",
+    "RelativePath": "api/FoodDeliveryMan",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.FoodDeliveryManDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManController",
+    "Method": "PostFoodDeliveryMan",
+    "RelativePath": "api/FoodDeliveryMan",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "foodDeliveryManDtoCreate",
+        "Type": "SQL_Server.DTOs.FoodDeliveryManDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.FoodDeliveryManDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManController",
+    "Method": "GetFoodDeliveryMan",
+    "RelativePath": "api/FoodDeliveryMan/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.FoodDeliveryManDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManController",
+    "Method": "PutFoodDeliveryMan",
+    "RelativePath": "api/FoodDeliveryMan/{userId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "foodDeliveryManDtoUpdate",
+        "Type": "SQL_Server.DTOs.FoodDeliveryManDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManController",
+    "Method": "DeleteFoodDeliveryMan",
+    "RelativePath": "api/FoodDeliveryMan/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManController",
+    "Method": "Authenticate",
+    "RelativePath": "api/FoodDeliveryMan/Authenticate",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "SQL_Server.DTOs.FoodDeliveryManDTO_Login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.FoodDeliveryManDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManPhoneController",
+    "Method": "GetFoodDeliveryManPhones",
+    "RelativePath": "api/FoodDeliveryManPhone",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.FoodDeliveryManPhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManPhoneController",
+    "Method": "PostFoodDeliveryManPhone",
+    "RelativePath": "api/FoodDeliveryManPhone",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "foodDeliveryManPhoneDto",
+        "Type": "SQL_Server.DTOs.FoodDeliveryManPhoneDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.FoodDeliveryManPhoneDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManPhoneController",
+    "Method": "PutFoodDeliveryManPhone",
+    "RelativePath": "api/FoodDeliveryManPhone/{userId}/{phone}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "foodDeliveryManPhoneDtoUpdate",
+        "Type": "SQL_Server.DTOs.FoodDeliveryManPhoneDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManPhoneController",
+    "Method": "DeleteFoodDeliveryManPhone",
+    "RelativePath": "api/FoodDeliveryManPhone/{userId}/{phone}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "phone",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.FoodDeliveryManPhoneController",
+    "Method": "GetPhonesByUserId",
+    "RelativePath": "api/FoodDeliveryManPhone/{userId}/Phones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.FoodDeliveryManPhoneDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.OrderController",
+    "Method": "GetOrders",
+    "RelativePath": "api/Order",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.OrderDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.OrderController",
+    "Method": "PostOrder",
+    "RelativePath": "api/Order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderDtoCreate",
+        "Type": "SQL_Server.DTOs.OrderDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.OrderDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Order_ProductController",
+    "Method": "GetOrderProducts",
+    "RelativePath": "api/Order_Product",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.Order_ProductDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Order_ProductController",
+    "Method": "PostOrderProduct",
+    "RelativePath": "api/Order_Product",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderProductDtoCreate",
+        "Type": "SQL_Server.DTOs.Order_ProductDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.Order_ProductDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Order_ProductController",
+    "Method": "PutOrderProduct",
+    "RelativePath": "api/Order_Product/{order_code}/{product_code}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "order_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "product_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "orderProductDtoUpdate",
+        "Type": "SQL_Server.DTOs.Order_ProductDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Order_ProductController",
+    "Method": "DeleteOrderProduct",
+    "RelativePath": "api/Order_Product/{order_code}/{product_code}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "order_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "product_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.Order_ProductController",
+    "Method": "GetProductsByOrderCode",
+    "RelativePath": "api/Order_Product/{order_code}/Products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "order_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.Order_ProductDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.OrderController",
+    "Method": "GetOrder",
+    "RelativePath": "api/Order/{code}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.OrderDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.OrderController",
+    "Method": "PutOrder",
+    "RelativePath": "api/Order/{code}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "orderDtoUpdate",
+        "Type": "SQL_Server.DTOs.OrderDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.OrderController",
+    "Method": "DeleteOrder",
+    "RelativePath": "api/Order/{code}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.PrincipalController",
+    "Method": "AssignOrderToDeliveryMan",
+    "RelativePath": "api/Principal/AssignOrderToDeliveryMan/{orderCode}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderCode",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.PrincipalController",
+    "Method": "GetBusinessesByFilterAndClientLocation",
+    "RelativePath": "api/Principal/GetBusinessesByFilterAndClientLocation",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientId",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.BusinessAssociateDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.PrincipalController",
+    "Method": "GetConsolidatedSalesReport",
+    "RelativePath": "api/Principal/GetConsolidatedSalesReport",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ConsolidatedSalesReportDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.PrincipalController",
+    "Method": "GetSalesReportByAffiliate",
+    "RelativePath": "api/Principal/GetSalesReportByAffiliate",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.SalesReportByAffiliateDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.PrincipalController",
+    "Method": "GetTopSellingProducts",
+    "RelativePath": "api/Principal/GetTopSellingProducts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.TopSellingProductsDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.PrincipalController",
+    "Method": "ReceiveOrderByClient",
+    "RelativePath": "api/Principal/ReceiveOrderByClient/{orderCode}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderCode",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductController",
+    "Method": "GetProducts",
+    "RelativePath": "api/Product",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ProductDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductController",
+    "Method": "PostProduct",
+    "RelativePath": "api/Product",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productDtoCreate",
+        "Type": "SQL_Server.DTOs.ProductDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ProductDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductController",
+    "Method": "GetProduct",
+    "RelativePath": "api/Product/{code}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ProductDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductController",
+    "Method": "PutProduct",
+    "RelativePath": "api/Product/{code}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "productDtoUpdate",
+        "Type": "SQL_Server.DTOs.ProductDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductController",
+    "Method": "DeleteProduct",
+    "RelativePath": "api/Product/{code}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductPhotoController",
+    "Method": "GetProductPhotos",
+    "RelativePath": "api/ProductPhoto",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ProductPhotoDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductPhotoController",
+    "Method": "PostProductPhoto",
+    "RelativePath": "api/ProductPhoto",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "photoDto",
+        "Type": "SQL_Server.DTOs.ProductPhotoDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ProductPhotoDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductPhotoController",
+    "Method": "PutProductPhoto",
+    "RelativePath": "api/ProductPhoto/{product_code}/{photoURL}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "product_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "photoURL",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "photoDtoUpdate",
+        "Type": "SQL_Server.DTOs.ProductPhotoDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductPhotoController",
+    "Method": "DeleteProductPhoto",
+    "RelativePath": "api/ProductPhoto/{product_code}/{photoURL}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "product_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "photoURL",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProductPhotoController",
+    "Method": "GetPhotosByProductCode",
+    "RelativePath": "api/ProductPhoto/{product_code}/Photos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "product_code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ProductPhotoDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProofOfPaymentController",
+    "Method": "GetProofOfPayments",
+    "RelativePath": "api/ProofOfPayment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SQL_Server.DTOs.ProofOfPaymentDTO, SQL_Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProofOfPaymentController",
+    "Method": "PostProofOfPayment",
+    "RelativePath": "api/ProofOfPayment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "proofOfPaymentDtoCreate",
+        "Type": "SQL_Server.DTOs.ProofOfPaymentDTO_Create",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ProofOfPaymentDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProofOfPaymentController",
+    "Method": "GetProofOfPayment",
+    "RelativePath": "api/ProofOfPayment/{code}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SQL_Server.DTOs.ProofOfPaymentDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProofOfPaymentController",
+    "Method": "PutProofOfPayment",
+    "RelativePath": "api/ProofOfPayment/{code}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "proofOfPaymentDtoUpdate",
+        "Type": "SQL_Server.DTOs.ProofOfPaymentDTO_Update",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SQL_Server.Controllers.ProofOfPaymentController",
+    "Method": "DeleteProofOfPayment",
+    "RelativePath": "api/ProofOfPayment/{code}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

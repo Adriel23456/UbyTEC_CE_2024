@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:prod": "ng build --configuration=production --optimization=true --aot=true --stats-json",
+    "postbuild:prod": "gzip -k dist/uby-tec-web/*.js dist/uby-tec-web/*.css"
   },
   "private": true,
   "dependencies": {
@@ -17,9 +19,14 @@
     "@angular/core": "^18.2.0",
     "@angular/forms": "^18.2.0",
     "@angular/material": "^18.2.11",
+    "@angular/material-moment-adapter": "^18.2.12",
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@emailjs/browser": "^4.4.1",
+    "emailjs-com": "^3.2.0",
+    "firebase": "^11.0.2",
+    "moment": "^2.30.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

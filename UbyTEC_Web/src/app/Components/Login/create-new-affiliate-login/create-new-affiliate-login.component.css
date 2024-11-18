@@ -1,0 +1,206 @@
+.register-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+h2 {
+  color: var(--sage-pastel-deep);
+  font-size: 32px;
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.return-button, .assign-button {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: var(--sage-pastel);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.return-button:hover, .assign-button:hover {
+  background-color: var(--leaf-pastel-deep);
+  transform: translateY(-2px);
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  padding: 0 10px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-form-field {
+  background-color: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+  padding: 0 15px !important;
+}
+
+::ng-deep .mat-mdc-form-field-flex {
+  padding: 0 !important;
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  padding: 15px 0 !important;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-form-field-flex {
+  border-color: var(--sage-pastel);
+  box-shadow: 0 0 15px rgba(108,184,108,0.1);
+}
+
+.button-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+button[type="submit"] {
+  padding: 15px 40px;
+  font-size: 18px;
+  letter-spacing: 3px;
+  font-weight: 595;
+  background-color: var(--sage-pastel-deep);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  min-width: 200px;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--leaf-pastel-deep);
+  transform: translateY(-2px);
+}
+
+.phones-section {
+  margin-top: 30px;
+}
+
+.phones-section h3 {
+  color: var(--sage-pastel-deep);
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.add-phone-button {
+  margin-bottom: 20px;
+  background-color: var(--sage-pastel);
+}
+
+.add-phone-button:hover {
+  background-color: var(--leaf-pastel-deep);
+}
+
+::ng-deep .mat-mdc-table {
+  background-color: transparent !important;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+::ng-deep .mat-mdc-row:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
+::ng-deep .mat-mdc-header-cell {
+  background-color: var(--sage-pastel-light);
+  color: var(--sage-pastel-deep);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    margin: 20px;
+    padding: 25px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 28px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .return-button, .assign-button {
+    width: 100%;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+  }
+}
