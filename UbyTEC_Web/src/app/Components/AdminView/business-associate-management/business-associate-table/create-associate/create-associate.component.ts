@@ -72,7 +72,7 @@ export class CreateAssociateComponent {
       State: ['En espera'],
       SINPE: ['', [Validators.required, Validators.pattern(/^[0-9]{3,11}$/)]],
       BusinessType_Identification: ['', [Validators.required]],
-      Email: ['', [Validators.required]], //TODO: VALIDACION DE EMAIL 
+      Email: ['', [Validators.required]],
       BusinessManager_Email: ['', [Validators.required]]
     });
   }
@@ -216,7 +216,7 @@ export class CreateAssociateComponent {
     // Crear el administrador
     this.businessAssociateService.create(newBusinessAssociateData).subscribe({
       next: () => {
-        console.log('Administrador creado exitosamente:');
+        console.log('Negocio creado exitosamente:');
         console.log(newBusinessAssociateData);
 
         this.processPhones();

@@ -135,11 +135,6 @@
       <div *ngIf="editBusinessManagerForm.get('UserId')?.errors?.['pattern']">El usuario solo debe contener numeros y letras.</div>
     </div>
 
-    <div *ngIf="editBusinessManagerForm.get('Password')?.touched && editBusinessManagerForm.get('Password')?.invalid" class="invalid-feedback">
-      <div *ngIf="editBusinessManagerForm.get('Password')?.errors?.['required']">La contraseña es obligatoria.</div>
-      <div *ngIf="editBusinessManagerForm.get('Password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
-    </div>
-
     <!-- Botón de actualizar -->
     <div class="update-container">
       <button class="btn btn-update" type="submit" [disabled]="editBusinessManagerForm.invalid" (click)="updateBusinessManager()">Actualizar</button>

@@ -100,7 +100,7 @@ export class BusinessManagerTableComponent implements OnInit {
       width: '80vw',
       height: '35vw',
       minWidth: '750px',
-      minHeight: '700px',
+      minHeight: '620px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
