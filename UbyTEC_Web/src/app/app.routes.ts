@@ -27,6 +27,7 @@ import { CreateNewClientLoginComponent } from './Components/Login/create-new-cli
 import { CreateNewAffiliateLoginComponent } from './Components/Login/create-new-affiliate-login/create-new-affiliate-login.component';
 import { CreateNewFooddeliverymanLoginComponent } from './Components/Login/create-new-fooddeliveryman-login/create-new-fooddeliveryman-login.component';
 import { CreateNewBusinessAssociateComponent } from './Components/Login/create-new-business-associate/create-new-business-associate.component';
+import { ShopInBusinessComponent } from './Components/ClientView/shop-in-business/shop-in-business.component';
 
 
 export const routes: Routes = [
@@ -45,7 +46,8 @@ export const routes: Routes = [
         { path: 'carts', component: CartsComponent },
         { path: 'initial', component: InitialComponent },
         { path: 'management', component: ManagementComponent },
-        { path: 'orderReception', component: OrderReceptionComponent }
+        { path: 'orderReception', component: OrderReceptionComponent },
+        { path: 'shop-in-busines/:id', component: ShopInBusinessComponent}
       ]
     },
     {
