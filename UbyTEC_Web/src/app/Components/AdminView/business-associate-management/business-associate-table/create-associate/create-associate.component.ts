@@ -30,6 +30,7 @@ export class CreateAssociateComponent {
   businessTypes: BusinessType[] = [];
   businessAssociates: BusinessAssociate[] = [];
   unassociatedManagers: BusinessManager[] = [];
+  acceptedDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com'];
 
   constructor(
     private fb: FormBuilder,
@@ -68,7 +69,7 @@ export class CreateAssociateComponent {
       Province: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
       Canton: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
       District: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      State: ['', [Validators.required]],
+      State: ['En espera'],
       SINPE: ['', [Validators.required, Validators.pattern(/^[0-9]{3,11}$/)]],
       BusinessType_Identification: ['', [Validators.required]],
       Email: ['', [Validators.required]], //TODO: VALIDACION DE EMAIL 
@@ -163,7 +164,7 @@ export class CreateAssociateComponent {
   addPhone(): void {
     // Validar si la cédula (Id) es válida antes de abrir el diálogo.
     const adminIdControl = this.createBusinessAssociateForm.get('Legal_Id');
-  
+
     if (!adminIdControl || adminIdControl.invalid) {
       // Mostrar un mensaje de advertencia o manejar el error
       this.showErrorDialog('Por favor, ingrese una cédula válida antes de agregar un teléfono.');
@@ -186,13 +187,37 @@ export class CreateAssociateComponent {
   }
 
   createBusinessAsociate(): void {
-    const newBusinessAsociateData = this.createBusinessAssociateForm.value;
+    const newBusinessAssociateData = this.createBusinessAssociateForm.value;
+
+    // Verificar unicidad del Legal_Id y BusinessName
+    const isLegalIdTaken = this.businessAssociates.some(associate => associate.Legal_Id === newBusinessAssociateData.Legal_Id);
+    const isBusinessNameTaken = this.businessAssociates.some(associate => associate.BusinessName === newBusinessAssociateData.BusinessName);
+
+    if (isLegalIdTaken) {
+      this.showErrorDialog('La cédula jurídica ya está en uso. Por favor, ingresa una diferente.');
+      return;
+    }
+
+    if (isBusinessNameTaken) {
+      this.showErrorDialog('El nombre del negocio ya está en uso. Por favor, ingresa uno diferente.');
+      return;
+    }
+
+    // Verificar si el correo tiene un dominio permitido
+    const email = newBusinessAssociateData.Email;
+    const domain = email.split('@')[1]; // Extraer el dominio del correo
+
+    if (!this.acceptedDomains.includes(domain)) {
+      console.error();
+      this.showErrorDialog('El dominio del correo no es válido. El correo debe pertenecer a uno de los siguientes dominios: ' + this.acceptedDomains.join(', '));
+      return;
+    }
 
     // Crear el administrador
-    this.businessAssociateService.create(newBusinessAsociateData).subscribe({
+    this.businessAssociateService.create(newBusinessAssociateData).subscribe({
       next: () => {
         console.log('Administrador creado exitosamente:');
-        console.log(newBusinessAsociateData);
+        console.log(newBusinessAssociateData);
 
         this.processPhones();
         this.dialogRef.close(true);
