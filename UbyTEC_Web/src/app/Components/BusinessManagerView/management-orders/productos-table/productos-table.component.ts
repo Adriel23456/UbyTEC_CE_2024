@@ -1,25 +1,25 @@
 import { Component } from '@angular/core';
-import { MaterialModule } from '../../../material/material/material.module';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CreateDialogComponent } from './create-dialog/create-dialog.component';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UpdateDialogComponent } from './update-dialog/update-dialog.component';
-import {
-  ProductService,
-  Product,
-} from '../../../Services/Product/product.service';
-import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
-import { NotificationService } from '../../../Services/Notification/notification.service';
-import { FotosComponent } from './fotos/fotos/fotos.component';
-import { CrearFotosComponent } from './fotos/crear-fotos/crear-fotos/crear-fotos.component';
-import { ComunicationService } from '../../../Services/Comunication/comunication.service';
-import { BusinessAssociateService } from '../../../Services/BusinessAssociate/business-associate.service';
 import { map } from 'rxjs';
+import { MaterialModule } from '../../../../material/material/material.module';
+import { FotosComponent } from '../../management-products/fotos/fotos/fotos.component';
+import { CrearFotosComponent } from '../../management-products/fotos/crear-fotos/crear-fotos/crear-fotos.component';
+import {
+  Product,
+  ProductService,
+} from '../../../../Services/Product/product.service';
+import { ComunicationService } from '../../../../Services/Comunication/comunication.service';
+import { NotificationService } from '../../../../Services/Notification/notification.service';
+import { BusinessAssociateService } from '../../../../Services/BusinessAssociate/business-associate.service';
+import { CreateDialogComponent } from '../../management-products/create-dialog/create-dialog.component';
+import { UpdateDialogComponent } from '../../management-products/update-dialog/update-dialog.component';
+import { DeleteDialogComponent } from '../../management-products/delete-dialog/delete-dialog.component';
 
 @Component({
-  selector: 'app-management-products',
+  selector: 'app-productos-table',
   standalone: true,
   imports: [
     MaterialModule,
@@ -30,10 +30,10 @@ import { map } from 'rxjs';
     FotosComponent,
     CrearFotosComponent,
   ],
-  templateUrl: './management-products.component.html',
-  styleUrl: './management-products.component.css',
+  templateUrl: './productos-table.component.html',
+  styleUrl: './productos-table.component.css',
 })
-export class ManagementProductsComponent {
+export class ProductosTableComponent {
   constructor(
     private dialog: MatDialog,
     public service: ProductService,

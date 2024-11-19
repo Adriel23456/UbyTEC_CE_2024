@@ -16,7 +16,7 @@
     </mat-form-field>
 </div>
     <div class="mat-elevation-z8">
-        <mat-table [dataSource]="products" matSort>
+        <mat-table [dataSource]="productsData" matSort>
             <ng-container matColumnDef="nombre">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.Name}}</mat-cell>

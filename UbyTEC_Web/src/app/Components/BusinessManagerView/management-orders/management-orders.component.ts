@@ -80,10 +80,11 @@ export class ManagementOrdersComponent {
     });
   }
 
-  openDialog(): void {
+  openDialog(row: any): void {
     const dialogRef = this.dialog.open(PedidoDialogComponent, {
       width: '600px',
       height: '800px',
+      data: { orden: row },
     });
   }
 }

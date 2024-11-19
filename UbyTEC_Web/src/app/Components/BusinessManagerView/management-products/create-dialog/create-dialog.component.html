@@ -8,7 +8,8 @@
         <mat-form-field>
             <input formControlName="Name" matInput placeholder="Nombre*">
             <mat-error>Este campo es obligatorio.</mat-error>
-
+        </mat-form-field>
+    <mat-form-field>
             <mat-select formControlName="Category" matInput placeholder="Categoría*">
                 <mat-option>Ninguna</mat-option>
                 <ng-container *ngFor="let categoria of categorias">
@@ -18,8 +19,33 @@
                 <mat-error>Este campo es obligatorio.</mat-error>       
             </mat-form-field>
     </div>
-    <div>
-        <app-fotos></app-fotos>
+    <!----------------------------------FOTOS------------------------------------------------->
+    <div class="fotos-elevation">
+        <mat-table [dataSource]="productPhotos" matSort>
+            <ng-container matColumnDef="url">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>URL</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                <mat-cell *matCellDef="let row; let i = index">
+                    <button mat-icon-button (click)="eliminarFoto(i)" color="warn"><mat-icon>delete_outline</mat-icon></button>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef colspan="2">
+                    No data.
+                </mat-footer-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-header-row *matRowDef="let row; columns: displayedColumns;"></mat-header-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+        </div>
+    <!------------------------------------------------------------------------------------->
+
+        <div class="crear-foto">
+            <button mat-raised-button color="primary" (click)="crearFoto()" type="submit">Crear foto</button>
     </div>
     <div class="admin-form">
             <mat-form-field>
@@ -28,6 +54,6 @@
         </mat-form-field>
     </div>
     <div class="crear-foto">
-        <button mat-raised-button color="primary" type="submit" (click)="onSubmit(service.form.value)">Crear producto</button>
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Crear producto</button>
     </div>
 </form>

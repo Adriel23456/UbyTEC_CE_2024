@@ -1,0 +1,31 @@
+<div class="fotos-elevation">
+    <mat-table [dataSource]="productsData" matSort>
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.Name}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="categoria">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.Category}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="precio">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Precio</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.Price}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-icon-button (click)="updateDialog(row.Code, row)"><mat-icon>launch</mat-icon></button>
+                <button mat-icon-button (click)="deleteProducto(row.Code)" color="warn"><mat-icon>delete_outline</mat-icon></button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+            <mat-footer-cell *matFooterCellDef colspan="5">
+                No data.
+            </mat-footer-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-header-row *matRowDef="let row; columns: displayedColumns;"></mat-header-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>

@@ -12,6 +12,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [],
@@ -28,7 +29,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSortModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    MatCardModule
+    MatCardModule,
+    MatListModule,
   ],
   exports: [
     CommonModule,
@@ -43,7 +45,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSortModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    MatCardModule
-  ]
+    MatCardModule,
+    MatListModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}

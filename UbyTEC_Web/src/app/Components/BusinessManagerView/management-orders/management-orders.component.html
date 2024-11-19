@@ -34,8 +34,8 @@
         </ng-container>
         <ng-container matColumnDef="observar">
             <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-            <mat-cell *matCellDef>
-                <button mat-flat-button (click)="openDialog()">Observar</button>
+            <mat-cell *matCellDef="let row">
+                <button mat-flat-button (click)="openDialog(row)">Observar</button>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="estado">

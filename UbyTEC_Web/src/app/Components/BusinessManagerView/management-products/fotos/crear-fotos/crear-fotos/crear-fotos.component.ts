@@ -23,12 +23,8 @@ export class CrearFotosComponent {
 
   create() {
     if (this.service.imageForm.valid) {
-      this.service
-        .createPhoto(this.service.imageForm.value)
-        .subscribe((data) => {
-          this.service.imageForm.reset();
-          this.dialogRef.close();
-        });
+      this.dialogRef.close(this.service.imageForm.controls['PhotoURL'].value);
+      this.service.imageForm.reset();
     }
   }
 }

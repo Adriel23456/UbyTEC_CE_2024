@@ -46,7 +46,6 @@ export class UpdateDialogComponent {
         BusinessAssociate_Legal_Id:
           this.service.form.controls['BusinessAssociate_Legal_Id'].value,
       };
-
       this.service
         .update(this.service.form.controls['Code'].value, productUpdate)
         .subscribe((productUpdate) => {

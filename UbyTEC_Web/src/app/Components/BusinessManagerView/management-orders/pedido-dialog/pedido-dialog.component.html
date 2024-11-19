@@ -5,14 +5,49 @@
     </mat-toolbar>
 </div>
 <div class="admin-form">
-    <p>Id:</p>
-    <p>Nombre completo del cliente:</p>
-    <p>Total del servicio:</p>
-    <p>Total pedido:</p>
-    <p>Productos:</p>
-    <p>Comprobante de pago:</p>
-    <p>Fecha de pago:</p>
-    <p>Precio total:</p>
-    <p>Teléfono:</p>
-    <p>Dirección de entrega:</p>
+    <mat-list>
+        <mat-list-item>
+            <span matListItemTitle>Id: </span>
+            <span matListItemLine>{{data.orden.Code}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Nombre completo del cliente: </span>
+            <span matListItemLine>{{data.orden.$client}} </span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Total del servicio: </span>
+            <span matListItemLine>{{data.orden.TotalService}} </span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Total pedido: </span>
+            <span matListItemLine></span>
+        </mat-list-item>
+    </mat-list>
+    </div>
+        <div>
+            <app-productos-table></app-productos-table>
+        </div>
+    <div class="admin-form">
+        <mat-list>
+        <mat-list-item>
+            <span matListItemTitle>Comprobante de pago:</span>
+            <span matListItemLine></span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Fecha de pago:</span>
+            <span matListItemLine></span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Precio total:</span>
+            <span matListItemLine></span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Teléfono:</span>
+            <span matListItemLine></span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Dirección de entrega: </span>
+            <span matListItemLine>{{data.orden.Direction}}</span>
+        </mat-list-item>
+    </mat-list>
 </div>
