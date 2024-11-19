@@ -1,0 +1,158 @@
+<div class="container mt-3">
+    <!-- Formulario de administrador -->
+    <form [formGroup]="editClientForm">
+        <!-- Cedula -->
+        <div class="form-group">
+            <label for="cedula">Cédula:</label>
+            <div class="single-input-container">
+                <input id="cedula" class="form-control" type="text" [value]="client.Id" disabled />
+            </div>
+        </div>
+
+        <!-- Nombre Completo -->
+        <div class="form-group">
+            <label>Nombre Completo:</label>
+            <div class="input-container">
+                <input type="text" class="form-control input-compuesto" formControlName="Name" placeholder="Nombre" />
+                <input type="text" class="form-control input-compuesto" formControlName="FirstSurname"
+                    placeholder="Primer Apellido" />
+                <input type="text" class="form-control input-compuesto" formControlName="SecondSurname"
+                    placeholder="Segundo Apellido" />
+            </div>
+
+            <!-- Mensajes de error -->
+            <div *ngIf="editClientForm.get('Name')?.touched && editClientForm.get('Name')?.invalid"
+                class="invalid-feedback">
+                <div *ngIf="editClientForm.get('Name')?.errors?.['required']">El nombre es obligatorio.</div>
+                <div *ngIf="editClientForm.get('Name')?.errors?.['pattern']">El nombre solo puede contener letras y
+                    espacios.</div>
+                <div *ngIf="editClientForm.get('Name')?.errors?.['minlength']">El nombre debe tener al menos 3
+                    caracteres.</div>
+            </div>
+            <div *ngIf="editClientForm.get('FirstSurname')?.touched && editClientForm.get('FirstSurname')?.invalid"
+                class="invalid-feedback">
+                <div *ngIf="editClientForm.get('FirstSurname')?.errors?.['required']">El primer apellido es obligatorio.
+                </div>
+                <div *ngIf="editClientForm.get('FirstSurname')?.errors?.['pattern']">El primer apellido solo puede
+                    contener
+                    letras y espacios.</div>
+                <div *ngIf="editClientForm.get('FirstSurname')?.errors?.['minlength']">El primer apellido debe tener al
+                    menos 3
+                    caracteres.</div>
+            </div>
+            <div *ngIf="editClientForm.get('SecondSurname')?.touched && editClientForm.get('SecondSurname')?.invalid"
+                class="invalid-feedback">
+                <div *ngIf="editClientForm.get('SecondSurname')?.errors?.['required']">El segundo apellido es
+                    obligatorio.</div>
+                <div *ngIf="editClientForm.get('SecondSurname')?.errors?.['pattern']">El segundo apellido solo puede
+                    contener
+                    letras y espacios.</div>
+                <div *ngIf="editClientForm.get('SecondSurname')?.errors?.['minlength']">El segundo apellido debe tener
+                    al menos 3 caracteres.</div>
+            </div>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group">
+            <label>Dirección:</label>
+            <div class="input-container">
+                <input type="text" class="form-control input-compuesto" formControlName="Province"
+                    placeholder="Provincia" />
+                <input type="text" class="form-control input-compuesto" formControlName="Canton" placeholder="Cantón" />
+                <input type="text" class="form-control input-compuesto" formControlName="District"
+                    placeholder="Distrito" />
+            </div>
+        </div>
+
+        <!-- Mensajes de error -->
+        <div *ngIf="editClientForm.get('Province')?.touched && editClientForm.get('Province')?.invalid"
+            class="invalid-feedback">
+            <div *ngIf="editClientForm.get('Province')?.errors?.['required']">La provincia es obligatoria.</div>
+            <div *ngIf="editClientForm.get('Province')?.errors?.['pattern']">La provincia solo puede contener letras y
+                espacios.</div>
+        </div>
+        <div *ngIf="editClientForm.get('Canton')?.touched && editClientForm.get('Canton')?.invalid"
+            class="invalid-feedback">
+            <div *ngIf="editClientForm.get('Canton')?.errors?.['required']">El Cantón es obligatorio.</div>
+            <div *ngIf="editClientForm.get('Canton')?.errors?.['pattern']">El Cantón solo puede contener
+                letras y espacios.</div>
+        </div>
+        <div *ngIf="editClientForm.get('District')?.touched && editClientForm.get('District')?.invalid"
+            class="invalid-feedback">
+            <div *ngIf="editClientForm.get('District')?.errors?.['required']">El distrito es obligatorio.</div>
+            <div *ngIf="editClientForm.get('District')?.errors?.['pattern']">El distrito solo puede contener
+                letras y espacios.</div>
+        </div>
+
+        <!-- Telefono -->
+        <div class="form-user">
+            <label for="phone">Teléfono:</label>
+            <div class="form-group">
+                <input id="phone" type="number" class="form-control" formControlName="Phone" [value]="client.Phone"
+                    placeholder="Número de teléfono." />
+            </div>
+        </div>
+
+        <!-- Mostrar mensajes de error -->
+        <div *ngIf="editClientForm.get('Phone')?.touched && editClientForm.get('Phone')?.invalid"
+            class="invalid-feedback">
+            <div *ngIf="editClientForm.get('Phone')?.errors?.['required']">El teléfono es requerido.</div>
+            <div *ngIf="editClientForm.get('Phone')?.errors?.['pattern']">El número de teléfono debe ser un número
+                válido.</div>
+        </div>
+
+        <!-- Fecha -->
+        <div class="form-pass">
+            <label for="date">Fecha:</label>
+            <div class="single-input-container">
+                <input id="date" class="form-control" type="date" formControlName="BirthDate" required
+                    [value]="formatDateToYYYYMMDD(client.BirthDate)" />
+            </div>
+        </div>
+
+        <!-- Mostrar mensajes de error -->
+        <div *ngIf="editClientForm.get('BirthDate')?.touched && editClientForm.get('BirthDate')?.invalid"
+            class="invalid-feedback">
+            <div *ngIf="editClientForm.get('BirthDate')?.errors?.['required']">La fecha es obligatoria.</div>
+        </div>
+
+        <!-- Usuario y Contraseña -->
+        <div class="form-user-pass">
+            <div class="form-user">
+                <label for="usuario">Usuario:</label>
+                <div class="single-input-container">
+                    <input id="usuario" class="form-control" type="text" formControlName="UserId" required
+                        pattern='^[a-zA-Z0-9]+$' />
+                </div>
+            </div>
+            <div class="form-pass">
+                <label for="contraseña">Contraseña:</label>
+                <div class="single-input-container">
+                    <input id="contraseña" class="form-control" type="password" formControlName="Password" required
+                        minlength="6" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Mostrar mensajes de error -->
+        <div *ngIf="editClientForm.get('UserId')?.touched && editClientForm.get('UserId')?.invalid"
+            class="invalid-feedback">
+            <div *ngIf="editClientForm.get('UserId')?.errors?.['required']">El usuario es requerido.</div>
+            <div *ngIf="editClientForm.get('UserId')?.errors?.['pattern']">El usuario solo debe contener numeros y
+                letras.</div>
+        </div>
+
+        <div *ngIf="editClientForm.get('Password')?.touched && editClientForm.get('Password')?.invalid"
+            class="invalid-feedback">
+            <div *ngIf="editClientForm.get('Password')?.errors?.['required']">La contraseña es obligatoria.</div>
+            <div *ngIf="editClientForm.get('Password')?.errors?.['minlength']">La contraseña debe tener al menos 6
+                caracteres.</div>
+        </div>
+
+        <!-- Botón de actualizar -->
+        <div class="update-container">
+            <button class="btn btn-update" type="submit" [disabled]="editClientForm.invalid"
+                (click)="updateClient()">Actualizar</button>
+        </div>
+    </form>
+</div>

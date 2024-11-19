@@ -51,6 +51,25 @@
       </div>
     </div>
 
+    <!-- Mensajes de error -->
+    <div *ngIf="editAdminForm.get('Province')?.touched && editAdminForm.get('Province')?.invalid" class="invalid-feedback">
+      <div *ngIf="editAdminForm.get('Province')?.errors?.['required']">La provincia es obligatoria.</div>
+      <div *ngIf="editAdminForm.get('Province')?.errors?.['pattern']">La provincia solo puede contener letras y espacios.</div>
+    </div>
+    <div *ngIf="editAdminForm.get('Canton')?.touched && editAdminForm.get('Canton')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="editAdminForm.get('Canton')?.errors?.['required']">El Cantón es obligatorio.</div>
+      <div *ngIf="editAdminForm.get('Canton')?.errors?.['pattern']">El Cantón solo puede contener
+        letras y espacios.</div>
+    </div>
+    <div *ngIf="editAdminForm.get('District')?.touched && editAdminForm.get('District')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="editAdminForm.get('District')?.errors?.['required']">El distrito es obligatorio.</div>
+      <div *ngIf="editAdminForm.get('District')?.errors?.['pattern']">El distrito solo puede contener
+        letras y espacios.</div>
+    </div>
+
+
     <!-- Teléfonos -->
     <div class="table-container mt-3">
       <table class="table table-striped table-bordered">
