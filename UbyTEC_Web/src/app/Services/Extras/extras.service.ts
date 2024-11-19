@@ -103,7 +103,7 @@ export class ExtrasService {
    * @param filter Criterio de filtro.
    * @returns Observable con la lista de Order filtrados.
    */
-  public getOrdersByClientNameAndBusinessAndState(businessId: number, filter: string): Observable<Order[]> {
+  public getOrdersByClientNameAndBusinessAndState(businessId: number, filter: string | null): Observable<Order[]> {
     return this.comunicationService.getOrdersByClientNameAndBusinessAndState(businessId, filter).pipe(
       catchError(error => throwError(() => error))
     );

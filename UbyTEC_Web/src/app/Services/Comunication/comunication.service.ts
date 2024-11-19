@@ -1182,11 +1182,14 @@ export class ComunicationService {
    * @param filter Criterio de filtro.
    * @returns Observable con la lista de OrderDTO filtrados.
    */
-  public getOrdersByClientNameAndBusinessAndState(businessId: number, filter: string): Observable<Order[]> {
+  public getOrdersByClientNameAndBusinessAndState(businessId: number, filter: string | null): Observable<Order[]> {
     const operation = 'GET Orders By Client Name, Business And State';
-    const params = new HttpParams()
-      .set('businessId', businessId.toString())
-      .set('filter', filter);
+    // Inicializar los parámetros con 'businessId'
+    let params = new HttpParams().set('businessId', businessId.toString());
+    // Condicionalmente añadir 'filter' solo si no es null
+    if (filter !== null) {
+        params = params.set('filter', filter);
+    }
     return this.http.get<Order[]>(`${this.apiUrl}/Extras/GetOrdersByClientNameAndBusinessAndState`, { headers: this.headers, params })
       .pipe(catchError(this.handleError(operation)));
   }

@@ -1,1 +1,51 @@
-<p>order-assign works!</p>
+<div class="order-assign-container">
+  <h2>Asignar Repartidor a Órdenes</h2>
+
+  <mat-form-field appearance="fill" class="filter-field">
+    <mat-label>Filtro por nombre de cliente</mat-label>
+    <input matInput placeholder="Ingresa el nombre del cliente" [formControl]="filterControl">
+  </mat-form-field>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="data" class="mat-elevation-z8">
+
+      <!-- Code Column -->
+      <ng-container matColumnDef="Code">
+        <th mat-header-cell *matHeaderCellDef> Código </th>
+        <td mat-cell *matCellDef="let element"> {{element.Code}} </td>
+      </ng-container>
+
+      <!-- ClientName Column -->
+      <ng-container matColumnDef="ClientName">
+        <th mat-header-cell *matHeaderCellDef> Nombre Completo del Cliente </th>
+        <td mat-cell *matCellDef="let element"> 
+          {{ getClientFullName(element.Client_Id) }}
+        </td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="State">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{element.State}} </td>
+      </ng-container>
+
+      <!-- Assign Column -->
+      <ng-container matColumnDef="Assign">
+        <th mat-header-cell *matHeaderCellDef> Asignar Repartidor </th>
+        <td mat-cell *matCellDef="let element"> 
+          <button mat-raised-button color="primary" (click)="assignDeliveryMan(element)">
+            Asignar
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header and Row Declarations -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+  </div>
+</div>
