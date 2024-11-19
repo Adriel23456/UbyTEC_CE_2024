@@ -86,7 +86,8 @@ export class ClientsManagementComponent {
       width: '80vw',
       height: '35vw',
       minWidth: '750px',
-      minHeight: '700px',
+      minHeight: '620px',
+      data: {clients: this.clients}
     });
   
     dialogRef.afterClosed().subscribe( result => {
