@@ -4,11 +4,9 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { BusinessAssociate, BusinessAssociateService, BusinessAssociatePhone, BusinessAssociateUpdate } from '../../../../../Services/BusinessAssociate/business-associate.service';
 import { BusinessManager, BusinessManagerService } from '../../../../../Services/BusinessManager/business-manager.service';
 import { BusinessType, BusinessTypeService } from '../../../../../Services/BusinessType/business-type.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreateAssociatePhoneComponent } from '../create-associate-phone/create-associate-phone.component';
 import { EditAssociatePhoneComponent } from '../edit-associate-phone/edit-associate-phone.component';
-import { isIdentifierOrThisTypeNode } from 'typescript';
 import { Observable, forkJoin, map } from 'rxjs';
 
 @Component({
@@ -33,7 +31,6 @@ export class EditAssociateComponent implements OnInit {
   currentPhonePage: number = 1;
   totalPhonePages: number = 1;
   businessTypes: BusinessType[] = [];
-  businessManagers: BusinessManager[] = [];
   businessAssociates: BusinessAssociate[] = [];
   unassociatedManagers: BusinessManager[] = [];
 

@@ -127,6 +127,7 @@ export class BusinessManagerTableComponent implements OnInit {
   }
 
   deleteBusinessManager(businessManagerToDelete: BusinessManager): void {
+    this.loadBusinessAssociates();
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       width: '400px',
       data: { message: '¿Estás seguro de que deseas eliminar este administrador de negocio?' }
@@ -137,7 +138,6 @@ export class BusinessManagerTableComponent implements OnInit {
         // El usuario confirmó la eliminación
         // Verificar si tiene un negocio afiliado
         if (this.hasAssociatedBusiness(businessManagerToDelete)) {
-
           this.showErrorDialog("Este gerente tiene un negocio afiliado, favor cambie el gerente del negocio o elimine dicho comercio.")
         } else {
           this.businessManagerService.delete(businessManagerToDelete.Email).subscribe({
