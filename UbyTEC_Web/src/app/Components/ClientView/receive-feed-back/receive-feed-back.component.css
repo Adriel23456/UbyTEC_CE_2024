@@ -1,0 +1,132 @@
+/* Estilos para el contenedor principal */
+.recdeive-feed-back-container {
+    width: 92%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo para el título */
+  .recdeive-feed-back-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para cada fila de los inputs */
+  .dialog-row {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Etiquetas para los inputs */
+  .dialog-label,
+  .dialog-label-num {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    width: 120px; 
+  }
+  
+  /* Estilos para los inputs */
+  .dialog-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-left: 10px;
+    box-sizing: border-box;
+  }
+  
+  .dialog-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Contenedor para los botones y acciones */
+  .dialog-actions {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Estilos para el botón de confirmar */
+  .confirm-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: green; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .confirm-button:hover {
+    background-color: darkgreen; 
+  }
+  
+  .confirm-button:focus {
+    outline: none;
+  }
+  
+  /* Estilo para los campos numéricos */
+  .d-flex {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  /* Añadir márgenes a los inputs de texto */
+  .dialog-row input[type="text"] {
+    margin-top: 8px;
+  }
+  
+  /* Ajuste para la nota */
+.dialog-row-horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Agrupación de etiquetas y campos */
+  .dialog-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dialog-group:first-child {
+    width: 70px; /* Ancho para la nota */
+  }
+  
+  .dialog-group:last-child {
+    width: calc(100% - 100px); /* El ancho restante para el feedback */
+    height: 100px;
+  }
+  
+  /* Estilos específicos para los inputs */
+  .dialog-group .dialog-input {
+    height: 100%; 
+    resize: none; 
+    box-sizing: border-box; 
+  }
+  
+  @media (max-width: 600px) {
+    .recdeive-feed-back-container {
+      padding: 15px;
+    }
+  
+    .dialog-label, .dialog-label-num {
+      width: 100px;
+    }
+  
+    .confirm-button {
+      width: 100%;
+    }
+  }

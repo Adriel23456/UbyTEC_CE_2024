@@ -1,4 +1,4 @@
-.titulo-carrito {
+.titulo-comercios {
     font-size: 24px;             /* Tamaño de fuente */
     font-weight: bold;            /* Hace el texto más grueso */
     color: #2B3B5C;
@@ -18,14 +18,14 @@
   
   /* ------------------------------Contenedor de la tabla -------------------------------------------*/
 .mat-elevation-z8 {
-    width: 80%;         /* Ancho del 80% de la pantalla */
+    width: 95%;         /* Ancho del 80% de la pantalla */
     margin: 10px auto;     /* esapacio arriba yCentrar la tabla horizontalmente */
   }
   table {
     width: 100%;
   }
 
-  /*---------------------boton de comprar y editar------------------------------------------------------------*/
+  /*---------------------boton de comprar------------------------------------------------------------*/
 
   button {
     background: none; /* Eliminar el fondo del botón */
@@ -41,22 +41,4 @@
   
   button:hover mat-icon {
     color: darkgreen; /* Cambiar el color del icono al pasar el mouse */
-  }
-
-/*---------------------boton de eliminarr------------------------------------------------------------*/
-
-.delete-btn {
-    color: red;  /* Cambia el color del texto e icono */
-    background: none;  /* Elimina el fondo del botón */
-    border: none;      /* Elimina el borde del botón */
-    padding: 0;        /* Elimina el padding del botón */
-    cursor: pointer;   /* Cambia el cursor al pasar el mouse */
-  }
-  
-  .delete-btn mat-icon {
-    color: inherit;  /* Asegura que el icono tome el color del botón */
-  }
-
-  .delete-btn:hover mat-icon {
-    color: rgb(114, 14, 14); /* Cambiar el color del icono al pasar el mouse */
   }

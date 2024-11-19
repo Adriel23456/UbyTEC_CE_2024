@@ -1,1 +1,73 @@
-<p>carts works!</p>
+<p class="titulo-carrito">Finaliza tu pedido</p>
+
+<!-- Buscador -->
+<mat-form-field>
+  <mat-label>Buscar</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef style="width: 5%;"> No. </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        {{
+          i + (dataSource.paginator ? dataSource.paginator.pageIndex * dataSource.paginator.pageSize : 0) + 1
+        }}
+      </td>
+    </ng-container>
+
+    <!-- BusinessName Column -->
+    <ng-container matColumnDef="BusinessName">
+      <th mat-header-cell *matHeaderCellDef style="width: 30%;"> Nombre </th>
+      <td mat-cell *matCellDef="let element"> {{ element.BusinessName }} </td>
+    </ng-container>
+
+    <!-- QuantityProducts Column -->
+    <ng-container matColumnDef="QuantityProducts">
+      <th mat-header-cell *matHeaderCellDef style="width: 20%;"> Cantidad de Productos </th>
+      <td mat-cell *matCellDef="let element"> {{ element.QuantityProducts }} </td>
+    </ng-container>
+
+    <!-- Amount Column -->
+    <ng-container matColumnDef="Amount">
+      <th mat-header-cell *matHeaderCellDef style="width: 20%;"> Monto total </th>
+      <td mat-cell *matCellDef="let element"> {{ element.Amount }} </td>
+    </ng-container>
+
+    <!-- Edit Column -->
+    <ng-container matColumnDef="Edit">
+      <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Editar </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="primary" (click)="editCart(element.Code)"> <mat-icon>check_circle</mat-icon> </button>
+      </td>
+    </ng-container>
+
+    <!-- Delete Column -->
+    <ng-container matColumnDef="Delete">
+      <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Eliminar </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button class="delete-btn" (click)="confirmDelete(element.Code, element.PCode)">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- FinalizeOrder Column -->
+    <ng-container matColumnDef="FinalizeOrder">
+      <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Realizar pedido </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="primary" (click)="finalizeCart(element.products, element.Code)">
+          <mat-icon>check_circle</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of carts"></mat-paginator>
+</div>

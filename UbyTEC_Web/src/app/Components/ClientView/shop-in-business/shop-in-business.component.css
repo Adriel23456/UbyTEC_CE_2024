@@ -1,0 +1,165 @@
+/* Estilo para el título del comercio actual */
+.titulo-comercio-actual {
+    font-size: 24px;                   /* Tamaño de fuente */
+    font-weight: bold;                 /* Texto en negrita */
+    color: #2B3B5C;
+    text-align: center;                /* Centrar el texto */
+    margin: 20px 0;                    /* Espacio superior e inferior */
+    padding-bottom: 10px;              /* Espacio en la parte inferior */
+    border-bottom: 2px solid #2B3B5C;  /* Línea inferior */
+    font-family: 'Arial', sans-serif;  /* Fuente */
+}
+
+
+
+  /* contenedor principal */
+.container {
+    background-color: #00000000; /* Fondo del contenedor */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+  }
+  
+  /* tarjetas de productos */
+  .card {
+    min-height: 300px;
+    background-color: #9bd499; /* Fondo de la tarjeta */
+    border: 1px solid #00000000;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Efecto al pasar el cursor sobre la tarjeta */
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* cuerpo de la tarjeta */
+  .card-body {
+    padding: 15px;
+  }
+  
+  /*título de la tarjeta */
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /*texto de la tarjeta */
+  .card-text {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* paginación */
+  .pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    list-style-type: none;  /* Elimina los puntos o viñetas */
+  }
+  
+  
+  .page-item {
+    margin: 0 5px;
+  }
+  
+  .page-link {
+    font-size: 16px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #179140;  /* Borde */
+    border-radius: 5px;  /* Bordes redondeados */
+    background-color: white;  /* Fondo blanco */
+    color: #179140;  /* Color del texto */
+    transition: background-color 0.3s, color 0.3s;  /* Transición para hover */
+  }
+  
+  .page-link:hover {
+    background-color: #179140;  /* Fondo al pasar el mouse */
+    color: white;  /* Texto blanco */
+  }
+  
+  .page-item.disabled .page-link {
+    cursor: not-allowed;
+    color: #ccc;  /* Color gris cuando está deshabilitado */
+    border-color: #ccc;  /* Borde gris */
+    background-color: #f8f9fa;  /* Fondo gris claro */
+  }
+  
+  .page-item.active .page-link {
+    background-color: #66bda3;  /* Fondo cuando está activo */
+    color: white;  /* Texto blanco */
+    border-color: #179140;  /* Borde */
+  }
+  
+  .page-link:focus {
+    outline: none;  /* Elimina el borde al hacer click */
+  }
+  
+  
+  .page-item.disabled .page-link {
+    cursor: not-allowed;
+    color: #ccc;
+  }
+  
+  .page-item.active .page-link {
+    background-color: #179140;
+    color: white;
+  }
+  
+  /* fila de productos */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  /* columnas de productos */
+  .col-md-4 {
+    flex: 1 1 calc(33.333% - 15px);
+    box-sizing: border-box;
+  }
+
+  
+/* Estilos generales para el botón */
+.btn-cart {
+    background-color: #28a745; /* Color de fondo verde */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Relleno interno para el botón */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Texto en negrita */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor en forma de mano */
+    transition: background-color 0.3s, transform 0.2s; /* Transición suave */
+    display: inline-block; /* Asegura que se acomode bien en el contenedor */
+    text-align: center; /* Centra el texto dentro del botón */
+  }
+  
+  /* Efecto al pasar el mouse (hover) */
+  .btn-cart:hover {
+    background-color: #218838; /* Cambio de color a un verde más oscuro */
+    transform: translateY(-2px); /* Efecto de elevar el botón */
+  }
+  
+  /* Efecto al hacer clic (activo) */
+  .btn-cart:active {
+    background-color: #1e7e34; /* Color aún más oscuro cuando se hace clic */
+    transform: translateY(0); /* El botón vuelve a su posición */
+  }
+  
+  /* Estilos cuando el botón está deshabilitado */
+  .btn-cart:disabled {
+    background-color: #d6d6d6; /* Color gris cuando está deshabilitado */
+    cursor: not-allowed; /* Cursor en forma de no permitido */
+  }
+  
+    .product-image {
+      width: 33%;
+      height: auto; /* Mantiene la proporción de la imagen */
+      margin: 0 auto; /* Centra la imagen */
+      display: block; /* Hace que la imagen se muestre como un bloque */
+    }

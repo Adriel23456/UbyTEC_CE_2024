@@ -1,0 +1,44 @@
+<div class="recdeive-feed-back-container">
+  <h1>Valoración del Pedido</h1>
+
+  <!-- Feedback del comercio -->
+  <div class="dialog-row-horizontal">
+    <div class="dialog-group">
+      <label class="dialog-label-num">Nota:</label>
+      <input type="number" class="dialog-input" placeholder="0" min="0" max="5" [(ngModel)]="noteB" />
+    </div>
+    <div class="dialog-group">
+      <label class="dialog-label">Feedback:</label>
+      <input type="text" class="dialog-input" placeholder="Ingrese el Feedback del comercio" [(ngModel)]="feedbackB" />
+    </div>
+  </div>
+
+  <!-- Feedback del repartidor -->
+  <div class="dialog-row-horizontal">
+    <div class="dialog-group">
+      <label class="dialog-label-num">Nota:</label>
+      <input type="number" class="dialog-input" placeholder="0" min="0" max="5" [(ngModel)]="noteD" />
+    </div>
+    <div class="dialog-group">
+      <label class="dialog-label">Feedback:</label>
+      <input type="text" class="dialog-input" placeholder="Ingrese el Feedback del repartidor" [(ngModel)]="feedbackD" />
+    </div>
+  </div>
+
+  <!-- Feedback de la orden -->
+  <div class="dialog-row-horizontal">
+    <div class="dialog-group">
+      <label class="dialog-label-num">Nota:</label>
+      <input type="number" class="dialog-input" placeholder="0" min="0" max="5" [(ngModel)]="noteO" />
+    </div>
+    <div class="dialog-group">
+      <label class="dialog-label">Feedback:</label>
+      <input type="text" class="dialog-input" placeholder="Ingrese el Feedback de la orden" [(ngModel)]="feedbackO" />
+    </div>
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="dialog-actions">
+    <button mat-button color="warn" (click)="onConfirm()" class="confirm-button">Confirmar</button>
+  </div>
+</div>
