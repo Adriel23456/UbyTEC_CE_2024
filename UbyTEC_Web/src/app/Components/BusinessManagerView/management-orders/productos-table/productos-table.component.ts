@@ -45,7 +45,7 @@ export class ProductosTableComponent {
   products: Product[] = [];
   productsData = new MatTableDataSource<any>();
   searchKey = '';
-  displayedColumns: string[] = ['nombre', 'categoria', 'precio', 'actions'];
+  displayedColumns: string[] = ['nombre', 'categoria', 'precio'];
 
   ngOnInit() {
     this.service.getAll().subscribe((list) => {
