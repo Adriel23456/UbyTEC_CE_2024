@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <h3 class="title">Edición de tipo</h3>
+    <form [formGroup]="typeForm" class="form">
+      <div class="form-group">
+        <div class="label-input-container">
+          <label for="type" class="form-label">Tipo:</label>
+          <input id="type" type="text" class="form-control" formControlName="type" placeholder="Ingrese el nombre del tipo"
+            required />
+        </div>
+        <div class="error-messages">
+          <div *ngIf="typeForm.get('type')?.hasError('required')" class="invalid-feedback">
+            Este campo es obligatorio.
+          </div>
+          <div *ngIf="typeForm.get('type')?.hasError('pattern')" class="invalid-feedback">
+            El tipo solo debe contener letras y espacios.
+          </div>
+        </div>
+      </div>
+  
+      <div class="btn-group">
+        <button type="button" mat-raised-button color="primary" class="btn btn-confirm" (click)="onConfirm()">
+          Confirmar
+        </button>
+        <button type="button" mat-raised-button color="warn" class="btn btn-cancel" (click)="onCancel()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
