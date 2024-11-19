@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService, Admin } from '../../../Services/Admin/admin.service';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../../delete-dialog/delete-dialog.component';
+import { EditAdminComponent } from './edit-admin/edit-admin.component'
+import { CreateAdminComponent } from './create-admin/create-admin.component';
 
 @Component({
   selector: 'app-admin-management',
@@ -21,7 +25,8 @@ export class AdminManagementComponent implements OnInit {
   filterText: string = '';            // Texto del filtro
 
   constructor(
-    private adminService: AdminService
+    private adminService: AdminService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -77,27 +82,58 @@ export class AdminManagementComponent implements OnInit {
 
   // Crear un nuevo administrador
   createAdmin(): void {
-    console.log("Abrir formulario de creación de administrador");
+    const dialogRef = this.dialog.open( CreateAdminComponent, {
+      width: '80vw',
+      height: '35vw',
+      minWidth: '750px',
+      minHeight: '700px',
+    });
+  
+    dialogRef.afterClosed().subscribe( result => {
+      if (result){
+        this.loadAdmins();
+      }
+    })
   }
 
   // Editar un administrador existente
   editAdmin(admin: Admin): void {
-    console.log("Editar administrador:", admin);
+    const dialogRef = this.dialog.open( EditAdminComponent, {
+      width: '80vw',
+      height: '35vw',
+      minWidth: '750px',
+      minHeight: '700px',
+      data: { admin: admin }
+    });
+  
+    dialogRef.afterClosed().subscribe( result => {
+      if (result){
+        this.loadAdmins();
+      }
+    })
   }
 
   // Eliminar un administrador
   deleteAdmin(id: number): void {
-    if (confirm("¿Estás seguro de que deseas eliminar este administrador?")) {
-      this.adminService.delete(id).subscribe({
-        next: () => {
-          this.admins = this.admins.filter(admin => admin.Id !== id);
-          this.filteredAdmins = this.filteredAdmins.filter(admin => admin.Id !== id);
-          this.totalAdmins = this.filteredAdmins.length;
-          this.totalPages = Math.ceil(this.totalAdmins / this.pageSize); // Recalcular el total de páginas
-          alert('Administrador eliminado correctamente');
-        },
-        error: (err) => console.error('Error al eliminar administrador:', err)
-      });
-    }
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      width: '400px',
+      data: { message: '¿Estás seguro de que deseas eliminar este administrador?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // El usuario confirmó la eliminación
+        this.adminService.delete(id).subscribe({
+          next: () => {
+            // Elimina al administrador de la lista y actualiza los datos
+            this.admins = this.admins.filter(admin => admin.Id !== id);
+            this.filteredAdmins = this.filteredAdmins.filter(admin => admin.Id !== id);
+            this.totalAdmins = this.filteredAdmins.length;
+            this.totalPages = Math.ceil(this.totalAdmins / this.pageSize); // Recalcular el total de páginas
+          },
+          error: (err) => console.error('Error al eliminar administrador:', err)
+        });
+      }
+    });
   }
 }

@@ -1,0 +1,34 @@
+.full-width {
+  width: 100%;
+}
+
+.center-title {
+  text-align: center; /* Centra el título del diálogo */
+  font-weight: 500;
+}
+
+.action-buttons-edit {
+  display: flex;
+  justify-content: space-between; /* Espacio uniforme entre los botones */
+  width: 100%;
+  margin-top: 16px; /* Separación superior */
+}
+
+.action-buttons-message button {
+  flex-grow: 1;
+  margin: 0 8px; /* Espacio horizontal entre los botones */
+}
+
+.mat-raised-button {
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+.centered-message {
+  text-align: center; /* Centra el texto */
+  font-weight: 450; /* Hace el texto más grueso */
+  margin: 10px 0; /* Márgenes simétricos arriba y abajo */
+}
+
+.mat-dialog-content p {
+  margin-bottom: 20px; /* Espacio inferior en el texto */
+}
