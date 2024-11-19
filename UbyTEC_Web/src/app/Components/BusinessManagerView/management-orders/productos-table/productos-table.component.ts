@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -17,6 +17,7 @@ import { BusinessAssociateService } from '../../../../Services/BusinessAssociate
 import { CreateDialogComponent } from '../../management-products/create-dialog/create-dialog.component';
 import { UpdateDialogComponent } from '../../management-products/update-dialog/update-dialog.component';
 import { DeleteDialogComponent } from '../../management-products/delete-dialog/delete-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-productos-table',

@@ -31,6 +31,9 @@ export class UpdateFotosComponent {
     };
 
     if (this.service.imageForm.valid) {
+      console.log(this.service.imageForm.controls['Product_Code'].value);
+      console.log(this.data.oldURL);
+      console.log(productPhotoUpdate);
       this.service
         .updatePhoto(
           this.service.imageForm.controls['Product_Code'].value,

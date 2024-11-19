@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+  viewChild,
+} from '@angular/core';
 import { MaterialModule } from '../../../material/material/material.module';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CreateDialogComponent } from './create-dialog/create-dialog.component';
@@ -17,6 +22,7 @@ import { CrearFotosComponent } from './fotos/crear-fotos/crear-fotos/crear-fotos
 import { ComunicationService } from '../../../Services/Comunication/comunication.service';
 import { BusinessAssociateService } from '../../../Services/BusinessAssociate/business-associate.service';
 import { map } from 'rxjs';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-management-products',
@@ -46,6 +52,10 @@ export class ManagementProductsComponent {
   productsData = new MatTableDataSource<any>();
   searchKey = '';
   displayedColumns: string[] = ['nombre', 'categoria', 'precio', 'actions'];
+  @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(
+    new MatPaginatorIntl(),
+    ChangeDetectorRef.prototype
+  );
 
   ngOnInit() {
     this.service.getAll().subscribe((list) => {
@@ -65,6 +75,7 @@ export class ManagementProductsComponent {
           };
         });
       this.productsData = new MatTableDataSource(array);
+      this.productsData.paginator = this.paginator;
     });
   }
 
@@ -119,5 +130,14 @@ export class ManagementProductsComponent {
           });
         }
       });
+  }
+
+  onClear() {
+    this.searchKey = '';
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.productsData.filter = this.searchKey.trim().toLowerCase();
   }
 }

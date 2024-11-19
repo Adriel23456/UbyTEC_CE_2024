@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export interface Order {
   Code: number; // PK
@@ -54,6 +55,10 @@ export interface OrderProductCreate {
 export class OrderService {
   constructor(private comunicationService: ComunicationService) {}
 
+  form: FormGroup = new FormGroup({
+    searchKey: new FormControl(''),
+    Category: new FormControl(''),
+  });
   /**
    * Obtiene todas las órdenes.
    */

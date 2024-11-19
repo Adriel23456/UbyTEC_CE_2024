@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { ChangeDetectorRef, Component, model, ViewChild } from '@angular/core';
 import { MaterialModule } from '../../../material/material/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,6 +12,7 @@ import {
 } from '../../../Services/Order/order.service';
 import { Client, ClientService } from '../../../Services/Client/client.service';
 import { forkJoin, map, Observable } from 'rxjs';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-management-orders',
@@ -29,7 +30,7 @@ import { forkJoin, map, Observable } from 'rxjs';
 export class ManagementOrdersComponent {
   constructor(
     private dialog: MatDialog,
-    private service: OrderService,
+    public service: OrderService,
     private clientService: ClientService
   ) {}
 
@@ -54,6 +55,10 @@ export class ManagementOrdersComponent {
   ];
 
   listData = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(
+    new MatPaginatorIntl(),
+    ChangeDetectorRef.prototype
+  );
 
   ngOnInit() {
     this.service.getAll().subscribe((list) => {
@@ -69,6 +74,8 @@ export class ManagementOrdersComponent {
       forkJoin(requests).subscribe((array) => {
         this.listData.data = array;
       });
+
+      this.listData.paginator = this.paginator;
     });
   }
 
@@ -87,5 +94,20 @@ export class ManagementOrdersComponent {
       maxWidth: '800px',
       data: { orden: row },
     });
+  }
+
+  onClear() {
+    this.service.form.controls['searchKey'].setValue('');
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.listData.filter = this.service.form.controls['searchKey'].value
+      .trim()
+      .toLowerCase();
+  }
+
+  applySelectedFilter() {
+    this.listData.filter = this.service.form.controls['Category'].value;
   }
 }

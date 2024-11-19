@@ -1,25 +1,29 @@
 <div class="title">
     Gestión de pedidos
 </div>
-<div class="search-div-order">
-    <mat-form-field class="search-form-order">
-        <mat-label>Buscar</mat-label>
-        <input matInput type="text" [(ngModel)]="searchKey">
-        @if (searchKey) {
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="searchKey=''">
-            <mat-icon>close</mat-icon>
-          </button>
-        }
+<form [formGroup]="service.form">
+    <div class="search-div-order">
+        <mat-form-field class="search-form-order">
+            <mat-label>Buscar</mat-label>
+<!--             <input matInput type="text" [(ngModel)]="searchKey" (keyup)="applyFilter()">
+ -->            <input matInput type="text" formControlName="searchKey" (keyup)="applyFilter()">
+            @if (service.form.controls['searchKey'].value) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
+                <mat-icon>close</mat-icon>
+            </button>
+            }
+        </mat-form-field>
+
+        <mat-form-field class="search-select-order">
+        <mat-select formControlName="Category" (selectionChange)="applySelectedFilter()" matInput placeholder="Filtro estado">
+            <mat-option>Ninguna</mat-option>
+            <ng-container *ngFor="let categoria of categorias">
+                <mat-option value="{{categoria.value}}">{{categoria.value}}</mat-option>
+            </ng-container>
+        </mat-select>
     </mat-form-field>
-    <mat-form-field class="search-select-order">
-    <mat-select matInput placeholder="Filtro estado">
-        <mat-option>Ninguna</mat-option>
-        <ng-container *ngFor="let categoria of categorias">
-            <mat-option value="{{categoria.value}}">{{categoria.value}}</mat-option>
-        </ng-container>
-    </mat-select>
-</mat-form-field>
-</div>
+    </div>
+</form>
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData" matSort>
         <ng-container matColumnDef="id">
