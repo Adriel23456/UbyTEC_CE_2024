@@ -1,0 +1,149 @@
+<div class="container mt-3">
+    <!-- Formulario de administrador -->
+    <form [formGroup]="createBusinessManagerForm">
+     
+      <!-- Nombre Completo -->
+      <div class="form-group">
+        <label>Nombre Completo:</label>
+        <div class="input-container">
+          <input type="text" class="form-control input-compuesto" formControlName="Name" placeholder="Nombre" />
+          <input type="text" class="form-control input-compuesto" formControlName="FirstSurname" placeholder="Primer Apellido" />
+          <input type="text" class="form-control input-compuesto" formControlName="SecondSurname" placeholder="Segundo Apellido" />
+        </div>
+  
+        <!-- Mensajes de error -->
+        <div *ngIf="createBusinessManagerForm.get('Name')?.touched && createBusinessManagerForm.get('Name')?.invalid" class="invalid-feedback">
+          <div *ngIf="createBusinessManagerForm.get('Name')?.errors?.['required']">El nombre es obligatorio.</div>
+          <div *ngIf="createBusinessManagerForm.get('Name')?.errors?.['pattern']">El nombre solo puede contener letras y espacios.</div>
+          <div *ngIf="createBusinessManagerForm.get('Name')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</div>
+        </div>
+        <div *ngIf="createBusinessManagerForm.get('FirstSurname')?.touched && createBusinessManagerForm.get('FirstSurname')?.invalid"
+          class="invalid-feedback">
+          <div *ngIf="createBusinessManagerForm.get('FirstSurname')?.errors?.['required']">El primer apellido es obligatorio.</div>
+          <div *ngIf="createBusinessManagerForm.get('FirstSurname')?.errors?.['pattern']">El primer apellido solo puede contener
+            letras y espacios.</div>
+          <div *ngIf="createBusinessManagerForm.get('FirstSurname')?.errors?.['minlength']">El primer apellido debe tener al menos 3
+            caracteres.</div>
+        </div>
+        <div *ngIf="createBusinessManagerForm.get('SecondSurname')?.touched && createBusinessManagerForm.get('SecondSurname')?.invalid"
+          class="invalid-feedback">
+          <div *ngIf="createBusinessManagerForm.get('SecondSurname')?.errors?.['required']">El segundo apellido es obligatorio.</div>
+          <div *ngIf="createBusinessManagerForm.get('SecondSurname')?.errors?.['pattern']">El segundo apellido solo puede contener
+            letras y espacios.</div>
+          <div *ngIf="createBusinessManagerForm.get('SecondSurname')?.errors?.['minlength']">El segundo apellido debe tener al menos 3 caracteres.</div>
+        </div>
+      </div>
+  
+      <!-- Dirección -->
+      <div class="form-group">
+        <label>Dirección:</label>
+        <div class="input-container">
+          <input type="text" class="form-control input-compuesto" formControlName="Province" placeholder="Provincia" />
+          <input type="text" class="form-control input-compuesto" formControlName="Canton" placeholder="Cantón" />
+          <input type="text" class="form-control input-compuesto" formControlName="District" placeholder="Distrito" />
+        </div>
+      </div>
+  
+      <!-- Mensajes de error -->
+      <div *ngIf="createBusinessManagerForm.get('Province')?.touched && createBusinessManagerForm.get('Province')?.invalid" class="invalid-feedback">
+        <div *ngIf="createBusinessManagerForm.get('Province')?.errors?.['required']">La provincia es obligatoria.</div>
+        <div *ngIf="createBusinessManagerForm.get('Province')?.errors?.['pattern']">La provincia solo puede contener letras y espacios.</div>
+      </div>
+  
+      <div *ngIf="createBusinessManagerForm.get('Canton')?.touched && createBusinessManagerForm.get('Canton')?.invalid"
+        class="invalid-feedback">
+        <div *ngIf="createBusinessManagerForm.get('Canton')?.errors?.['required']">El cantón es obligatorio.</div>
+        <div *ngIf="createBusinessManagerForm.get('Canton')?.errors?.['pattern']">El cantón solo puede contener
+          letras y espacios.</div>
+      </div>
+  
+      <div *ngIf="createBusinessManagerForm.get('District')?.touched && createBusinessManagerForm.get('District')?.invalid"
+        class="invalid-feedback">
+        <div *ngIf="createBusinessManagerForm.get('District')?.errors?.['required']">El distrito es obligatorio.</div>
+        <div *ngIf="createBusinessManagerForm.get('District')?.errors?.['pattern']">El distrito solo puede contener
+          letras y espacios.</div>
+      </div>
+    
+      <!-- Teléfonos -->
+      <div class="table-container mt-3">
+        <table class="table table-striped table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-center">Email Asoc.</th>
+              <th class="text-center">Teléfono</th>
+              <th class="text-center">Editar</th>
+              <th class="text-center">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let phone of getPhonesForCurrentPage()">
+              <td class="text-center">{{ phone.BusinessManager_Email }}</td>
+              <td class="text-center">{{ phone.Phone }}</td>
+              <td class="text-center">
+                <button class="btn btn-edit" (click)="editPhone(phone)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-delete" (click)="deletePhone(phone)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- Paginación de teléfonos -->
+        <tfoot>
+          <button class="btn btn-create-phone" (click)="addPhone()">Nuevo Teléfono</button>
+          <tr>
+            <td colspan="4">
+              <div class="pagination-container">
+                <button class="btn btn-pagination" (click)="previousPhonePage()" [disabled]="currentPhonePage === 1">
+                  <i class="fa fa-chevron-left"></i>
+                </button>
+                <span class="current-page">{{ currentPhonePage }} de {{ totalPhonePages }}</span>
+                <button class="btn btn-pagination" (click)="nextPhonePage()"
+                  [disabled]="currentPhonePage === totalPhonePages">
+                  <i class="fa fa-chevron-right"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </div>
+  
+      <!-- Usuario y Contraseña -->
+      <div class="form-user-pass">
+        <div class="form-user">
+          <label for="usuario">Usuario:</label>
+          <div class="single-input-container">
+            <input id="usuario" class="form-control" type="text" formControlName="UserId" required pattern='^[a-zA-Z0-9]+$' />
+          </div>
+        </div>
+        <div class="form-pass">
+          <label for="contraseña">Email:</label>
+          <div class="single-input-container">
+            <input id="contraseña" class="form-control" type="email" formControlName="Email" required/>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Mostrar mensajes de error -->
+      <div *ngIf="createBusinessManagerForm.get('UserId')?.touched && createBusinessManagerForm.get('UserId')?.invalid" class="invalid-feedback">
+        <div *ngIf="createBusinessManagerForm.get('UserId')?.errors?.['required']">El usuario es requerido.</div>
+        <div *ngIf="createBusinessManagerForm.get('UserId')?.errors?.['pattern']">El usuario solo debe contener numeros y letras.</div>
+      </div>
+  
+      <div *ngIf="createBusinessManagerForm.get('Password')?.touched && createBusinessManagerForm.get('Password')?.invalid" class="invalid-feedback">
+        <div *ngIf="createBusinessManagerForm.get('Password')?.errors?.['required']">La contraseña es obligatoria.</div>
+        <div *ngIf="createBusinessManagerForm.get('Password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+      </div>
+  
+      <!-- Botón de actualizar -->
+      <div class="update-container">
+        <button class="btn btn-update" type="submit" [disabled]="createBusinessManagerForm.invalid" (click)="createBusinessManager()">Crear</button>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,39 @@
+/* Contenedor principal */
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Espaciado entre elementos */
+}
+
+/* Contenedor de cada tabla y título */
+.table-wrapper {
+    width: 100%;
+    margin-bottom: 40px;
+    
+}
+
+/* Estilo para los títulos */
+.table-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px; /* Espacio entre el título y la tabla */
+    text-align: center;
+    margin-top: 20px;
+    color: #45a049; /* Verde oscuro para contraste */
+    text-shadow: 
+        -1px -1px 0 white, /* Sombra arriba a la izquierda */
+        1px -1px 0 white,  /* Sombra arriba a la derecha */
+        -1px 1px 0 white,  /* Sombra abajo a la izquierda */
+        1px 1px 0 white; 
+}
+
+/* Separador visible */
+.table-separator {
+    width: 92%; /* Ajusta el ancho del separador */
+    height: 4px; /* Grosor del separador */
+    background-color: white; /* Verde claro */
+    margin-top: 20px;
+    border-radius: 100px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para realzar */
+}
