@@ -6,12 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
-import { map } from 'rxjs';
 import { BusinessAssociate, BusinessAssociateService } from '../../../Services/BusinessAssociate/business-associate.service';
-import { BusinessTypeService } from '../../../Services/BusinessType/business-type.service';
 import { ClientService } from '../../../Services/Client/client.service';
-import { CartService } from '../../../Services/Cart/cart.service';
+import { PrincipalService } from '../../../Services/Principal/principal.service';
 
 @Component({
   selector: 'app-shops',
@@ -28,63 +25,79 @@ import { CartService } from '../../../Services/Cart/cart.service';
   styleUrl: './shops.component.css'
 })
 export class ShopsComponent {
-  businessAssociate: BusinessAssociate[] = [];
   displayedColumns: string[] = ['position', 'BusinessName', 'businessTypeName', 'Direction', 'Comprar?'];
   dataSource = new MatTableDataSource<BusinessAssociate>();
-  currentClientCanton: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private businessAService: BusinessAssociateService,
-    private businessTService: BusinessTypeService,
+    private principalService: PrincipalService,
     private clientService: ClientService,
-    private router: Router,
-    private cartService: CartService
+    private businessAssociateService: BusinessAssociateService,
+    private router: Router
   ) {}
 
-  ngAfterViewInit() {
-    this.clientService.getAll().subscribe((clients) => {
-      const currentClient = this.clientService.currentClientValue;
-      if (currentClient) {
-        this.currentClientCanton = currentClient.Canton;
-      }
+  private getProximityOrder(business: BusinessAssociate, clientLocation: { Province: string, Canton: string, District: string }): number {
+    if (business.Province === clientLocation.Province && 
+        business.Canton === clientLocation.Canton && 
+        business.District === clientLocation.District) return 1;
+    if (business.Canton === clientLocation.Canton && 
+        business.District === clientLocation.District) return 2;
+    if (business.Canton === clientLocation.Canton) return 3;
+    if (business.Province === clientLocation.Province) return 4;
+    return 5;
+  }
 
-      this.businessAService.getAll().subscribe((data) => {
-        const filteredData = data.filter((business) => business.Canton === this.currentClientCanton);
+  private loadBusinesses(filter: string = '') {
+    const currentClient = this.clientService.currentClientValue;
+    if (!currentClient) return;
 
-        const businessTypeObservables = filteredData.map((business) =>
-          this.businessTService.getById(business.BusinessType_Identification).pipe(
-            map((businessType) => ({
-              ...business,
-              businessTypeName: businessType.Name  
-            }))
-          )
-        );
+    if (filter === '') {
+      this.businessAssociateService.getAll().subscribe(businesses => {
+        // Filtrar negocios aceptados
+        const acceptedBusinesses = businesses.filter(b => b.State === "Aceptado");
         
+        // Ordenar por proximidad y nombre
+        const sortedBusinesses = acceptedBusinesses.sort((a, b) => {
+          const orderA = this.getProximityOrder(a, currentClient);
+          const orderB = this.getProximityOrder(b, currentClient);
+          
+          if (orderA !== orderB) return orderA - orderB;
+          return a.BusinessName.localeCompare(b.BusinessName);
+        });
 
-        forkJoin(businessTypeObservables).subscribe((updatedData) => {
-          this.dataSource.data = updatedData;
+        this.dataSource.data = sortedBusinesses;
+        this.dataSource.paginator = this.paginator;
+      });
+    } else {
+      this.principalService.getBusinessesByFilterAndClientLocation(currentClient.Id, filter)
+        .subscribe(businesses => {
+          this.dataSource.data = businesses;
           this.dataSource.paginator = this.paginator;
         });
-      });
-    });
+    }
+  }
+
+  ngAfterViewInit() {
+    const currentClient = this.clientService.currentClientValue;
+    if (!currentClient) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.loadBusinesses();
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.loadBusinesses(filterValue.trim().toLowerCase());
   }
 
   navigateToShop(business: BusinessAssociate) {
     const currentClient = this.clientService.currentClientValue;
-    if (currentClient) {
-      const newCart = {
-        Client_Id: currentClient.Id 
-      };
-      this.cartService.create(newCart).subscribe(() => {
-        this.router.navigate(['/sidenavClient/shop-in-busines', business.Legal_Id]);
-      });
+    if (!currentClient) {
+      this.router.navigate(['/login']);
+      return;
     }
+    this.router.navigate(['/sidenavClient/shop-in-busines', business.Legal_Id]);
   }
 }

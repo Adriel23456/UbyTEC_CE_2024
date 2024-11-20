@@ -1816,16 +1816,17 @@ RETURN
 GO
 
 CREATE or ALTER FUNCTION dbo.ufn_GetLast10OrdersByClient(
-    @Client_Id BIGINT
+   @Client_Id BIGINT
 )
 RETURNS TABLE
 AS
 RETURN
 (
-    SELECT TOP 10 o.*
-    FROM [Order] o
-    WHERE o.Client_Id = @Client_Id
-    ORDER BY o.Code DESC
+   SELECT TOP 10 o.*
+   FROM [Order] o
+   WHERE o.Client_Id = @Client_Id
+   AND o.State = 'Finalizado'
+   ORDER BY o.Code DESC
 );
 GO
 

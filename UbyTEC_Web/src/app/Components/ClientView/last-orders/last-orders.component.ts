@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatCardModule} from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule} from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { OrderService } from '../../../Services/Order/order.service';
 import { FeedBackService } from '../../../Services/FeedBack/feed-back.service';
 import { ProductService } from '../../../Services/Product/product.service';
@@ -33,49 +33,41 @@ export class LastOrdersComponent {
     private productService: ProductService,
     private businessAssociateService: BusinessAssociateService,
     private extrasService: ExtrasService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.clientService.getAll().subscribe(clients => {
-      const currentClient = this.clientService.currentClientValue;
-      if (currentClient) {
-        this.currentClientId = currentClient.Id;
-      }
-  
-      this.extrasService.getLast10OrdersByClient(this.currentClientId).subscribe(lastOrdersTotal => {
-        this.lastOrders = [];
-  
-        // Iteramos sobre las órdenes y obtenemos el nombre del comercio
-        lastOrdersTotal.forEach(order => {
-          this.orderService.getProductsByCode(order.Code).subscribe(products => {
-            // Filtramos el producto que coincide con el código de la orden
-            const product = products.find(p => p.Order_Code === order.Code);
-            if (product) {
-              const productCode = product.Product_Code;
-  
-              // Obtenemos el producto completo usando el Product_Code
-              this.productService.getByCode(productCode).subscribe(fullProduct => {
-                const legalId = fullProduct.BusinessAssociate_Legal_Id;
-                
-                // Obtenemos el comercio usando el BusinessAssociate_Legal_Id
-                this.businessAssociateService.getByLegalId(legalId).subscribe(businessAssociate => {
-                  
- 
-                  this.feedBackService.getById(order.Code).subscribe(feedback => {
-                   
-                    this.lastOrders.push({
-                      total: order.TotalService,
-                      feedbackB: feedback.FeedBack_Business, 
-                      feedbackO: feedback.FeedBack_Order, 
-                      feedbackD: feedback.FeedBack_DeliveryMan, 
-                      businessAName: businessAssociate.BusinessName
-                    });
+    const currentClient = this.clientService.currentClientValue;
+    if (!currentClient) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.currentClientId = currentClient.Id;
+    this.extrasService.getLast10OrdersByClient(this.currentClientId).subscribe(lastOrdersTotal => {
+      this.lastOrders = [];
+      lastOrdersTotal.forEach(order => {
+        this.orderService.getProductsByCode(order.Code).subscribe(products => {
+          const product = products.find(p => p.Order_Code === order.Code);
+          if (product) {
+            const productCode = product.Product_Code;
+
+            this.productService.getByCode(productCode).subscribe(fullProduct => {
+              const legalId = fullProduct.BusinessAssociate_Legal_Id;
+              
+              this.businessAssociateService.getByLegalId(legalId).subscribe(businessAssociate => {
+                this.feedBackService.getById(order.Code).subscribe(feedback => {
+                  this.lastOrders.push({
+                    total: order.TotalService,
+                    feedbackB: feedback.FeedBack_Business, 
+                    feedbackO: feedback.FeedBack_Order, 
+                    feedbackD: feedback.FeedBack_DeliveryMan, 
+                    businessAName: businessAssociate.BusinessName
                   });
                 });
               });
-            }
-          });
+            });
+          }
         });
       });
     });
