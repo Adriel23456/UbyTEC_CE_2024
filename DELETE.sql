@@ -44,7 +44,7 @@ IF LEN(@ProcedureSQL) > 0
 GO
 
 
--- Eliminar tablas en orden correcto considerando dependencias
+-- Eliminar tablas en orden correcto considerando dependencias (Ejecutarlo 2 veces para aplicacion completa)
 GO
 DECLARE @TableSQL NVARCHAR(MAX) = ''
 ;WITH RecursiveCTE AS (
