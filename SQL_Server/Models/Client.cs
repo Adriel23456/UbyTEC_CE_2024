@@ -25,7 +25,7 @@ namespace SQL_Server.Models
         public required string SecondSurname { get; set; }
 
         [BsonElement("FullName")]
-        public string? FullName { get; private set; } // Computed property
+        public string? FullName { get; set; } // Computed property
 
         [BsonElement("Province")]
         public required string Province { get; set; }
@@ -37,7 +37,7 @@ namespace SQL_Server.Models
         public required string District { get; set; }
 
         [BsonElement("Direction")]
-        public string? Direction { get; private set; } // Computed property
+        public string? Direction { get; set; } // Computed property
 
         [BsonElement("Password")]
         public required string Password { get; set; }

@@ -16,7 +16,7 @@ namespace SQL_Server.Models
         public required string Name { get; set; }
 
         [BsonElement("Price")]
-        public required string Price { get; set; }
+        public required decimal Price { get; set; }
 
         [BsonElement("Category")]
         public required string Category { get; set; }

@@ -15,7 +15,7 @@ namespace SQL_Server.ServicesMongo
             _businessAssociateCollection = mongoDatabase.GetCollection<BusinessAssociate>(configuration["MongoDB:Collections:BusinessAssociate"]);
         }
 
-        public async Task<List<BusinessAssociate>> GetAllBusinessAssociateAsync()
+        public async Task<List<BusinessAssociate>> GetAllBusinessAssociatesAsync()
         {
             return await _businessAssociateCollection.Find(_ => true).ToListAsync();
         }

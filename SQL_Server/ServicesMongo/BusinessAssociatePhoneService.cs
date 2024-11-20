@@ -12,10 +12,10 @@ namespace SQL_Server.ServicesMongo
         {
             var mongoClient = new MongoClient(configuration["MongoDB:ConnectionString"]);
             var mongoDatabase = mongoClient.GetDatabase(configuration["MongoDB:DatabaseName"]);
-            _businessAssociatePhoneCollection = mongoDatabase.GetCollection<BusinessAssociatePhone>(configuration["MongoDB:Collections:BusinessAssociate"]);
+            _businessAssociatePhoneCollection = mongoDatabase.GetCollection<BusinessAssociatePhone>(configuration["MongoDB:Collections:BusinessAssociatePhone"]);
         }
 
-        public async Task<List<BusinessAssociatePhone>> GetAllBusinessAssociatePhoneAsync()
+        public async Task<List<BusinessAssociatePhone>> GetAllBusinessAssociatesPhonesAsync()
         {
             return await _businessAssociatePhoneCollection.Find(_ => true).ToListAsync();
         }

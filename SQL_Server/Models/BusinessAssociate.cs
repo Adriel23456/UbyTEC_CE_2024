@@ -22,7 +22,7 @@ namespace SQL_Server.Models
         public required string BusinessName { get; set; }
 
         [BsonElement("Direction")]
-        public string? Direction { get; private set; } // Computed property
+        public string? Direction { get;  set; } // Computed property
 
         [BsonElement("Province")]
         public required string Province { get; set; }
