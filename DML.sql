@@ -68,11 +68,11 @@ VALUES
 -- Insertar Clients
 INSERT INTO [Client] ([Id], [UserId], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [Password], [Phone], [BirthDate])
 VALUES
-(2001, 'client1', 'Patricia', 'Méndez', 'Araya', 'San José', 'Montes de Oca', 'San Pedro', 'pass301', 66661111, '1990-05-15'),
-(2002, 'client2', 'Fernando', 'Bonilla', 'Chaves', 'Alajuela', 'Atenas', 'Central', 'pass302', 66662222, '1988-08-22'),
-(2003, 'client3', 'Carmen', 'Villalobos', 'Pérez', 'Cartago', 'Paraíso', 'Central', 'pass303', 66663333, '1995-03-10'),
-(2004, 'client4', 'Andrés', 'Molina', 'Sáenz', 'Heredia', 'Belén', 'San Antonio', 'pass304', 66664444, '1992-11-28'),
-(2005, 'client5', 'Lucía', 'Cordero', 'Mata', 'San José', 'Moravia', 'San Vicente', 'pass305', 66665555, '1993-07-19');
+(2001, 'client1', 'Patricia', 'Méndez', 'Araya', 'San José', 'Montes de Oca', 'San Pedro', 'pass301', 66661111, '15-05-1990'),
+(2002, 'client2', 'Fernando', 'Bonilla', 'Chaves', 'Alajuela', 'Atenas', 'Central', 'pass302', 66662222, '22-08-1988'),
+(2003, 'client3', 'Carmen', 'Villalobos', 'Pérez', 'Cartago', 'Paraíso', 'Central', 'pass303', 66663333, '10-03-1995'),
+(2004, 'client4', 'Andrés', 'Molina', 'Sáenz', 'Heredia', 'Belén', 'San Antonio', 'pass304', 66664444, '28-11-1992'),
+(2005, 'client5', 'Lucía', 'Cordero', 'Mata', 'San José', 'Moravia', 'San Vicente', 'pass305', 66665555, '19-07-1993');
 
 -- Insertar BusinessManager
 INSERT INTO [BusinessManager] ([Email], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [UserId], [Password])
