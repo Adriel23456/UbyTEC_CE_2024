@@ -1,27 +1,21 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class Order_Product
     {
-        [Key, Column(Order = 0)]
-        [ForeignKey("Order")]
-        public required long Order_Code { get; set; } // PK, FK to Order.Code
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Key, Column(Order = 1)]
-        [ForeignKey("Product")]
-        public required long Product_Code { get; set; } // PK, FK to Product.Code
+        [BsonElement("Order_Code")]
+        public required string Order_Code { get; set; } // Original PK
 
-        [Required]
-        public long Amount { get; set; } // Starts at 1, assigned automatically
+        [BsonElement("Product_Code")]
+        public required string Product_Code { get; set; } // Original PK
 
-        // Navigation properties
-        [JsonIgnore]
-        public Order? Order { get; set; }
-
-        [JsonIgnore]
-        public Product? Product { get; set; }
+        [BsonElement("Amount")]
+        public string Amount { get; set; } // Starts at 1
     }
 }

@@ -1,48 +1,46 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class Admin
     {
-        [Key]
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public required long Id { get; set; } // Número de cédula del admin
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Required]
+        [BsonElement("Id")]
+        public required string Id { get; set; } // Número de cédula del admin
+
+        [BsonElement("Name")]
         public required string Name { get; set; }
 
-        [Required]
+        [BsonElement("FirstSurname")]
         public required string FirstSurname { get; set; }
 
-        [Required]
+        [BsonElement("SecondSurname")]
         public required string SecondSurname { get; set; }
 
-        [Required]
-        public string? FullName { get; private set; } //Atributo compuesto set privado y puede ser nulo
+        [BsonElement("FullName")]
+        public string? FullName { get; private set; } // Atributo compuesto set privado y puede ser nulo
 
-        [Required]
+        [BsonElement("Province")]
         public required string Province { get; set; }
 
-        [Required]
+        [BsonElement("Canton")]
         public required string Canton { get; set; }
 
-        [Required]
+        [BsonElement("District")]
         public required string District { get; set; }
 
-        [Required]
-        public string? Direction { get; private set; }  //Atributo compuesto set privado y puede ser nulo
+        [BsonElement("Direction")]
+        public string? Direction { get; private set; } // Atributo compuesto set privado y puede ser nulo
 
-        [Required]
+        [BsonElement("UserId")]
         public required string UserId { get; set; }
 
-        [Required]
+        [BsonElement("Password")]
         public required string Password { get; set; }
 
-        // Propiedades de Navegación:
-        [JsonIgnore]
-        public ICollection<AdminPhone> AdminPhones { get; set; } = new List<AdminPhone>();
     }
 }

@@ -1,9 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SQL_Server.Data;
 using SQL_Server.DTOs;
-using Microsoft.Data.SqlClient;
+using SQL_Server.ServicesMongo;
+using SQL_Server.Models;
 
 namespace SQL_Server.Controllers
 {
@@ -11,175 +10,106 @@ namespace SQL_Server.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly AdminService _mongoDbService;
 
-        public AdminController(ApplicationDbContext context, IMapper mapper)
+        public AdminController(AdminService mongoDbService)
         {
-            _context = context;
-            _mapper = mapper;
+            _mongoDbService = mongoDbService;
         }
 
         // GET: api/Admin
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AdminDTO>>> GetAdmins()
+        public async Task<ActionResult<IEnumerable<Admin>>> GetMongoAdmins()
         {
-            var admins = await _context.Admin
-                .FromSqlRaw("EXEC sp_GetAllAdmins")
-                .ToListAsync();
+            var mongoAdmins = await _mongoDbService.GetAllAdminsAsync();
 
-            return _mapper.Map<List<AdminDTO>>(admins);
+            if (mongoAdmins == null || !mongoAdmins.Any())
+            {
+                return NotFound(new { message = "No admins found in the MongoDB database." });
+            }
+
+            return Ok(mongoAdmins);
         }
 
         // GET: api/Admin/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<AdminDTO>> GetAdmin(long id)
+        public async Task<ActionResult<Admin>> GetAdmin(string id)
         {
-            var admins = await _context.Admin
-                .FromSqlRaw("EXEC sp_GetAdminById @Id = {0}", id)
-                .ToListAsync();
-
-            var admin = admins.FirstOrDefault();
-
+            var admin = await _mongoDbService.GetAdminByIdAsync(id);
             if (admin == null)
             {
                 return NotFound(new { message = $"Admin with Id {id} not found." });
             }
 
-            return _mapper.Map<AdminDTO>(admin);
+            return Ok(admin);
         }
 
         // POST: api/Admin
         [HttpPost]
-        public async Task<ActionResult<AdminDTO>> PostAdmin(AdminDTO_Create adminDtoCreate)
-        {
-            // Validación
-            if (await _context.Admin.AnyAsync(a => a.Id == adminDtoCreate.Id))
+        public async Task<ActionResult<AdminDTO>> PostAdmin(AdminDTO adminDto)
+        {   
+            string adminIdAsString = (adminDto.Id).ToString();
+            var existingAdmin = await _mongoDbService.GetAdminByIdAsync(adminDto.Id.ToString());
+            if (existingAdmin != null)
             {
-                return Conflict(new { message = $"An Admin with Id {adminDtoCreate.Id} already exists." });
+                return Conflict(new { message = $"Admin with Id '{adminDto.Id}' already exists." });
             }
 
-            if (await _context.Admin.AnyAsync(a => a.UserId == adminDtoCreate.UserId))
+            var newAdmin = new Admin
             {
-                return Conflict(new { message = $"The UserId '{adminDtoCreate.UserId}' is already in use." });
-            }
-
-            // Llamada al Stored Procedure
-            var parameters = new[]
-            {
-                new SqlParameter("@Id", adminDtoCreate.Id),
-                new SqlParameter("@Name", adminDtoCreate.Name),
-                new SqlParameter("@FirstSurname", adminDtoCreate.FirstSurname),
-                new SqlParameter("@SecondSurname", adminDtoCreate.SecondSurname),
-                new SqlParameter("@Province", adminDtoCreate.Province),
-                new SqlParameter("@Canton", adminDtoCreate.Canton),
-                new SqlParameter("@District", adminDtoCreate.District),
-                new SqlParameter("@UserId", adminDtoCreate.UserId),
-                new SqlParameter("@Password", adminDtoCreate.Password)
+                Id = adminIdAsString,
+                Name = adminDto.Name,
+                FirstSurname = adminDto.FirstSurname,
+                SecondSurname = adminDto.SecondSurname,
+                Province = adminDto.Province,
+                Canton = adminDto.Canton,
+                District = adminDto.District,
+                UserId = adminDto.UserId,
+                Password = adminDto.Password
             };
 
-            await _context.Database.ExecuteSqlRawAsync("EXEC sp_CreateAdmin @Id, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @UserId, @Password", parameters);
+            await _mongoDbService.AddAdminAsync(newAdmin);
 
-            var admins = await _context.Admin
-                .FromSqlRaw("EXEC sp_GetAdminById @Id = {0}", adminDtoCreate.Id)
-                .ToListAsync();
-
-            var admin = admins.FirstOrDefault();
-
-            var createdAdminDto = _mapper.Map<AdminDTO>(admin);
-
-            return CreatedAtAction(nameof(GetAdmin), new { id = admin?.Id }, createdAdminDto);
+            return CreatedAtAction(nameof(GetAdmin), new { id = adminDto.Id }, adminDto);
         }
 
         // PUT: api/Admin/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAdmin(long id, AdminDTO_Update adminDtoUpdate)
+        public async Task<IActionResult> PutAdmin(string id, AdminDTO adminDtoUpdate)
         {
-            // Verificar si el Admin existe
-            var adminExists = await _context.Admin.AnyAsync(a => a.Id == id);
-
-            if (!adminExists)
+            var existingAdmin = await _mongoDbService.GetAdminByIdAsync(id);
+            if (existingAdmin == null)
             {
-                return NotFound(new { message = $"Admin with Id {id} not found." });
+                return NotFound(new { message = $"Admin with Id '{id}' not found." });
             }
 
-            // Verificar si el nuevo UserId ya está en uso por otro Admin
-            if (await _context.Admin.AnyAsync(a => a.UserId == adminDtoUpdate.UserId && a.Id != id))
-            {
-                return Conflict(new { message = $"The UserId '{adminDtoUpdate.UserId}' is already in use." });
-            }
+            existingAdmin.Name = adminDtoUpdate.Name;
+            existingAdmin.FirstSurname = adminDtoUpdate.FirstSurname;
+            existingAdmin.SecondSurname = adminDtoUpdate.SecondSurname;
+            existingAdmin.Province = adminDtoUpdate.Province;
+            existingAdmin.Canton = adminDtoUpdate.Canton;
+            existingAdmin.District = adminDtoUpdate.District;
+            existingAdmin.UserId = adminDtoUpdate.UserId;
+            existingAdmin.Password = adminDtoUpdate.Password;
 
-            // Llamada al Stored Procedure
-            var parameters = new[]
-            {
-                new SqlParameter("@Id", id),
-                new SqlParameter("@Name", adminDtoUpdate.Name),
-                new SqlParameter("@FirstSurname", adminDtoUpdate.FirstSurname),
-                new SqlParameter("@SecondSurname", adminDtoUpdate.SecondSurname),
-                new SqlParameter("@Province", adminDtoUpdate.Province),
-                new SqlParameter("@Canton", adminDtoUpdate.Canton),
-                new SqlParameter("@District", adminDtoUpdate.District),
-                new SqlParameter("@UserId", adminDtoUpdate.UserId),
-                new SqlParameter("@Password", adminDtoUpdate.Password)
-            };
-
-            await _context.Database.ExecuteSqlRawAsync("EXEC sp_UpdateAdmin @Id, @Name, @FirstSurname, @SecondSurname, @Province, @Canton, @District, @UserId, @Password", parameters);
+            await _mongoDbService.UpdateAdminAsync(id, existingAdmin);
 
             return NoContent();
         }
 
         // DELETE: api/Admin/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAdmin(long id)
+        public async Task<IActionResult> DeleteAdmin(string id)
         {
-            // Verificar si el Admin existe
-            var adminExists = await _context.Admin.AnyAsync(a => a.Id == id);
-
-            if (!adminExists)
+            var existingAdmin = await _mongoDbService.GetAdminByIdAsync(id);
+            if (existingAdmin == null)
             {
-                return NotFound(new { message = $"Admin with Id {id} not found." });
+                return NotFound(new { message = $"Admin with Id '{id}' not found." });
             }
 
-            // Llamada al Stored Procedure
-            await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteAdmin @Id = {0}", id);
+            await _mongoDbService.DeleteAdminAsync(id);
 
             return NoContent();
-        }
-
-        // POST: api/Admin/Authenticate
-        [HttpPost("Authenticate")]
-        public async Task<ActionResult<AdminDTO>> Authenticate(AdminDTO_Login loginDto)
-        {
-            // Call the stored procedure
-            var parameters = new[]
-            {
-                new SqlParameter("@UserId", loginDto.UserId),
-                new SqlParameter("@Password", loginDto.Password)
-            };
-
-            var admins = await _context.Admin
-                .FromSqlRaw("EXEC sp_AuthenticateAdmin @UserId, @Password", parameters)
-                .ToListAsync();
-
-            var admin = admins.FirstOrDefault();
-
-            if (admin == null)
-            {
-                // Check if UserId exists
-                var userIdExists = await _context.Admin.AnyAsync(a => a.UserId == loginDto.UserId);
-                if (!userIdExists)
-                {
-                    return NotFound(new { message = $"UserId '{loginDto.UserId}' not found." });
-                }
-                else
-                {
-                    return Unauthorized(new { message = "Incorrect password." });
-                }
-            }
-
-            var adminDto = _mapper.Map<AdminDTO>(admin);
-
-            return Ok(adminDto);
         }
     }
 }

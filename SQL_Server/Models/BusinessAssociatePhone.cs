@@ -1,22 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class BusinessAssociatePhone
     {
-        [ForeignKey("BusinessAssociate")]
-        [Key]
-        [Required]
-        public required long BusinessAssociate_Legal_Id { get; set; } // PK, FK to BusinessAssociate.Legal_Id
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Key]
-        [Required]
-        public required long Phone { get; set; } // PK
+        [BsonElement("BusinessAssociate_Legal_Id")]
+        public required string BusinessAssociate_Legal_Id { get; set; }
 
-        // Navigation property
-        [JsonIgnore]
-        public BusinessAssociate? BusinessAssociate { get; set; }
+        [BsonElement("Phone")]
+        public required long Phone { get; set; }
     }
 }

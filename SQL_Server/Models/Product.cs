@@ -1,38 +1,28 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class Product
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Auto-generated
-        public long Code { get; set; } // PK
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Required]
+        [BsonElement("Code")]
+        public string Code { get; set; } // Original PK
+
+        [BsonElement("Name")]
         public required string Name { get; set; }
 
-        [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public required decimal Price { get; set; }
+        [BsonElement("Price")]
+        public required string Price { get; set; }
 
-        [Required]
+        [BsonElement("Category")]
         public required string Category { get; set; }
 
-        [Required]
-        [ForeignKey("BusinessAssociate")]
-        public required long BusinessAssociate_Legal_Id { get; set; } // FK to BusinessAssociate.Legal_Id
+        [BsonElement("BusinessAssociate_Legal_Id")]
+        public required string BusinessAssociate_Legal_Id { get; set; }
 
-        // Navigation properties
-        [JsonIgnore]
-        public BusinessAssociate? BusinessAssociate { get; set; }
-
-        [JsonIgnore]
-        public ICollection<ProductPhoto> ProductPhotos { get; set; } = new List<ProductPhoto>();
-        [JsonIgnore]
-        public ICollection<Cart_Product> Cart_Products { get; set; } = new List<Cart_Product>();
-        [JsonIgnore]
-        public ICollection<Order_Product> Order_Products { get; set; } = new List<Order_Product>();
     }
 }

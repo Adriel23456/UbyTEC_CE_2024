@@ -1,56 +1,42 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
-    public class FeedBack
+    public class Feedback
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long? Id { get; set; } // PK, auto-generated
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id { get; set; } // MongoDB auto-generated ID
 
-        [Required]
-        public required string FeedBack_Business { get; set; }
+        [BsonElement("Id_SQL")]
+        public string Id_SQL {get;set;} //id en la base sql
+        
+        [BsonElement("FeedBack_Business")]
+        public string FeedBack_Business { get; set; } = string.Empty;
 
-        [Required]
-        [Range(0, 5)]
-        public required double BusinessGrade { get; set; } // Must be between 0-5
+        [BsonElement("BusinessGrade")]
+        public double BusinessGrade { get; set; } // Must be between 0-5
 
-        [Required]
-        public required string FeedBack_Order { get; set; }
+        [BsonElement("FeedBack_Order")]
+        public string FeedBack_Order { get; set; } = string.Empty;
 
-        [Required]
-        [Range(0, 5)]
-        public required double OrderGrade { get; set; } // Must be between 0-5
+        [BsonElement("OrderGrade")]
+        public double OrderGrade { get; set; } // Must be between 0-5
 
-        [Required]
-        public required string FeedBack_DeliveryMan { get; set; }
+        [BsonElement("FeedBack_DeliveryMan")]
+        public string FeedBack_DeliveryMan { get; set; } = string.Empty;
 
-        [Required]
-        [Range(0, 5)]
-        public required double DeliveryManGrade { get; set; } // Must be between 0-5
+        [BsonElement("DeliveryManGrade")]
+        public double DeliveryManGrade { get; set; } // Must be between 0-5
 
-        [Required]
-        [ForeignKey("FoodDeliveryMan")]
-        public required string FoodDeliveryMan_UserId { get; set; } // FK to FoodDeliveryMan.UserId
+        [BsonElement("FoodDeliveryMan_UserId")]
+        public string FoodDeliveryMan_UserId { get; set; } = string.Empty; // Reference to DeliveryMan
 
-        [Required]
-        [ForeignKey("Order")]
-        public required long Order_Code { get; set; } // FK to Order.Code
+        [BsonElement("Order_Code")]
+        public long Order_Code { get; set; } // Reference to Order
 
-        [Required]
-        [ForeignKey("BusinessAssociate")]
-        public required long BusinessAssociate_Legal_Id { get; set; } // FK to BusinessAssociate.Legal_Id
-
-        // Navigation properties
-        [JsonIgnore]
-        public FoodDeliveryMan? FoodDeliveryMan { get; set; }
-
-        [JsonIgnore]
-        public Order? Order { get; set; }
-
-        [JsonIgnore]
-        public BusinessAssociate? BusinessAssociate { get; set; }
+        [BsonElement("BusinessAssociate_Legal_Id")]
+        public long BusinessAssociate_Legal_Id { get; set; } // Reference to BusinessAssociate
     }
 }

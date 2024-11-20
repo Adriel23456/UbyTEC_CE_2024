@@ -1,63 +1,48 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class BusinessAssociate
     {
-        [Key]
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public required long Legal_Id { get; set; } // PK
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Required]
-        [EmailAddress]
+        [BsonElement("Legal_Id")]
+        public required string Legal_Id { get; set; }
+
+        [BsonElement("Email")]
         public required string Email { get; set; }
 
-        [Required]
-        [RegularExpression("Aceptado|En espera|Rechazado", ErrorMessage = "State must be 'Aceptado', 'En espera', or 'Rechazado'")]
+        [BsonElement("State")]
         public required string State { get; set; }
 
-        [Required]
+        [BsonElement("BusinessName")]
         public required string BusinessName { get; set; }
 
+        [BsonElement("Direction")]
         public string? Direction { get; private set; } // Computed property
 
-        [Required]
+        [BsonElement("Province")]
         public required string Province { get; set; }
 
-        [Required]
+        [BsonElement("Canton")]
         public required string Canton { get; set; }
 
-        [Required]
+        [BsonElement("District")]
         public required string District { get; set; }
 
-        [Required]
+        [BsonElement("SINPE")]
         public required long SINPE { get; set; }
 
+        [BsonElement("RejectReason")]
         public string? RejectReason { get; set; }
 
-        [Required]
-        [ForeignKey("BusinessManager")]
-        public required string BusinessManager_Email { get; set; } // FK to BusinessManager.Email
+        [BsonElement("BusinessManager_Email")]
+        public required string BusinessManager_Email { get; set; }
 
-        [Required]
-        [ForeignKey("BusinessType")]
-        public required long BusinessType_Identification { get; set; } // FK to BusinessType.Identification
-
-        // Navigation properties
-        [JsonIgnore]
-        public BusinessManager? BusinessManager { get; set; }
-
-        [JsonIgnore]
-        public BusinessType? BusinessType { get; set; }
-
-        [JsonIgnore]
-        public ICollection<BusinessAssociatePhone> BusinessAssociatePhones { get; set; } = new List<BusinessAssociatePhone>();
-        [JsonIgnore]
-        public ICollection<Product> Products { get; set; } = new List<Product>();
-        [JsonIgnore]
-        public ICollection<FeedBack> FeedBacks { get; set; } = new List<FeedBack>();
+        [BsonElement("BusinessType_Identification")]
+        public required long BusinessType_Identification { get; set; }
     }
 }

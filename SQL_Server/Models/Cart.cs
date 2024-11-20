@@ -1,29 +1,25 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class Cart
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Code { get; set; } // PK, auto-generated
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        public long? BusinessAssociate_Legal_Id { get; set; } // Assigned automatically
+        [BsonElement("Code")]
+        public string Code { get; set; } // Original PK
 
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal? TotalProductsPrice { get; set; } // Assigned automatically
+        [BsonElement("BusinessAssociate_Legal_Id")]
+        public string? BusinessAssociate_Legal_Id { get; set; }
 
-        [Required]
-        [ForeignKey("Client")]
-        public required long Client_Id { get; set; } // FK to Client.Id
+        [BsonElement("TotalProductsPrice")]
+        public decimal? TotalProductsPrice { get; set; }
 
-        // Navigation properties
-        [JsonIgnore]
-        public Client? Client { get; set; }
+        [BsonElement("Client_Id")]
+        public required string Client_Id { get; set; }
 
-        [JsonIgnore]
-        public ICollection<Cart_Product> Cart_Products { get; set; } = new List<Cart_Product>();
     }
 }

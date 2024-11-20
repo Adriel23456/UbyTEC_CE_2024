@@ -22,12 +22,27 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNamingPolicy = null; // Mantener PascalCase
     });
 
-// Configurar la cadena de conexión a Microsoft SQL Server
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 //Configurar Mongo
-builder.Services.AddSingleton<MongoDbService>();
+// Configurar Mongo
+builder.Services.AddSingleton<AdminPhoneService>();
+builder.Services.AddSingleton<AdminService>();
+builder.Services.AddSingleton<BusinessAssociateService>();
+builder.Services.AddSingleton<BusinessAssociatePhoneService>();
+builder.Services.AddSingleton<BusinessManagerPhoneService>();
+builder.Services.AddSingleton<BusinessManagerService>();
+builder.Services.AddSingleton<BusinessTypeService>();
+builder.Services.AddSingleton<CartService>();
+builder.Services.AddSingleton<Cart_ProductService>();
+builder.Services.AddSingleton<ClientService>();
+builder.Services.AddSingleton<FeedbackService>();
+builder.Services.AddSingleton<FoodDeliveryManPhoneService>();
+builder.Services.AddSingleton<FoodDeliveryManService>();
+builder.Services.AddSingleton<OrderProductService>();
+builder.Services.AddSingleton<OrderService>();
+builder.Services.AddSingleton<ProductPhotoService>();
+builder.Services.AddSingleton<ProductService>();
+builder.Services.AddSingleton<ProofOfPaymentService>();
+
 
 // Configurar CORS
 builder.Services.AddCors(options =>

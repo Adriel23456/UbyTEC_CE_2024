@@ -1,9 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SQL_Server.Data;
 using SQL_Server.DTOs;
-using Microsoft.Data.SqlClient;
+using SQL_Server.ServicesMongo;
+using SQL_Server.Models;
 
 namespace SQL_Server.Controllers
 {
@@ -11,140 +11,87 @@ namespace SQL_Server.Controllers
     [ApiController]
     public class AdminPhoneController : ControllerBase
     {
+        private readonly AdminPhoneService _mongoDbService;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public AdminPhoneController(ApplicationDbContext context, IMapper mapper)
+        public AdminPhoneController(ApplicationDbContext context, IMapper mapper, AdminPhoneService mongoDbService)
         {
             _context = context;
             _mapper = mapper;
+            _mongoDbService = mongoDbService;
         }
 
         // GET: api/AdminPhone
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetAdminPhones()
+        public async Task<ActionResult<IEnumerable<AdminPhone>>> GetMongoAdminPhones()
         {
-            var adminPhones = await _context.AdminPhone
-                .FromSqlRaw("EXEC sp_GetAllAdminPhones")
-                .ToListAsync();
+            var mongoAdminPhones = await _mongoDbService.GetAllAdminPhonesAsync();
 
-            return _mapper.Map<List<AdminPhoneDTO>>(adminPhones);
-        }
-
-        // GET: api/AdminPhone/{admin_id}/Phones
-        [HttpGet("{admin_id}/Phones")]
-        public async Task<ActionResult<IEnumerable<AdminPhoneDTO>>> GetPhonesByAdminId(long admin_id)
-        {
-            // Verificar si el Admin existe
-            var adminExists = await _context.Admin.AnyAsync(a => a.Id == admin_id);
-            if (!adminExists)
+            if (mongoAdminPhones == null || !mongoAdminPhones.Any())
             {
-                return NotFound(new { message = $"Admin with Id {admin_id} not found." });
+                return NotFound(new { message = "No admin phones found in the MongoDB database." });
             }
 
-            // Llamada al Stored Procedure
-            var adminPhones = await _context.AdminPhone
-                .FromSqlRaw("EXEC sp_GetAdminPhonesByAdminId @Admin_id = {0}", admin_id)
-                .ToListAsync();
+            return Ok(mongoAdminPhones);
+        }
 
-            var adminPhoneDtos = _mapper.Map<List<AdminPhoneDTO>>(adminPhones);
+        // GET: api/AdminPhone/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Feedback>> GetFeedBack(string id)
+        {
+            var adminPhone = await _mongoDbService.GetAdminPhoneByIdAsync(id);
+            if (adminPhone == null)
+            {
+                return NotFound(new { message = $"FeedBack with Id {id} not found." });
+            }
 
-            return Ok(adminPhoneDtos);
+            return Ok(adminPhone);
         }
 
         // POST: api/AdminPhone
         [HttpPost]
         public async Task<ActionResult<AdminPhoneDTO>> PostAdminPhone(AdminPhoneDTO adminPhoneDto)
         {
-            // Validación
-            if (await _context.AdminPhone.AnyAsync(ap => ap.Admin_id == adminPhoneDto.Admin_id && ap.Phone == adminPhoneDto.Phone))
+            string adminIdAsString = (adminPhoneDto.Admin_id).ToString();
+            var newAdminPhone = new AdminPhone
             {
-                return Conflict(new { message = $"An AdminPhone with Admin_id {adminPhoneDto.Admin_id} and Phone {adminPhoneDto.Phone} already exists." });
-            }
-
-            // Verificar si el Admin_id existe
-            var adminExists = await _context.Admin.AnyAsync(a => a.Id == adminPhoneDto.Admin_id);
-            if (!adminExists)
-            {
-                return BadRequest(new { message = $"Admin with Id {adminPhoneDto.Admin_id} does not exist." });
-            }
-
-            // Llamada al Stored Procedure
-            var parameters = new[]
-            {
-                new SqlParameter("@Admin_id", adminPhoneDto.Admin_id),
-                new SqlParameter("@Phone", adminPhoneDto.Phone)
+                Admin_id = adminIdAsString,
+                Phone = adminPhoneDto.Phone
             };
 
-            await _context.Database.ExecuteSqlRawAsync("EXEC sp_CreateAdminPhone @Admin_id, @Phone", parameters);
+            await _mongoDbService.AddAdminPhoneAsync(newAdminPhone);
 
-            // Obtener el adminPhone recién creado
-            var adminPhones = await _context.AdminPhone
-                .FromSqlRaw("SELECT * FROM [AdminPhone] WHERE [Admin_id] = {0} AND [Phone] = {1}", adminPhoneDto.Admin_id, adminPhoneDto.Phone)
-                .ToListAsync();
-
-            var adminPhone = adminPhones.FirstOrDefault();
-
-            var createdAdminPhoneDto = _mapper.Map<AdminPhoneDTO>(adminPhone);
-
-            return CreatedAtAction(nameof(GetPhonesByAdminId), new { admin_id = adminPhone?.Admin_id }, createdAdminPhoneDto);
+            return Ok(adminPhoneDto);
         }
 
-        // PUT: api/AdminPhone/{admin_id}/{phone}
-        [HttpPut("{admin_id}/{phone}")]
-        public async Task<IActionResult> PutAdminPhone(long admin_id, long phone, AdminPhoneDTO_Update adminPhoneDtoUpdate)
+        // PUT: api/AdminPhone/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAdminPhone(string id, AdminPhoneDTO adminPhoneDtoUpdate)
         {
-            // Verificar si la entidad actual existe
-            var adminPhoneExists = await _context.AdminPhone
-                .AnyAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
-
-            if (!adminPhoneExists)
+            
+            AdminPhone originalBson = await _mongoDbService.GetAdminPhoneByIdAsync(id);
+            if (originalBson == null)
             {
-                return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {phone} not found." });
+                return NotFound(new { message = $"AdminPhone with Id '{id}' not found." });
             }
+            originalBson.Phone = adminPhoneDtoUpdate.Phone;
 
-            long newPhone = adminPhoneDtoUpdate.Phone;
-
-            // Si el nuevo Phone es igual al existente, no hay nada que actualizar
-            if (newPhone == phone)
-            {
-                return NoContent();
-            }
-
-            // Verificar si ya existe una entidad con el nuevo Phone para el mismo Admin_id
-            if (await _context.AdminPhone.AnyAsync(ap => ap.Admin_id == admin_id && ap.Phone == newPhone))
-            {
-                return Conflict(new { message = $"An AdminPhone with Admin_id {admin_id} and Phone {newPhone} already exists." });
-            }
-
-            // Llamada al Stored Procedure
-            var parameters = new[]
-            {
-                new SqlParameter("@Admin_id", admin_id),
-                new SqlParameter("@OldPhone", phone),
-                new SqlParameter("@NewPhone", newPhone)
-            };
-
-            await _context.Database.ExecuteSqlRawAsync("EXEC sp_UpdateAdminPhone @Admin_id, @OldPhone, @NewPhone", parameters);
+            await _mongoDbService.UpdateAdminPhoneAsync(id, originalBson);
 
             return NoContent();
         }
 
-        // DELETE: api/AdminPhone/{admin_id}/{phone}
-        [HttpDelete("{admin_id}/{phone}")]
-        public async Task<IActionResult> DeleteAdminPhone(long admin_id, long phone)
+        // DELETE: api/AdminPhone/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAdminPhone(string id)
         {
-            // Verificar si la entidad actual existe
-            var adminPhoneExists = await _context.AdminPhone
-                .AnyAsync(ap => ap.Admin_id == admin_id && ap.Phone == phone);
-
-            if (!adminPhoneExists)
+            AdminPhone originalBson = await _mongoDbService.GetAdminPhoneByIdAsync(id);
+            if (originalBson == null)
             {
-                return NotFound(new { message = $"AdminPhone with Admin_id {admin_id} and Phone {phone} not found." });
+                return NotFound(new { message = $"AdminPhone with Id '{id}' not found." });
             }
-
-            // Llamada al Stored Procedure
-            await _context.Database.ExecuteSqlRawAsync("EXEC sp_DeleteAdminPhone @Admin_id = {0}, @Phone = {1}", admin_id, phone);
+            await _mongoDbService.DeleteAdminPhoneAsync(id);
 
             return NoContent();
         }

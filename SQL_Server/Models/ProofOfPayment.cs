@@ -1,42 +1,39 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class ProofOfPayment
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long? Code { get; set; } // PK, auto-generated
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Required]
+        [BsonElement("Code")]
+        public string? Code { get; set; } // Original PK
+
+        [BsonElement("CreditCardName")]
         public required string CreditCardName { get; set; }
 
-        [Required]
+        [BsonElement("LastDigitsCreditCard")]
         public required long LastDigitsCreditCard { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
+        [BsonElement("TotalPayment")]
         public decimal? TotalPayment { get; set; } // Assigned automatically
 
-        [Required]
-        [RegularExpression(@"\d{2}-\d{2}-\d{4}", ErrorMessage = "Date must be in the format dd-mm-yyyy")]
+        [BsonElement("Date")]
         public required string Date { get; set; } // Format "dd-mm-yyyy"
 
-        [Required]
-        [RegularExpression(@"\d{2}:\d{2}", ErrorMessage = "Time must be in the format mm:hh")]
+        [BsonElement("Time")]
         public required string Time { get; set; } // Format "mm:hh"
 
-        public string? ClientFullName { get; set; } // Assigned automatically
+        [BsonElement("ClientFullName")]
+        public string? ClientFullName { get; set; }
 
-        public long? ClientPhone { get; set; } // Assigned automatically
+        [BsonElement("ClientPhone")]
+        public long? ClientPhone { get; set; }
 
-        [Required]
-        [ForeignKey("Order")]
-        public required long Order_Code { get; set; } // FK to Order.Code
-
-        // Navigation property
-        [JsonIgnore]
-        public Order? Order { get; set; }
+        [BsonElement("Order_Code")]
+        public required string Order_Code { get; set; }
     }
 }

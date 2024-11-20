@@ -1,22 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class FoodDeliveryManPhone
     {
-        [ForeignKey("FoodDeliveryMan")]
-        [Key]
-        [Required]
-        public required string FoodDeliveryMan_UserId { get; set; } // PK, FK to FoodDeliveryMan.UserId
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Key]
-        [Required]
-        public required long Phone { get; set; } // PK
+        [BsonElement("FoodDeliveryMan_UserId")]
+        public required string FoodDeliveryMan_UserId { get; set; } // Original PK
 
-        // Navigation property
-        [JsonIgnore]
-        public FoodDeliveryMan? FoodDeliveryMan { get; set; }
+        [BsonElement("Phone")]
+        public required long Phone { get; set; } // Original PK
     }
 }

@@ -1,21 +1,19 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class BusinessType
     {
-        [Key]
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Auto-generated
-        public long? Identification { get; set; } // PK
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Required]
+        [BsonElement("Identification")]
+        public string? Identification { get; set; } // Original PK
+
+        [BsonElement("Name")]
         public required string Name { get; set; } // Unique
 
-        // Navigation property
-        [JsonIgnore]
-        public ICollection<BusinessAssociate> BusinessAssociates { get; set; } = new List<BusinessAssociate>();
     }
 }

@@ -1,22 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class ProductPhoto
     {
-        [ForeignKey("Product")]
-        [Key]
-        [Required]
-        public required long Product_Code { get; set; } // PK, FK to Product.Code
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Key]
-        [Required]
-        public required string PhotoURL { get; set; } // PK
+        [BsonElement("Product_Code")]
+        public required string Product_Code { get; set; } // Original PK
 
-        // Navigation property
-        [JsonIgnore]
-        public Product? Product { get; set; }
+        [BsonElement("PhotoURL")]
+        public required string PhotoURL { get; set; } // Original PK
     }
 }

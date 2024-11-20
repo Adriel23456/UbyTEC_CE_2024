@@ -1,22 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class AdminPhone
     {
-        [ForeignKey("Admin")]
-        [Key]
-        [Required]
-        public required long Admin_id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Key]
-        [Required]
+        [BsonElement("Admin_Id")]
+        public required string Admin_id { get; set; }
+
+        [BsonElement("Phone")]
         public required long Phone { get; set; }
-
-        // Propiedades de Navegación:
-        [JsonIgnore]
-        public Admin? Admin { get; set; }
     }
 }

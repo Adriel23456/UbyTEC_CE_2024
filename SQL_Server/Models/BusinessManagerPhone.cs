@@ -1,22 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SQL_Server.Models
 {
     public class BusinessManagerPhone
     {
-        [ForeignKey("BusinessManager")]
-        [Key]
-        [Required]
-        public required string BusinessManager_Email { get; set; } // PK, FK to BusinessManager.Email
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id_Mongo { get; set; } // MongoDB auto-generated ID
 
-        [Key]
-        [Required]
-        public required long Phone { get; set; } // PK
+        [BsonElement("BusinessManager_Email")]
+        public required string BusinessManager_Email { get; set; } // Original PK
 
-        // Navigation property
-        [JsonIgnore]
-        public BusinessManager? BusinessManager { get; set; }
+        [BsonElement("Phone")]
+        public required long Phone { get; set; } // Original PK
     }
 }
