@@ -506,7 +506,7 @@ EXEC sp_CreateOrderProduct @Order_Code = 10, @Product_Code = 33; -- Aros de Cebo
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'PATRICIA MENDEZ A',
     @LastDigitsCreditCard = 1234,
-    @Date = '2024-03-14',
+    @Date = '14-03-2024',
     @Time = '12:30',
     @Order_Code = 1;
 
@@ -514,7 +514,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'PATRICIA MENDEZ A',
     @LastDigitsCreditCard = 1234,
-    @Date = '2024-03-14',
+    @Date = '15-03-2024',
     @Time = '13:45',
     @Order_Code = 2;
 
@@ -522,7 +522,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'FERNANDO BONILLA CH',
     @LastDigitsCreditCard = 5678,
-    @Date = '2024-03-14',
+    @Date = '16-03-2024',
     @Time = '14:15',
     @Order_Code = 3;
 
@@ -530,7 +530,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'FERNANDO BONILLA CH',
     @LastDigitsCreditCard = 5678,
-    @Date = '2024-03-14',
+    @Date = '17-03-2024',
     @Time = '15:00',
     @Order_Code = 4;
 
@@ -538,7 +538,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'CARMEN VILLALOBOS P',
     @LastDigitsCreditCard = 9012,
-    @Date = '2024-03-14',
+    @Date = '18-03-2024',
     @Time = '15:30',
     @Order_Code = 5;
 
@@ -546,7 +546,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'CARMEN VILLALOBOS P',
     @LastDigitsCreditCard = 9012,
-    @Date = '2024-03-14',
+    @Date = '19-03-2024',
     @Time = '16:00',
     @Order_Code = 6;
 
@@ -554,7 +554,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'ANDRES MOLINA S',
     @LastDigitsCreditCard = 3456,
-    @Date = '2024-03-14',
+    @Date = '20-03-2024',
     @Time = '16:30',
     @Order_Code = 7;
 
@@ -562,7 +562,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'ANDRES MOLINA S',
     @LastDigitsCreditCard = 3456,
-    @Date = '2024-03-14',
+    @Date = '21-03-2024',
     @Time = '17:00',
     @Order_Code = 8;
 
@@ -570,7 +570,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'LUCIA CORDERO M',
     @LastDigitsCreditCard = 7890,
-    @Date = '2024-03-14',
+    @Date = '22-03-2024',
     @Time = '17:30',
     @Order_Code = 9;
 
@@ -578,7 +578,7 @@ EXEC sp_CreateProofOfPayment
 EXEC sp_CreateProofOfPayment 
     @CreditCardName = 'LUCIA CORDERO M',
     @LastDigitsCreditCard = 7890,
-    @Date = '2024-03-14',
+    @Date = '23-03-2024',
     @Time = '18:00',
     @Order_Code = 10;
 

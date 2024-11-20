@@ -47,7 +47,7 @@
     <ng-container matColumnDef="Cancel">
       <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Cancelar </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button class="delete-btn" (click)="cancelOrder(element.Code, element.DM_Id)">
+        <button mat-button class="delete-btn" (click)="cancelOrder(element.Code)">
           <mat-icon>cancel</mat-icon>
         </button>
       </td>
@@ -57,7 +57,7 @@
     <ng-container matColumnDef="Complete">
       <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Completar </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button color="primary" (click)="completeOrder(element.Code, element.DM_Id, element.BusinessId)">
+        <button mat-button color="primary" (click)="completeOrder(element.Code)">
           <mat-icon>check_circle</mat-icon>
         </button>
       </td>

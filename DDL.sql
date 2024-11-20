@@ -1879,7 +1879,7 @@ BEGIN
         INNER JOIN deleted d ON ba.BusinessManager_Email = d.Email
     )
     BEGIN
-        RAISERROR ('Cannot delete BusinessManager because there are Businesses associated with it.', 16, 1);
+        RAISERROR ('Cannot delete BusinessManager because there is a Business associated with it.', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END
