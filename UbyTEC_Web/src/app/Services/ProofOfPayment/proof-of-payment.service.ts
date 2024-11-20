@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
 
 export interface ProofOfPayment {
@@ -8,7 +8,7 @@ export interface ProofOfPayment {
   LastDigitsCreditCard: number;
   TotalPayment?: number | null;
   Date: string; // Format "dd-mm-yyyy"
-  Time: string; // Format "dd-mm-yyyy"
+  Time: string; // Format "hh:mm"
   ClientFullName?: string | null;
   ClientPhone?: number;
   Order_Code: number;
@@ -18,7 +18,7 @@ export interface ProofOfPaymentUpdate {
   CreditCardName: string;
   LastDigitsCreditCard: number;
   Date: string; // Format "dd-mm-yyyy"
-  Time: string; // Format "dd-mm-yyyy"
+  Time: string; // Format "hh:mm"
   Order_Code: number;
 }
 
@@ -26,7 +26,7 @@ export interface ProofOfPaymentCreate {
   CreditCardName: string;
   LastDigitsCreditCard: number;
   Date: string; // Format "dd-mm-yyyy"
-  Time: string; // Format "dd-mm-yyyy"
+  Time: string; // Format "hh:mm"
   Order_Code: number;
 }
 

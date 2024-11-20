@@ -34,8 +34,9 @@ VALUES
 -- Insertar FoodDeliveryMan
 INSERT INTO [FoodDeliveryMan] ([UserId], [Name], [FirstSurname], [SecondSurname], [Province], [Canton], [District], [Password], [State])
 VALUES
+('EsperandoRepartidor', 'string', 'string', 'string', 'string', 'string', 'string', 'pAJgbJN89H9768gb585BV05', 'No disponible'),
 ('delivery1', 'Roberto', 'Fernández', 'Castro', 'San José', 'Central', 'Catedral', 'pass201', 'Disponible'),
-('delivery2', 'Laura', 'Campos', 'Mora', 'Alajuela', 'San Ramón', 'Central', 'pass202', 'No disponible'),
+('delivery2', 'Laura', 'Campos', 'Mora', 'Alajuela', 'San Ramón', 'Central', 'pass202', 'Disponible'),
 ('delivery3', 'Diego', 'Vargas', 'Solís', 'Cartago', 'La Unión', 'Tres Ríos', 'pass203', 'Disponible'),
 ('delivery4', 'Sofia', 'Rojas', 'Arguedas', 'Heredia', 'Santo Domingo', 'San Vicente', 'pass204', 'Disponible'),
 ('delivery5', 'Miguel', 'Castro', 'Quesada', 'San José', 'Desamparados', 'Central', 'pass205', 'No disponible');

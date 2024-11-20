@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
 
 export interface Order {
@@ -21,7 +20,7 @@ export interface OrderUpdate {
 export interface OrderCreate {
   State: string;
   Client_Id: number;
-  FoodDeliveryMan_UserId?: string | null;
+  FoodDeliveryMan_UserId: string;
 }
 
 export interface OrderProduct {

@@ -10,9 +10,7 @@
     font-family: 'Arial', sans-serif;  /* Fuente */
 }
 
-
-
-  /* contenedor principal */
+/* contenedor principal */
 .container {
     background-color: #00000000; /* Fondo del contenedor */
     padding: 20px;
@@ -20,7 +18,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
   }
   
-  /* tarjetas de productos */
+/* tarjetas de productos */
   .card {
     min-height: 300px;
     background-color: #9bd499; /* Fondo de la tarjeta */

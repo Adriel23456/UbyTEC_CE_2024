@@ -39,7 +39,6 @@ export class EditCartComponent {
 
   ngOnInit(): void {
     this.cartService.getProductsByCode(this.data.Carrito).subscribe(cartProducts => {
-      console.log('Productos del carrito:', cartProducts);
       const productDetails$ = cartProducts.map(cartProduct =>
         this.productService.getByCode(cartProduct.Product_Code).pipe(
           map(product => ({
@@ -51,7 +50,6 @@ export class EditCartComponent {
         )
       );
       forkJoin(productDetails$).subscribe(productDetails => {
-        console.log('Detalles de productos:', productDetails);
         this.dataSource.data = productDetails;
         this.dataSource.paginator = this.paginator;
       });
@@ -65,8 +63,6 @@ export class EditCartComponent {
   }
 
   deleteProductCart(productCode: number, productName: string): void {
-    console.log('Eliminar producto con código:', this.data.Carrito, productCode);
-  
     this.cartService.deleteProduct(this.data.Carrito, productCode).subscribe({
       next: () => {
         // Volver a obtener los productos del carrito después de eliminar el producto
@@ -98,12 +94,7 @@ export class EditCartComponent {
     });
   }
   
-
   onConfirm(): void {
     this.dialogRef.close(true); // Cierra el diálogo y devuelve true
-  }
-
-  onCancel(): void {
-    this.dialogRef.close(false); // Cierra el diálogo y devuelve false
   }
 }

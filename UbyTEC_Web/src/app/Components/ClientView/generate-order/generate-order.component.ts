@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProofOfPaymentCreate, ProofOfPaymentService } from '../../../Services/ProofOfPayment/proof-of-payment.service';
 import { OrderCreate, OrderProductCreate, OrderService } from '../../../Services/Order/order.service';
-import { FoodDeliveryManService, FoodDeliveryManUpdate } from '../../../Services/FoodDeliveryMan/food-delivery-man.service';
 import { ClientService } from '../../../Services/Client/client.service';
 
 @Component({
@@ -18,176 +17,104 @@ import { ClientService } from '../../../Services/Client/client.service';
   styleUrl: './generate-order.component.css'
 })
 export class GenerateOrderComponent {
-  bin: string = '';               
-  month: number | null = null;    
-  year: number | null = null;     
-  cardholderName: string = '';    
+  bin: string = '';
+  month: number | null = null;
+  year: number | null = null;
+  cardholderName: string = '';
   cvc: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<GenerateOrderComponent>,
-    private POPaymentService : ProofOfPaymentService,
-    private snackBar : MatSnackBar,
-    private orderService : OrderService,
-    private FDManService : FoodDeliveryManService,
-    private clientService : ClientService,
-    
-    @Inject(MAT_DIALOG_DATA) public data: { Products: []}
+    private POPaymentService: ProofOfPaymentService,
+    private snackBar: MatSnackBar,
+    private orderService: OrderService,
+    private clientService: ClientService,
+    @Inject(MAT_DIALOG_DATA) public data: { Products: number[] }
   ) {}
-  onConfirm() {
-    if (this.bin && this.month && this.year && this.cardholderName && this.cvc) {
-      const paymentDetails = {
-        bin: Number(this.bin.slice(-4)),
-        month: this.month,
-        year: this.year,
-        cardholderName: this.cardholderName,
-        cvc: this.cvc,
-      };
-  
-      console.log('Detalles de pago guardados:', paymentDetails);
-  
-      // Obtener el cliente actual
-      const currentClient = this.clientService.currentClientValue;
-      console.log('Cliente actual:', currentClient);
-  
-      if (!currentClient) {
-        alert('No se encontró el cliente actual.');
-        return;
-      }
-  
-      const clientCanton = currentClient.Canton;
-      if (!clientCanton) {
-        alert('El cliente no tiene un cantón asignado.');
-        return;
-      }
-  
-      // Obtener todos los repartidores y filtrarlos manualmente por cantón y disponibilidad ya que la funcion de extras solo me daba listas vacias
-      this.FDManService.getAll().subscribe({
-        next: deliveryMen => {
-          console.log('Repartidores obtenidos:', deliveryMen);
-          const filteredDeliveryMen = deliveryMen.filter(dm => dm.Canton === clientCanton && dm.State?.toLowerCase() === "disponible");
-          if (filteredDeliveryMen.length > 0) {
-            const availableDelivery = filteredDeliveryMen[0];  // Seleccionar el primer repartidor disponible
-            console.log('Repartidor disponible encontrado:', availableDelivery);
-  
-            // Cambiar el estado del repartidor a "No disponible"
-            const updatedDeliveryMan: FoodDeliveryManUpdate = {
-              Name: availableDelivery.Name,
-              FirstSurname: availableDelivery.FirstSurname,
-              SecondSurname: availableDelivery.SecondSurname,
-              Province: availableDelivery.Province,
-              Canton: availableDelivery.Canton,
-              District: availableDelivery.District,
-              Password: availableDelivery.Password,
-              State: 'No disponible', 
-            };
-  
-            // Actualizar el estado del repartidor
-            this.FDManService.update(availableDelivery.UserId, updatedDeliveryMan).subscribe({
-              next: () => {
-                console.log('Estado del repartidor actualizado a "No disponible".');
-                this.createOrdert(availableDelivery.UserId, paymentDetails);
-              },
-              error: err => {
-                console.error('Error al actualizar el estado del repartidor:', err);
-                alert('Ocurrió un error al actualizar el estado del repartidor.');
-              },
-            });
-          } else {
-            alert('No hay delivery disponible en su cantón en este momento.');
-          }
-        },
-        error: err => {
-          console.error('Error al obtener los delivery:', err);
-          alert('Ocurrió un error al obtener los delivery.');
-        },
-      });
-    } else {
-      alert('Por favor, complete todos los campos.');
+
+  private validateFormData(): boolean {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    // Validar BIN
+    if (!/^\d{16}$/.test(this.bin)) {
+      this.snackBar.open('El BIN debe contener exactamente 16 dígitos numéricos', 'Cerrar');
+      return false;
     }
+    // Validar fecha
+    if (!this.month || !this.year || 
+        this.month < 1 || this.month > 12 ||
+        this.year < currentYear || 
+        (this.year === currentYear && this.month < currentMonth)) {
+      this.snackBar.open('Fecha de vencimiento inválida', 'Cerrar');
+      return false;
+    }
+    // Validar nombre
+    if (!this.cardholderName.trim()) {
+      this.snackBar.open('Debe ingresar el nombre del titular', 'Cerrar');
+      return false;
+    }
+    // Validar CVC
+    if (!/^\d{3}$/.test(this.cvc)) {
+      this.snackBar.open('El CVC debe contener exactamente 3 dígitos numéricos', 'Cerrar');
+      return false;
+    }
+    return true;
   }
-  
 
-  createOrdert(foodDeliveryManId: string, paymentDetails: any) {
+  onConfirm() {
+    if (!this.validateFormData()) return;
     const currentClient = this.clientService.currentClientValue;
-
     if (!currentClient) {
-      alert('No se encontró el cliente actual para crear la orden.');
+      this.snackBar.open('No se encontró el cliente actual', 'Cerrar');
       return;
     }
-
     const newOrder: OrderCreate = {
       State: 'Preparando',
       Client_Id: currentClient.Id,
-      FoodDeliveryMan_UserId: foodDeliveryManId,
+      FoodDeliveryMan_UserId: 'EsperandoRepartidor'
     };
-
     this.orderService.create(newOrder).subscribe({
-      next: () => {
-        this.orderService.getAll().subscribe({
-          next: orders => {
-            const lastOrder = orders[orders.length - 1];
-
-            // Agregar productos a la orden
-            this.data.Products.forEach(productCode => {
-              const newProduct: OrderProductCreate = {
-                Order_Code: lastOrder.Code,
-                Product_Code: productCode,
-              };
-
-              this.orderService.addProduct(newProduct).subscribe({
-                next: () => {
-                  console.log(`Producto con código ${productCode} añadido a la orden ${lastOrder.Code}`);
-                },
-                error: err => {
-                  console.error(`Error al añadir producto ${productCode} a la orden:`, err);
-                },
-              });
-            });
-
-            // Crear el pago una vez añadidos los productos
-            this.createPOPayment(paymentDetails, lastOrder.Code);
-          },
-          error: err => {
-            console.error('Error al obtener las órdenes:', err);
-            alert('Ocurrió un error al obtener las órdenes.');
-          },
+      next: (createdOrder) => {
+        const productPromises = this.data.Products.map(productCode => {
+          const orderProduct: OrderProductCreate = {
+            Order_Code: createdOrder.Code,
+            Product_Code: productCode
+          };
+          return this.orderService.addProduct(orderProduct).toPromise();
+        });
+        Promise.all(productPromises).then(() => {
+          this.createProofOfPayment(createdOrder.Code);
+        }).catch(error => {
+          console.error('Error al añadir productos:', error);
+          this.snackBar.open('Error al procesar los productos', 'Cerrar');
         });
       },
-      error: err => {
-        console.error('Error al crear la orden:', err);
-        alert('Ocurrió un error al crear la orden.');
-      },
+      error: (error) => {
+        console.error('Error al crear la orden:', error);
+        this.snackBar.open('Error al crear la orden', 'Cerrar');
+      }
     });
   }
 
-  createPOPayment(paymentDetails: any, orderCode: number) {
-    const currentDate = new Date();
-    const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getFullYear().toString()}`;
-    const formattedTime = `${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}`;
-
-    const newPOPayment: ProofOfPaymentCreate = {
-      CreditCardName: paymentDetails.cardholderName,
-      LastDigitsCreditCard: paymentDetails.bin,
-      Date: formattedDate,
-      Time: formattedTime,
-      Order_Code: orderCode,
+  private createProofOfPayment(orderCode: number) {
+    const now = new Date();
+    const proofOfPayment: ProofOfPaymentCreate = {
+      CreditCardName: this.cardholderName,
+      LastDigitsCreditCard: parseInt(this.bin.slice(-4)),
+      Date: `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`,
+      Time: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+      Order_Code: orderCode
     };
-
-    this.POPaymentService.create(newPOPayment).subscribe({
-      next: response => {
-        console.log('Pago creado exitosamente:', response);
-        this.snackBar.open('Pago realizado. Código de la orden: ' + orderCode, 'Cerrar', {
-          duration: 5000,
-          horizontalPosition: 'right',
-          verticalPosition: 'bottom',
-        });
+    this.POPaymentService.create(proofOfPayment).subscribe({
+      next: () => {
+        this.snackBar.open('Orden creada exitosamente', 'Cerrar');
         this.dialogRef.close(true);
       },
-      error: err => {
-        console.error('Error al crear el pago:', err);
-        alert('Ocurrió un error al procesar el pago.');
-      },
+      error: (error) => {
+        console.error('Error al crear el comprobante:', error);
+        this.snackBar.open('Error al crear el comprobante', 'Cerrar');
+      }
     });
   }
 }

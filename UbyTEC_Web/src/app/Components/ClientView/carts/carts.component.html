@@ -49,7 +49,7 @@
     <ng-container matColumnDef="Delete">
       <th mat-header-cell *matHeaderCellDef style="width: 7%;"> Eliminar </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button class="delete-btn" (click)="confirmDelete(element.Code, element.PCode)">
+        <button mat-button class="delete-btn" (click)="confirmDelete(element.Code)">
           <mat-icon>cancel</mat-icon>
         </button>
       </td>

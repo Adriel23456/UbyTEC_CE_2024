@@ -101,4 +101,30 @@ button:hover mat-icon {
 .mat-paginator {
     margin-top: 15px;
 }
+
+/* Contenedor principal */
+.confirm-dialog-container {
+  padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Contenedor de la tabla */
+.mat-elevation-z8 {
+  width: 100%;  /* Cambiado de 70% para mejor responsividad */
+  margin: 20px auto;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+
+/* Ajuste del espaciado de la tabla */
+table {
+  margin: 10px 0;
+}
+
+/* Ajuste del paginador */
+.mat-paginator {
+  margin: 15px 0;
+}
   
