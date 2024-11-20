@@ -5,10 +5,10 @@
     <mat-card *ngFor="let order of lastOrders" class="order-card">
       <mat-card-title>{{ order.businessAName }}</mat-card-title><!-- Muestra el nombre del negocio -->
       <mat-card-content>
-        <p>Monto: {{ order.total | currency:'CRC':'symbol' }}</p><!-- Muestra el monto de la orden -->
-        <p> {{ order.feedbackB }}</p> <!-- Muestra el feedback del negocio -->
-        <p>{{ order.feedbackO }}</p>  <!--Muestra el feedback de la orden -->
-        <p>{{ order.feedbackD }}</p>  <!--Muestra el feedback del repartidor -->
+        <p>Monto Del Servicio: {{ order.total | currency:'CRC':'symbol' }}</p><!-- Muestra el monto de la orden -->
+        <p>Hacia el negocio: {{ order.feedbackB }}</p> <!-- Muestra el feedback del negocio -->
+        <p>Hacia la orden: {{ order.feedbackO }}</p>  <!--Muestra el feedback de la orden -->
+        <p>Hacia el/la repartidor(a): {{ order.feedbackD }}</p>  <!--Muestra el feedback del repartidor -->
       </mat-card-content>
     </mat-card>
   </div>

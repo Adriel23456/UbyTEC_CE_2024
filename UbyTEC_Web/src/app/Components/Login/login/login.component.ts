@@ -91,7 +91,6 @@ export class LoginComponent {
 
         this.clientService.login(clientLogin).subscribe({
             next: (client) => {
-                console.log('Login exitoso:', client);
                 this.openDialog('Inicio de Sesión', 'Login exitoso como cliente');
                 this.router.navigate(['/sidenavClient']);
             },
@@ -107,7 +106,6 @@ export class LoginComponent {
 
         this.adminService.login(adminLogin).subscribe({
             next: (admin) => {
-                console.log('Login exitoso:', admin);
                 this.openDialog('Inicio de Sesión', 'Login exitoso como administrador');
                 this.router.navigate(['/sidenavAdmin']);
             },
@@ -123,7 +121,6 @@ export class LoginComponent {
 
         this.businessManagerService.login(businessManagerLogin).subscribe({
             next: (manager) => {
-                console.log('Login exitoso:', manager);
                 this.openDialog('Inicio de Sesión', 'Login exitoso como afiliado');
                 this.router.navigate(['/sidenavBusiness']);
             },
@@ -139,7 +136,6 @@ export class LoginComponent {
 
         this.foodDeliveryManService.login(foodDeliveryManLogin).subscribe({
             next: (deliveryMan) => {
-                console.log('Login exitoso:', deliveryMan);
                 this.openDialog('Inicio de Sesión', 'Login exitoso como repartidor');
                 this.router.navigate(['/sidenavFoodDeliveryMan']);
             },

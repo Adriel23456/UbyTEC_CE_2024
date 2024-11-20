@@ -44,30 +44,34 @@ export class LastOrdersComponent {
       return;
     }
     this.currentClientId = currentClient.Id;
-    this.extrasService.getLast10OrdersByClient(this.currentClientId).subscribe(lastOrdersTotal => {
-      this.lastOrders = [];
-      lastOrdersTotal.forEach(order => {
-        this.orderService.getProductsByCode(order.Code).subscribe(products => {
-          const product = products.find(p => p.Order_Code === order.Code);
-          if (product) {
-            const productCode = product.Product_Code;
-
-            this.productService.getByCode(productCode).subscribe(fullProduct => {
-              const legalId = fullProduct.BusinessAssociate_Legal_Id;
-              
-              this.businessAssociateService.getByLegalId(legalId).subscribe(businessAssociate => {
-                this.feedBackService.getById(order.Code).subscribe(feedback => {
-                  this.lastOrders.push({
-                    total: order.TotalService,
-                    feedbackB: feedback.FeedBack_Business, 
-                    feedbackO: feedback.FeedBack_Order, 
-                    feedbackD: feedback.FeedBack_DeliveryMan, 
-                    businessAName: businessAssociate.BusinessName
-                  });
+    // Obtener todos los feedbacks primero
+    this.feedBackService.getAll().subscribe(allFeedbacks => {
+      this.extrasService.getLast10OrdersByClient(this.currentClientId).subscribe(lastOrdersTotal => {
+        this.lastOrders = [];
+        
+        lastOrdersTotal.forEach(order => {
+          this.orderService.getProductsByCode(order.Code).subscribe(products => {
+            const product = products.find(p => p.Order_Code === order.Code);
+            if (product) {
+              const productCode = product.Product_Code;
+              this.productService.getByCode(productCode).subscribe(fullProduct => {
+                const legalId = fullProduct.BusinessAssociate_Legal_Id;
+                this.businessAssociateService.getByLegalId(legalId).subscribe(businessAssociate => {
+                  // Buscar el feedback correspondiente a esta orden
+                  const feedback = allFeedbacks.find(f => f.Order_Code === order.Code);
+                  if (feedback) {
+                    this.lastOrders.push({
+                      total: order.TotalService,
+                      feedbackB: feedback.FeedBack_Business,
+                      feedbackO: feedback.FeedBack_Order,
+                      feedbackD: feedback.FeedBack_DeliveryMan,
+                      businessAName: businessAssociate.BusinessName
+                    });
+                  }
                 });
               });
-            });
-          }
+            }
+          });
         });
       });
     });
