@@ -94,9 +94,6 @@ namespace SQL_Server.Controllers
         [HttpPut("{product_code}/{photoURL}")]
         public async Task<IActionResult> PutProductPhoto(long product_code, string photoURL, ProductPhotoDTO_Update photoDtoUpdate)
         {
-            // Decode URL-encoded strings if necessary
-            photoURL = Uri.UnescapeDataString(photoURL);
-
             // Check if the current entity exists
             var photoExists = await _context.ProductPhoto.AnyAsync(pp => pp.Product_Code == product_code && pp.PhotoURL == photoURL);
 
@@ -136,9 +133,6 @@ namespace SQL_Server.Controllers
         [HttpDelete("{product_code}/{photoURL}")]
         public async Task<IActionResult> DeleteProductPhoto(long product_code, string photoURL)
         {
-            // Decode URL-encoded strings if necessary
-            photoURL = Uri.UnescapeDataString(photoURL);
-
             // Check if the entity exists
             var photoExists = await _context.ProductPhoto.AnyAsync(pp => pp.Product_Code == product_code && pp.PhotoURL == photoURL);
 

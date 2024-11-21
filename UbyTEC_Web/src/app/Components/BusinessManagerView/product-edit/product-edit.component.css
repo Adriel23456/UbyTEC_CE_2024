@@ -1,0 +1,148 @@
+.product-edit-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+h2 {
+  color: var(--sage-pastel-deep);
+  font-size: 28px;
+  margin: 0;
+}
+
+h3 {
+  color: var(--sage-pastel-deep);
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.return-button {
+  background-color: var(--sage-pastel);
+  color: white;
+}
+
+.edit-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.photos-section {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.add-photo-button {
+  margin-bottom: 20px;
+  background-color: var(--sage-pastel);
+  color: white;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.url-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.preview-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.url-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
+}
+
+.button-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button[type="submit"] {
+  padding: 10px 30px;
+  background-color: var(--sage-pastel-deep);
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .product-edit-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .url-text {
+    max-width: 150px;
+  }
+}
+
+/* Estilos para la tabla */
+::ng-deep .mat-mdc-table {
+  background-color: transparent !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+::ng-deep .mat-mdc-row:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
+::ng-deep .mat-mdc-header-cell {
+  background-color: var(--sage-pastel-light);
+  color: var(--sage-pastel-deep);
+  font-weight: 600;
+  text-align: center;
+}
+
+::ng-deep .mat-mdc-cell {
+  text-align: center;
+}
+
+/* Estilos para el paginador */
+mat-paginator {
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}

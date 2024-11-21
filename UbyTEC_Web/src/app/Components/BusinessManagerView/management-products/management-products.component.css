@@ -1,0 +1,58 @@
+.management-products-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-field {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.table-container {
+  width: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+  padding: 12px;
+  text-align: left;
+}
+
+.mat-column-Price {
+  text-align: right;
+}
+
+.mat-column-Edit,
+.mat-column-Delete {
+  text-align: center;
+  width: 100px;
+}
+
+mat-paginator {
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .header-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-field {
+    width: 100%;
+    margin-right: 0;
+  }
+}

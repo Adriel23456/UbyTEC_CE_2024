@@ -1,0 +1,92 @@
+<div class="product-edit-container">
+  <div class="header">
+    <h2>Edición de Producto</h2>
+    <button mat-raised-button class="return-button" (click)="onReturn()">Regresar</button>
+  </div>
+
+  <!-- Formulario de Producto -->
+  <div class="edit-section">
+    <h3>Información del Producto</h3>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="Name" required>
+        <mat-error *ngIf="productForm.get('Name')?.hasError('required')">
+          El nombre es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" formControlName="Price" required>
+        <mat-error *ngIf="productForm.get('Price')?.hasError('required')">
+          El precio es requerido
+        </mat-error>
+        <mat-error *ngIf="productForm.get('Price')?.hasError('min')">
+          El precio debe ser mayor a 0
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="Category" required>
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{category}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="productForm.get('Category')?.hasError('required')">
+          La categoría es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>ID del Negocio</mat-label>
+        <input matInput formControlName="BusinessAssociate_Legal_Id" readonly>
+      </mat-form-field>
+
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit">Actualizar Producto</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Sección de Fotos -->
+  <div class="photos-section">
+    <h3>Fotos del Producto</h3>
+    
+    <button mat-raised-button color="primary" type="button" (click)="addPhoto()" class="add-photo-button">
+      Agregar foto
+    </button>
+
+    <table mat-table [dataSource]="photoDataSource">
+      <ng-container matColumnDef="url">
+        <th mat-header-cell *matHeaderCellDef>URL</th>
+        <td mat-cell *matCellDef="let photo">
+          <div class="url-preview">
+            <img [src]="photo.PhotoURL" alt="Preview" class="preview-image">
+            <span class="url-text">{{photo.PhotoURL}}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Editar</th>
+        <td mat-cell *matCellDef="let photo">
+          <button mat-button color="primary" (click)="editPhoto(photo)">Editar</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+        <td mat-cell *matCellDef="let photo">
+          <button mat-button color="warn" (click)="deletePhoto(photo)">Eliminar</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

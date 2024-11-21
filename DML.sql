@@ -226,152 +226,124 @@ VALUES
 INSERT INTO [ProductPhoto] ([Product_Code], [PhotoURL])
 VALUES
 -- Sopa de Pollo (Producto 1)
-(1, 'https://especiasmontero.com/wp-content/uploads/2018/02/CaldoDePollo-1-500x500.jpg'),
-(1, 'https://imag.bonviveur.com/sopa-de-pollo.jpg'),
-(1, 'https://especiasmontero.com/wp-content/uploads/2018/02/CaldoDePollo-1.jpg'),
+(1, 'https***3A***2F***2Fespeciasmontero***2Ecom***2Fwp-content***2Fuploads***2F2018***2F02***2FCaldoDePollo-1-500x500***2Ejpg'),
+(1, 'https***3A***2F***2Fimag***2Ebonviveur***2Ecom***2Fsopa-de-pollo***2Ejpg'),
+(1, 'https***3A***2F***2Fespeciasmontero***2Ecom***2Fwp-content***2Fuploads***2F2018***2F02***2FCaldoDePollo-1***2Ejpg'),
 -- Casado con Pollo (Producto 2)
-(2, 'https://media-cdn.tripadvisor.com/media/photo-s/19/d5/dd/52/casado-con-pollo.jpg'),
-(2, 'https://media-cdn.tripadvisor.com/media/photo-s/1c/ca/b4/70/casado-con-pechuga-de.jpg'),
-(2, 'https://media-cdn.tripadvisor.com/media/photo-s/05/2f/bf/4e/casado-with-pollo.jpg'),
+(2, 'https***3A***2F***2Fmedia-cdn.tripadvisor***2Ecom***2Fmedia***2Fphoto-s***2F19***2Fd5***2Fdd***2F52***2Fcasado-con-pollo***2Ejpg'),
+(2, 'https***3A***2F***2Fmedia-cdn.tripadvisor***2Ecom***2Fmedia***2Fphoto-s***2F1c***2Fca***2Fb4***2F70***2Fcasado-con-pechuga-de***2Ejpg'),
+(2, 'https***3A***2F***2Fmedia-cdn.tripadvisor***2Ecom***2Fmedia***2Fphoto-s***2F05***2F2f***2Fbf***2F4e***2Fcasado-with-pollo***2Ejpg'),
 -- Gallo Pinto (Producto 3)
-(3, 'https://comedera.com/wp-content/uploads/sites/9/2022/10/Gallo-pinto-de-Costa-Rica-shutterstock_1148861354.jpg'),
-(3, 'https://nutritionstudies.org/wp-content/uploads/2022/05/gallo-pinto-costa-rican-rice-and-beans.jpg'),
-(3, 'https://www.expogourmetmagazine.com/uploads/fotos_noticias/2023/06/w800px_27770-217858-recetas-del-mundo-costa-rica-gallo-pinto.jpg'),
+(3, 'https***3A***2F***2Fcomedera***2Ecom***2Fwp-content***2Fuploads***2Fsites***2F9***2F2022***2F10***2FGallo-pinto-de-Costa-Rica-shutterstock_1148861354***2Ejpg'),
+(3, 'https***3A***2F***2Fnutritionstudies***2Eorg***2Fwp-content***2Fuploads***2F2022***2F05***2Fgallo-pinto-costa-rican-rice-and-beans***2Ejpg'),
+(3, 'https***3A***2F***2Fwww***2Eexpogourmetmagazine***2Ecom***2Fuploads***2Ffotos_noticias***2F2023***2F06***2Fw800px_27770-217858-recetas-del-mundo-costa-rica-gallo-pinto***2Ejpg'),
 -- Refresco Natural (Producto 4)
-(4, 'https://kaviapp.com/wp-content/uploads/2023/02/Jugo-natural.jpeg'),
-(4, 'https://www.acquajet.com/wp-content/uploads/2022/03/pb-zumos-nat.jpg'),
-(4, 'https://thumbs.dreamstime.com/b/refresco-natural-exquisito-jugo-de-naranja-con-madera-en-la-fotograf%C3%ADa-roca-para-los-amantes-del-c%C3%ADtrico-disfrute-placer-nuestro-279302592.jpg'),
+(4, 'https***3A***2F***2Fkaviapp***2Ecom***2Fwp-content***2Fuploads***2F2023***2F02***2FJugo-natural***2Ejpeg'),
 -- Arroz con Leche (Producto 5)
-(5, 'https://www.recetasnestlecam.com/sites/default/files/srh_recipes/667948856a0f2d2bc0112ed0a2d6a0f5.jpg'),
-(5, 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/A4F055C9-D340-4F2A-9015-6A2659851E84/Derivates/5b9a24d1-7748-4bfe-ba63-fb3e5f722db0.jpg'),
-(5, 'https://www.laylita.com/recetas/wp-content/uploads/2013/03/Receta-facil-del-arroz-con-leche.jpg'),
+(5, 'https***3A***2F***2Fwww***2Erecetasnestlecam***2Ecom***2Fsites***2Fdefault***2Ffiles***2Fsrh_recipes***2F667948856a0f2d2bc0112ed0a2d6a0f5***2Ejpg'),
+(5, 'https***3A***2F***2Fwww***2Elaylita***2Ecom***2Frecetas***2Fwp-content***2Fuploads***2F2013***2F03***2FReceta-facil-del-arroz-con-leche***2Ejpg'),
 -- Flan de Coco (Producto 6)
-(6, 'https://imag.bonviveur.com/flan-de-coco.jpg'),
-(6, 'https://d1uz88p17r663j.cloudfront.net/original/2d7ffbf145a60b4cc5d158802c73496d_Flan.jpg'),
-(6, 'https://7diasdesabor.com/wp-content/uploads/2022/11/flan-de-coco-web.jpg'),
+(6, 'https***3A***2F***2Fimag***2Ebonviveur***2Ecom***2Fflan-de-coco***2Ejpg'),
+(6, 'https***3A***2F***2Fd1uz88p17r663j***2Ecloudfront***2Enet***2Foriginal***2F2d7ffbf145a60b4cc5d158802c73496d_Flan***2Ejpg'),
+(6, 'https***3A***2F***2F7diasdesabor***2Ecom***2Fwp-content***2Fuploads***2F2022***2F11***2Fflan-de-coco-web***2Ejpg'),
 -- Porción Extra de Aguacate (Producto 7)
-(7, 'https://laposadadelarriero.com.co/wp-content/uploads/2021/08/Porcion-de-aguacate.jpg'),
-(7, 'https://www.comebien.club/uploads/8/8/8/5/8885007/20201007-142317_orig.jpg'),
-(7, 'https://s1.elespanol.com/2019/07/18/como/agua-aguacate-como_hacer_414720664_129236705_1706x1280.jpg'),
-
+(7, 'https***3A***2F***2Fwww***2Ecomebien***2Eclub***2Fuploads***2F8***2F8***2F8***2F5***2F8885007***2F20201007-142317_orig***2Ejpg'),
 -- Fotos para los productos de Café Delicia
 -- Emparedado (Producto 8)
-(8, 'https://buenprovecho.hn/wp-content/uploads/2019/01/iStock-24-1.jpg'),
-(8, 'https://assets.unileversolutions.com/recipes-v2/238037.jpg'),
-(8, 'https://d1uz88p17r663j.cloudfront.net/original/393426b5a68626ecec6de82f8197bf69_emparedado-de-tiras-de-res.jpg'),
+(8, 'https***3A***2F***2Fbuenprovecho***2Ehn***2Fwp-content***2Fuploads***2F2019***2F01***2FiStock-24-1***2Ejpg'),
+(8, 'https***3A***2F***2Fassets***2Eunileversolutions***2Ecom***2Frecipes-v2***2F238037***2Ejpg'),
+(8, 'https***3A***2F***2Fd1uz88p17r663j***2Ecloudfront***2Enet***2Foriginal***2F393426b5a68626ecec6de82f8197bf69_emparedado-de-tiras-de-res***2Ejpg'),
 -- Café Americano (Producto 9)
-(9, 'https://www.somoselcafe.com.ar/img/novedades/47.jpg'),
-(9, 'https://cdn.recetasderechupete.com/wp-content/uploads/2023/11/Cafe-americano-portada.jpg'),
-(9, 'https://i.blogs.es/139e0f/cafe-americano2/450_1000.jpeg'),
+(9, 'https***3A***2F***2Fcdn***2Erecetasderechupete***2Ecom***2Fwp-content***2Fuploads***2F2023***2F11***2FCafe-americano-portada***2Ejpg'),
+(9, 'https***3A***2F***2Fi***2Eblogs***2Ees***2F139e0f***2Fcafe-americano2***2F450_1000***2Ejpeg'),
 -- Cappuccino (Producto 10)
-(10, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Cappuccino_at_Sightglass_Coffee.jpg/800px-Cappuccino_at_Sightglass_Coffee.jpg'),
-(10, 'https://dairyfarmersofcanada.ca/sites/default/files/image_file_browser/conso_recipe/2022/Capuccino.jpg'),
-(10, 'https://cafefabrique.com/cdn/shop/articles/Cappuccino.jpg'),
+(10, 'https***3A***2F***2Fupload***2Ewikimedia***2Eorg***2Fwikipedia***2Fcommons***2Fthumb***2Fc***2Fc8***2FCappuccino_at_Sightglass_Coffee***2Ejpg***2F800px-Cappuccino_at_Sightglass_Coffee***2Ejpg'),
+(10, 'https***3A***2F***2Fdairyfarmersofcanada***2Eca***2Fsites***2Fdefault***2Ffiles***2Fimage_file_browser***2Fconso_recipe***2F2022***2FCapuccino***2Ejpg'),
 -- Queque de Chocolate (Producto 11)
-(11, 'https://perudelights.com/wp-content/uploads/2013/09/Chocolate-cake-12-1024x7682.jpg'),
-(11, 'https://www.nacarina.com/wp-content/uploads/2018/08/blog_chocolate.jpg'),
-(11, 'https://s1.ppllstatics.com/canarias7/www/multimedia/2024/03/13/foto%20final.jpg'),
+(11, 'https***3A***2F***2Fperudelights***2Ecom***2Fwp-content***2Fuploads***2F2013***2F09***2FChocolate-cake-12-1024x7682***2Ejpg'),
+(11, 'https***3A***2F***2Fwww***2Enacarina***2Ecom***2Fwp-content***2Fuploads***2F2018***2F08***2Fblog_chocolate***2Ejpg'),
 -- Galletas de Avena (Producto 12)
-(12, 'https://cdn0.recetasgratis.net/es/posts/3/0/3/galletas_de_avena_faciles_y_rapidas_67303_600_square.jpg'),
-(12, 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4rZZqJb1yTazJlzUJ7pr6txQztfXMc9NrEHQem9kjmnUKXYquuUxwfJOK3XqFw8fd7ZJhGtFK3dLt1Y-9tJHyzrxW-tC24TdtS6FKF4CihyphenhyphenUzivwR7XAebd__p-98iCi3JvYtQZTaUcHv/s1600-rw/galletas-avena-facil.jpg'),
-(12, 'https://mojo.generalmills.com/api/public/content/DghZOSz42kCwArruP2Z_IA_gmi_hi_res_jpeg.jpeg'),
+(12, 'https***3A***2F***2Fcdn0***2Erecetasgratis***2Enet***2Fes***2Fposts***2F3***2F0***2F3***2Fgalletas_de_avena_faciles_y_rapidas_67303_600_square***2Ejpg'),
+(12, 'https***3A***2F***2Fmojo***2Egeneralmills***2Ecom***2Fapi***2Fpublic***2Fcontent***2FDghZOSz42kCwArruP2Z_IA_gmi_hi_res_jpeg***2Ejpeg'),
 -- Té Verde (Producto 13)
-(13, 'https://image.tuasaude.com/media/article/yp/dt/beneficios-del-te-verde_17350_l.jpg'),
-(13, 'https://resizer.glanacion.com/resizer/v2/los-dos-horarios-clave-para-tomar-el-te-verde-y-NF2WY7PUGBEZPKBNDNPP6WJLNM.jpg'),
-(13, 'https://s1.elespanol.com/2015/03/12/cocinillas/cocinillas_17508326_115880908_1706x1280.jpg'),
+(13, 'https***3A***2F***2Fs1***2Eelespanol***2Ecom***2F2015***2F03***2F12***2Fcocinillas***2Fcocinillas_17508326_115880908_1706x1280***2Ejpg'),
 -- Leche Extra (Producto 14)
-(14, 'https://walmartcr.vtexassets.com/arquivos/ids/723177/4310_01.jpg'),
-(14, 'https://prod-resize.tiendainglesa.com.uy/images/medium/P142479-1.jpg'),
-(14, 'https://sula.hn/wp-content/uploads/2020/02/01-leche-uht-extra-calcio-descremada-light-sula-946ml.jpg'),
-
+(14, 'https***3A***2F***2Fwalmartcr***2Evtexassets***2Ecom***2Farquivos***2Fids***2F723177***2F4310_01***2Ejpg'),
+(14, 'https***3A***2F***2Fsula***2Ehn***2Fwp-content***2Fuploads***2F2020***2F02***2F01-leche-uht-extra-calcio-descremada-light-sula-946ml***2Ejpg'),
 -- Fotos para los productos de Pan Fresco
 -- Baguette (Producto 15)
-(15, 'https://happyvegannie.com/wp-content/uploads/2023/06/IMG_0040_web_Thumbnail-Blog-1-500x375.jpg'),
-(15, 'https://static01.nyt.com/images/2023/07/21/multimedia/21baguettesrex-hbkc/21baguettesrex-hbkc-superJumbo.jpg'),
-(15, 'https://blog.elamasadero.com/wp-content/uploads/baguette_700.jpg'),
+(15, 'https***3A***2F***2Fhappyvegannie***2Ecom***2Fwp-content***2Fuploads***2F2023***2F06***2FIMG_0040_web_Thumbnail-Blog-1-500x375***2Ejpg'),
+(15, 'https***3A***2F***2Fstatic01***2Enyt***2Ecom***2Fimages***2F2023***2F07***2F21***2Fmultimedia***2F21baguettesrex-hbkc***2F21baguettesrex-hbkc-superJumbo***2Ejpg'),
+(15, 'https***3A***2F***2Fblog***2Eelamasadero***2Ecom***2Fwp-content***2Fuploads***2Fbaguette_700***2Ejpg'),
 -- Croissant (Producto 16)
-(16, 'https://imag.bonviveur.com/croissants.jpg'),
-(16, 'https://img.hellofresh.com/f_auto,fl_lossy,h_640,q_auto,w_1200/hellofresh_s3/image/645af756cd93ab51c00178bc-15c2ff16.jpg'),
-(16, 'https://es.cravingsjournal.com/wp-content/uploads/2021/04/croissants-4-1.jpg'),
+(16, 'https***3A***2F***2Fimag***2Ebonviveur***2Ecom***2Fcroissants***2Ejpg'),
+(16, 'https***3A***2F***2Fimg***2Ehellofresh***2Ecom***2Ff_auto***2Cfl_lossy***2Ch_640***2Cq_auto***2Cw_1200***2Fhellofresh_s3***2Fimage***2F645af756cd93ab51c00178bc-15c2ff16***2Ejpg'),
+(16, 'https***3A***2F***2Fes***2Ecravingsjournal***2Ecom***2Fwp-content***2Fuploads***2F2021***2F04***2Fcroissants-4-1***2Ejpg'),
 -- Pan Integral (Producto 17)
-(17, 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/f1ec1b78-4db1-45ac-9189-40619b7fad74/Derivates/2c238c6b-e380-486e-b9dc-39e41695a5ba.jpg'),
-(17, 'https://comedera.com/wp-content/uploads/sites/9/2022/02/pan-de-salvado_shutterstock_49768897.jpg'),
-(17, 'https://s1.elespanol.com/2023/06/14/cocinillas/recetas/771433771_233955143_1024x576.jpg'),
+(17, 'https***3A***2F***2Fassets***2Etmecosys***2Ecom***2Fimage***2Fupload***2Ft_web767x639***2Fimg***2Frecipe***2Fras***2FAssets***2Ff1ec1b78-4db1-45ac-9189-40619b7fad74***2FDerivates***2F2c238c6b-e380-486e-b9dc-39e41695a5ba***2Ejpg'),
+(17, 'https***3A***2F***2Fcomedera***2Ecom***2Fwp-content***2Fuploads***2Fsites***2F9***2F2022***2F02***2Fpan-de-salvado_shutterstock_49768897***2Ejpg'),
+(17, 'https***3A***2F***2Fs1***2Eelespanol***2Ecom***2F2023***2F06***2F14***2Fcocinillas***2Frecetas***2F771433771_233955143_1024x576***2Ejpg'),
 -- Queque de Vainilla (Producto 18)
-(18, 'https://cdn0.recetasgratis.net/es/posts/0/8/3/queque_de_vainilla_tradicional_46380_600.jpg'),
-(18, 'https://cdn.bolivia.com/gastronomia/2018/04/13/queque-de-vainilla-3579.jpg'),
-(18, 'https://cocineroperu.com/wp-content/uploads/2015/12/queque-vainilla-1.jpg'),
+(18, 'https***3A***2F***2Fcdn0***2Erecetasgratis***2Enet***2Fes***2Fposts***2F0***2F8***2F3***2Fqueque_de_vainilla_tradicional_46380_600***2Ejpg'),
+(18, 'https***3A***2F***2Fcdn***2Ebolivia***2Ecom***2Fgastronomia***2F2018***2F04***2F13***2Fqueque-de-vainilla-3579***2Ejpg'),
+(18, 'https***3A***2F***2Fcocineroperu***2Ecom***2Fwp-content***2Fuploads***2F2015***2F12***2Fqueque-vainilla-1***2Ejpg'),
 -- Café con Leche (Producto 19)
-(19, 'https://i.blogs.es/421374/cafe-con-leche2/1366_2000.jpg'),
-(19, 'https://imag.bonviveur.com/cafe-con-leche.jpg'),
-(19, 'https://www.splenda.com/wp-content/uploads/2023/02/cafe-au-lait-scaled.jpg'),
+(19, 'https***3A***2F***2Fimag***2Ebonviveur***2Ecom***2Fcafe-con-leche***2Ejpg'),
+(19, 'https***3A***2F***2Fwww***2Esplenda***2Ecom***2Fwp-content***2Fuploads***2F2023***2F02***2Fcafe-au-lait-scaled***2Ejpg'),
 -- Empanada de Queso (Producto 20)
-(20, 'https://i.blogs.es/eb58d2/empanadas-de-queso-2-/650_1200.jpg'),
-(20, 'https://www.gourmet.cl/wp-content/uploads/2018/09/empf9-1.jpg-editada.jpg'),
-(20, 'https://cdn.bolivia.com/gastronomia/2013/07/30/empanadas-de-queso-para-api-3245.jpg'),
+(20, 'https***3A***2F***2Fwww***2Egourmet***2Ecl***2Fwp-content***2Fuploads***2F2018***2F09***2Fempf9-1***2Ejpg-editada***2Ejpg'),
+(20, 'https***3A***2F***2Fcdn***2Ebolivia***2Ecom***2Fgastronomia***2F2013***2F07***2F30***2Fempanadas-de-queso-para-api-3245***2Ejpg'),
 -- Relleno Extra (Producto 21)
-(21, 'https://img-global.cpcdn.com/recipes/1ba92ee1c531e819/680x482cq70/rellenos-para-empanadas-foto-principal.jpg'),
-(21, 'https://i.ytimg.com/vi/meBXMOVSpXc/hq720.jpg'),
-(21, 'https://www.cocinadominicana.com/wp-content/uploads/2021/08/relleno-chorizo-empanadas-ClaraGon1038.jpg'),
-
+(21, 'https***3A***2F***2Fimg-global***2Ecpcdn***2Ecom***2Frecipes***2F1ba92ee1c531e819***2F680x482cq70***2Frellenos-para-empanadas-foto-principal***2Ejpg'),
+(21, 'https***3A***2F***2Fi***2Eytimg***2Ecom***2Fvi***2FmeBXMOVSpXc***2Fhq720***2Ejpg'),
 -- Fotos para los productos de Helados Dulces
 -- Helado de Vainilla (Producto 22)
-(22, 'https://www.gourmet.cl/wp-content/uploads/2016/09/Helado_Vainilla-web-553x458.jpg'),
-(22, 'https://www.recetasnestle.com.do/sites/default/files/srh_recipes/62099096785a3c939a1a1eefb06bf358.jpg'),
-(22, 'https://cdn0.recetasgratis.net/es/posts/5/4/0/helado_de_vainilla_casero_74045_orig.jpg'),
+(22, 'https***3A***2F***2Fwww***2Egourmet***2Ecl***2Fwp-content***2Fuploads***2F2016***2F09***2FHelado_Vainilla-web-553x458***2Ejpg'),
+(22, 'https***3A***2F***2Fwww***2Erecetasnestle***2Ecom***2Edo***2Fsites***2Fdefault***2Ffiles***2Fsrh_recipes***2F62099096785a3c939a1a1eefb06bf358***2Ejpg'),
+(22, 'https***3A***2F***2Fcdn0***2Erecetasgratis***2Enet***2Fes***2Fposts***2F5***2F4***2F0***2Fhelado_de_vainilla_casero_74045_orig***2Ejpg'),
 -- Banana Split (Producto 23)
-(23, 'https://www.twopeasandtheirpod.com/wp-content/uploads/2021/07/banana-split-9-500x375.jpg'),
-(23, 'https://bsstatic2.mrjack.es/wp-content/uploads/2020/06/banana-split-2.jpg'),
-(23, 'https://sivarious.com/wp-content/uploads/2022/07/banana-split.jpg'),
--- Malteada de Fresa (Producto 23)
-(24, 'https://sazonsula.com/wp-content/uploads/2022/07/receta-malteada-de-fresas-sazon-sula.jpg'),
-(24, 'https://www.recetasnestle.com.co/sites/default/files/srh_recipes/23829ccf3c8af248298c5f91d95aa3ba.jpg'),
-(24, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST7P5N3EpQCddBEr5D0QOy6lJ773WfBuFAig&s'),
--- Sundae de Chocolate (Producto 24)
-(25, 'https://www.deliaonline.com/sites/default/files/quick_media/chocolate-hot-chocolate-fudge-sundae.jpg'),
-(25, 'https://img.delicious.com.au/Zp1u0ECL/del/2015/10/hot-chocolate-fudge-sundae-11079-1.jpg'),
-(25, 'https://www.shutterstock.com/shutterstock/photos/1204508716/display_1500/stock-photo-chocolate-sundae-ice-cream-with-chocolate-syrup-in-cup-on-white-background-ice-cream-1204508716.jpg'),
--- Waffle con Helado (Producto 25)
-(26, 'https://tiendasmartbrands.com/cdn/shop/articles/Waffles_Belgas_con_Helado_Casero_de_Vainilla.jpg'),
-(26, 'https://yayaya.com.ec/wp-content/uploads/2021/07/waffle-con-helado-y-salsa-de-chocolate-1.jpg'),
-(26, 'https://st.depositphotos.com/1003272/4045/i/450/depositphotos_40459209-stock-photo-belgium-waffles.jpg'),
--- Café Helado (Producto 26)
-(27, 'https://imag.bonviveur.com/portada-cafe-helado.jpg'),
-(27, 'https://www.recetaslider.cl/wp-content/uploads/2021/06/principal_5feb289d9adf7.jpg'),
-(27, 'https://sukur.es/wp-content/uploads/2023/11/BE-ICED-COFFEE-1370x550.jpg'),
--- Topping Extra (Producto 27)
-(28, 'https://t1.uc.ltmcdn.com/es/posts/6/4/5/los_mejores_toppings_para_helados_que_no_te_puedes_perder_este_verano_54546_orig.jpg'),
-(28, 'https://thumbs.dreamstime.com/z/ilustraci%C3%B3n-de-magdalena-sabrosa-con-menta-o-goma-mascar-sabor-dulce-helado-twist-extra-doble-waffle-topping-el-dise%C3%B1o-puede-ser-204812898.jpg'),
-
+(23, 'https***3A***2F***2Fwww***2Etwopeasandtheirpod***2Ecom***2Fwp-content***2Fuploads***2F2021***2F07***2Fbanana-split-9-500x375***2Ejpg'),
+(23, 'https***3A***2F***2Fbsstatic2***2Emrjack***2Ees***2Fwp-content***2Fuploads***2F2020***2F06***2Fbanana-split-2***2Ejpg'),
+(23, 'https***3A***2F***2Fsivarious***2Ecom***2Fwp-content***2Fuploads***2F2022***2F07***2Fbanana-split***2Ejpg'),
+-- Malteada de Fresa (Producto 24)
+(24, 'https***3A***2F***2Fsazonsula***2Ecom***2Fwp-content***2Fuploads***2F2022***2F07***2Freceta-malteada-de-fresas-sazon-sula***2Ejpg'),
+-- Sundae de Chocolate (Producto 25)
+(25, 'https***3A***2F***2Fwww***2Edeliaonline***2Ecom***2Fsites***2Fdefault***2Ffiles***2Fquick_media***2Fchocolate-hot-chocolate-fudge-sundae***2Ejpg'),
+(25, 'https***3A***2F***2Fwww***2Eshutterstock***2Ecom***2Fshutterstock***2Fphotos***2F1204508716***2Fdisplay_1500***2Fstock-photo-chocolate-sundae-ice-cream-with-chocolate-syrup-in-cup-on-white-background-ice-cream-1204508716***2Ejpg'),
+-- Waffle con Helado (Producto 26)
+(26, 'https***3A***2F***2Ftiendasmartbrands***2Ecom***2Fcdn***2Fshop***2Farticles***2FWaffles_Belgas_con_Helado_Casero_de_Vainilla***2Ejpg'),
+(26, 'https***3A***2F***2Fst***2Edepositphotos***2Ecom***2F1003272***2F4045***2Fi***2F450***2Fdepositphotos_40459209-stock-photo-belgium-waffles***2Ejpg'),
+-- Café Helado (Producto 27)
+(27, 'https***3A***2F***2Fimag***2Ebonviveur***2Ecom***2Fportada-cafe-helado***2Ejpg'),
+(27, 'https***3A***2F***2Fwww***2Erecetaslider***2Ecl***2Fwp-content***2Fuploads***2F2021***2F06***2Fprincipal_5feb289d9adf7***2Ejpg'),
+(27, 'https***3A***2F***2Fsukur***2Ees***2Fwp-content***2Fuploads***2F2023***2F11***2FBE-ICED-COFFEE-1370x550***2Ejpg'),
+-- Topping Extra (Producto 28)
+(28, 'https***3A***2F***2Ft1***2Euc***2Eltmcdn***2Ecom***2Fes***2Fposts***2F6***2F4***2F5***2Flos_mejores_toppings_para_helados_que_no_te_puedes_perder_este_verano_54546_orig***2Ejpg'),
 -- Fotos para los productos de Burger Express
 -- Papas Fritas (Producto 29)
-(29, 'https://tucarnetdemanipuladordealimentos.com/wp-content/uploads/Patatas-fritas-Papas-fritas-Chips-French-Fries.jpg'),
-(29, 'https://mejorconsalud.as.com/wp-content/uploads/2013/07/patatas-fritas-.jpg'),
-(29, 'https://aceitesclover.com/wp-content/uploads/2021/04/Papas-fritas.jpg'),
+(29, 'https***3A***2F***2Ftucarnetdemanipuladordealimentos***2Ecom***2Fwp-content***2Fuploads***2FPatatas-fritas-Papas-fritas-Chips-French-Fries***2Ejpg'),
+(29, 'https***3A***2F***2Faceitesclover***2Ecom***2Fwp-content***2Fuploads***2F2021***2F04***2FPapas-fritas***2Ejpg'),
 -- Hamburguesa Clásica (Producto 30)
-(30, 'https://assets.unileversolutions.com/recipes-v2/218401.jpg'),
-(30, 'https://imag.bonviveur.com/hamburguesa-clasica.jpg'),
-(30, 'https://resizer.glanacion.com/resizer/v2/hamburguesa-FHBQ5XJM55H2PFSAFSC6HHESVQ.jpg'),
+(30, 'https***3A***2F***2Fassets***2Eunileversolutions***2Ecom***2Frecipes-v2***2F218401***2Ejpg'),
+(30, 'https***3A***2F***2Fimag***2Ebonviveur***2Ecom***2Fhamburguesa-clasica***2Ejpg'),
 -- Coca Cola (Producto 31)
-(31, 'https://walmartcr.vtexassets.com/arquivos/ids/489222/Gaseosa-Coca-Cola-regular-3-L-2-26374.jpg'),
-(31, 'https://walmartcr.vtexassets.com/arquivos/ids/489206/Gaseosa-Coca-Cola-Regular-Lata-354-ml-2-26337.jpg'),
-(31, 'https://walmartcr.vtexassets.com/arquivos/ids/564589/Gaseosa-Coca-Cola-regular-355-ml-1-31801.jpg'),
+(31, 'https***3A***2F***2Fwalmartcr***2Evtexassets***2Ecom***2Farquivos***2Fids***2F489222***2F4310_01***2Ejpg'),
+(31, 'https***3A***2F***2Fwalmartcr***2Evtexassets***2Ecom***2Farquivos***2Fids***2F489206***2FGaseosa-Coca-Cola-Regular-Lata-354-ml-2-26337***2Ejpg'),
+(31, 'https***3A***2F***2Fwalmartcr***2Evtexassets***2Ecom***2Farquivos***2Fids***2F564589***2FGaseosa-Coca-Cola-regular-355-ml-1-31801***2Ejpg'),
 -- Hamburguesa con Queso (Producto 32)
-(32, 'https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/5b57547a8825f9fac531c7c39ab1e00e/Derivates/1536354e54be6f02ff4b3e9ede6e8e7ea487ab3d.jpg'),
-(32, 'https://imag.bonviveur.com/cheeseburger.jpg'),
-(32, 'https://cocina-casera.com/wp-content/uploads/2016/11/hamburguesa-queso-receta.jpg'),
+(32, 'https***3A***2F***2Fassets***2Etmecosys***2Ecom***2Fimage***2Fupload***2Ft_web767x639***2Fimg***2Frecipe***2Fras***2FAssets***2F5b57547a8825f9fac531c7c39ab1e00e***2FDerivates***2F1536354e54be6f02ff4b3e9ede6e8e7ea487ab3d***2Ejpg'),
+(32, 'https***3A***2F***2Fimag***2Ebonviveur***2Ecom***2Fcheeseburger***2Ejpg'),
+(32, 'https***3A***2F***2Fcocina-casera***2Ecom***2Fwp-content***2Fuploads***2F2016***2F11***2Fhamburguesa-queso-receta***2Ejpg'),
 -- Aros de Cebolla (Producto 33)
-(33, 'https://cdn7.kiwilimon.com/recetaimagen/14018/6392.jpg'),
-(33, 'https://www.mylatinatable.com/wp-content/uploads/2016/01/foto-heroe.jpg'),
-(33, 'https://www.pequerecetas.com/wp-content/uploads/2013/05/aros-de-cebolla-receta.jpeg'),
+(33, 'https***3A***2F***2Fcdn7***2Ekiwilimon***2Ecom***2Frecetaimagen***2F14018***2F6392***2Ejpg'),
+(33, 'https***3A***2F***2Fwww***2Emylatinatable***2Ecom***2Fwp-content***2Fuploads***2F2016***2F01***2Ffoto-heroe***2Ejpg'),
+(33, 'https***3A***2F***2Fwww***2Epequerecetas***2Ecom***2Fwp-content***2Fuploads***2F2013***2F05***2Faros-de-cebolla-receta***2Ejpeg'),
 -- Helado de Vainilla (Producto 34)
-(34, 'https://www.gourmet.cl/wp-content/uploads/2016/09/Helado_Vainilla-web-553x458.jpg'),
-(34, 'https://www.recetasnestle.com.do/sites/default/files/srh_recipes/62099096785a3c939a1a1eefb06bf358.jpg'),
-(34, 'https://cdn0.recetasgratis.net/es/posts/5/4/0/helado_de_vainilla_casero_74045_orig.jpg'),
+(34, 'https***3A***2F***2Fwww***2Egourmet***2Ecl***2Fwp-content***2Fuploads***2F2016***2F09***2FHelado_Vainilla-web-553x458***2Ejpg'),
+(34, 'https***3A***2F***2Fwww***2Erecetasnestle***2Ecom***2Edo***2Fsites***2Fdefault***2Ffiles***2Fsrh_recipes***2F62099096785a3c939a1a1eefb06bf358***2Ejpg'),
+(34, 'https***3A***2F***2Fcdn0***2Erecetasgratis***2Enet***2Fes***2Fposts***2F5***2F4***2F0***2Fhelado_de_vainilla_casero_74045_orig***2Ejpg'),
 -- Queso Extra (Producto 35)
-(35, 'https://oleofinos.com.mx/img/productos/olfilac-extra-1.jpg'),
-(35, 'https://lorenzahamburguesas.com/wp-content/uploads/2022/07/queso-cheddar.jpg'),
-(35, 'https://correos-marketplace.ams3.cdn.digitaloceanspaces.com/prod-new/uploads/correos-marketplace-shop/1/product/82915-csq3m0iv-queseria-artesanal-el-palancar-queso-curado-en-aceite-virgen-extra-ecologico-950-g-3.jpg');
+(35, 'https***3A***2F***2Florenzahamburguesas***2Ecom***2Fwp-content***2Fuploads***2F2022***2F07***2Fqueso-cheddar***2Ejpg');
 
 -- Crear Carritos usando sp_CreateCart
 EXEC sp_CreateCart @Client_Id = 2001;  -- Patricia

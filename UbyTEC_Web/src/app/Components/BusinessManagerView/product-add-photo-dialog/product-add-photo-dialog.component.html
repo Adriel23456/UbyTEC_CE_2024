@@ -1,0 +1,33 @@
+<div class="dialog-container">
+  <h2>Agregar Foto</h2>
+
+  <div class="preview-container" *ngIf="photoForm.get('url')?.value">
+    <img [src]="photoForm.get('url')?.value" 
+         (error)="onImageError()" 
+         *ngIf="!previewError"
+         alt="Preview">
+    <div class="error-message" *ngIf="previewError">
+      La URL no corresponde a una imagen válida
+    </div>
+  </div>
+
+  <form [formGroup]="photoForm">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>URL de la imagen</mat-label>
+      <input matInput formControlName="url" placeholder="https://...">
+      <mat-error *ngIf="photoForm.get('url')?.hasError('required')">
+        La URL es requerida
+      </mat-error>
+      <mat-error *ngIf="photoForm.get('url')?.hasError('pattern')">
+        Debe ser una URL válida
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+  <div class="button-container">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onAdd()" [disabled]="!photoForm.valid || previewError">
+      Agregar
+    </button>
+  </div>
+</div>

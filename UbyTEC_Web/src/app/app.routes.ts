@@ -28,7 +28,8 @@ import { CreateNewAffiliateLoginComponent } from './Components/Login/create-new-
 import { CreateNewFooddeliverymanLoginComponent } from './Components/Login/create-new-fooddeliveryman-login/create-new-fooddeliveryman-login.component';
 import { CreateNewBusinessAssociateComponent } from './Components/Login/create-new-business-associate/create-new-business-associate.component';
 import { ShopInBusinessComponent } from './Components/ClientView/shop-in-business/shop-in-business.component';
-
+import { ProductCreateComponent } from './Components/BusinessManagerView/product-create/product-create.component';
+import { ProductEditComponent } from './Components/BusinessManagerView/product-edit/product-edit.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -73,6 +74,8 @@ export const routes: Routes = [
         { path: '', redirectTo: 'managementOrders', pathMatch: 'full' },
         { path: 'managementOrders', component: ManagementOrdersComponent },
         { path: 'managementProducts', component: ManagementProductsComponent },
+        { path: 'createProduct', component: ProductCreateComponent },
+        { path: 'editProduct/:code', component: ProductEditComponent },
         { path: 'orderAssign', component: OrderAssignComponent }
       ]
     },

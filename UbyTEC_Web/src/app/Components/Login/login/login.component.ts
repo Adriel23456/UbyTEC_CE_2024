@@ -7,9 +7,10 @@ import { FormsModule } from "@angular/forms";
 import { CommonModule, NgIf } from '@angular/common';
 import { ClientLogin, ClientService } from '../../../Services/Client/client.service';
 import { AdminLogin, AdminService } from '../../../Services/Admin/admin.service';
-import { BusinessManagerLogin, BusinessManagerService } from '../../../Services/BusinessManager/business-manager.service';
+import { BusinessManager, BusinessManagerAuthResponse, BusinessManagerLogin, BusinessManagerService } from '../../../Services/BusinessManager/business-manager.service';
 import { FoodDeliveryManLogin, FoodDeliveryManService } from '../../../Services/FoodDeliveryMan/food-delivery-man.service';
 import emailjs from '@emailjs/browser';
+import { BusinessAssociate, BusinessAssociateService } from '../../../Services/BusinessAssociate/business-associate.service';
 
 type UserType = 'cliente' | 'administrador' | 'afiliado' | 'repartidor';
 
@@ -41,7 +42,8 @@ export class LoginComponent {
         private clientService: ClientService,
         private adminService: AdminService,
         private businessManagerService: BusinessManagerService,
-        private foodDeliveryManService: FoodDeliveryManService
+        private foodDeliveryManService: FoodDeliveryManService,
+        private businessAssociateService: BusinessAssociateService
     ) {}
 
     selectUserType(type: UserType): void {
@@ -118,13 +120,58 @@ export class LoginComponent {
             Email: this.username,
             Password: this.password
         };
-
         this.businessManagerService.login(businessManagerLogin).subscribe({
-            next: (manager) => {
+            next: (response: BusinessManagerAuthResponse) => {
+                // Asumimos que el estado es 'Aceptado'
                 this.openDialog('Inicio de Sesión', 'Login exitoso como afiliado');
                 this.router.navigate(['/sidenavBusiness']);
             },
-            error: (err) => this.handleLoginError(err, 'afiliado')
+            error: (err) => {
+                // Solución a fuerza bruta: obtener todos los negocios y filtrar por correo
+                this.businessManagerService.getAll().subscribe({
+                    next: (managers: BusinessManager[]) => {
+                        const manager = managers.find(m => m.Email.toLowerCase() === this.username.toLowerCase());
+                        if (!manager) {
+                            // No existe un negocio con este manager, proceder con el error natural
+                            this.handleLoginError(err, 'afiliado');
+                        } else {
+                            // Obtener el BusinessAssociate asociado
+                            this.businessAssociateService.getAll().subscribe({
+                                next: (associates: BusinessAssociate[]) => {
+                                    const associate = associates.find(a => a.BusinessManager_Email.toLowerCase() === this.username.toLowerCase());
+                                    if (!associate) {
+                                        // No existe un BusinessAssociate para este manager, proceder con el error natural
+                                        this.handleLoginError(err, 'afiliado');
+                                    } else {
+                                        const state = associate.State;
+                                        if (state === 'En espera') {
+                                            // Estado en espera: realizar logout y mostrar mensaje
+                                            this.businessManagerService.logout();
+                                            this.openDialog('Estado del Negocio', 'El negocio se encuentra en espera.');
+                                        } else if (state === 'Rechazado') {
+                                            // Estado rechazado: realizar logout y mostrar razón de rechazo
+                                            this.businessManagerService.logout();
+                                            const rejectReason = associate.RejectReason || 'No se proporcionó una razón de rechazo.';
+                                            this.openDialog('Estado del Negocio', `El negocio ha sido rechazado. Razón: ${rejectReason}`);
+                                        } else {
+                                            // Estado desconocido o aceptado pero login falló, proceder con el error natural
+                                            this.handleLoginError(err, 'afiliado');
+                                        }
+                                    }
+                                },
+                                error: () => {
+                                    // Error al obtener BusinessAssociate, proceder con el error natural
+                                    this.handleLoginError(err, 'afiliado');
+                                }
+                            });
+                        }
+                    },
+                    error: () => {
+                        // Error al obtener BusinessManagers, proceder con el error natural
+                        this.handleLoginError(err, 'afiliado');
+                    }
+                });
+            }
         });
     }
 
