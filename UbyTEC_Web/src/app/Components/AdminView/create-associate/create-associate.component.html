@@ -1,1 +1,191 @@
-<p>create-associate works!</p>
+<div class="container mt-3">
+  <form [formGroup]="createBusinessAssociateForm">
+
+    <!-- Cedula juridica y Administrador del negocio -->
+    <div class="form-user-pass">
+      <div class="form-user">
+        <label for="legal-id">Cédula jurídica:</label>
+        <div class="form-group">
+          <input id="legal-id" type="number" class="form-control" formControlName="Legal_Id"
+            placeholder="Cédula jurídica" />
+        </div>
+      </div>
+      <div class="form-pass">
+        <label for="admin">Gerente del negocio:</label>
+        <div class="form-group">
+          <select id="admin" class="form-control" formControlName="BusinessManager_Email">
+            <option *ngFor="let manager of unassociatedManagers" [value]="manager.Email">{{ manager.FullName }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensajes de error -->
+    <div
+      *ngIf="createBusinessAssociateForm.get('Legal_Id')?.touched && createBusinessAssociateForm.get('BusinessName')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="createBusinessAssociateForm.get('Legal_Id')?.errors?.['required']">La cédula jurídica es obligatoria.
+      </div>
+      <div *ngIf="createBusinessAssociateForm.get('Legal_Id')?.errors?.['pattern']">La cédula debe ser un número
+        válido.</div>
+    </div>
+
+    <!-- Nombre del negocio y Tipo de comercio -->
+    <div class="form-user-pass">
+      <div class="form-user">
+        <label for="business-name">Nombre del Negocio:</label>
+        <div class="form-group">
+          <input id="business-name" type="text" class="form-control" formControlName="BusinessName"
+            placeholder="Nombre del Negocio" />
+        </div>
+      </div>
+      <div class="form-pass">
+        <label for="type">Tipo de comercio:</label>
+        <div class="form-group">
+          <select id="type" class="form-control" formControlName="BusinessType_Identification">
+            <option *ngFor="let type of businessTypes" [value]="type.Identification">{{ type.Name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensajes de error -->
+    <div
+      *ngIf="createBusinessAssociateForm.get('BusinessName')?.touched && createBusinessAssociateForm.get('BusinessName')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="createBusinessAssociateForm.get('BusinessName')?.errors?.['required']">El nombre del negocio es
+        obligatorio.</div>
+      <div *ngIf="createBusinessAssociateForm.get('BusinessName')?.errors?.['pattern']">El nombre del negocio solo puede
+        contener letras y espacios.</div>
+    </div>
+
+    <!-- Dirección -->
+    <div class="form-group">
+      <label>Dirección:</label>
+      <div class="input-container">
+        <input type="text" class="form-control input-compuesto" formControlName="Province" placeholder="Provincia" />
+        <input type="text" class="form-control input-compuesto" formControlName="Canton" placeholder="Cantón" />
+        <input type="text" class="form-control input-compuesto" formControlName="District" placeholder="Distrito" />
+      </div>
+    </div>
+
+    <!-- Mensajes de error -->
+    <div
+      *ngIf="createBusinessAssociateForm.get('Province')?.touched && createBusinessAssociateForm.get('Province')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="createBusinessAssociateForm.get('Province')?.errors?.['required']">La provincia es obligatoria.</div>
+      <div *ngIf="createBusinessAssociateForm.get('Province')?.errors?.['pattern']">La provincia solo puede contener
+        letras y espacios.</div>
+    </div>
+
+    <div
+      *ngIf="createBusinessAssociateForm.get('Canton')?.touched && createBusinessAssociateForm.get('Canton')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="createBusinessAssociateForm.get('Canton')?.errors?.['required']">El cantón es obligatorio.</div>
+      <div *ngIf="createBusinessAssociateForm.get('Canton')?.errors?.['pattern']">El cantón solo puede contener
+        letras y espacios.</div>
+    </div>
+
+    <div
+      *ngIf="createBusinessAssociateForm.get('District')?.touched && createBusinessAssociateForm.get('District')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="createBusinessAssociateForm.get('District')?.errors?.['required']">El distrito es obligatorio.</div>
+      <div *ngIf="createBusinessAssociateForm.get('District')?.errors?.['pattern']">El distrito solo puede contener
+        letras y espacios.</div>
+    </div>
+
+    <!-- Teléfonos -->
+    <div class="table-container mt-3">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-center">Cédula Asoc.</th>
+            <th class="text-center">Teléfono</th>
+            <th class="text-center">Editar</th>
+            <th class="text-center">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let phone of getPhonesForCurrentPage()">
+            <td class="text-center">{{ phone.BusinessAssociate_Legal_Id }}</td>
+            <td class="text-center">{{ phone.Phone }}</td>
+            <td class="text-center">
+              <button class="btn btn-edit" (click)="editPhone(phone)">
+                <i class="fa fa-pencil"></i>
+              </button>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-delete" (click)="deletePhone(phone)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Paginación de teléfonos -->
+      <tfoot>
+        <button class="btn btn-create-phone" (click)="addPhone()">Nuevo Teléfono</button>
+        <tr>
+          <td colspan="4">
+            <div class="pagination-container">
+              <button class="btn btn-pagination" (click)="previousPhonePage()" [disabled]="currentPhonePage === 1">
+                <i class="fa fa-chevron-left"></i>
+              </button>
+              <span class="current-page">{{ currentPhonePage }} de {{ totalPhonePages }}</span>
+              <button class="btn btn-pagination" (click)="nextPhonePage()"
+                [disabled]="currentPhonePage === totalPhonePages">
+                <i class="fa fa-chevron-right"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </div>
+
+    <!-- SINPE y Correo -->
+    <div class="form-user-pass">
+      <div class="form-user">
+        <label for="sinpe">SINPE:</label>
+        <div class="form-group">
+          <input id="sinpe" type="number" class="form-control" formControlName="SINPE" placeholder="Número SINPE" />
+        </div>
+      </div>
+      <div class="form-pass">
+        <label for="sinpe">Correo:</label>
+        <div class="form-group">
+          <input id="correo" type="text" class="form-control" formControlName="Email"
+            placeholder="Correo electrónico" />
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Mensajes de error -->
+    <div *ngIf="createBusinessAssociateForm.get('SINPE')?.touched && createBusinessAssociateForm.get('SINPE')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="createBusinessAssociateForm.get('SINPE')?.errors?.['required']">El numero de SINPE es obligatorio.
+      </div>
+      <div *ngIf="createBusinessAssociateForm.get('SINPE')?.errors?.['pattern']">El teléfono de SINPE debe ser un número
+        válido.</div>
+    </div>
+
+    <!-- Mensajes de error -->
+    <div *ngIf="createBusinessAssociateForm.get('Email')?.touched && createBusinessAssociateForm.get('Email')?.invalid"
+      class="invalid-feedback">
+      <div *ngIf="createBusinessAssociateForm.get('Email')?.errors?.['required']">El correo electrónico de la empresa es
+        obligatorio.</div>
+      <div *ngIf="createBusinessAssociateForm.get('Email')?.errors?.['pattern']">El correo electrónico debe ser válido.
+      </div>
+    </div>
+
+
+    <!-- Botón de Actualizar -->
+    <div class="update-container mt-3">
+      <button class="btn btn-update" type="submit" [disabled]="createBusinessAssociateForm.invalid"
+        (click)="createBusinessAsociate()">
+        Crear
+      </button>
+    </div>
+  </form>
+</div>

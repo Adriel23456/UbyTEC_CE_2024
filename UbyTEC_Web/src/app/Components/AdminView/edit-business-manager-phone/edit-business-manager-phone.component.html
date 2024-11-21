@@ -1,1 +1,36 @@
-<p>edit-business-manager-phone works!</p>
+<div class="container mt-4">
+    <h3 class="title">Editar teléfono</h3>
+    <form [formGroup]="phoneForm" class="form">
+      <div class="form-group">
+        <div class="label-input-container">
+          <label for="phone" class="form-label">Teléfono:</label>
+          <input
+            id="phone"
+            type="number"
+            class="form-control"
+            formControlName="phone"
+            placeholder="Ingrese el número"
+            required
+          />
+        </div>
+        <div class="error-messages">
+          <div *ngIf="phoneForm.get('phone')?.hasError('required')" class="invalid-feedback">
+            Este campo es obligatorio.
+          </div>
+          <div *ngIf="phoneForm.get('phone')?.hasError('pattern')" class="invalid-feedback">
+            El teléfono debe ser un número válido.
+          </div>
+        </div>
+      </div>
+  
+      <div class="btn-group">
+        <button type="button" mat-raised-button color="primary" class="btn btn-confirm" (click)="onConfirm()">
+          Confirmar
+        </button>
+        <button type="button" mat-raised-button color="warn" class="btn btn-cancel" (click)="onCancel()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+  
