@@ -108,7 +108,7 @@ export class CreateNewAffiliateLoginComponent {
       };
       emailjs.send('service_5ejt4rh', 'template_ovk7hrp', templateParams, 'qUD-Q_YPdWb-wQtEl')
         .then(() => {
-          this.openDialog('Registro correcto', 'Se registró correctamente el nuevo administrador y se ha enviado la contraseña al correo proporcionado.');
+          this.openDialog('Registro correcto', 'Se registró correctamente el nuevo administrador de negocio y se ha enviado la contraseña al correo proporcionado.');
         })
         .catch(() => {
           this.openDialog('Advertencia', 'El administrador se registró correctamente pero hubo un error al enviar el correo con la contraseña.');

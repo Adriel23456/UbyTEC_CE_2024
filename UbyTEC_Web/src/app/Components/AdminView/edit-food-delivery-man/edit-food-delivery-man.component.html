@@ -1,0 +1,131 @@
+<!-- edit-food-delivery-man.component.html -->
+<div class="register-container">
+  <h2>Editar Repartidor</h2>
+
+  <!-- Formulario de Información del Repartidor -->
+  <form [formGroup]="deliverymanForm" (ngSubmit)="onSubmit()">
+    <!-- Usuario (Lectura) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Usuario</mat-label>
+      <input matInput formControlName="UserId" readonly>
+      <mat-error *ngIf="deliverymanForm.get('UserId')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Nombre -->
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input matInput placeholder="Nombre" formControlName="Name" required>
+      <mat-error *ngIf="deliverymanForm.get('Name')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Primer Apellido -->
+    <mat-form-field appearance="fill">
+      <mat-label>Primer Apellido</mat-label>
+      <input matInput placeholder="Primer Apellido" formControlName="FirstSurname" required>
+      <mat-error *ngIf="deliverymanForm.get('FirstSurname')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Segundo Apellido -->
+    <mat-form-field appearance="fill">
+      <mat-label>Segundo Apellido</mat-label>
+      <input matInput placeholder="Segundo Apellido" formControlName="SecondSurname" required>
+      <mat-error *ngIf="deliverymanForm.get('SecondSurname')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Provincia -->
+    <mat-form-field appearance="fill">
+      <mat-label>Provincia</mat-label>
+      <input matInput placeholder="Provincia" formControlName="Province" required>
+      <mat-error *ngIf="deliverymanForm.get('Province')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Cantón -->
+    <mat-form-field appearance="fill">
+      <mat-label>Cantón</mat-label>
+      <input matInput placeholder="Cantón" formControlName="Canton" required>
+      <mat-error *ngIf="deliverymanForm.get('Canton')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Distrito -->
+    <mat-form-field appearance="fill">
+      <mat-label>Distrito</mat-label>
+      <input matInput placeholder="Distrito" formControlName="District" required>
+      <mat-error *ngIf="deliverymanForm.get('District')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Estado -->
+    <mat-form-field appearance="fill">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="State" required>
+        <mat-option value="Disponible">Disponible</mat-option>
+        <mat-option value="No disponible">No disponible</mat-option>
+      </mat-select>
+      <mat-error *ngIf="deliverymanForm.get('State')?.hasError('required')">Este campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <!-- Contraseña (Opcional) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" placeholder="Contraseña" formControlName="Password">
+      <mat-error *ngIf="deliverymanForm.get('Password')?.hasError('minlength')">La contraseña debe tener al menos 6 caracteres</mat-error>
+    </mat-form-field>
+
+    <!-- Confirmar Contraseña (Opcional) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Confirmar Contraseña</mat-label>
+      <input matInput type="password" placeholder="Confirmar Contraseña" formControlName="ConfirmPassword">
+      <mat-error *ngIf="deliverymanForm.hasError('passwordMismatch')">Las contraseñas no coinciden</mat-error>
+    </mat-form-field>
+
+    <!-- Botón de Actualizar Repartidor -->
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Actualizar Repartidor</button>
+    </div>
+  </form>
+
+  <!-- Sección de Teléfonos -->
+  <div class="phones-section">
+    <h3>Teléfonos</h3>
+
+    <!-- Tabla de Teléfonos -->
+    <div class="table-container">
+      <table mat-table [dataSource]="phoneDataSource" class="mat-elevation-z8">
+
+        <!-- Teléfono Column -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+          <td mat-cell *matCellDef="let phone">{{ phone }}</td>
+        </ng-container>
+
+        <!-- Editar Column -->
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef>Editar</th>
+          <td mat-cell *matCellDef="let phone">
+            <button mat-icon-button color="primary" (click)="onEditPhone(phone)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Eliminar Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef>Eliminar</th>
+          <td mat-cell *matCellDef="let phone">
+            <button mat-icon-button color="warn" (click)="onDeletePhone(phone)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Declarations -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!-- Botón para Agregar Teléfono -->
+    <button mat-raised-button color="primary" type="button" (click)="onCreatePhone()" class="add-phone-button">
+      <mat-icon>add</mat-icon> Agregar Teléfono
+    </button>
+  </div>
+</div>

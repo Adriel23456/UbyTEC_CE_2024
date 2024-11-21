@@ -6,6 +6,8 @@ import { EditBusinessManagerPhoneComponent } from '../edit-business-manager-phon
 import { CommonModule } from '@angular/common';
 import { BusinessManager, BusinessManagerPhone, BusinessManagerService } from '../../../Services/BusinessManager/business-manager.service';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
+import emailjs from '@emailjs/browser';
+import { DialogComponent } from '../../Login/dialog/dialog.component';
 
 @Component({
   selector: 'app-create-business-manager',
@@ -135,36 +137,28 @@ export class CreateBusinessManagerComponent {
   }
 
   createBusinessManager(): void {
-
     // Copia los datos del formulario y asigna la contraseña aleatoria
     const newBusinessAssociateData = { ...this.createBusinessManagerForm.value }; // Copia del formulario
     newBusinessAssociateData.Password = this.generateRandomPassword(); // Asignar contraseña aleatoria
-
     // Verificar si el correo tiene un dominio permitido
     const email = newBusinessAssociateData.Email;
     const domain = email.split('@')[1]; // Extraer el dominio del correo
-
     if (!this.acceptedDomains.includes(domain)) {
       console.error();
       this.showErrorDialog('El dominio del correo no es válido. El correo debe pertenecer a uno de los siguientes dominios: ' + this.acceptedDomains.join(', '));
       return;
     }
-
     // Verificar unicidad del Email y el userID
     const isEmailTaken = this.businessManagers.some(manager => manager.Email === newBusinessAssociateData.Email);
     const isUserTaken = this.businessManagers.some(manager => manager.UserId === newBusinessAssociateData.UserId);
-
-
     if (isEmailTaken) {
       this.showErrorDialog('El correo ya está en uso. Por favor, ingresa uno diferente.');
       return;
     }
-
     if (isUserTaken) {
       this.showErrorDialog('El usuario ya está en uso. Por favor, ingresa uno diferente.');
       return;
     }
-
     // Crear el administrador
     this.businessManagerService.create(newBusinessAssociateData).subscribe({
       next: () => {
@@ -178,6 +172,20 @@ export class CreateBusinessManagerComponent {
         console.error('Error al crear administrador:', err);
       }
     });
+    const templateParams = {
+      from_name: 'UbyTEC_CE',
+      to_name: newBusinessAssociateData.FullName,
+      to_email: newBusinessAssociateData.Email,
+      password: newBusinessAssociateData.Password,
+      reply_to: 'noreply@ubytec_ce.com'
+    };
+    emailjs.send('service_5ejt4rh', 'template_ovk7hrp', templateParams, 'qUD-Q_YPdWb-wQtEl')
+      .then(() => {
+        this.openDialog('Registro correcto', 'Se registró correctamente el nuevo administrador de negocio y se ha enviado la contraseña al correo proporcionado.');
+      })
+      .catch(() => {
+        this.openDialog('Advertencia', 'El administrador se registró correctamente pero hubo un error al enviar el correo con la contraseña.');
+      });
   }
 
   private processPhones(): void {
@@ -202,15 +210,14 @@ export class CreateBusinessManagerComponent {
   }
 
   generateRandomPassword(): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const passwordLength = 10;
-    let password = '';
-  
-    for (let i = 0; i < passwordLength; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      password += characters[randomIndex];
-    }
-  
-    return password;
+    const randomPassword = Math.random().toString(36).slice(-8);
+    return randomPassword;
+  }
+
+  openDialog(title: string, message: string) {
+    return this.dialog.open(DialogComponent, {
+      width: '300px',
+      data: { title, message }
+    });
   }
 }

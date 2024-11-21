@@ -1,0 +1,187 @@
+/* Contenedor principal del formulario */
+.register-container {
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 100%; /* Ocupa todo el ancho del diálogo */
+  max-height: 90vh; /* Limita la altura máxima para permitir scroll */
+  overflow-y: auto; /* Añade scrollbar vertical cuando es necesario */
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Título del formulario */
+h2 {
+  color: var(--sage-pastel-deep);
+  font-size: 26px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Estilo del formulario */
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Distribuye los campos en varias columnas */
+  gap: 20px;
+}
+
+/* Asegura que ciertos elementos ocupen todo el ancho */
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Sección de teléfonos */
+.phones-section {
+  margin-top: 30px;
+}
+
+.phones-section h3 {
+  color: var(--sage-pastel-deep);
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Tabla de teléfonos con mejor apariencia */
+.table-container {
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón para agregar teléfono */
+.add-phone-button {
+  margin-top: 10px;
+  background-color: var(--sage-pastel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.add-phone-button:hover {
+  background-color: var(--leaf-pastel-deep);
+}
+
+/* Botón de Crear Repartidor */
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+button[type="submit"] {
+  padding: 14px 35px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  background-color: var(--sage-pastel-deep);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--leaf-pastel-deep);
+  transform: translateY(-2px);
+}
+
+/* Estilos para los botones de agregar teléfono */
+.add-phone-button mat-icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+/* Estilos para los botones de editar y eliminar en la tabla */
+.mat-icon-button {
+  margin: 0 5px;
+  font-size: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  form {
+    grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+  }
+
+  .add-phone-button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  button[type="submit"] {
+    padding: 12px 25px;
+    font-size: 14px;
+  }
+
+  .phones-section h3 {
+    font-size: 20px;
+  }
+}
+
+/* Custom scrollbar for the register container */
+.register-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.register-container::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+.register-container::-webkit-scrollbar-thumb {
+  background: var(--sage-pastel-deep); 
+  border-radius: 10px;
+}
+
+.register-container::-webkit-scrollbar-thumb:hover {
+  background: var(--leaf-pastel-deep); 
+}
+
+/* Estilos para los encabezados y celdas de la tabla */
+table th {
+  background-color: var(--sage-pastel-light);
+  color: var(--sage-pastel-deep);
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estilos para los mensajes de error */
+.invalid-feedback {
+  color: #e53935;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
