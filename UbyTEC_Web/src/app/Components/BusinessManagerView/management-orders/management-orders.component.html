@@ -1,1 +1,67 @@
-<p>management-orders works!</p>
+<div class="management-orders-container">
+  <h2>Gestión de Órdenes</h2>
+
+  <div class="filters-container">
+    <mat-form-field appearance="fill" class="filter-field">
+      <mat-label>Filtro por nombre completo de cliente</mat-label>
+      <input matInput [formControl]="filterControl">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="filter-field">
+      <mat-label>Filtro por estado</mat-label>
+      <mat-select [formControl]="stateFilterControl">
+        <mat-option *ngFor="let state of states" [value]="state">
+          {{state}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Code Column -->
+      <ng-container matColumnDef="Code">
+        <th mat-header-cell *matHeaderCellDef>Código</th>
+        <td mat-cell *matCellDef="let element">{{element.Code}}</td>
+      </ng-container>
+
+      <!-- ClientName Column -->
+      <ng-container matColumnDef="ClientName">
+        <th mat-header-cell *matHeaderCellDef>Nombre Completo del Cliente</th>
+        <td mat-cell *matCellDef="let element">
+          {{getClientFullName(element.Client_Id)}}
+        </td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="State">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let element">{{element.State}}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="Actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button color="primary" (click)="viewOrder(element)">
+            Ver
+          </button>
+          <button mat-button color="accent" (click)="changeToReadyForDelivery(element)">
+            Listo para envío
+          </button>
+          <button mat-button color="warn" (click)="deleteOrder(element)">
+            Eliminar
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="resultsLength" 
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+  </div>
+</div>

@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProofOfPaymentCreate, ProofOfPaymentService } from '../../../Services/ProofOfPayment/proof-of-payment.service';
 import { OrderCreate, OrderProductCreate, OrderService } from '../../../Services/Order/order.service';
 import { ClientService } from '../../../Services/Client/client.service';
+import { CartProduct } from '../../../Services/Cart/cart.service';
+import { catchError, concatMap, forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-generate-order',
@@ -29,7 +31,7 @@ export class GenerateOrderComponent {
     private snackBar: MatSnackBar,
     private orderService: OrderService,
     private clientService: ClientService,
-    @Inject(MAT_DIALOG_DATA) public data: { Products: number[] }
+    @Inject(MAT_DIALOG_DATA) public data: { products: CartProduct[] }
   ) {}
 
   private validateFormData(): boolean {
@@ -74,21 +76,11 @@ export class GenerateOrderComponent {
       Client_Id: currentClient.Id,
       FoodDeliveryMan_UserId: 'EsperandoRepartidor'
     };
+    // 1. Crear la orden
     this.orderService.create(newOrder).subscribe({
       next: (createdOrder) => {
-        const productPromises = this.data.Products.map(productCode => {
-          const orderProduct: OrderProductCreate = {
-            Order_Code: createdOrder.Code,
-            Product_Code: productCode
-          };
-          return this.orderService.addProduct(orderProduct).toPromise();
-        });
-        Promise.all(productPromises).then(() => {
-          this.createProofOfPayment(createdOrder.Code);
-        }).catch(error => {
-          console.error('Error al añadir productos:', error);
-          this.snackBar.open('Error al procesar los productos', 'Cerrar');
-        });
+        // 2. Iniciar la adición secuencial de productos
+        this.addNextProduct(createdOrder.Code, 0, []);
       },
       error: (error) => {
         console.error('Error al crear la orden:', error);
@@ -97,7 +89,43 @@ export class GenerateOrderComponent {
     });
   }
 
-  private createProofOfPayment(orderCode: number) {
+  // Método auxiliar para añadir productos de forma secuencial
+  private addNextProduct(orderCode: number, productIndex: number, processedProducts: CartProduct[]): void {
+    // Si no hay más productos por procesar, crear el comprobante
+    if (productIndex >= this.data.products.length) {
+      this.createProofOfPayment(orderCode);
+      return;
+    }
+    const currentProduct = this.data.products[productIndex];
+    let addedCount = 0;
+    // Función auxiliar para añadir una unidad del producto actual
+    const addProductUnit = () => {
+      const orderProduct: OrderProductCreate = {
+        Order_Code: orderCode,
+        Product_Code: currentProduct.Product_Code
+      };
+      this.orderService.addProduct(orderProduct).subscribe({
+        next: () => {
+          addedCount++;
+          if (addedCount < currentProduct.Amount) {
+            // Si faltan unidades por añadir del producto actual, continuar
+            addProductUnit();
+          } else {
+            // Si ya añadimos todas las unidades del producto actual, pasar al siguiente
+            this.addNextProduct(orderCode, productIndex + 1, [...processedProducts, currentProduct]);
+          }
+        },
+        error: (error) => {
+          console.error('Error al añadir producto:', error);
+          this.snackBar.open('Error al procesar los productos', 'Cerrar');
+        }
+      });
+    };
+    // Iniciar la adición de unidades para el producto actual
+    addProductUnit();
+  }
+
+  createProofOfPayment(orderCode: number) {
     const now = new Date();
     const proofOfPayment: ProofOfPaymentCreate = {
       CreditCardName: this.cardholderName,

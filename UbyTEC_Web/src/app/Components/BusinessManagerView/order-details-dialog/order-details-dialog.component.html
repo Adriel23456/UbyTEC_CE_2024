@@ -1,0 +1,92 @@
+<div class="dialog-container">
+  <h2>Detalles de la Orden {{ order?.Code }}</h2>
+
+  <!-- Información de la Orden -->
+  <div class="order-info-section">
+    <h3>Información de la Orden</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">Código:</span>
+        <span class="value">{{ order?.Code }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Estado:</span>
+        <span class="value">{{ order?.State }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Servicio Total:</span>
+        <span class="value">{{ order?.TotalService || 'N/A' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Dirección:</span>
+        <span class="value">{{ order?.Direction || 'N/A' }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Cliente:</span>
+        <span class="value">{{ clientFullName }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Productos -->
+  <div class="products-section">
+    <h3>Productos de la Orden</h3>
+    <table mat-table [dataSource]="productsDataSource">
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Nombre del Producto</th>
+        <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Categoría</th>
+        <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+        <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalPrice">
+        <th mat-header-cell *matHeaderCellDef>Precio Total</th>
+        <td mat-cell *matCellDef="let element">₡{{ element.totalPrice }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+
+    <div class="total-amount">
+      <strong>Total: ₡{{ calculateTotal() }}</strong>
+    </div>
+  </div>
+
+  <!-- Información del Comprobante -->
+  <div class="proof-section" *ngIf="proofOfPayment">
+    <h3>Información del Comprobante</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">Código del Comprobante:</span>
+        <span class="value">{{ proofOfPayment.Code }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Fecha:</span>
+        <span class="value">{{ proofOfPayment.Date }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Hora:</span>
+        <span class="value">{{ proofOfPayment.Time }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Nombre del Cliente:</span>
+        <span class="value">{{ proofOfPayment.ClientFullName }}</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Teléfono del Cliente:</span>
+        <span class="value">{{ proofOfPayment.ClientPhone }}</span>
+      </div>
+    </div>
+  </div>
+</div>

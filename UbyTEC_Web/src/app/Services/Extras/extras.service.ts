@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { ComunicationService } from '../Comunication/comunication.service';
 import { Order } from '../Order/order.service';
 import { Product } from '../Product/product.service';

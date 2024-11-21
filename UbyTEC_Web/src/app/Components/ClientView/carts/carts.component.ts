@@ -165,10 +165,10 @@ export class CartsComponent {
   }
 
   //Finalizar el carrito, generando una orden en base a este
-  finalizeCart(products: { Product_Code: number }[], cartCode: number): void {
+  finalizeCart(products: CartProduct[], cartCode: number): void {
     const dialogRef = this.dialog.open(GenerateOrderComponent, {
       data: {
-        Products: products.map(product => product.Product_Code)
+        products
       }
     });
     dialogRef.afterClosed().subscribe(result => {
