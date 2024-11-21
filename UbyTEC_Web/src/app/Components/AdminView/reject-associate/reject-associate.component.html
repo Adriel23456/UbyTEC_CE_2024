@@ -1,0 +1,25 @@
+<div class="container mt-4">
+    <h3 class="title">Razón de rechazo</h3>
+    <form [formGroup]="rejectReasonForm" class="form">
+      <div class="form-group">
+        <label for="reason" class="form-label">Razón:</label>
+        <div class="label-input-container">
+            <textarea id="reason" class="form-control" formControlName="rejectMsj" placeholder="Ingrese la razón de rechazo." required rows="5"></textarea>
+        </div>
+        <div class="error-messages">
+          <div *ngIf="rejectReasonForm.get('rejectMsj')?.hasError('required')" class="invalid-feedback">
+            Este campo es obligatorio.
+          </div>
+        </div>
+      </div>
+  
+      <div class="btn-group">
+        <button type="button" mat-raised-button color="primary" class="btn btn-confirm" (click)="onConfirm()">
+          Confirmar
+        </button>
+        <button type="button" mat-raised-button color="warn" class="btn btn-cancel" (click)="onCancel()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>

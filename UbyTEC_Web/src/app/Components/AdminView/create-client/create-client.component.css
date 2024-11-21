@@ -1,0 +1,356 @@
+.container {
+    margin: 0 auto;
+    /* Centrado horizontal */
+    max-width: 90%;
+    /* Ancho máximo para el contenedor */
+    padding: 20px;
+    /* Agrega algo de espacio dentro del contenedor */
+    margin-top: 10px;
+}
+
+/* Botones de editar y eliminar */
+.btn-edit,
+.btn-delete {
+    padding: 10px 18px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+/* Botón editar (lápiz verde) */
+.btn-edit {
+    background-color: var(--mint-pastel-deep);
+    /* Verde */
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+}
+
+/* Botón eliminar (basurero rojo) */
+.btn-delete {
+    background-color: #f44336;
+    /* Rojo */
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #e53935;
+    transform: scale(1.1);
+}
+
+/* Celdas centradas*/
+td.text-center {
+    text-align: center;
+    /* Centra el texto dentro de las celdas */
+}
+
+/* Alineación central en los encabezados */
+th.text-center {
+    text-align: center;
+}
+
+/* Centrado de los botones en las celdas */
+td.text-center button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+/* Contenedor de tabla con paginación */
+.table-container {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 3%;
+    max-width: 95%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos base de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    color: #4A644A;
+    margin-bottom: 20px;
+}
+
+/* Encabezado de la tabla */
+table thead th {
+    background-color: var(--mint-pastel);
+    color: white;
+    padding: 12px 15px;
+    text-align: center;
+    font-weight: bold;
+    border-top: 1px solid var(--mint-pastel-deep);
+    border-bottom: 2px solid var(--sage-pastel);
+}
+
+/* Celdas del cuerpo de la tabla */
+table tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+table tbody tr {
+    height: 65px;
+}
+
+/* Estilo para las filas alternas */
+table tbody tr:nth-child(odd) {
+    background-color: var(--mint-pastel-light);
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--sage-pastel-light);
+}
+
+/* Hover para filas */
+table tbody tr:hover {
+    background-color: var(--mint-pastel);
+    color: white;
+}
+
+/* Contenedor de la paginación */
+.pagination-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* Espaciado entre los botones */
+    padding: 8px 10px;
+    background-color: var(--mint-pastel-light);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+
+/* Alineación a la derecha en el pie de tabla */
+tfoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+/* Botones de paginación */
+.btn-pagination {
+    background-color: var(--mint-pastel-deep);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-pagination:hover {
+    transform: scale(1.05);
+    background-color: var(--mint-pastel);
+}
+
+.btn-pagination:disabled {
+    background-color: var(--sage-pastel-light);
+    cursor: not-allowed;
+}
+
+/* Número de página actual */
+.current-page {
+    font-size: 1.2rem;
+    color: var(--mint-pastel-deep);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Contenedor que centra los inputs */
+.input-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    /* Espacio entre los inputs */
+    margin-bottom: 20px;
+    /* Espacio debajo del grupo de inputs */
+}
+
+/* Estilo para los inputs compuestos */
+.input-compuesto {
+    border-radius: 15px;
+    font-size: 1rem;
+    padding: 10px;
+    background-color: var(--input-background);
+    /* Color suave de fondo */
+    border: 1px solid var(--mint-pastel-deep);
+    /* Borde suave */
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-compuesto:focus {
+    outline: none;
+    border-color: var(--mint-pastel);
+    box-shadow: 0 0 5px var(--mint-pastel);
+}
+
+/* Inputs con bordes redondeados por separado */
+.input-compuesto:first-child {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.input-compuesto:nth-child(2) {
+    border-radius: 0;
+    /* Sin redondeo en el centro */
+}
+
+.input-compuesto:last-child {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* Estilos de etiquetas de los inputs */
+label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #4A644A;
+}
+
+/* Estilos globales de la caja de inputs */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Estilo de los inputs individuales (no compuestos) */
+.form-control {
+    border-radius: 8px;
+    font-size: 1rem;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    /* Oculta flechas en Firefox */
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--mint-pastel);
+    box-shadow: 0 0 5px var(--mint-pastel);
+}
+
+.form-control::-webkit-inner-spin-button,
+.form-control::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    /* Oculta flechas en Chrome/Safari */
+    margin: 0;
+}
+
+/* Colores de los inputs */
+:root {
+    --mint-pastel: #A8E6CF;
+    /* Color mint pastel */
+    --mint-pastel-deep: #44B78B;
+    /* Color verde más profundo */
+    --input-background: #fafafa;
+    /* Color de fondo suave para inputs */
+}
+
+.btn-create-phone {
+    background-color: var(--mint-pastel-light);
+    /* Color igual al de los botones de paginación */
+    color: var(--mint-pastel-deep);
+    border-width: 1px;
+    border-color: var(--mint-pastel);
+    font-size: 1.1rem;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 47px;
+    font-weight: bold;
+}
+
+.btn-create-phone:hover {
+    background-color: var(--sage-pastel-deep);
+    color: var(--mint-pastel-light);
+}
+
+.btn-update {
+    background-color: var(--mint-pastel-light);
+    /* Color igual al de los botones de paginación */
+    color: var(--mint-pastel-deep);
+    border-width: 1px;
+    border-color: var(--mint-pastel);
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 10px 200px;
+}
+
+.btn-update:hover {
+    background-color: var(--sage-pastel-deep);
+    color: var(--mint-pastel-light);
+}
+
+.btn-update:disabled {
+    background-color: var(--mint-pastel-lightest);
+    color: var(--mint-pastel-faded);
+    border-color: var(--mint-pastel-light);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.update-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.form-user-pass {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.form-user,
+.form-pass {
+    flex: 1; /* Igual distribución */
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    max-width: 300px; /* Tamaño máximo para consistencia */
+    padding: 10px;
+    border: 1px solid #ccc;
+    
+}
+
+.invalid-feedback {
+    color: #e53935;
+    font-size: 0.9rem;
+    text-align: center;
+}

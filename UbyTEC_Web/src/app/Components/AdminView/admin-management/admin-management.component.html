@@ -1,1 +1,67 @@
-<p>admin-management works!</p>
+<div class="container mt-5">
+    <!-- Tabla de administradores -->
+    <div class="table-container">
+      <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-center">Número de Cédula</th>
+            <th class="text-center">Nombre Completo</th>
+            <th class="text-center">Editar</th>
+            <th class="text-center">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let admin of getAdminsForCurrentPage()">
+            <td>{{ admin.Id }}</td>
+            <td>{{ admin.FullName }}</td>
+            <td class="text-center">
+              <button class="btn btn-edit" (click)="editAdmin(admin)">
+                <i class="fa fa-pencil"></i>
+              </button>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-delete" (click)="deleteAdmin(admin.Id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+          
+          <!-- Agregar filas vacías si hay menos de 6 elementos -->
+          <tr *ngFor="let empty of [].constructor(6 - getAdminsForCurrentPage().length); let i = index">
+            <td colspan="4" class="text-center"></td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <!-- Paginación personalizada -->
+      <tfoot>
+        <tr>
+          <td colspan="4">
+            <div class="pagination-container">
+              <button class="btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">
+                <i class="fa fa-chevron-left"></i>
+              </button>
+  
+              <span class="current-page">{{ currentPage }} de {{ totalPages }}</span>
+  
+              <button class="btn btn-pagination" (click)="nextPage()" [disabled]="currentPage === totalPages">
+                 <i class="fa fa-chevron-right"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </div>
+  
+    <div class="filter-create-wrapper">
+      <!-- Barra de búsqueda y botón de crear administrador -->
+      <div class="filter-create-container">
+        <div class="filter-name">
+          <input type="text" placeholder="Filtrar por nombre" (input)="onFilter($event)" />
+        </div>
+        <button class="btn-create" (click)="createAdmin()">Crear Administrador</button>
+      </div> 
+    </div>
+  
+  </div>
+  
