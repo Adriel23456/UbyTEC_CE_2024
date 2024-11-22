@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Client, ClientCreate, ClientLogin, ClientUpdate } from '../Client/client.service';
 import { Admin, AdminCreate, AdminLogin, AdminPhone, AdminPhoneUpdate, AdminUpdate } from '../Admin/admin.service';
 import { FoodDeliveryMan, FoodDeliveryManCreate, FoodDeliveryManLogin, FoodDeliveryManPhone, FoodDeliveryManPhoneUpdate, FoodDeliveryManUpdate } from '../FoodDeliveryMan/food-delivery-man.service';
@@ -13,6 +13,7 @@ import { Order, OrderCreate, OrderProduct, OrderProductCreate, OrderProductUpdat
 import { ProofOfPayment, ProofOfPaymentCreate, ProofOfPaymentUpdate } from '../ProofOfPayment/proof-of-payment.service';
 import { FeedBack, FeedBackCreate, FeedBackUpdate } from '../FeedBack/feed-back.service';
 import { ConsolidatedSalesReport, SalesReportByAffiliate, TopSellingProducts } from '../Principal/principal.service';
+import { MongoDbApiService } from '../MongoDBApi/mongo-db-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ComunicationService {
   private apiUrl = 'https://ubytec-api-dkfpfjghc9fdfzad.canadacentral-01.azurewebsites.net/api';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private mongoDBApi: MongoDbApiService) {}
 
   /**
    * Maneja los errores de las solicitudes HTTP.
@@ -69,7 +70,7 @@ export class ComunicationService {
   }
 
   /**
-   * Crea un nuevo cliente.
+   * Crea un nuevo cliente y luego llama a createClientMongo con la respuesta.
    * @param clientCreate Objeto de tipo ClientCreate para crear el cliente.
    * @returns Observable con el cliente creado.
    */
@@ -79,7 +80,21 @@ export class ComunicationService {
       `${this.apiUrl}/Client`,
       clientCreate,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a createClientMongo después de la creación del cliente
+      switchMap((createdClient: Client) =>
+        this.mongoDBApi.createClientMongo(createdClient).pipe(
+          // Ignorar la respuesta de createClientMongo y retornar el cliente original
+          map(() => createdClient),
+          // Manejar posibles errores de createClientMongo sin afectar el flujo principal
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdClient);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   /**
@@ -150,7 +165,7 @@ export class ComunicationService {
   }
 
   /**
-   * Crea un nuevo administrador.
+   * Crea un nuevo administrador y luego llama a createAdminMongo con la respuesta.
    * @param adminCreate Objeto de tipo AdminCreate para crear el administrador.
    * @returns Observable con el administrador creado.
    */
@@ -160,7 +175,21 @@ export class ComunicationService {
       `${this.apiUrl}/Admin`,
       adminCreate,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a createAdminMongo después de la creación del administrador
+      switchMap((createdAdmin: Admin) =>
+        this.mongoDBApi.createAdminMongo(createdAdmin).pipe(
+          // Ignorar la respuesta de createAdminMongo y retornar el administrador original
+          map(() => createdAdmin),
+          // Manejar posibles errores de createAdminMongo sin afectar el flujo principal
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdAdmin);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   /**
@@ -233,7 +262,7 @@ export class ComunicationService {
   }
 
   /**
-   * Crea un nuevo teléfono para un administrador.
+   * Crea un nuevo teléfono para un administrador y luego llama a createAdminPhoneMongo con la respuesta.
    * @param adminPhone Objeto con el ID del admin y el número de teléfono.
    * @returns Observable con el teléfono creado.
    */
@@ -243,7 +272,21 @@ export class ComunicationService {
       `${this.apiUrl}/AdminPhone`,
       adminPhone,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a createAdminPhoneMongo después de la creación del teléfono
+      switchMap((createdAdminPhone: AdminPhone) =>
+        this.mongoDBApi.createAdminPhoneMongo(createdAdminPhone).pipe(
+          // Ignorar la respuesta de createAdminPhoneMongo y retornar el teléfono original
+          map(() => createdAdminPhone),
+          // Manejar posibles errores de createAdminPhoneMongo sin afectar el flujo principal
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdAdminPhone);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   /**
@@ -292,13 +335,32 @@ export class ComunicationService {
       .pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo FoodDeliveryMan y luego llama a createFoodDeliveryManMongo con la respuesta.
+   * @param foodDeliveryMan Objeto de tipo FoodDeliveryManCreate para crear el FoodDeliveryMan.
+   * @returns Observable con el FoodDeliveryMan creado.
+   */
   createFoodDeliveryMan(foodDeliveryMan: FoodDeliveryManCreate): Observable<FoodDeliveryMan> {
     const operation = 'POST Create FoodDeliveryMan';
     return this.http.post<FoodDeliveryMan>(
       `${this.apiUrl}/FoodDeliveryMan`,
       foodDeliveryMan,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a createFoodDeliveryManMongo después de la creación del FoodDeliveryMan
+      switchMap((createdFoodDeliveryMan: FoodDeliveryMan) =>
+        this.mongoDBApi.createFoodDeliveryManMongo(createdFoodDeliveryMan).pipe(
+          // Ignorar la respuesta de createFoodDeliveryManMongo y retornar el FoodDeliveryMan original
+          map(() => createdFoodDeliveryMan),
+          // Manejar posibles errores de createFoodDeliveryManMongo sin afectar el flujo principal
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdFoodDeliveryMan);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateFoodDeliveryMan(userId: string, update: FoodDeliveryManUpdate): Observable<void> {
@@ -347,13 +409,32 @@ export class ComunicationService {
     ).pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo teléfono para FoodDeliveryMan y luego llama a createFoodDeliveryManPhoneMongo con la respuesta.
+   * @param phone Objeto de tipo FoodDeliveryManPhone para crear el teléfono.
+   * @returns Observable con el teléfono creado.
+   */
   createFoodDeliveryManPhone(phone: FoodDeliveryManPhone): Observable<FoodDeliveryManPhone> {
     const operation = 'POST Create FoodDeliveryMan Phone';
     return this.http.post<FoodDeliveryManPhone>(
       `${this.apiUrl}/FoodDeliveryManPhone`,
       phone,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a createFoodDeliveryManPhoneMongo después de la creación del teléfono
+      switchMap((createdPhone: FoodDeliveryManPhone) =>
+        this.mongoDBApi.createFoodDeliveryManPhoneMongo(createdPhone).pipe(
+          // Ignorar la respuesta de createFoodDeliveryManPhoneMongo y retornar el teléfono original
+          map(() => createdPhone),
+          // Manejar posibles errores de createFoodDeliveryManPhoneMongo sin afectar el flujo principal
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdPhone);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateFoodDeliveryManPhone(
@@ -395,13 +476,32 @@ export class ComunicationService {
     ).pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo BusinessAssociate y luego llama a createBusinessAssociateMongo con la respuesta.
+   * @param businessAssociate Objeto de tipo BusinessAssociateCreate para crear el BusinessAssociate.
+   * @returns Observable con el BusinessAssociate creado.
+   */
   createBusinessAssociate(businessAssociate: BusinessAssociateCreate): Observable<BusinessAssociate> {
     const operation = 'POST Create BusinessAssociate';
     return this.http.post<BusinessAssociate>(
       `${this.apiUrl}/BusinessAssociate`,
       businessAssociate,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a createBusinessAssociateMongo después de la creación del BusinessAssociate
+      switchMap((createdBusinessAssociate: BusinessAssociate) =>
+        this.mongoDBApi.createBusinessAssociateMongo(createdBusinessAssociate).pipe(
+          // Ignorar la respuesta de createBusinessAssociateMongo y retornar el BusinessAssociate original
+          map(() => createdBusinessAssociate),
+          // Manejar posibles errores de createBusinessAssociateMongo sin afectar el flujo principal
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdBusinessAssociate);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateBusinessAssociate(legalId: number, update: BusinessAssociateUpdate): Observable<void> {
@@ -441,13 +541,29 @@ export class ComunicationService {
     ).pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo teléfono para BusinessAssociate y luego llama a createBusinessAssociatePhoneMongo con la respuesta.
+   * @param phone Objeto de tipo BusinessAssociatePhone para crear el teléfono.
+   * @returns Observable con el teléfono creado.
+   */
   createBusinessAssociatePhone(phone: BusinessAssociatePhone): Observable<BusinessAssociatePhone> {
     const operation = 'POST Create BusinessAssociate Phone';
     return this.http.post<BusinessAssociatePhone>(
       `${this.apiUrl}/BusinessAssociatePhone`,
       phone,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      switchMap((createdPhone: BusinessAssociatePhone) =>
+        this.mongoDBApi.createBusinessAssociatePhoneMongo(createdPhone).pipe(
+          map(() => createdPhone),
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdPhone);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateBusinessAssociatePhone(
@@ -501,7 +617,7 @@ export class ComunicationService {
   }
 
   /**
-   * Crea un nuevo tipo de negocio.
+   * Crea un nuevo tipo de negocio y luego llama a createBusinessTypeMongo con la respuesta.
    * @param businessType Objeto de tipo BusinessTypeCreate para crear el tipo de negocio.
    * @returns Observable con el tipo de negocio creado.
    */
@@ -511,7 +627,18 @@ export class ComunicationService {
       `${this.apiUrl}/BusinessType`,
       businessType,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      switchMap((createdBusinessType: BusinessType) =>
+        this.mongoDBApi.createBusinessTypeMongo(createdBusinessType).pipe(
+          map(() => createdBusinessType),
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdBusinessType);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   /**
@@ -560,13 +687,29 @@ export class ComunicationService {
     ).pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo BusinessManager y luego llama a createBusinessManagerMongo con la respuesta.
+   * @param businessManager Objeto de tipo BusinessManagerCreate para crear el BusinessManager.
+   * @returns Observable con el BusinessManager creado.
+   */
   createBusinessManager(businessManager: BusinessManagerCreate): Observable<BusinessManager> {
     const operation = 'POST Create BusinessManager';
     return this.http.post<BusinessManager>(
       `${this.apiUrl}/BusinessManager`,
       businessManager,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      switchMap((createdBusinessManager: BusinessManager) =>
+        this.mongoDBApi.createBusinessManagerMongo(createdBusinessManager).pipe(
+          map(() => createdBusinessManager),
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdBusinessManager);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateBusinessManager(email: string, businessManager: BusinessManagerUpdate): Observable<void> {
@@ -615,13 +758,29 @@ export class ComunicationService {
     ).pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo teléfono para BusinessManager y luego llama a createBusinessManagerPhoneMongo con la respuesta.
+   * @param phone Objeto de tipo BusinessManagerPhone para crear el teléfono.
+   * @returns Observable con el teléfono creado.
+   */
   createBusinessManagerPhone(phone: BusinessManagerPhone): Observable<BusinessManagerPhone> {
     const operation = 'POST Create BusinessManager Phone';
     return this.http.post<BusinessManagerPhone>(
       `${this.apiUrl}/BusinessManagerPhone`,
       phone,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      switchMap((createdPhone: BusinessManagerPhone) =>
+        this.mongoDBApi.createBusinessManagerPhoneMongo(createdPhone).pipe(
+          map(() => createdPhone),
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdPhone);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateBusinessManagerPhone(
@@ -663,13 +822,29 @@ export class ComunicationService {
     ).pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo producto y luego llama a createProductMongo con la respuesta.
+   * @param product Objeto de tipo ProductCreate para crear el producto.
+   * @returns Observable con el producto creado.
+   */
   createProduct(product: ProductCreate): Observable<Product> {
     const operation = 'POST Create Product';
     return this.http.post<Product>(
       `${this.apiUrl}/Product`,
       product,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      switchMap((createdProduct: Product) =>
+        this.mongoDBApi.createProductMongo(createdProduct).pipe(
+          map(() => createdProduct),
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdProduct);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateProduct(code: number, product: ProductUpdate): Observable<void> {
@@ -724,10 +899,8 @@ export class ComunicationService {
     update: ProductPhotoUpdate
   ): Observable<void> {
     const operation = `PUT Update Product Photo: ${productCode}/${oldPhotoUrl}`;
-    const encodedPhotoUrl = encodeURIComponent(oldPhotoUrl);
-    
     return this.http.put<void>(
-      `${this.apiUrl}/ProductPhoto/${productCode}/${encodedPhotoUrl}`,
+      `${this.apiUrl}/ProductPhoto/${productCode}/${oldPhotoUrl}`,
       update,
       { headers: this.headers }
     ).pipe(catchError(this.handleError(operation)));
@@ -735,10 +908,8 @@ export class ComunicationService {
 
   deleteProductPhoto(productCode: number, photoUrl: string): Observable<void> {
     const operation = `DELETE Product Photo: ${productCode}/${photoUrl}`;
-    const encodedPhotoUrl = encodeURIComponent(photoUrl);
-
     return this.http.delete<void>(
-      `${this.apiUrl}/ProductPhoto/${productCode}/${encodedPhotoUrl}`,
+      `${this.apiUrl}/ProductPhoto/${productCode}/${photoUrl}`,
       { headers: this.headers }
     ).pipe(catchError(this.handleError(operation)));
   }
@@ -763,13 +934,29 @@ export class ComunicationService {
     ).pipe(catchError(this.handleError(operation)));
   }
 
+  /**
+   * Crea un nuevo carrito y luego llama a createCartMongo con la respuesta.
+   * @param cart Objeto de tipo CartCreate para crear el carrito.
+   * @returns Observable con el carrito creado.
+   */
   createCart(cart: CartCreate): Observable<Cart> {
     const operation = 'POST Create Cart';
     return this.http.post<Cart>(
       `${this.apiUrl}/Cart`,
       cart,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      switchMap((createdCart: Cart) =>
+        this.mongoDBApi.createCartMongo(createdCart).pipe(
+          map(() => createdCart),
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdCart);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   updateCart(code: number, cart: CartUpdate): Observable<void> {
@@ -985,46 +1172,116 @@ export class ComunicationService {
   // Métodos para FeedBack (Identificado por id)
   // -----------------------------------
 
+  /**
+   * Obtener todos los FeedBacks. En caso de fallo, intentar obtener desde Mongo.
+   * @returns Observable de FeedBack[]
+   */
   getFeedBacks(): Observable<FeedBack[]> {
     const operation = 'GET FeedBacks';
     return this.http.get<FeedBack[]>(
       `${this.apiUrl}/FeedBack`,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      catchError(error => {
+        console.error(`${operation} failed, intentando obtener desde Mongo:`, error);
+        return this.mongoDBApi.getFeedBacksMongo();
+      })
+    );
   }
 
+  /**
+   * Obtener un FeedBack por su Id. En caso de fallo, intentar obtener desde Mongo.
+   * @param id Identificador del FeedBack
+   * @returns Observable de FeedBack
+   */
   getFeedBackById(id: number): Observable<FeedBack> {
     const operation = `GET FeedBack By Id: ${id}`;
     return this.http.get<FeedBack>(
       `${this.apiUrl}/FeedBack/${id}`,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      catchError(error => {
+        console.error(`${operation} failed, intentando obtener desde Mongo:`, error);
+        return this.mongoDBApi.getFeedBackByIdMongo(id.toString());
+      })
+    );
   }
 
+  /**
+   * Crea un nuevo FeedBack y luego llama a createFeedBackMongo con la respuesta.
+   * @param feedBack Objeto de tipo FeedBackCreate para crear el FeedBack.
+   * @returns Observable con el FeedBack creado.
+   */
   createFeedBack(feedBack: FeedBackCreate): Observable<FeedBack> {
     const operation = 'POST Create FeedBack';
     return this.http.post<FeedBack>(
       `${this.apiUrl}/FeedBack`,
       feedBack,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      switchMap((createdFeedBack: FeedBack) =>
+        this.mongoDBApi.createFeedBackMongo(createdFeedBack).pipe(
+          map(() => createdFeedBack),
+          catchError(error => {
+            console.error(`Error en ${operation}:`, error);
+            return of(createdFeedBack);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
+  /**
+   * Actualiza un FeedBack y luego llama a updateFeedBackMongo con la respuesta.
+   * @param id Identificador del FeedBack a actualizar.
+   * @param feedBack Objeto de tipo FeedBackUpdate para actualizar el FeedBack.
+   * @returns Observable de void.
+   */
   updateFeedBack(id: number, feedBack: FeedBackUpdate): Observable<void> {
     const operation = `PUT Update FeedBack Id: ${id}`;
     return this.http.put<void>(
       `${this.apiUrl}/FeedBack/${id}`,
       feedBack,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a updateFeedBackMongo después de la actualización del FeedBack
+      switchMap(() =>
+        this.mongoDBApi.updateFeedBackMongo(id, feedBack as unknown as FeedBack).pipe(
+          // Ignorar la respuesta de updateFeedBackMongo
+          catchError(error => {
+            console.error(`Error en ${operation} (Mongo):`, error);
+            return of(void 0);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
+  /**
+   * Elimina un FeedBack y luego llama a deleteFeedBackMongo con el identificador.
+   * @param id Identificador del FeedBack a eliminar.
+   * @returns Observable de void.
+   */
   deleteFeedBack(id: number): Observable<void> {
     const operation = `DELETE FeedBack Id: ${id}`;
     return this.http.delete<void>(
       `${this.apiUrl}/FeedBack/${id}`,
       { headers: this.headers }
-    ).pipe(catchError(this.handleError(operation)));
+    ).pipe(
+      // Encadenar la llamada a deleteFeedBackMongo después de la eliminación del FeedBack
+      switchMap(() =>
+        this.mongoDBApi.deleteFeedBackMongo(id).pipe(
+          // Ignorar la respuesta de deleteFeedBackMongo
+          catchError(error => {
+            console.error(`Error en ${operation} (Mongo):`, error);
+            return of(void 0);
+          })
+        )
+      ),
+      catchError(this.handleError(operation))
+    );
   }
 
   // -----------------------------------
