@@ -20,7 +20,7 @@ import { DialogComponent } from '../../Login/dialog/dialog.component';
   templateUrl: './create-business-manager.component.html',
   styleUrl: './create-business-manager.component.css'
 })
-export class CreateBusinessManagerComponent {
+export class CreateBusinessManagerComponent implements OnInit {
   createBusinessManagerForm!: FormGroup;
   tempPhones: BusinessManagerPhone[] = [];
   businessManagers!: BusinessManager[];
@@ -122,6 +122,13 @@ export class CreateBusinessManagerComponent {
     }
 
     const businessManagerEmail = businessManagerEmailControl.value;
+
+    const domain = businessManagerEmail.split('@')[1]; // Extraer el dominio del correo
+    if (!this.acceptedDomains.includes(domain)) {
+      console.error();
+      this.showErrorDialog('El dominio del correo no es válido. El correo debe pertenecer a uno de los siguientes dominios: ' + this.acceptedDomains.join(', '));
+      return;
+    }
 
     const dialogRef = this.dialog.open(CreateBusinessManagerPhoneComponent, {
       width: '400px',

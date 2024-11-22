@@ -21,7 +21,7 @@ import { ErrorMessageComponent } from '../error-message/error-message.component'
   templateUrl: './create-associate.component.html',
   styleUrl: './create-associate.component.css'
 })
-export class CreateAssociateComponent {
+export class CreateAssociateComponent implements OnInit {
   createBusinessAssociateForm!: FormGroup;
   tempPhones: BusinessAssociatePhone[] = [];
   currentPhonePage: number = 1;
@@ -191,10 +191,16 @@ export class CreateAssociateComponent {
 
     // Verificar unicidad del Legal_Id y BusinessName
     const isLegalIdTaken = this.businessAssociates.some(associate => associate.Legal_Id === newBusinessAssociateData.Legal_Id);
+    const isEmailTaken = this.businessAssociates.some(associate => associate.Email === newBusinessAssociateData.Email);
     const isBusinessNameTaken = this.businessAssociates.some(associate => associate.BusinessName === newBusinessAssociateData.BusinessName);
 
     if (isLegalIdTaken) {
       this.showErrorDialog('La cédula jurídica ya está en uso. Por favor, ingresa una diferente.');
+      return;
+    }
+
+    if (isEmailTaken) {
+      this.showErrorDialog('El correo ya fue registrado por otra empresa. Por favor, ingresa uno distinto.');
       return;
     }
 
