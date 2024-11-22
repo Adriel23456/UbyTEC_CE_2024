@@ -5,7 +5,7 @@ import { AddPhoneComponent } from '../add-phone/add-phone.component';
 import { EditPhoneComponent } from '../edit-phone/edit-phone.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminPhone, AdminService } from '../../../Services/Admin/admin.service';
+import { Admin, AdminPhone, AdminService } from '../../../Services/Admin/admin.service';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
@@ -24,6 +24,7 @@ export class CreateAdminComponent implements OnInit {
   tempPhones: AdminPhone[] = [];
   currentPhonePage: number = 1;
   totalPhonePages: number = 1;
+  admins!: Admin[];
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +34,8 @@ export class CreateAdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadAdmins();
+
     // Crear el formulario con las validaciones
     this.createAdminForm = this.fb.group({
       Id: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
@@ -45,6 +48,16 @@ export class CreateAdminComponent implements OnInit {
       UserId: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
       Password: ['', [Validators.required, Validators.minLength(5)]]
     });
+  }
+
+  loadAdmins(): void { 
+    this.adminService.getAll().subscribe({
+      next: (data: Admin[]) => {
+        const admins = data;
+        this.admins = admins;
+      },
+      error: (err) => console.error('Error al cargar administradores: ',err)
+    })
   }
 
   getPhonesForCurrentPage(): AdminPhone[] {
@@ -119,6 +132,18 @@ export class CreateAdminComponent implements OnInit {
 
   createAdmin(): void {
     const newAdminData = this.createAdminForm.value;
+
+    const isIdTaken = this.admins.some(admin => admin.Id === newAdminData.Id);
+    const isUserTaken = this.admins.some(admin => admin.UserId === newAdminData.UserId);
+
+    if (isIdTaken) {
+      this.showErrorDialog('La cédula ya está en uso. Por favor, ingresa una diferente.');
+      return;
+    }
+    if (isUserTaken) {
+      this.showErrorDialog('El usuario ya está en uso. Por favor, ingresa uno diferente.');
+      return;
+    }
 
     // Crear el administrador
     this.adminService.create(newAdminData).subscribe({
