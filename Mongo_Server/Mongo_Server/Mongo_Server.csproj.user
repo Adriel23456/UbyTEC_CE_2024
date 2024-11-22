@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ActiveDebugProfile>https</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\Adriel\Desktop\Informacion-de-Prioridad\TEC\2024\Semestre_2\Bases_De_Datos\Evaluaciones\Proyectos\P2\UbyTEC_CE_2024\Mongo_Server\Mongo_Server\Properties\PublishProfiles\mongoDB - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+  </PropertyGroup>
+</Project>

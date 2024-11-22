@@ -192,7 +192,7 @@ export class ManagementComponent implements OnInit {
               });
           },
           error: (err) => {
-            this.openDialog('Error', 'Error al eliminar el cliente.');
+            this.openDialog('Error', 'Error al eliminar el cliente, recordar que si el cliente ya posee alguna orden a su nombre, este ya no se puede eliminar.');
           }
         });
       }

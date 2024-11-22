@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="mongoDB" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Adriel\\Desktop\\Informacion-de-Prioridad\\TEC\\2024\\Semestre_2\\Bases_De_Datos\\Evaluaciones\\Proyectos\\P2\\UbyTEC_CE_2024\\Mongo_Server\\Mongo_Server\\obj\\Release\\net8\.0\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>

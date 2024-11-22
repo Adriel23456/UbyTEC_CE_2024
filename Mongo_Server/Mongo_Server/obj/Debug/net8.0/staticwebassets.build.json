@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "B1MtzLSfXLEFEo8WBCEkTA+4p8O8hgSxNhJUBA8aZKU=",
+  "Source": "Mongo_Server",
+  "BasePath": "_content/Mongo_Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
