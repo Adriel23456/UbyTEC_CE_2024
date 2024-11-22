@@ -5,6 +5,7 @@ import { EditPhoneComponent } from '../edit-phone/edit-phone.component';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Admin, AdminPhone, AdminService } from '../../../Services/Admin/admin.service';
+import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
   selector: 'app-edit-admin',
@@ -19,6 +20,7 @@ import { Admin, AdminPhone, AdminService } from '../../../Services/Admin/admin.s
 })
 export class EditAdminComponent implements OnInit {
   admin!: Admin;
+  admins!: Admin[];
   editAdminForm!: FormGroup;
   tempPhones: AdminPhone[] = [];
   addedPhones: AdminPhone[] = [];
@@ -37,19 +39,21 @@ export class EditAdminComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.loadAdmins();
+
     this.admin = { ...this.data.admin }; // Clona la data para no modificar directamente el objeto.
     this.loadPhones();
 
     // Crear el formulario con las validaciones
     this.editAdminForm = this.fb.group({
-      Name: [this.admin.Name, [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      FirstSurname: [this.admin.FirstSurname, [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      SecondSurname: [this.admin.SecondSurname, [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      Province: [this.admin.Province, [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      Canton: [this.admin.Canton, [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      District: [this.admin.District, [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
-      UserId: [this.admin.UserId, [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
-      Password: [this.admin.Password, [Validators.required, Validators.minLength(5)]]
+      Name: [this.admin.Name, [Validators.required]],
+      FirstSurname: [this.admin.FirstSurname, [Validators.required]],
+      SecondSurname: [this.admin.SecondSurname, [Validators.required]],
+      Province: [this.admin.Province, [Validators.required]],
+      Canton: [this.admin.Canton, [Validators.required]],
+      District: [this.admin.District, [Validators.required]],
+      UserId: [this.admin.UserId, [Validators.required]],
+      Password: [this.admin.Password, [Validators.required]]
     });
   }
 
@@ -75,6 +79,16 @@ export class EditAdminComponent implements OnInit {
     if (this.currentPhonePage > 1) {
       this.currentPhonePage--;
     }
+  }
+
+  loadAdmins(): void { 
+    this.adminService.getAll().subscribe({
+      next: (data: Admin[]) => {
+        const admins = data;
+        this.admins = admins;
+      },
+      error: (err) => console.error('Error al cargar administradores: ',err)
+    })
   }
 
   editPhone(previousPhone: AdminPhone): void {
@@ -153,7 +167,14 @@ export class EditAdminComponent implements OnInit {
   }
 
   updateAdmin(): void {
-    const updatedAdminData = this.editAdminForm.value
+    const updatedAdminData = this.editAdminForm.value;
+
+    const isUserTaken = this.admins.some(admin => admin.UserId === updatedAdminData.UserId);
+
+    if (isUserTaken) {
+      this.showErrorDialog('El usuario ya está en uso. Por favor, ingresa uno diferente.');
+      return;
+    }
  
     this.adminService.update(this.admin.Id, updatedAdminData).subscribe({
       next: () => {
@@ -217,5 +238,12 @@ export class EditAdminComponent implements OnInit {
     this.addedPhones = [];
     this.editedPhones = [];
     this.deletedPhones = [];
+  }
+
+  showErrorDialog(errorMessage: string): void {
+    this.dialog.open(ErrorMessageComponent, {
+      width: '400px',
+      data: { message: errorMessage }
+    });
   }
 }
