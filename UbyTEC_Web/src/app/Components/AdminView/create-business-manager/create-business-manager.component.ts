@@ -123,6 +123,13 @@ export class CreateBusinessManagerComponent {
 
     const businessManagerEmail = businessManagerEmailControl.value;
 
+    const domain = businessManagerEmail.split('@')[1]; // Extraer el dominio del correo
+    if (!this.acceptedDomains.includes(domain)) {
+      console.error();
+      this.showErrorDialog('El dominio del correo no es válido. El correo debe pertenecer a uno de los siguientes dominios: ' + this.acceptedDomains.join(', '));
+      return;
+    }
+
     const dialogRef = this.dialog.open(CreateBusinessManagerPhoneComponent, {
       width: '400px',
       data: { Email: businessManagerEmail, phones: this.tempPhones }

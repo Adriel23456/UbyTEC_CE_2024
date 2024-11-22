@@ -91,7 +91,6 @@ export class CreateAssociateComponent {
   //funcion para solo mostrar los administradores que no estan asociados a un negocio afiliado
   getUnassociatedManagers(): Observable<BusinessManager[]> {
     return forkJoin([
-
       this.businessManagerService.getAll() // Obtener todos los administradores
     ]).pipe(
       map(([allManagers]) => {
